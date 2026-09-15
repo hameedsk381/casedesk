@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f7f4;
+  --foreground: #0f172a;
+  --navy: #0f172a;
+  --navy-light: #1e293b;
+  --slate: #475569;
+  --slate-light: #94a3b8;
+  --off-white: #f8f7f4;
+  --warm-white: #faf9f6;
+  --cream: #f1f0ec;
+  --border: #e2e0db;
+  --border-light: #eeedea;
+  --electric-blue: #2563eb;
+  --electric-blue-dark: #1d4ed8;
+  --electric-blue-light: #3b82f6;
+  --electric-blue-subtle: #eff6ff;
+  --teal: #0d9488;
+  --teal-light: #14b8a6;
+  --teal-subtle: #f0fdfa;
+  --coral: #f97316;
+  --coral-light: #fb923c;
+  --coral-subtle: #fff7ed;
+  --red: #ef4444;
+  --red-subtle: #fef2f2;
+  --green: #22c55e;
+  --green-subtle: #f0fdf4;
+  --yellow: #eab308;
+  --yellow-subtle: #fefce8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-slate: var(--slate);
+  --color-slate-light: var(--slate-light);
+  --color-off-white: var(--off-white);
+  --color-warm-white: var(--warm-white);
+  --color-cream: var(--cream);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-electric-blue: var(--electric-blue);
+  --color-electric-blue-dark: var(--electric-blue-dark);
+  --color-electric-blue-light: var(--electric-blue-light);
+  --color-electric-blue-subtle: var(--electric-blue-subtle);
+  --color-teal: var(--teal);
+  --color-teal-light: var(--teal-light);
+  --color-teal-subtle: var(--teal-subtle);
+  --color-coral: var(--coral);
+  --color-coral-light: var(--coral-light);
+  --color-coral-subtle: var(--coral-subtle);
+  --color-red: var(--red);
+  --color-red-subtle: var(--red-subtle);
+  --color-green: var(--green);
+  --color-green-subtle: var(--green-subtle);
+  --color-yellow: var(--yellow);
+  --color-yellow-subtle: var(--yellow-subtle);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--navy);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Smooth message animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes waveBar {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 18px;
+  }
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.wave-bar-1 { animation: waveBar 0.9s infinite ease-in-out; }
+.wave-bar-2 { animation: waveBar 0.9s infinite ease-in-out 0.15s; }
+.wave-bar-3 { animation: waveBar 0.9s infinite ease-in-out 0.3s; }
+.wave-bar-4 { animation: waveBar 0.9s infinite ease-in-out 0.45s; }
+.wave-bar-5 { animation: waveBar 0.9s infinite ease-in-out 0.6s; }
