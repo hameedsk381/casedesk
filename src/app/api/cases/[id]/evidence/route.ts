@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { saveEvidenceFile } from '@/lib/evidence/service';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
 import prisma from '@/lib/db/prisma';
 
 export async function POST(
@@ -8,12 +8,27 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: caseId } = await params;
     const user = await getCurrentUser();
-    const uploadedById = user?.id || (await prisma.user.findFirst())?.id;
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    if (!uploadedById) {
-      return NextResponse.json({ error: 'User unauthorized' }, { status: 401 });
+    if (!canUser(user.role, 'add_evidence')) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to add evidence' }, { status: 403 });
+    }
+
+    const { id: caseId } = await params;
+    const caseRecord = await prisma.case.findUnique({
+      where: { id: caseId },
+      select: { id: true, workspaceId: true },
+    });
+
+    if (!caseRecord) {
+      return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+    }
+
+    if (!hasWorkspaceAccess(user, caseRecord.workspaceId)) {
+      return NextResponse.json({ error: 'Forbidden: Access denied to this workspace' }, { status: 403 });
     }
 
     const formData = await request.formData();
@@ -29,7 +44,7 @@ export async function POST(
 
     const evidence = await saveEvidenceFile({
       caseId,
-      uploadedById,
+      uploadedById: user.id,
       fileBuffer: buffer,
       originalFilename: file.name,
       mimeType: file.type || 'application/octet-stream',

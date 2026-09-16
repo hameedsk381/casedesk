@@ -1,17 +1,26 @@
 import { NextResponse } from 'next/server';
 import { getCaseById, updateCase } from '@/lib/cases/service';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = await params;
     const caseRecord = await getCaseById(id);
 
     if (!caseRecord) {
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+    }
+
+    if (!hasWorkspaceAccess(user, caseRecord.workspaceId)) {
+      return NextResponse.json({ error: 'Forbidden: Access denied to this workspace' }, { status: 403 });
     }
 
     return NextResponse.json(caseRecord);
@@ -26,11 +35,27 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
     const user = await getCurrentUser();
-    const data = await request.json();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    const updated = await updateCase(id, data, user?.id);
+    if (!canUser(user.role, 'edit_case')) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to edit case' }, { status: 403 });
+    }
+
+    const { id } = await params;
+    const caseRecord = await getCaseById(id);
+    if (!caseRecord) {
+      return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+    }
+
+    if (!hasWorkspaceAccess(user, caseRecord.workspaceId)) {
+      return NextResponse.json({ error: 'Forbidden: Access denied to this workspace' }, { status: 403 });
+    }
+
+    const data = await request.json();
+    const updated = await updateCase(id, data, user.id);
     return NextResponse.json(updated);
   } catch (error: any) {
     console.error('Error updating case:', error);

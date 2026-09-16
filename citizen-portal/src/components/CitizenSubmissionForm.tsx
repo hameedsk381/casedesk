@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Mic,
   Square,
@@ -23,6 +23,8 @@ import {
   Lock,
   Bot
 } from 'lucide-react';
+import { CIVIC_CATEGORIES } from '../lib/contracts/intake';
+import { useAudioRecorder } from '../hooks/useAudioRecorder';
 
 interface EndpointData {
   slug: string;
@@ -43,18 +45,6 @@ interface Props {
   onSwitchToChat?: () => void;
   onBackToSelect?: () => void;
 }
-
-const CATEGORIES = [
-  { id: 'Healthcare', en: 'Healthcare & Hospitals', te: 'వైద్యం & ఆసుపత్రులు' },
-  { id: 'Government Services', en: 'Government Services & Welfare', te: 'ప్రభుత్వ సేవలు & సంక్షేమం' },
-  { id: 'Education', en: 'Schools & Education', te: 'పాఠశాలలు & విద్య' },
-  { id: 'Land / Property', en: 'Land Encroachment & Property', te: 'భూ ఆక్రమణలు & ఆస్తులు' },
-  { id: 'Corruption & Bribery', en: 'Corruption & Bribery', te: 'అవినీతి & లంచాలు' },
-  { id: 'Civic Infrastructure', en: 'Roads, Water & Infrastructure', te: 'రహదారులు, నీరు & మౌలిక వసతులు' },
-  { id: 'Environment & Land', en: 'Environment & Pollution', te: 'పర్యావరణం & కాలుష్యం' },
-  { id: 'Consumer', en: 'Consumer Rights & Fraud', te: 'వినియోగదారుల హక్కులు & మోసాలు' },
-  { id: 'Other', en: 'Other Issue', te: 'ఇతర అంశం' },
-];
 
 export function CitizenSubmissionForm({
   endpoint,
@@ -90,13 +80,23 @@ export function CitizenSubmissionForm({
 
   // Files & Voice recording
   const [files, setFiles] = useState<File[]>([]);
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordingSeconds, setRecordingSeconds] = useState(0);
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
-  const timerRef = useRef<any>(null);
+  const {
+    isRecording,
+    recordingSeconds,
+    audioBlob,
+    audioUrl,
+    error: recorderError,
+    startRecording,
+    stopRecording,
+    discardRecording: hookDiscard,
+  } = useAudioRecorder((voiceFile) => {
+    setFiles((prev) => [...prev, voiceFile]);
+  });
+
+  const discardRecording = () => {
+    hookDiscard();
+    setFiles((prev) => prev.filter((f) => !f.name.startsWith('voice-recording-')));
+  };
 
   // Submission State
   const [submitting, setSubmitting] = useState(false);
@@ -107,71 +107,6 @@ export function CitizenSubmissionForm({
   useEffect(() => {
     setPreferredLanguage(lang === 'te' ? 'Telugu' : 'English');
   }, [lang]);
-
-  useEffect(() => {
-    if (isRecording) {
-      timerRef.current = setInterval(() => {
-        setRecordingSeconds((prev) => prev + 1);
-      }, 1000);
-    } else {
-      if (timerRef.current) clearInterval(timerRef.current);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isRecording]);
-
-  const startRecording = async () => {
-    try {
-      audioChunksRef.current = [];
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorder.onstop = () => {
-        const audioBlobObj = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        setAudioBlob(audioBlobObj);
-        const url = URL.createObjectURL(audioBlobObj);
-        setAudioUrl(url);
-
-        const voiceFile = new File([audioBlobObj], `voice-recording-${Date.now()}.webm`, {
-          type: 'audio/webm',
-        });
-        setFiles((prev) => [...prev, voiceFile]);
-        stream.getTracks().forEach((track) => track.stop());
-      };
-
-      mediaRecorder.start();
-      setIsRecording(true);
-      setRecordingSeconds(0);
-    } catch (err) {
-      console.error('Microphone access error:', err);
-      alert('Microphone access is needed to record voice. Please allow microphone permission in your browser.');
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-    }
-  };
-
-  const discardRecording = () => {
-    if (audioUrl) {
-      URL.revokeObjectURL(audioUrl);
-      setAudioUrl(null);
-    }
-    setAudioBlob(null);
-    setRecordingSeconds(0);
-    setFiles((prev) => prev.filter((f) => !f.name.startsWith('voice-recording-')));
-  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -561,7 +496,7 @@ export function CitizenSubmissionForm({
           <div className="pt-2 border-t border-border-light">
             <label className="block text-xs font-bold text-navy mb-2">{t.categoryLabel}</label>
             <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((cat) => (
+              {CIVIC_CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
                   type="button"

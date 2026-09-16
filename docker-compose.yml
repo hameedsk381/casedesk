@@ -8,8 +8,6 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-casedesk}
       MYSQL_USER: ${MYSQL_USER:-casedesk}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-casedesk_password_2026}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
@@ -27,8 +25,6 @@ services:
       dockerfile: Dockerfile
     container_name: casedesk-app
     restart: unless-stopped
-    ports:
-      - "3000:3000"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=${DOCKER_DATABASE_URL:-mysql://casedesk:casedesk_password_2026@mysql:3306/casedesk}
@@ -36,8 +32,9 @@ services:
       - NEXT_PUBLIC_APP_NAME=${NEXT_PUBLIC_APP_NAME:-CaseDesk}
       - NEXT_PUBLIC_CITIZEN_PORTAL_URL=${NEXT_PUBLIC_CITIZEN_PORTAL_URL:-http://localhost:3001}
       - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - UPLOAD_DIR=/app/uploads
     volumes:
-      - casedesk-uploads:/app/public/uploads
+      - casedesk-uploads:/app/uploads
     depends_on:
       mysql:
         condition: service_healthy
@@ -59,8 +56,6 @@ services:
         NEXT_PUBLIC_DEFAULT_SLUG: ${NEXT_PUBLIC_DEFAULT_SLUG:-janata-investigation-desk}
     container_name: citizen-portal-app
     restart: unless-stopped
-    ports:
-      - "3001:3001"
     environment:
       - NODE_ENV=production
       - PORT=3001

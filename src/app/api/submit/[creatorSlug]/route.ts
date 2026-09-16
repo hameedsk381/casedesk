@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSubmissionEndpoint, processCitizenSubmission } from '@/lib/intake/submissionService';
-import path from 'path';
-import fs from 'fs/promises';
+import { savePrivateUpload } from '@/lib/storage';
+import { CitizenSubmissionSchema } from '@/lib/contracts/intake';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -84,24 +84,24 @@ export async function POST(
 
       const files = formData.getAll('files') as File[];
       if (files && files.length > 0) {
-        const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'submissions');
-        await fs.mkdir(uploadDir, { recursive: true });
-
         for (const file of files) {
           if (file.size === 0) continue;
-          const safeName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-          const diskPath = path.join(uploadDir, safeName);
-          const buffer = Buffer.from(await file.arrayBuffer());
-          await fs.writeFile(diskPath, buffer);
 
           let fileType = 'DOCUMENT';
           if (file.type.startsWith('image/')) fileType = 'IMAGE';
           else if (file.type.startsWith('video/')) fileType = 'VIDEO';
           else if (file.type.startsWith('audio/')) fileType = 'AUDIO';
 
+          const buffer = Buffer.from(await file.arrayBuffer());
+          const saved = await savePrivateUpload({
+            buffer,
+            subDirectory: 'submissions',
+            fileName: file.name,
+          });
+
           uploadedFiles.push({
             fileName: file.name,
-            filePath: `/uploads/submissions/${safeName}`,
+            filePath: saved.relativePath,
             mimeType: file.type || 'application/octet-stream',
             size: file.size,
             type: fileType,
@@ -114,16 +114,19 @@ export async function POST(
       payload.story = payload.story || payload.content || '';
     }
 
-    if (!payload.story || payload.story.trim().length === 0) {
+    payload.files = [...(payload.files || []), ...uploadedFiles];
+
+    // Validate payload with Zod schema
+    const validation = CitizenSubmissionSchema.safeParse(payload);
+    if (!validation.success) {
+      const firstError = validation.error.issues[0]?.message || 'Invalid submission payload';
       return NextResponse.json(
-        { error: 'Please describe what happened in your story or voice message.' },
+        { error: firstError, validationErrors: validation.error.flatten().fieldErrors },
         { status: 400, headers: corsHeaders }
       );
     }
 
-    payload.files = [...(payload.files || []), ...uploadedFiles];
-
-    const result = await processCitizenSubmission(payload);
+    const result = await processCitizenSubmission(validation.data);
     return NextResponse.json(result, { status: 201, headers: corsHeaders });
   } catch (error: any) {
     console.error('Creator submission error:', error);
@@ -133,4 +136,3 @@ export async function POST(
     );
   }
 }
-

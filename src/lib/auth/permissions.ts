@@ -104,3 +104,24 @@ export async function requireAuth() {
   }
   return user;
 }
+
+/**
+ * Checks whether a user has access to a given workspaceId.
+ * Platform OWNER/ADMIN has access to all workspaces; other users must have a WorkspaceMember record.
+ */
+export function hasWorkspaceAccess(user: { role: string; workspaceMembers?: Array<{ workspaceId: string }> } | null, workspaceId: string): boolean {
+  if (!user) return false;
+  if (user.role === 'OWNER' || user.role === 'ADMIN') return true;
+  return !!user.workspaceMembers?.some((m) => m.workspaceId === workspaceId);
+}
+
+/**
+ * Returns all accessible workspace IDs for the given user.
+ */
+export async function getAccessibleWorkspaceIds(user: { id: string; role: string; workspaceMembers?: Array<{ workspaceId: string }> }): Promise<string[]> {
+  if (user.role === 'OWNER' || user.role === 'ADMIN') {
+    const all = await prisma.workspace.findMany({ select: { id: true } });
+    return all.map((w) => w.id);
+  }
+  return user.workspaceMembers?.map((m) => m.workspaceId) || [];
+}

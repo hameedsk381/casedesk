@@ -27,6 +27,8 @@ build/
 *.sqlite3
 /public/uploads/*
 !/public/uploads/.gitkeep
+/uploads/*
+!/uploads/.gitkeep
 
 # debug
 npm-debug.log*

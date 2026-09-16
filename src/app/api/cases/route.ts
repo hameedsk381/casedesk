@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, getAccessibleWorkspaceIds, canUser } from '@/lib/auth/permissions';
 import { listCases, createCase } from '@/lib/cases/service';
-import prisma from '@/lib/db/prisma';
 
 export async function GET(request: Request) {
   try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || undefined;
     const priority = searchParams.get('priority') || undefined;
@@ -13,7 +17,22 @@ export async function GET(request: Request) {
     const assignedToId = searchParams.get('assignedToId') || undefined;
     const search = searchParams.get('search') || undefined;
 
+    const accessibleWorkspaceIds = await getAccessibleWorkspaceIds(user);
+    if (accessibleWorkspaceIds.length === 0) {
+      return NextResponse.json({ cases: [], total: 0 });
+    }
+
+    let workspaceId = searchParams.get('workspaceId') || undefined;
+    if (workspaceId) {
+      if (!hasWorkspaceAccess(user, workspaceId)) {
+        return NextResponse.json({ error: 'Forbidden: Access denied to workspace' }, { status: 403 });
+      }
+    } else {
+      workspaceId = accessibleWorkspaceIds[0];
+    }
+
     const result = await listCases({
+      workspaceId,
       status,
       priority,
       category,
@@ -32,20 +51,27 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    if (!canUser(user.role, 'create_case')) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to create case' }, { status: 403 });
+    }
+
     const body = await request.json();
 
-    // Default workspace
     let workspaceId = body.workspaceId;
     if (!workspaceId) {
-      const ws = await prisma.workspace.findFirst();
-      workspaceId = ws?.id;
+      const accessibleWorkspaceIds = await getAccessibleWorkspaceIds(user);
+      workspaceId = accessibleWorkspaceIds[0];
     }
 
-    const createdById = user?.id || (await prisma.user.findFirst({ where: { role: 'OWNER' } }))?.id;
-
-    if (!createdById || !workspaceId) {
-      return NextResponse.json({ error: 'Workspace or user not initialized' }, { status: 400 });
+    if (!workspaceId || !hasWorkspaceAccess(user, workspaceId)) {
+      return NextResponse.json({ error: 'Forbidden: Access denied to workspace' }, { status: 403 });
     }
+
+    const createdById = user.id;
 
     const newCase = await createCase({
       workspaceId,

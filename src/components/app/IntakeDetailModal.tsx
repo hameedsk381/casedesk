@@ -31,6 +31,7 @@ import {
   Tag,
   Plus,
   Trash2,
+  Download,
 } from 'lucide-react';
 import PriorityBadge from '@/components/app/PriorityBadge';
 import RequestInfoModal from './RequestInfoModal';
@@ -377,9 +378,20 @@ export default function IntakeDetailModal({
                           <div className="font-semibold text-navy truncate">{att.fileName}</div>
                           <div className="text-[10px] text-slate-400">{Math.round(att.size / 1024)} KB · {att.type}</div>
                         </div>
-                        <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 text-[9px] font-bold">
-                          {att.mimeType?.split('/')[1] || 'FILE'}
-                        </span>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 text-[9px] font-bold">
+                            {att.mimeType?.split('/')[1] || 'FILE'}
+                          </span>
+                          <a
+                            href={`/api/intake/attachments/${att.id}/download`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-navy transition-colors"
+                            title="Download Attachment"
+                          >
+                            <Download size={12} />
+                          </a>
+                        </div>
                       </div>
                     ))}
                   </div>

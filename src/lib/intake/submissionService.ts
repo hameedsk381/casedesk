@@ -1,9 +1,6 @@
 import prisma from '../db/prisma';
-import path from 'path';
-import { triageIntakeItem } from './triage';
-import { detectDuplicateIntake } from './duplicateDetector';
 import { generateIntakeReferenceNumber } from './referenceNumber';
-import { transcribeAudioWithGroq } from '../ai/groq';
+import { enqueueIntakeTriage } from '../queue/intakeQueue';
 
 export interface CitizenSubmissionPayload {
   slug?: string;
@@ -28,7 +25,7 @@ export interface CitizenSubmissionPayload {
     filePath: string;
     mimeType: string;
     size: number;
-    type: string;   
+    type: string;
   }>;
 }
 
@@ -87,69 +84,21 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
     throw new Error('Mandatory consent confirmation required before submission.');
   }
 
-  // Generate Reference Number
+  // Generate atomic reference number (e.g. CD-IN-2026-00042)
   const referenceNumber = await generateIntakeReferenceNumber();
-
-  // If voice audio is provided without transcription, transcribe using Groq Whisper Large V3 Turbo
-  let transcription = payload.transcription || null;
-  if (!transcription && payload.files && payload.files.length > 0) {
-    const audioFile = payload.files.find((f) => f.type === 'AUDIO' || f.mimeType?.startsWith('audio/'));
-    if (audioFile) {
-      try {
-        const diskPath = path.join(process.cwd(), 'public', audioFile.filePath.replace(/^\//, ''));
-        const transcribed = await transcribeAudioWithGroq(
-          diskPath,
-          payload.preferredLanguage === 'Telugu' ? 'te' : 'en'
-        );
-        if (transcribed) {
-          transcription = transcribed;
-          if (!payload.story || payload.story.startsWith('Voice dispatch')) {
-            payload.story = transcribed;
-          }
-        }
-      } catch (audioErr) {
-        console.warn('Voice transcription fallback:', audioErr);
-      }
-    }
-  }
 
   // Construct combined location string
   const locationParts = [payload.town, payload.district, payload.address].filter(Boolean);
   const combinedLocation = locationParts.length > 0 ? locationParts.join(', ') : 'Andhra Pradesh';
 
-  // Run AI Triage (Llama 3.3 70B Versatile via Groq)
-  const triaged = await triageIntakeItem(payload.story, 'WEB_FORM');
-
-
-  // Fetch existing cases for duplicate detection
-  const existingCases = await prisma.case.findMany({
-    where: { workspaceId },
-    select: {
-      id: true,
-      caseNumber: true,
-      title: true,
-      summary: true,
-      category: true,
-      location: true,
-    },
-  });
-
-  // Check for potential duplicate cases
-  const duplicate = detectDuplicateIntake(
-    payload.story,
-    payload.category || triaged.category,
-    combinedLocation,
-    existingCases
-  );
-
-  // Determine final attributes
+  // Determine complainant profile attributes
   const senderName = payload.isAnonymous ? 'Anonymous Citizen' : (payload.senderName?.trim() || 'Anonymous Citizen');
   const senderPhone = payload.isAnonymous ? null : (payload.senderPhone?.trim() || null);
   const senderEmail = payload.isAnonymous ? null : (payload.senderEmail?.trim() || null);
   const consentToPublish = payload.consentToPublish || 'DISCUSS_FIRST';
   const consentToContact = payload.consentContact ?? true;
 
-  // Create IntakeItem with attachments
+  // Persist IntakeItem immediately with status INCOMING (<100ms)
   const intakeItem = await prisma.intakeItem.create({
     data: {
       workspaceId,
@@ -157,31 +106,20 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
       senderName,
       senderPhone,
       senderEmail,
-      preferredLanguage: payload.preferredLanguage || triaged.language,
+      preferredLanguage: payload.preferredLanguage || 'English',
       rawText: payload.story,
-      transcription: transcription || payload.transcription || null,
+      transcription: payload.transcription || null,
       attachmentCount: payload.files?.length || 0,
-      status: 'NEEDS_REVIEW',
+      status: 'INCOMING',
       referenceNumber,
       consentToContact,
       consentToPublish,
       endpointSlug: endpoint.slug,
       incidentDate: payload.incidentDate || null,
-      aiSummary: triaged.summary,
-      aiCategory: payload.category || triaged.category,
-      aiPriority: triaged.priority,
-      aiPriorityReason: triaged.priorityReason,
-      aiLocation: combinedLocation || triaged.location,
-      aiEntities: JSON.stringify({
-        people: triaged.people,
-        organizations: triaged.organizations,
-        dates: triaged.dates,
-      }),
-      aiClaims: JSON.stringify(triaged.claims),
-      aiMissingInformation: JSON.stringify(triaged.missingInformation),
-      sensitiveInfoDetected: JSON.stringify(triaged.sensitiveInfo),
-      duplicateCandidate: duplicate.isDuplicate,
-      duplicateCaseId: duplicate.candidateCaseId || null,
+      aiCategory: payload.category || 'General Civic Issue',
+      aiLocation: combinedLocation,
+      aiPriority: 'MEDIUM',
+      aiSummary: 'Dispatch received. Asynchronous triage in progress...',
       attachments: {
         create: (payload.files || []).map((f) => ({
           fileName: f.fileName,
@@ -195,23 +133,31 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
   });
 
   // Log activity
-  await prisma.activityLog.create({
-    data: {
-      workspaceId,
-      userId: (await prisma.user.findFirst({ select: { id: true } }))?.id || '',
-      action: 'CITIZEN_SUBMISSION_RECEIVED',
-      metadata: JSON.stringify({
-        referenceNumber,
-        intakeId: intakeItem.id,
-        category: intakeItem.aiCategory,
-        isAnonymous: payload.isAnonymous,
-        hasAttachments: (payload.files?.length || 0) > 0,
-      }),
-    },
-  });
+  const systemUser = await prisma.user.findFirst({ select: { id: true } });
+  if (systemUser) {
+    await prisma.activityLog.create({
+      data: {
+        workspaceId,
+        userId: systemUser.id,
+        action: 'CITIZEN_SUBMISSION_RECEIVED',
+        metadata: JSON.stringify({
+          referenceNumber,
+          intakeId: intakeItem.id,
+          category: payload.category,
+          isAnonymous: payload.isAnonymous,
+          hasAttachments: (payload.files?.length || 0) > 0,
+        }),
+      },
+    });
+  }
 
+  // Enqueue background worker for Groq Whisper transcription & Llama triage
+  enqueueIntakeTriage(intakeItem.id);
+
+  // Return immediate response with milestone tracker steps
   return {
     success: true,
+    status: 'INCOMING',
     referenceNumber,
     intakeId: intakeItem.id,
     triageCategory: intakeItem.aiCategory,
@@ -227,4 +173,3 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
     ],
   };
 }
-

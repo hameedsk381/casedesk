@@ -77,24 +77,49 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
   }
 
   // Handle tracking search
-  const handleTrackSubmit = (e: React.FormEvent) => {
+  const handleTrackSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!trackingCode.trim()) return;
+    const code = trackingCode.trim().toUpperCase();
+    if (!code) return;
 
     setIsSearching(true);
-    setTimeout(() => {
+    setLookupResult(null);
+
+    try {
+      const res = await fetch(`${apiBaseUrl}/api/submit/status?ref=${encodeURIComponent(code)}`);
+      if (res.ok) {
+        const data = await res.json();
+        setLookupResult({
+          ref: data.ref,
+          status: lang === 'te' ? data.statusTe : data.status,
+          steps: data.steps.map((s: any) => ({
+            title: lang === 'te' ? s.titleTe : s.title,
+            done: s.done,
+          })),
+        });
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        setLookupResult({
+          error: true,
+          ref: code,
+          message:
+            lang === 'te'
+              ? 'ఈ నంబర్‌తో ఎలాంటి ఫిర్యాదు కనుగొనబడలేదు. దయచేసి సరైన రిఫరెన్స్ కోడ్ నమోదు చేయండి.'
+              : errData.error || 'No report found matching this tracking reference number.',
+        });
+      }
+    } catch {
       setLookupResult({
-        ref: trackingCode.trim().toUpperCase(),
-        status: lang === 'te' ? 'జర్నలిస్టుల పరిశీలనలో ఉంది' : 'Under Review by Journalists',
-        steps: [
-          { title: lang === 'te' ? '1. ఫిర్యాదు అందింది' : '1. Report Received', done: true },
-          { title: lang === 'te' ? '2. వివరాలు పరిశీలిస్తున్నారు' : '2. Details Under Review', done: true },
-          { title: lang === 'te' ? '3. క్షేత్రస్థాయి విచారణ' : '3. Ground Verification', done: false },
-          { title: lang === 'te' ? '4. అధికారులను నిలదీయడం' : '4. Action with Authorities', done: false },
-        ]
+        error: true,
+        ref: code,
+        message:
+          lang === 'te'
+            ? 'పరిస్థితి తనిఖీ చేయడంలో నెట్‌వర్క్ సమస్య ఏర్పడింది. కాసేపటి తర్వాత ప్రయత్నించండి.'
+            : 'Unable to connect to status service. Please check your network.',
       });
+    } finally {
       setIsSearching(false);
-    }, 500);
+    }
   };
 
   const simpleCategories = [
@@ -478,6 +503,26 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
                     : (lang === 'te' ? 'స్థితిని చూపించు →' : 'Check Status →')}
                 </button>
               </form>
+            ) : lookupResult.error ? (
+              <div className="space-y-3 animate-fade-in">
+                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-center">
+                  <span className="text-[10px] font-bold text-rose-800 uppercase block">
+                    {lang === 'te' ? 'ఫిర్యాదు కనుగొనబడలేదు' : 'Report Not Found'}
+                  </span>
+                  <div className="text-xs font-semibold text-rose-950 mt-1">
+                    {lookupResult.message}
+                  </div>
+                  <div className="text-[10px] font-mono text-rose-700 mt-1 font-bold">
+                    {lookupResult.ref}
+                  </div>
+                </div>
+                <button
+                  onClick={() => setLookupResult(null)}
+                  className="w-full py-2 text-xs font-bold text-slate-600 hover:text-navy cursor-pointer"
+                >
+                  {lang === 'te' ? 'మళ్లీ ప్రయత్నించండి' : 'Try another code'}
+                </button>
+              </div>
             ) : (
               <div className="space-y-3 animate-fade-in">
                 <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-center">

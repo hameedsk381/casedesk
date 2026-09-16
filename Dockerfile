@@ -45,8 +45,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Setup upload and database directories with permissions
-RUN mkdir -p /app/public/uploads/submissions && \
+RUN mkdir -p /app/public/uploads/submissions /app/uploads && \
     chown -R nextjs:nodejs /app/public/uploads && \
+    chown -R nextjs:nodejs /app/uploads && \
     chown -R nextjs:nodejs /app/prisma
 
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh

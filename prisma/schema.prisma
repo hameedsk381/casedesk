@@ -421,3 +421,9 @@ model SubmissionEndpoint {
   @@index([workspaceId])
   @@index([slug])
 }
+
+model SequenceCounter {
+  name      String   @id
+  lastValue Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
