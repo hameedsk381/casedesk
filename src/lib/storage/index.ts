@@ -110,5 +110,5 @@ export async function deletePrivateFile(relativePath: string): Promise<boolean> 
 export function createPrivateFileStream(relativePath: string): fs.ReadStream | null {
   const absolutePath = getPrivateFilePath(relativePath);
   if (!absolutePath) return null;
-  return fs.createReadStream(absolutePath);
+  return fs.createReadStream(/*turbopackIgnore: true*/ absolutePath);
 }
