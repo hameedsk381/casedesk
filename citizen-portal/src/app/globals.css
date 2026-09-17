@@ -150,6 +150,8 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* Prevent rubber-band overscroll on iOS */
+    overscroll-behavior: none;
   }
 
   body {
@@ -158,6 +160,11 @@
     font-optical-sizing: auto;
     text-rendering: optimizeLegibility;
     line-height: 1.6;
+    /* Safe area padding for notch + home indicator */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -248,6 +255,32 @@
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
   .font-display { font-family: var(--font-display); }
+
+  /* Bottom sheet modal for mobile */
+  .bottom-sheet {
+    @apply fixed inset-x-0 bottom-0 z-50 p-4;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    animation: sheet-up 0.3s cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+  .bottom-sheet-backdrop {
+    @apply fixed inset-0 z-50 bg-black/40;
+    animation: fade-in 0.2s ease-out both;
+  }
+  .bottom-sheet-content {
+    @apply w-full bg-card border border-border rounded-2xl shadow-xl;
+    max-height: 85dvh;
+    overflow-y: auto;
+  }
+  @keyframes sheet-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  /* Touch-friendly minimum sizes */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .sticker, .sticker-hover, .press,

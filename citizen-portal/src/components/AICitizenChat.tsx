@@ -591,7 +591,7 @@ export function AICitizenChat({
           </div>
           <button
             onClick={() => setShowConsentModal(true)}
-            className="px-3 py-1.5 bg-primary hover:bg-primary-hover text-white font-bold text-[11px] rounded-lg shadow-xs transition-all flex items-center gap-1 cursor-pointer active:scale-95 shrink-0"
+            className="touch-target px-4 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
           >
             <UserCheck size={12} />
             <span>{lang === 'te' ? 'సమర్పించు' : 'Submit'}</span>
@@ -607,7 +607,7 @@ export function AICitizenChat({
             <div key={idx} className="flex items-center gap-1 px-2 py-1 rounded-lg bg-card border border-border text-[10px] text-primary shrink-0">
               <FileText size={11} />
               <span className="truncate max-w-[100px] font-medium">{file.name}</span>
-              <button onClick={() => setAttachedFiles((prev) => prev.filter((_, i) => i !== idx))} className="text-muted-foreground hover:text-destructive ml-0.5 cursor-pointer">
+              <button onClick={() => setAttachedFiles((prev) => prev.filter((_, i) => i !== idx))} className="touch-target flex items-center justify-center text-muted-foreground hover:text-destructive cursor-pointer">
                 <Trash2 size={11} />
               </button>
             </div>
@@ -616,7 +616,7 @@ export function AICitizenChat({
       )}
 
       {/* Input Bar */}
-      <div className="p-3 bg-card border-t border-border shrink-0">
+      <div className="p-3 bg-card border-t border-border shrink-0 safe-area-bottom">
         {isRecording ? (
           <div className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-primary/[0.05] border border-primary/20 animate-fade-in">
             <div className="flex items-center gap-2">
@@ -626,7 +626,7 @@ export function AICitizenChat({
                 {lang === 'te' ? 'మాట్లాడండి...' : 'Recording...'}
               </span>
             </div>
-            <button onClick={stopRecording} className="px-3 py-1.5 rounded-lg bg-destructive hover:bg-destructive/90 text-white text-[11px] font-bold flex items-center gap-1 transition active:scale-95 cursor-pointer">
+            <button onClick={stopRecording} className="touch-target px-4 py-2.5 rounded-xl bg-destructive hover:bg-destructive/90 text-white text-sm font-bold flex items-center gap-1.5 transition active:scale-95 cursor-pointer">
               <Square size={11} className="fill-white" />
               <span>{lang === 'te' ? 'ఆపు' : 'Stop'}</span>
             </button>
@@ -634,79 +634,86 @@ export function AICitizenChat({
         ) : (
           <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center gap-2">
             <input type="file" multiple ref={fileInputRef} onChange={(e) => { if (e.target.files) setAttachedFiles((prev) => [...prev, ...Array.from(e.target.files!)]); }} className="hidden" />
-            <button type="button" onClick={() => fileInputRef.current?.click()} className="p-2.5 rounded-lg bg-surface hover:bg-surface-2 border border-border text-muted-foreground transition shrink-0 active:scale-95 cursor-pointer">
-              <Paperclip size={15} />
+            <button type="button" onClick={() => fileInputRef.current?.click()} className="touch-target flex items-center justify-center p-3 rounded-xl bg-surface hover:bg-surface-2 border border-border text-muted-foreground transition shrink-0 active:scale-95 cursor-pointer">
+              <Paperclip size={18} />
             </button>
-            <button type="button" onClick={startRecording} className="p-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer">
-              <Mic size={15} />
+            <button type="button" onClick={startRecording} className="touch-target flex items-center justify-center p-3 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer">
+              <Mic size={18} />
             </button>
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={lang === 'te' ? 'మీ మాటల్లో రాయండి...' : 'Type in English, Telugu, or Tenglish...'}
-              className="flex-1 bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg px-3 py-2.5 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none transition"
+              className="flex-1 bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none transition"
             />
-            <button type="submit" disabled={!inputValue.trim() && attachedFiles.length === 0} className="p-2.5 rounded-lg bg-primary hover:bg-primary-hover disabled:opacity-40 text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer">
+            <button type="submit" disabled={!inputValue.trim() && attachedFiles.length === 0} className="touch-target flex items-center justify-center p-3 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-40 text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer">
               <Send size={15} />
             </button>
           </form>
         )}
       </div>
 
-      {/* Consent Modal */}
+      {/* Consent Modal — Bottom Sheet */}
       {showConsentModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="w-full max-w-md bg-card border border-border rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl animate-slide-up max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
-              <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                <UserCheck size={16} />
-                <span>{lang === 'te' ? 'వివరాలు & సమ్మతి' : 'Contact & Consent'}</span>
+        <>
+          <div className="bottom-sheet-backdrop" onClick={() => setShowConsentModal(false)} />
+          <div className="bottom-sheet">
+            <div className="bottom-sheet-content p-5 sm:p-6 space-y-4">
+              {/* Drag handle */}
+              <div className="flex justify-center pb-1">
+                <div className="w-10 h-1 rounded-full bg-border" />
               </div>
-              <button onClick={() => setShowConsentModal(false)} className="p-1 rounded-md text-muted-foreground hover:text-primary cursor-pointer">
-                <X size={16} />
-              </button>
-            </div>
 
-            <div className="p-3 rounded-xl bg-background border border-border space-y-3">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input type="checkbox" checked={isAnonymous} onChange={(e) => setIsAnonymous(e.target.checked)} className="mt-0.5 w-4 h-4 accent-primary rounded" />
-                <div>
-                  <span className="font-bold text-xs text-foreground block">{lang === 'te' ? 'అనామకంగా' : 'Stay anonymous'}</span>
-                  <span className="text-[10px] text-muted-foreground block mt-0.5">{lang === 'te' ? 'మీ పేరు బహిరంగంగా ప్రస్తావించబడదు.' : 'Your name will not be shown publicly.'}</span>
+              <div className="flex items-center justify-between pb-2 border-b border-border">
+                <div className="flex items-center gap-2 text-primary font-bold text-base">
+                  <UserCheck size={18} />
+                  <span>{lang === 'te' ? 'వివరాలు & సమ్మతి' : 'Contact & Consent'}</span>
                 </div>
-              </label>
+                <button onClick={() => setShowConsentModal(false)} className="touch-target flex items-center justify-center text-muted-foreground hover:text-primary cursor-pointer">
+                  <X size={18} />
+                </button>
+              </div>
 
-              {!isAnonymous && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-border animate-fade-in">
+              <div className="p-4 rounded-xl bg-background border border-border space-y-3">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={isAnonymous} onChange={(e) => setIsAnonymous(e.target.checked)} className="mt-0.5 w-5 h-5 accent-primary rounded" />
                   <div>
-                    <label className="text-[10px] font-semibold text-muted-foreground block mb-1">{lang === 'te' ? 'పేరు' : 'Name'}</label>
-                    <input type="text" placeholder="Full Name" value={senderName} onChange={(e) => setSenderName(e.target.value)} className="w-full rounded-lg bg-background border border-border px-2.5 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary" />
+                    <span className="font-bold text-sm text-foreground block">{lang === 'te' ? 'అనామకంగా' : 'Stay anonymous'}</span>
+                    <span className="text-xs text-muted-foreground block mt-0.5">{lang === 'te' ? 'మీ పేరు బహిరంగంగా ప్రస్తావించబడదు.' : 'Your name will not be shown publicly.'}</span>
                   </div>
-                  <div>
-                    <label className="text-[10px] font-semibold text-muted-foreground block mb-1">{lang === 'te' ? 'ఫోన్' : 'Phone'}</label>
-                    <input type="tel" placeholder="Phone Number" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)} className="w-full rounded-lg bg-background border border-border px-2.5 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary" />
+                </label>
+
+                {!isAnonymous && (
+                  <div className="grid grid-cols-1 gap-3 pt-3 border-t border-border animate-fade-in">
+                    <div>
+                      <label className="text-xs font-semibold text-muted-foreground block mb-1.5">{lang === 'te' ? 'పేరు' : 'Name'}</label>
+                      <input type="text" placeholder="Full Name" value={senderName} onChange={(e) => setSenderName(e.target.value)} className="w-full rounded-xl bg-background border border-border px-3.5 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary" />
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold text-muted-foreground block mb-1.5">{lang === 'te' ? 'ఫోన్' : 'Phone'}</label>
+                      <input type="tel" placeholder="Phone Number" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)} className="w-full rounded-xl bg-background border border-border px-3.5 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary" />
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-            <div className="space-y-2 text-[11px] text-muted-foreground">
-              <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={consentAccuracy} onChange={(e) => setConsentAccuracy(e.target.checked)} className="mt-0.5 w-3.5 h-3.5 accent-primary rounded" />
-                <span className="leading-relaxed">{lang === 'te' ? 'నేను చెప్పినది నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm this information is accurate.'}</span>
-              </label>
-              <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" checked={consentNoGuarantee} onChange={(e) => setConsentNoGuarantee(e.target.checked)} className="mt-0.5 w-3.5 h-3.5 accent-primary rounded" />
-                <span className="leading-relaxed">{lang === 'te' ? 'ప్రచురణ హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand submission does not guarantee publication.'}</span>
-              </label>
-            </div>
+              <div className="space-y-3 text-sm text-muted-foreground">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={consentAccuracy} onChange={(e) => setConsentAccuracy(e.target.checked)} className="mt-0.5 w-5 h-5 accent-primary rounded" />
+                  <span className="leading-relaxed">{lang === 'te' ? 'నేను చెప్పినది నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm this information is accurate.'}</span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={consentNoGuarantee} onChange={(e) => setConsentNoGuarantee(e.target.checked)} className="mt-0.5 w-5 h-5 accent-primary rounded" />
+                  <span className="leading-relaxed">{lang === 'te' ? 'ప్రచురణ హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand submission does not guarantee publication.'}</span>
+                </label>
+              </div>
 
-            <button
-              onClick={handleFinalSubmit}
-              disabled={submittingDossier || !consentAccuracy || !consentNoGuarantee}
-              className="w-full py-3 bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-bold text-sm rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.97]"
-            >
+              <button
+                onClick={handleFinalSubmit}
+                disabled={submittingDossier || !consentAccuracy || !consentNoGuarantee}
+                className="touch-target w-full py-4 bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-bold text-base rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.97]"
+              >
               {submittingDossier ? (
                 <>
                   <Clock size={15} className="animate-spin" />
@@ -721,6 +728,7 @@ export function AICitizenChat({
             </button>
           </div>
         </div>
+        </>
       )}
     </div>
   );

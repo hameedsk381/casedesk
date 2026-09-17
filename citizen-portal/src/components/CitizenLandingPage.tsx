@@ -5,7 +5,6 @@ import {
   ShieldCheck,
   Lock,
   Mic,
-  Bot,
   FileText,
   ArrowRight,
   CheckCircle2,
@@ -15,7 +14,6 @@ import {
   Users,
   X,
   Check,
-  Languages,
 } from 'lucide-react';
 import { AICitizenChat } from './AICitizenChat';
 import { CitizenSubmissionForm } from './CitizenSubmissionForm';
@@ -85,12 +83,12 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
   if (view === 'chat') {
     return (
-      <div className="min-h-screen flex flex-col bg-background">
-        <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card">
-          <button onClick={() => setView('landing')} className="text-xs font-bold text-muted-foreground hover:text-primary cursor-pointer">← {lang === 'te' ? 'హోమ్' : 'Home'}</button>
-          <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-[11px] font-bold border border-border">
-            <button onClick={() => setLang('en')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
-            <button onClick={() => setLang('te')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
+      <div className="min-h-dvh flex flex-col bg-background">
+        <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card safe-area-top">
+          <button onClick={() => setView('landing')} className="touch-target flex items-center gap-1 text-sm font-bold text-muted-foreground hover:text-primary cursor-pointer">← {lang === 'te' ? 'హోమ్' : 'Home'}</button>
+          <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-xs font-bold border border-border">
+            <button onClick={() => setLang('en')} className={`touch-target flex items-center justify-center px-2.5 py-1.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
+            <button onClick={() => setLang('te')} className={`touch-target flex items-center justify-center px-2.5 py-1.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
           </div>
         </div>
         <div className="flex-1">
@@ -102,12 +100,12 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
   if (view === 'form') {
     return (
-      <div className="min-h-screen flex flex-col bg-background">
-        <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card">
-          <button onClick={() => setView('landing')} className="text-xs font-bold text-muted-foreground hover:text-primary cursor-pointer">← {lang === 'te' ? 'హోమ్' : 'Home'}</button>
-          <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-[11px] font-bold border border-border">
-            <button onClick={() => setLang('en')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
-            <button onClick={() => setLang('te')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
+      <div className="min-h-dvh flex flex-col bg-background">
+        <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card safe-area-top">
+          <button onClick={() => setView('landing')} className="touch-target flex items-center gap-1 text-sm font-bold text-muted-foreground hover:text-primary cursor-pointer">← {lang === 'te' ? 'హోమ్' : 'Home'}</button>
+          <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-xs font-bold border border-border">
+            <button onClick={() => setLang('en')} className={`touch-target flex items-center justify-center px-2.5 py-1.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
+            <button onClick={() => setLang('te')} className={`touch-target flex items-center justify-center px-2.5 py-1.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
           </div>
         </div>
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-4 flex flex-col">
@@ -130,36 +128,36 @@ export function CitizenLandingPage({ endpoint }: Props) {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
+    <div className="min-h-dvh flex flex-col bg-background text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
 
       {/* HEADER */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-lg border-b border-border shadow-xs">
-        <div className="max-w-4xl mx-auto flex items-center justify-between h-12 px-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center">
-              <ShieldCheck size={16} />
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-lg border-b border-border shadow-xs safe-area-top">
+        <div className="max-w-4xl mx-auto flex items-center justify-between h-14 px-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-lg bg-primary text-white flex items-center justify-center">
+              <ShieldCheck size={18} />
             </div>
-            <span className="font-extrabold text-xs text-primary">
+            <span className="font-extrabold text-sm text-primary">
               {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => setShowStatusModal(true)} className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface border border-border text-[11px] font-semibold text-muted-foreground hover:text-primary transition cursor-pointer">
-              <Search size={12} />
+            <button onClick={() => setShowStatusModal(true)} className="touch-target flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface border border-border text-xs font-semibold text-muted-foreground hover:text-primary transition cursor-pointer">
+              <Search size={14} />
               <span className="hidden sm:inline">{lang === 'te' ? 'స్థితి' : 'Track'}</span>
             </button>
-            <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-[11px] font-bold border border-border">
-              <button onClick={() => setLang('te')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
-              <button onClick={() => setLang('en')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
+            <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-xs font-bold border border-border">
+              <button onClick={() => setLang('te')} className={`touch-target flex items-center justify-center px-2.5 py-1.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
+              <button onClick={() => setLang('en')} className={`touch-target flex items-center justify-center px-2.5 py-1.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
             </div>
           </div>
         </div>
       </header>
 
       {/* HERO */}
-      <section className="max-w-4xl mx-auto px-4 pt-10 pb-8 sm:pt-16 sm:pb-10 text-center space-y-4">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success-subtle border border-success/20 text-success text-[10px] font-bold">
-          <ShieldCheck size={12} />
+      <section className="max-w-4xl mx-auto px-4 pt-8 pb-6 sm:pt-14 sm:pb-10 text-center space-y-4">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success-subtle border border-success/20 text-success text-xs font-bold">
+          <ShieldCheck size={13} />
           <span>{lang === 'te' ? '100% ఉచితం & రహస్యం' : '100% Free & Confidential'}</span>
         </div>
 
@@ -167,38 +165,38 @@ export function CitizenLandingPage({ endpoint }: Props) {
           {lang === 'te' ? 'మీ ఊరిలో సమస్య ఉందా?' : 'Something wrong in your area?'}
         </h1>
 
-        <p className="text-sm text-muted-foreground max-w-md mx-auto">
+        <p className="text-base text-muted-foreground max-w-md mx-auto">
           {lang === 'te'
             ? 'తెలుగు, Tenglish లేదా English లో టైప్ చేయండి లేదా మైక్ నొక్కి చెప్పండి.'
             : 'Type or speak in English, Telugu, or Tenglish. Our team investigates.'}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+        <div className="flex flex-col gap-3 pt-2 max-w-sm mx-auto">
           <button
             onClick={() => setView('chat')}
-            className="w-full sm:w-auto group px-7 py-3.5 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.97]"
+            className="w-full group py-4 px-6 bg-primary hover:bg-primary-hover text-white font-bold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.97]"
           >
-            <Mic size={17} />
+            <Mic size={20} />
             <span>{lang === 'te' ? 'మాట్లాడండి' : 'Talk to AI'}</span>
-            <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+            <ArrowRight size={17} className="group-hover:translate-x-0.5 transition-transform" />
           </button>
           <button
             onClick={() => setView('form')}
-            className="w-full sm:w-auto px-7 py-3.5 bg-card hover:bg-surface border border-border text-primary font-bold text-sm rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-4 px-6 bg-card hover:bg-surface border-2 border-border hover:border-primary/40 text-primary font-bold text-base rounded-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer"
           >
-            <FileText size={17} />
+            <FileText size={20} />
             <span>{lang === 'te' ? 'ఫారమ్ పూరించండి' : 'Fill a Form'}</span>
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 pt-3 text-[11px] font-medium text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 pt-3 text-xs font-medium text-muted-foreground">
           {[
             lang === 'te' ? 'మీ పేరు దాగి ఉంటుంది' : 'Identity protected',
             lang === 'te' ? 'మైక్ నొక్కి చెప్పవచ్చు' : 'Voice supported',
             lang === 'te' ? 'తెలుగు & English' : 'Telugu & English',
           ].map((text, i) => (
-            <div key={i} className="flex items-center gap-1">
-              <CheckCircle2 size={12} className="text-success" />
+            <div key={i} className="flex items-center gap-1.5">
+              <CheckCircle2 size={14} className="text-success" />
               <span>{text}</span>
             </div>
           ))}
@@ -206,18 +204,18 @@ export function CitizenLandingPage({ endpoint }: Props) {
       </section>
 
       {/* CATEGORIES */}
-      <section className="px-4 pb-8 max-w-3xl mx-auto w-full">
+      <section className="px-4 pb-6 max-w-3xl mx-auto w-full">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {categories.map((cat, idx) => {
             const Icon = cat.icon;
             return (
-              <div key={idx} className="p-3.5 rounded-xl bg-card border border-border flex items-center gap-3">
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${cat.color}`}>
-                  <Icon size={16} />
+              <div key={idx} className="p-4 rounded-xl bg-card border border-border flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${cat.color}`}>
+                  <Icon size={18} />
                 </div>
                 <div className="min-w-0">
-                  <span className="font-bold text-[11px] text-primary block">{cat.title}</span>
-                  <span className="text-[10px] text-muted-foreground block leading-tight">{cat.desc}</span>
+                  <span className="font-bold text-xs text-primary block">{cat.title}</span>
+                  <span className="text-[11px] text-muted-foreground block leading-tight">{cat.desc}</span>
                 </div>
               </div>
             );
@@ -226,59 +224,74 @@ export function CitizenLandingPage({ endpoint }: Props) {
       </section>
 
       {/* FOOTER */}
-      <footer className="mt-auto border-t border-border py-4 px-4 text-center">
-        <div className="flex items-center justify-center gap-1.5 text-[10px] text-muted-foreground">
-          <Lock size={10} />
+      <footer className="mt-auto border-t border-border py-4 px-4 text-center safe-area-bottom">
+        <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+          <Lock size={12} />
           <span>{lang === 'te' ? 'మీ సమాచారం సురక్షితం' : 'Data encrypted & protected'}</span>
         </div>
       </footer>
 
-      {/* STATUS MODAL */}
+      {/* STATUS MODAL — Bottom Sheet */}
       {showStatusModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="w-full max-w-sm bg-card border border-border rounded-2xl p-5 space-y-3 shadow-xl animate-fade-up">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-primary font-bold text-xs">
-                <Search size={14} />
-                <span>{lang === 'te' ? 'స్థితి చూడండి' : 'Track Status'}</span>
+        <>
+          <div className="bottom-sheet-backdrop" onClick={() => { setShowStatusModal(false); setLookupResult(null); setTrackingCode(''); }} />
+          <div className="bottom-sheet">
+            <div className="bottom-sheet-content p-5 space-y-4">
+              {/* Drag handle */}
+              <div className="flex justify-center pb-1">
+                <div className="w-10 h-1 rounded-full bg-border" />
               </div>
-              <button onClick={() => { setShowStatusModal(false); setLookupResult(null); setTrackingCode(''); }} className="p-1 text-muted-foreground hover:text-primary cursor-pointer">
-                <X size={14} />
-              </button>
-            </div>
 
-            {!lookupResult ? (
-              <form onSubmit={handleTrackSubmit} className="space-y-2.5">
-                <input type="text" required placeholder="CD-IN-2026-XXXXX" value={trackingCode} onChange={(e) => setTrackingCode(e.target.value)} className="w-full p-2.5 bg-background border border-border rounded-lg text-xs font-mono font-bold text-primary placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring uppercase" />
-                <button type="submit" disabled={isSearching || !trackingCode.trim()} className="w-full py-2 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-lg transition cursor-pointer disabled:opacity-50">
-                  {isSearching ? '...' : (lang === 'te' ? 'చూపించు' : 'Check')}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                  <Search size={16} />
+                  <span>{lang === 'te' ? 'స్థితి చూడండి' : 'Track Status'}</span>
+                </div>
+                <button onClick={() => { setShowStatusModal(false); setLookupResult(null); setTrackingCode(''); }} className="touch-target flex items-center justify-center text-muted-foreground hover:text-primary cursor-pointer">
+                  <X size={18} />
                 </button>
-              </form>
-            ) : lookupResult.error ? (
-              <div className="space-y-2 text-center">
-                <div className="text-xs text-destructive font-bold">{lookupResult.message}</div>
-                <button onClick={() => setLookupResult(null)} className="text-[11px] font-bold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'మళ్లీ' : 'Try again'}</button>
               </div>
-            ) : (
-              <div className="space-y-2">
-                <div className="p-3 rounded-lg bg-success-subtle border border-success/20 text-center">
-                  <div className="text-[9px] font-bold text-success uppercase">{lang === 'te' ? 'స్థితి' : 'Status'}</div>
-                  <div className="text-xs font-bold text-foreground">{lookupResult.status}</div>
-                  <div className="text-[9px] font-mono text-muted-foreground">{lookupResult.ref}</div>
+
+              {!lookupResult ? (
+                <form onSubmit={handleTrackSubmit} className="space-y-3">
+                  <input
+                    type="text"
+                    required
+                    placeholder="CD-IN-2026-XXXXX"
+                    value={trackingCode}
+                    onChange={(e) => setTrackingCode(e.target.value)}
+                    className="w-full p-3.5 bg-background border border-border rounded-xl text-base font-mono font-bold text-primary placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring uppercase"
+                  />
+                  <button type="submit" disabled={isSearching || !trackingCode.trim()} className="touch-target w-full py-3.5 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl transition cursor-pointer disabled:opacity-50">
+                    {isSearching ? '...' : (lang === 'te' ? 'చూపించు' : 'Check Status')}
+                  </button>
+                </form>
+              ) : lookupResult.error ? (
+                <div className="space-y-3 text-center py-4">
+                  <div className="text-sm text-destructive font-bold">{lookupResult.message}</div>
+                  <button onClick={() => setLookupResult(null)} className="touch-target text-xs font-bold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'మళ్లీ ప్రయత్నించండి' : 'Try again'}</button>
                 </div>
-                <div className="space-y-1">
-                  {lookupResult.steps.map((st: any, i: number) => (
-                    <div key={i} className="flex items-center gap-2 text-[11px] p-1.5 rounded-md bg-background">
-                      {st.done ? <Check size={12} className="text-success shrink-0" /> : <div className="w-3 h-3 rounded-full border border-border shrink-0" />}
-                      <span className={st.done ? 'text-primary font-semibold' : 'text-muted-foreground'}>{st.title}</span>
-                    </div>
-                  ))}
+              ) : (
+                <div className="space-y-3">
+                  <div className="p-4 rounded-xl bg-success-subtle border border-success/20 text-center">
+                    <div className="text-[10px] font-bold text-success uppercase">{lang === 'te' ? 'స్థితి' : 'Status'}</div>
+                    <div className="text-sm font-bold text-foreground mt-0.5">{lookupResult.status}</div>
+                    <div className="text-[10px] font-mono text-muted-foreground mt-0.5">{lookupResult.ref}</div>
+                  </div>
+                  <div className="space-y-1.5">
+                    {lookupResult.steps.map((st: any, i: number) => (
+                      <div key={i} className="flex items-center gap-2.5 text-xs p-2.5 rounded-lg bg-background">
+                        {st.done ? <Check size={14} className="text-success shrink-0" /> : <div className="w-3.5 h-3.5 rounded-full border border-border shrink-0" />}
+                        <span className={st.done ? 'text-primary font-semibold' : 'text-muted-foreground'}>{st.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <button onClick={() => setLookupResult(null)} className="touch-target w-full text-xs font-bold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'మరొక కోడ్' : 'Check another'}</button>
                 </div>
-                <button onClick={() => setLookupResult(null)} className="w-full text-[11px] font-bold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'మరొకటి' : 'Check another'}</button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

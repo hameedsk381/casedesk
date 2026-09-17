@@ -17,12 +17,20 @@ const bricolage = Bricolage_Grotesque({
 export const metadata: Metadata = {
   title: 'Citizen Helpdesk',
   description: 'Report civic issues, government failures, and public problems to the team investigating them.',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Helpdesk',
+  },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
   themeColor: '#550000',
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({
@@ -32,7 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
-      <body className="min-h-screen flex flex-col bg-linear-to-b from-card via-background to-surface text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
+      <body className="min-h-dvh flex flex-col bg-background text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
         {children}
       </body>
     </html>

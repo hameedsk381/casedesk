@@ -268,7 +268,7 @@ export function CitizenSubmissionForm({
   );
 
   const inputClass =
-    'w-full p-3 sm:p-3.5 text-sm bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground font-medium placeholder:text-muted-foreground transition-colors';
+    'w-full p-3.5 text-base bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground font-medium placeholder:text-muted-foreground transition-colors';
 
   return (
     <div className="space-y-4 animate-fade-in">
@@ -331,7 +331,7 @@ export function CitizenSubmissionForm({
             onChange={(e) => setStory(e.target.value)}
             rows={7}
             placeholder={lang === 'te' ? 'మీ మాటల్లో చెప్పండి...' : 'Write what happened in your own words...'}
-            className="w-full p-4 text-sm bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary leading-relaxed text-foreground placeholder:text-muted-foreground resize-none"
+            className="w-full p-4 text-base bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary leading-relaxed text-foreground placeholder:text-muted-foreground resize-none"
           />
 
           {/* Voice Recording */}
@@ -360,7 +360,7 @@ export function CitizenSubmissionForm({
                 <button
                   onClick={startRecording}
                   type="button"
-                  className="px-4 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center gap-2 cursor-pointer active:scale-95"
+                  className="touch-target px-5 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl transition-all shadow-xs flex items-center gap-2 cursor-pointer active:scale-95"
                 >
                   <Mic size={13} />
                   <span>{lang === 'te' ? 'రికార్డ్ ప్రారంభించు' : 'Start Recording'}</span>
@@ -371,7 +371,7 @@ export function CitizenSubmissionForm({
                 <button
                   onClick={stopRecording}
                   type="button"
-                  className="px-4 py-2.5 bg-destructive hover:bg-destructive/90 text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center gap-2 cursor-pointer active:scale-95"
+                  className="touch-target px-5 py-3 bg-destructive hover:bg-destructive/90 text-white font-bold text-sm rounded-xl transition-all shadow-xs flex items-center gap-2 cursor-pointer active:scale-95"
                 >
                   <Square size={13} />
                   <span>{lang === 'te' ? 'ఆపు' : 'Stop'}</span>
@@ -384,7 +384,7 @@ export function CitizenSubmissionForm({
                   <button
                     onClick={discardRecording}
                     type="button"
-                    className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors cursor-pointer"
+                    className="touch-target p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors cursor-pointer"
                   >
                     <X size={14} />
                   </button>
@@ -394,7 +394,7 @@ export function CitizenSubmissionForm({
           </div>
 
           <div className="flex items-center justify-between pt-1">
-            <button onClick={() => setStep(1)} type="button" className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
+            <button onClick={() => setStep(1)} type="button" className="touch-target flex items-center text-sm font-semibold text-muted-foreground hover:text-primary cursor-pointer">
               {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
             <button
@@ -406,7 +406,7 @@ export function CitizenSubmissionForm({
                 setStep(3);
               }}
               type="button"
-              className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer active:scale-95"
+              className="touch-target px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl shadow-xs transition-all cursor-pointer active:scale-95"
             >
               {lang === 'te' ? 'తరువాత →' : 'Next →'}
             </button>
@@ -456,7 +456,7 @@ export function CitizenSubmissionForm({
                   key={cat.id}
                   type="button"
                   onClick={() => setCategory(cat.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                  className={`touch-target flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                     category === cat.id
                       ? 'bg-primary text-white shadow-xs'
                       : 'bg-surface text-muted-foreground hover:bg-surface-2 border border-border'
@@ -469,10 +469,10 @@ export function CitizenSubmissionForm({
           </div>
 
           <div className="flex items-center justify-between pt-1">
-            <button onClick={() => setStep(2)} type="button" className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
+            <button onClick={() => setStep(2)} type="button" className="touch-target flex items-center text-sm font-semibold text-muted-foreground hover:text-primary cursor-pointer">
               {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
-            <button onClick={() => setStep(4)} type="button" className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
+            <button onClick={() => setStep(4)} type="button" className="touch-target px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
               {lang === 'te' ? 'తరువాత →' : 'Next →'}
             </button>
           </div>
@@ -519,7 +519,7 @@ export function CitizenSubmissionForm({
                       <FileText size={13} className="text-primary shrink-0" />
                       <span className="font-semibold text-foreground truncate">{f.name}</span>
                     </div>
-                    <button onClick={() => removeFile(idx)} type="button" className="text-muted-foreground hover:text-destructive p-1 cursor-pointer">
+                    <button onClick={() => removeFile(idx)} type="button" className="touch-target flex items-center justify-center text-muted-foreground hover:text-destructive cursor-pointer">
                       <X size={13} />
                     </button>
                   </div>
@@ -529,10 +529,10 @@ export function CitizenSubmissionForm({
           )}
 
           <div className="flex items-center justify-between pt-1">
-            <button onClick={() => setStep(3)} type="button" className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
+            <button onClick={() => setStep(3)} type="button" className="touch-target flex items-center text-sm font-semibold text-muted-foreground hover:text-primary cursor-pointer">
               {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
-            <button onClick={() => setStep(5)} type="button" className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
+            <button onClick={() => setStep(5)} type="button" className="touch-target px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
               {lang === 'te' ? 'తరువాత →' : 'Next →'}
             </button>
           </div>
@@ -563,7 +563,7 @@ export function CitizenSubmissionForm({
               type="checkbox"
               checked={isAnonymous}
               onChange={(e) => setIsAnonymous(e.target.checked)}
-              className="w-5 h-5 accent-primary rounded cursor-pointer shrink-0"
+              className="w-6 h-6 accent-primary rounded cursor-pointer shrink-0"
             />
           </div>
 
@@ -584,10 +584,10 @@ export function CitizenSubmissionForm({
           )}
 
           <div className="flex items-center justify-between pt-1">
-            <button onClick={() => setStep(4)} type="button" className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
+            <button onClick={() => setStep(4)} type="button" className="touch-target flex items-center text-sm font-semibold text-muted-foreground hover:text-primary cursor-pointer">
               {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
-            <button onClick={() => setStep(6)} type="button" className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
+            <button onClick={() => setStep(6)} type="button" className="touch-target px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
               {lang === 'te' ? 'తరువాత →' : 'Next →'}
             </button>
           </div>
@@ -612,9 +612,9 @@ export function CitizenSubmissionForm({
               { checked: consentContact, set: setConsentContact, text: t.consent2 },
               { checked: consentNoGuarantee, set: setConsentNoGuarantee, text: t.consent3 },
             ].map((c, i) => (
-              <label key={i} className="flex items-start gap-3 p-3 rounded-xl bg-background border border-border cursor-pointer hover:bg-surface transition-colors">
-                <input type="checkbox" checked={c.checked} onChange={(e) => c.set(e.target.checked)} className="w-4 h-4 accent-primary rounded mt-0.5 shrink-0 cursor-pointer" />
-                <span className="text-xs text-foreground leading-relaxed font-medium">{c.text}</span>
+              <label key={i} className="flex items-start gap-3 p-3.5 rounded-xl bg-background border border-border cursor-pointer hover:bg-surface transition-colors">
+                <input type="checkbox" checked={c.checked} onChange={(e) => c.set(e.target.checked)} className="w-5 h-5 accent-primary rounded mt-0.5 shrink-0 cursor-pointer" />
+                <span className="text-sm text-foreground leading-relaxed font-medium">{c.text}</span>
               </label>
             ))}
           </div>
@@ -629,7 +629,7 @@ export function CitizenSubmissionForm({
               ] as const).map((opt) => (
                 <label
                   key={opt.val}
-                  className={`p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${
+                  className={`touch-target p-3.5 rounded-xl border text-sm font-semibold cursor-pointer transition-all ${
                     consentToPublish === opt.val
                       ? 'border-primary bg-primary/5 text-primary ring-1 ring-primary'
                       : 'border-border bg-background text-muted-foreground hover:bg-surface'
@@ -653,14 +653,14 @@ export function CitizenSubmissionForm({
           )}
 
           <div className="flex items-center justify-between pt-1">
-            <button onClick={() => setStep(5)} type="button" disabled={submitting} className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer disabled:opacity-50">
+            <button onClick={() => setStep(5)} type="button" disabled={submitting} className="touch-target flex items-center text-sm font-semibold text-muted-foreground hover:text-primary cursor-pointer disabled:opacity-50">
               {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
             <button
               onClick={handleSubmit}
               type="button"
               disabled={submitting || !consentAccuracy || !consentNoGuarantee}
-              className="px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-sm transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2 active:scale-95"
+              className="touch-target px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl shadow-sm transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2 active:scale-95"
             >
               {submitting ? (
                 <>
@@ -713,7 +713,7 @@ export function CitizenSubmissionForm({
 
             <button
               onClick={onBackToSelect}
-              className="text-xs font-bold text-primary hover:text-primary-hover cursor-pointer pt-2"
+              className="touch-target text-sm font-bold text-primary hover:text-primary-hover cursor-pointer pt-2"
             >
               {lang === 'te' ? 'హోమ్ కు తిరిగి →' : 'Back to Home →'}
             </button>
