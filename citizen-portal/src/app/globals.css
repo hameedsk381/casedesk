@@ -125,10 +125,15 @@
   --shadow-sticker: 4px 4px 0 hsl(var(--primary));
   --shadow-sticker-sm: 3px 3px 0 hsl(var(--primary));
   --shadow-sticker-lg: 6px 6px 0 hsl(var(--primary));
+  --shadow-maroon: 0 4px 14px 0 rgba(85,0,0,0.20);
+  --shadow-maroon-lg: 0 10px 30px 0 rgba(85,0,0,0.25);
 
   /* Animations */
   --animate-fade-in: fade-in 0.3s ease-out both;
   --animate-fade-up: fade-up 0.5s ease-out both;
+  --animate-slide-in-left: slide-in-left 0.6s ease-out both;
+  --animate-slide-in-right: slide-in-right 0.6s ease-out both;
+  --animate-scale-in: scale-in 0.5s ease-out both;
 
   @keyframes fade-in {
     from { opacity: 0; }
@@ -137,6 +142,18 @@
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slide-in-left {
+    from { opacity: 0; transform: translateX(-24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
   }
 }
 
@@ -158,6 +175,7 @@
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
     font-optical-sizing: auto;
+    font-feature-settings: "cv01","cv02","cv03","cv04","cv05","cv11","cv12","liga","kern";
     text-rendering: optimizeLegibility;
     line-height: 1.6;
     /* Safe area padding for notch + home indicator */
@@ -198,6 +216,17 @@
 
   .body-sm { @apply text-sm text-muted-foreground leading-relaxed; }
   .body-xs { @apply text-xs text-muted-foreground leading-relaxed; }
+
+  .divider { @apply border-t border-border; }
+
+  .card-base {
+    @apply bg-card border border-border rounded-xl;
+    box-shadow: var(--shadow-xs, 0 1px 2px 0 rgba(0,0,0,0.05));
+  }
+  .card-hover {
+    @apply bg-card border border-border rounded-xl transition-shadow duration-200 hover:shadow-md hover:-translate-y-0.5;
+    box-shadow: var(--shadow-xs, 0 1px 2px 0 rgba(0,0,0,0.05));
+  }
 
   .sticker {
     @apply border-2 border-foreground rounded-2xl bg-card;
