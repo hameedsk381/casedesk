@@ -150,7 +150,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-slate-50 via-off-white to-slate-100 text-navy font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
       
       {/* 1. SIMPLE CLEAN HEADER */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-border-light shadow-2xs py-3 px-4 sm:px-6">
@@ -158,11 +158,11 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
           
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm shadow-2xs">
-              CD
+              OV
             </div>
             <div>
               <span className="font-extrabold text-sm tracking-tight text-navy block leading-none">
-                {endpoint.workspaceName || 'CaseDesk'}
+                {endpoint.workspaceName || 'Open Vaartha'}
               </span>
               <span className="text-[11px] text-slate-500 font-medium">
                 {lang === 'te' ? 'ప్రజా సమస్యల పోర్టల్' : 'Citizen Helpdesk'}
@@ -450,6 +450,17 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
             {lang === 'te'
               ? 'మీరు అనామకంగా ఉండాలనుకుంటే మీ పేరు లేదా ఫోన్ నంబర్ ఏ అధికారిక సంస్థకూ ఇవ్వబడదు.'
               : 'If you choose to stay anonymous, your name and phone number are never shared.'}
+          </p>
+          <p className="text-[10px] text-slate-400 pt-1">
+            {lang === 'te' ? 'ఓపెన్ వార్త లో భాగం' : 'Part of'}{' '}
+            <a
+              href="https://openvaartha.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-navy/70 hover:text-navy transition-colors"
+            >
+              Open Vaartha
+            </a>
           </p>
         </div>
       </footer>

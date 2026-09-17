@@ -6,7 +6,7 @@ import AppShell from '@/components/app/AppShell';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Investigation Workspace — CaseDesk',
+  title: 'Investigation Workspace — Open Vaartha CaseDesk',
   description: 'CaseDesk Operational Investigation Desk',
 };
 

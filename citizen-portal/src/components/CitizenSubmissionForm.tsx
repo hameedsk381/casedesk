@@ -212,7 +212,7 @@ export function CitizenSubmissionForm({
     anonymousNotice: lang === 'te' ? 'అదనపు వివరాల కోసం మిమ్మల్ని సంప్రదించవచ్చు. సంప్రదింపు వివరాలు ఇవ్వడం వల్ల కథ ప్రచురించబడుతుందని హామీ ఉండదు.' : 'We may reach out for more details. Sharing contact info does not guarantee publication.',
     consentHeader: lang === 'te' ? 'ధృవీకరణ' : 'Confirm & Submit',
     consent1: lang === 'te' ? 'నేను చెప్పినది నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm this information is true to the best of my knowledge.',
-    consent2: lang === 'te' ? 'కేస్‌డెస్క్ జర్నలిస్టులు నన్ను సంప్రదించవచ్చు.' : 'CaseDesk journalists may contact me about this.',
+    consent2: lang === 'te' ? 'ఓపెన్ వార్త జర్నలిస్టులు నన్ను సంప్రదించవచ్చు.' : 'Open Vaartha journalists may contact me about this.',
     consent3: lang === 'te' ? 'ప్రచురణ హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand this may not be published immediately.',
     consentPublishQ: lang === 'te' ? 'మీ కథను ప్రచురించవచ్చా?' : 'Can we publish your report?',
     publishYes: lang === 'te' ? 'అవును, ప్రచురించవచ్చు' : 'Yes, you can publish',
@@ -355,7 +355,7 @@ export function CitizenSubmissionForm({
           />
 
           {/* Voice Recording Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/60 border border-blue-200/70 space-y-3">
+          <div className="p-4 sm:p-5 rounded-2xl bg-electric-blue-subtle/60 border border-border space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Mic size={16} className="text-electric-blue" />

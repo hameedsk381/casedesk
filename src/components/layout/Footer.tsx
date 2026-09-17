@@ -21,6 +21,13 @@ const footerLinks = [
   },
 ];
 
+const socials = [
+  { label: 'Instagram', href: 'https://www.instagram.com/OPENVAARTHA/' },
+  { label: 'Facebook', href: 'https://www.facebook.com/openvaartha/' },
+  { label: 'YouTube', href: 'https://youtube.com/@openvaartha' },
+  { label: 'X', href: 'https://x.com/openvaartha' },
+];
+
 export default function Footer() {
   return (
     <footer className="bg-navy text-white" role="contentinfo">
@@ -31,20 +38,35 @@ export default function Footer() {
             <div className="flex items-baseline gap-2 mb-3">
               <span className="text-xl font-bold tracking-tight">CaseDesk</span>
               <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-electric-blue-light">
-                for creators
+                Open Vaartha
               </span>
             </div>
             <p className="text-sm text-slate-light leading-relaxed max-w-sm">
               People&apos;s stories. Real impact.
             </p>
+            <p className="text-xs text-slate-light mt-3">
+              Part of{' '}
+              <a
+                href="https://openvaartha.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white font-semibold hover:underline transition-colors"
+              >
+                Open Vaartha
+              </a>{' '}
+              — independent public-interest journalism from Andhra Pradesh.
+            </p>
             <div className="flex gap-4 mt-6">
-              {['Twitter', 'LinkedIn', 'YouTube'].map((platform) => (
-                <span
-                  key={platform}
-                  className="text-xs text-slate-light hover:text-white transition-colors cursor-pointer"
+              {socials.map((platform) => (
+                <a
+                  key={platform.label}
+                  href={platform.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-slate-light hover:text-white transition-colors"
                 >
-                  {platform}
-                </span>
+                  {platform.label}
+                </a>
               ))}
             </div>
           </div>
@@ -74,7 +96,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-slate-light">
-            © 2026 CaseDesk. All rights reserved.
+            © 2026 Open Vaartha · CaseDesk. All rights reserved.
           </p>
           <p className="text-xs text-slate-light">
             Built for public-interest creators.

@@ -45,7 +45,7 @@ export default function Navbar() {
         <a href="#" className="flex items-baseline gap-2 group">
           <span className="text-xl font-bold tracking-tight text-navy">CaseDesk</span>
           <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-electric-blue">
-            for creators
+            Open Vaartha
           </span>
         </a>
 
@@ -93,7 +93,7 @@ export default function Navbar() {
             <a href="#" className="flex items-baseline gap-2" onClick={() => setIsMobileOpen(false)}>
               <span className="text-xl font-bold tracking-tight text-navy">CaseDesk</span>
               <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-electric-blue">
-                for creators
+                Open Vaartha
               </span>
             </a>
             <button

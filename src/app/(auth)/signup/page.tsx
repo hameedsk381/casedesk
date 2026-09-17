@@ -45,7 +45,7 @@ export default function SignupPage() {
         <Link href="/" className="inline-flex items-baseline gap-2 mb-4 group">
           <span className="text-2xl font-bold tracking-tight text-navy">CaseDesk</span>
           <span className="text-xs font-bold tracking-[0.15em] uppercase text-electric-blue">
-            for creators
+            Open Vaartha
           </span>
         </Link>
         <h2 className="text-2xl font-bold tracking-tight text-navy">

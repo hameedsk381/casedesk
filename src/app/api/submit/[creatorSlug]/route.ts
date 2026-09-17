@@ -37,7 +37,7 @@ export async function GET(
       { headers: corsHeaders }
     );
   } catch (error: any) {
-    console.error('Failed to get creator endpoint:', error);
+    console.warn('Failed to get creator endpoint:', error?.message || error);
     return NextResponse.json(
       { error: 'Endpoint not found or unavailable' },
       { status: 404, headers: corsHeaders }

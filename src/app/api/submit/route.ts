@@ -35,7 +35,7 @@ export async function GET(request: Request) {
       { headers: corsHeaders }
     );
   } catch (error: any) {
-    console.error('Failed to get submission endpoint:', error);
+    console.warn('Failed to get submission endpoint:', error?.message || error);
     return NextResponse.json(
       { error: 'Endpoint not found or unavailable' },
       { status: 404, headers: corsHeaders }

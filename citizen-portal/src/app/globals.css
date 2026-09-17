@@ -1,33 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8f7f4;
-  --foreground: #0f172a;
-  --navy: #0f172a;
-  --navy-light: #1e293b;
-  --slate: #475569;
-  --slate-light: #94a3b8;
-  --off-white: #f8f7f4;
-  --warm-white: #faf9f6;
-  --cream: #f1f0ec;
-  --border: #e2e0db;
-  --border-light: #eeedea;
-  --electric-blue: #2563eb;
-  --electric-blue-dark: #1d4ed8;
-  --electric-blue-light: #3b82f6;
-  --electric-blue-subtle: #eff6ff;
-  --teal: #0d9488;
+  /* Open Vaartha theme — warm paper, maroon brand, sand neutrals */
+  --background: #fcfaf8;
+  --foreground: #1a1614;
+  --navy: #550000;
+  --navy-light: #791515;
+  --slate: #695a4f;
+  --slate-light: #b6a896;
+  --off-white: #fcfaf8;
+  --warm-white: #fdfdfb;
+  --cream: #f8f6f1;
+  --border: #ded5c9;
+  --border-light: #eae4da;
+  --electric-blue: #641212;
+  --electric-blue-dark: #500b0b;
+  --electric-blue-light: #832121;
+  --electric-blue-subtle: #f9ecec;
+  --teal: #0f766e;
   --teal-light: #14b8a6;
   --teal-subtle: #f0fdfa;
-  --coral: #f97316;
-  --coral-light: #fb923c;
-  --coral-subtle: #fff7ed;
-  --red: #ef4444;
-  --red-subtle: #fef2f2;
-  --green: #22c55e;
-  --green-subtle: #f0fdf4;
-  --yellow: #eab308;
-  --yellow-subtle: #fefce8;
+  --coral: #bc6c25;
+  --coral-light: #cb997e;
+  --coral-subtle: #f8efe6;
+  --red: #bb1b1b;
+  --red-subtle: #f9ecec;
+  --green: #267346;
+  --green-subtle: #edf7f0;
+  --yellow: #b66f0c;
+  --yellow-subtle: #fbf3e4;
 }
 
 @theme inline {
@@ -62,10 +63,22 @@
 
 body {
   background-color: var(--background);
-  color: var(--navy);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--foreground);
+  font-family: var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Open Vaartha editorial typography — display font for headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), "Bricolage Grotesque", var(--font-inter), sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Maroon selection, Open Vaartha style */
+::selection {
+  background: hsl(0 70% 23% / 0.18);
+  color: #550000;
 }
 
 /* Custom Scrollbar */
@@ -79,12 +92,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #ded5c9;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #b6a896;
 }
 
 /* Smooth message animations */

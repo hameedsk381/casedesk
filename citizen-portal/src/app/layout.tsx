@@ -1,15 +1,28 @@
 import type { Metadata, Viewport } from 'next';
+import { Inter, Bricolage_Grotesque } from 'next/font/google';
 import './globals.css';
 
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: '--font-display',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: 'Citizen Helpdesk — CaseDesk',
-  description: 'Report civic issues, government failures, and public problems directly to our investigative team.',
+  title: 'Open Vaartha — Citizen Helpdesk',
+  description: 'Report civic issues, government failures, and public problems to the Open Vaartha investigative team.',
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#f8f7f4',
+  themeColor: '#550000',
 };
 
 export default function RootLayout({
@@ -18,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col bg-linear-to-b from-slate-50 via-off-white to-slate-100 text-navy font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+    <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
+      <body className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
         {children}
       </body>
     </html>

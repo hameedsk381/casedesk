@@ -58,18 +58,18 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
   // If user selected Form Mode
   if (mode === 'form') {
     return (
-      <div className="min-h-screen flex flex-col bg-linear-to-b from-slate-50 via-off-white to-slate-100 text-navy font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+      <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
         {/* Creator Portal Trust Header */}
         <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs">
-                CD
+                OV
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-extrabold text-sm tracking-tight text-navy">
-                    CaseDesk
+                    Open Vaartha
                   </span>
                   <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
                     {lang === 'te' ? 'సహాయ కేంద్రం' : 'Helpdesk'}
@@ -152,18 +152,18 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
 
   // DEFAULT: MODE SELECTION SCREEN AT THE BEGINNING
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-slate-50 via-off-white to-slate-100 text-navy font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
       {/* Creator Portal Trust Header */}
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs">
-              CD
+              OV
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm tracking-tight text-navy">
-                  CaseDesk
+                  Open Vaartha
                 </span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
                   {lang === 'te' ? 'సహాయ కేంద్రం' : 'Helpdesk'}
@@ -326,7 +326,10 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
               : 'Your information is only seen by our journalists. You can stay anonymous if you prefer.'}
           </p>
           <div className="pt-1 text-[10px] text-slate-400">
-            CaseDesk • {lang === 'te' ? 'డేటా భద్రత తో రక్షించబడింది' : 'Protected by data encryption'}
+            <a href="https://openvaartha.com" target="_blank" rel="noopener noreferrer" className="hover:text-navy transition-colors">
+              Open Vaartha
+            </a>{' '}
+            • {lang === 'te' ? 'డేటా భద్రత తో రక్షించబడింది' : 'Protected by data encryption'}
           </div>
         </div>
       </footer>

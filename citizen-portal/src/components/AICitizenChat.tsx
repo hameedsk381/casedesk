@@ -113,7 +113,7 @@ export function AICitizenChat({
     const greetingText =
       lang === 'te'
         ? `నమస్కారం! నేను ${endpoint.title || 'కేస్‌డెస్క్'} AI పరిశోధనా సహాయకుడిని.\n\nప్రజా సమస్యలు, ఆసుపత్రుల నిర్లక్ష్యం, రోడ్లు/తాగునీటి కొరత లేదా లంచాల సమస్యలను నాతో పంచుకోండి.\n\n✨ మీరు తెలుగులో అయినా, Tenglish (ఇంగ్లీష్ అక్షరాలతో, ఉదా: "Maa oori hospital lo...") అయినా, లేదా English లో అయినా టైప్ చేయవచ్చు లేదా మైక్ నొక్కి మాట్లాడవచ్చు.`
-        : `Hello! I am the AI investigative intake assistant for ${endpoint.title || 'CaseDesk'}.\n\nTell us what happened regarding healthcare failures, public works, civic emergencies, or government inaction.\n\n✨ You can write in English, Telugu, or Tenglish (Telugu phonetically in English letters, e.g. "Maa oori lo..."), or tap the microphone to speak naturally.`;
+        : `Hello! I am the AI investigative intake assistant for ${endpoint.title || 'Open Vaartha'}.\n\nTell us what happened regarding healthcare failures, public works, civic emergencies, or government inaction.\n\n✨ You can write in English, Telugu, or Tenglish (Telugu phonetically in English letters, e.g. "Maa oori lo..."), or tap the microphone to speak naturally.`;
 
     setMessages([
       {
@@ -405,19 +405,19 @@ export function AICitizenChat({
   const isInitialState = userMessagesCount === 0;
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-slate-50 via-off-white to-slate-100 text-navy font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
       
       {/* Creator Portal Trust Header */}
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs">
-              CD
+              OV
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm tracking-tight text-navy">
-                  CaseDesk
+                  Open Vaartha
                 </span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
                   Citizen Portal
@@ -492,7 +492,7 @@ export function AICitizenChat({
                 {lang === 'te' ? 'సహాయకుడు' : 'AI Assistant'}
               </span>
               <span className="text-[10px] text-slate-400">• Online</span>
-              <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-50 text-navy border border-blue-100 text-[10px] font-bold ml-1">
+              <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-cream text-navy border border-border-light text-[10px] font-bold ml-1">
                 <Languages size={11} className="text-electric-blue" />
                 <span>తెలుగు • Tenglish • English</span>
               </div>
@@ -515,7 +515,7 @@ export function AICitizenChat({
                 <div className="p-5 sm:p-6 rounded-2xl bg-off-white border border-border-light/80 space-y-3">
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-electric-blue/10 text-electric-blue text-xs font-bold">
                     <Sparkles size={12} />
-                    <span>{endpoint.title || 'CaseDesk Investigation Desk'}</span>
+                    <span>{endpoint.title || 'Open Vaartha Desk'}</span>
                   </div>
 
                   <h1 className="text-xl sm:text-2xl font-black tracking-tight text-navy leading-snug">
@@ -615,7 +615,7 @@ export function AICitizenChat({
                             h2: ({ children }) => <h2 className="text-sm font-bold text-navy my-1.5">{children}</h2>,
                             h3: ({ children }) => <h3 className="text-xs font-bold text-navy my-1">{children}</h3>,
                             blockquote: ({ children }) => (
-                              <blockquote className="border-l-2 border-electric-blue/50 pl-3 py-1 my-2 text-slate-600 bg-blue-50/40 rounded-r-lg">
+                              <blockquote className="border-l-2 border-electric-blue/50 pl-3 py-1 my-2 text-slate-600 bg-cream/70 rounded-r-lg">
                                 {children}
                               </blockquote>
                             ),
@@ -705,7 +705,7 @@ export function AICitizenChat({
                             st.completed
                               ? 'bg-emerald-100/60 text-emerald-900 font-bold border border-emerald-200'
                               : idx === 1
-                              ? 'bg-blue-50 text-navy font-semibold border border-blue-100'
+                              ? 'bg-electric-blue-subtle text-navy font-semibold border border-border'
                               : 'text-slate-500 bg-white border border-border-light/60'
                           }`}
                         >
@@ -788,7 +788,7 @@ export function AICitizenChat({
           <div className="p-3.5 sm:p-4 bg-white/95 backdrop-blur-md border-t border-border-light shrink-0">
             {isRecording ? (
               /* Voice Recording Active Bar (matching Creator Portal style) */
-              <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-blue-50/70 border border-blue-200 animate-fade-in">
+              <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-electric-blue-subtle/70 border border-border animate-fade-in">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-red animate-pulse"></div>
                   <div className="flex items-center gap-1 h-5">
@@ -896,7 +896,10 @@ export function AICitizenChat({
               : 'Your safety and privacy are respected. Information shared here is received by accredited journalists for public-interest reporting. You retain full control over anonymity and contact preferences.'}
           </p>
           <div className="pt-1 text-[10px] text-slate-400">
-            CaseDesk Open Journalism Desk • Protected by end-to-end data encryption
+            <a href="https://openvaartha.com" target="_blank" rel="noopener noreferrer" className="hover:text-navy transition-colors">
+              Open Vaartha
+            </a>{' '}
+            • Protected by end-to-end data encryption
           </div>
         </div>
       </footer>

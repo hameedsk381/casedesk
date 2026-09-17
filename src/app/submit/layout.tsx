@@ -3,23 +3,23 @@ import Link from 'next/link';
 import { ShieldCheck, Lock, ExternalLink } from 'lucide-react';
 
 export const metadata = {
-  title: 'Citizen Story Portal — CaseDesk',
-  description: 'Submit civic issues, whistleblower reports, and investigative stories directly to independent journalists.',
+  title: 'Open Vaartha — Citizen Helpdesk',
+  description: 'Report civic issues, government failures, and public problems to the Open Vaartha investigative team.',
 };
 
 export default function SubmitLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-slate-50 via-off-white to-slate-100 text-navy font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
       {/* Trust Header */}
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs">
-              CD
+              OV
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm tracking-tight text-navy">CaseDesk</span>
+                <span className="font-extrabold text-sm tracking-tight text-navy">Open Vaartha</span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
                   Citizen Portal
                 </span>
@@ -37,7 +37,7 @@ export default function SubmitLayout({ children }: { children: React.ReactNode }
               href="/"
               target="_blank"
               className="text-slate-400 hover:text-navy transition-colors p-1"
-              title="Learn more about CaseDesk"
+              title="Learn more about Open Vaartha"
             >
               <ExternalLink size={14} />
             </Link>
@@ -61,7 +61,15 @@ export default function SubmitLayout({ children }: { children: React.ReactNode }
             Your safety and privacy are respected. Information shared here is received by accredited journalists for public-interest reporting. You retain full control over anonymity and contact preferences.
           </p>
           <div className="pt-2 text-[10px] text-slate-400">
-            CaseDesk Open Journalism Desk • Protected by end-to-end data encryption
+            <a
+              href="https://openvaartha.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-navy transition-colors"
+            >
+              Open Vaartha
+            </a>{' '}
+            • Protected by end-to-end data encryption
           </div>
         </div>
       </footer>

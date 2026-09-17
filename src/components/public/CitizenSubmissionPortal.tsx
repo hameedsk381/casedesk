@@ -301,8 +301,8 @@ export default function CitizenSubmissionPortal({
         : 'I confirm that the information I have provided is accurate to the best of my knowledge.',
     consent2:
       lang === 'te'
-        ? 'ఈ సమర్పణకు సంబంధించి కేస్‌డెస్క్ జర్నలిస్టులు నన్ను సంప్రదించడానికి అంగీకరిస్తున్నాను.'
-        : 'I agree that the CaseDesk creator/team may contact me regarding this submission.',
+        ? 'ఈ సమర్పణకు సంబంధించి ఓపెన్ వార్త జర్నలిస్టులు నన్ను సంప్రదించడానికి అంగీకరిస్తున్నాను.'
+        : 'I agree that the Open Vaartha team may contact me regarding this submission.',
     consent3:
       lang === 'te'
         ? 'ఈ నివేదికను సమర్పించడం వల్ల తప్పనిసరిగా కథ ప్రచురించబడుతుందని హామీ లేదని నేను అర్థం చేసుకున్నాను.'
@@ -446,7 +446,7 @@ export default function CitizenSubmissionPortal({
           />
 
           {/* Voice Recording Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/60 border border-blue-200/70 space-y-3">
+          <div className="p-4 sm:p-5 rounded-2xl bg-electric-blue-subtle/60 border border-border space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Mic size={16} className="text-electric-blue" />
@@ -1033,7 +1033,7 @@ export default function CitizenSubmissionPortal({
                     {lang === 'te' ? 'సమర్పణ స్వీకరించబడింది' : 'Submission received'}
                   </div>
                   <div className="text-[11px] text-slate-500">
-                    {lang === 'te' ? 'నివేదిక కేస్‌డెస్క్ ఇన్‌బాక్స్‌లో నమోదైంది.' : 'Report logged into CaseDesk Intake Inbox with audit trail.'}
+                    {lang === 'te' ? 'నివేదిక ఓపెన్ వార్త ఇన్‌బాక్స్‌లో నమోదైంది.' : 'Report logged into Open Vaartha Intake Inbox with audit trail.'}
                   </div>
                 </div>
               </div>

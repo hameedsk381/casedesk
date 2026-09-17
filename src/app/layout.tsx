@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Bricolage_Grotesque, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const sourceSerif = Source_Serif_4({
+  variable: "--font-serif",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "CaseDesk — The Case Desk for Public-Interest Creators",
+  title: "Open Vaartha CaseDesk — The Case Desk for Public-Interest Creators",
   description:
-    "CaseDesk helps creators organize citizen complaints, manage evidence, verify issues, create responsible content, and track cases through resolution.",
+    "CaseDesk, part of Open Vaartha, helps creators organize citizen complaints, manage evidence, verify issues, create responsible content, and track cases through resolution.",
   keywords: [
     "creator case management",
     "citizen complaints",
@@ -24,7 +36,7 @@ export const metadata: Metadata = {
     "creator workflow",
   ],
   openGraph: {
-    title: "CaseDesk — The Case Desk for Public-Interest Creators",
+    title: "Open Vaartha CaseDesk — The Case Desk for Public-Interest Creators",
     description:
       "Turn citizen messages into organized investigations. One workspace to collect, understand, verify, investigate, publish, and follow up.",
     type: "website",
@@ -37,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${bricolage.variable} ${sourceSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-off-white text-navy font-sans">
         {children}
       </body>
