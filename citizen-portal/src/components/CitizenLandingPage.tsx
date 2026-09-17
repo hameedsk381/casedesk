@@ -37,13 +37,12 @@ interface EndpointConfig {
 
 interface Props {
   endpoint: EndpointConfig;
-  apiBaseUrl?: string;
 }
 
 type ViewState = 'landing' | 'submit_hub';
 type Language = 'en' | 'te';
 
-export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:3000' }: Props) {
+export function CitizenLandingPage({ endpoint }: Props) {
   const [view, setView] = useState<ViewState>('landing');
   const [lang, setLang] = useState<Language>('en'); // Default to English
 
@@ -70,7 +69,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
           </span>
         </div>
         <div className="flex-1">
-          <CitizenPortalHub endpoint={endpoint} apiBaseUrl={apiBaseUrl} initialLang={lang} />
+          <CitizenPortalHub endpoint={endpoint} initialLang={lang} />
         </div>
       </div>
     );
@@ -86,7 +85,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
     setLookupResult(null);
 
     try {
-      const res = await fetch(`${apiBaseUrl}/api/submit/status?ref=${encodeURIComponent(code)}`);
+      const res = await fetch(`/api/submit/status?ref=${encodeURIComponent(code)}`);
       if (res.ok) {
         const data = await res.json();
         setLookupResult({

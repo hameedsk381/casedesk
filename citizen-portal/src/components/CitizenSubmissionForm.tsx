@@ -39,7 +39,6 @@ interface EndpointData {
 
 interface Props {
   endpoint: EndpointData;
-  apiBaseUrl?: string;
   lang: 'en' | 'te';
   setLang: (lang: 'en' | 'te') => void;
   onSwitchToChat?: () => void;
@@ -48,7 +47,6 @@ interface Props {
 
 export function CitizenSubmissionForm({
   endpoint,
-  apiBaseUrl = 'http://localhost:3000',
   lang,
   setLang,
   onSwitchToChat,
@@ -156,14 +154,19 @@ export function CitizenSubmissionForm({
         formData.append('files', file);
       });
 
-      const res = await fetch(`${apiBaseUrl}/api/submit/${endpoint.slug}`, {
+      const res = await fetch(`/api/submit/${endpoint.slug}`, {
         method: 'POST',
         body: formData,
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to submit report');
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch {
+        // Non-JSON response (e.g. an HTML error page) — fall through to friendly error
+      }
+      if (!res.ok || !data) {
+        throw new Error(data?.error || 'Something went wrong. Please try again.');
       }
 
       setReferenceNumber(data.referenceNumber);

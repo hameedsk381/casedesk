@@ -34,7 +34,7 @@ export default async function HomePage() {
 
   return (
     <div className="w-full flex-1 flex flex-col">
-      <CitizenLandingPage endpoint={endpoint} apiBaseUrl={PUBLIC_API_URL} />
+      <CitizenLandingPage endpoint={endpoint} />
     </div>
   );
 }

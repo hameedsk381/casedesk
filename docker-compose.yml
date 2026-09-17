@@ -33,7 +33,6 @@ services:
       - NEXT_PUBLIC_APP_NAME=${NEXT_PUBLIC_APP_NAME:-Open Vaartha CaseDesk}
       - NEXT_PUBLIC_CITIZEN_PORTAL_URL=${NEXT_PUBLIC_CITIZEN_PORTAL_URL:-http://localhost:3001}
       - GROQ_API_KEY=${GROQ_API_KEY:-}
-      - UPLOAD_DIR=/app/uploads
       - APP_URL=${APP_URL:-http://localhost:3000}
       - SMTP_HOST=${SMTP_HOST:-}
       - SMTP_PORT=${SMTP_PORT:-587}

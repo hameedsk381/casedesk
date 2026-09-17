@@ -30,14 +30,13 @@ interface EndpointConfig {
 
 interface Props {
   endpoint: EndpointConfig;
-  apiBaseUrl?: string;
   initialLang?: Language;
 }
 
 type Mode = 'select' | 'chat' | 'form';
 type Language = 'en' | 'te';
 
-export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000', initialLang = 'en' }: Props) {
+export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
   const [mode, setMode] = useState<Mode>('select');
   const [lang, setLang] = useState<Language>(initialLang);
 
@@ -46,7 +45,6 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
     return (
       <AICitizenChat
         endpoint={endpoint}
-        apiBaseUrl={apiBaseUrl}
         lang={lang}
         setLang={setLang}
         onSwitchToForm={() => setMode('form')}
@@ -124,7 +122,6 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 flex flex-col">
           <CitizenSubmissionForm
             endpoint={endpoint}
-            apiBaseUrl={apiBaseUrl}
             lang={lang}
             setLang={setLang}
             onSwitchToChat={() => setMode('chat')}

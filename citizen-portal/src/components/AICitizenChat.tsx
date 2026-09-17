@@ -39,7 +39,6 @@ interface EndpointConfig {
 
 interface Props {
   endpoint: EndpointConfig;
-  apiBaseUrl?: string;
   lang?: Language;
   setLang?: (lang: Language) => void;
   onSwitchToForm?: () => void;
@@ -71,7 +70,6 @@ interface SubmissionResult {
 
 export function AICitizenChat({
   endpoint,
-  apiBaseUrl = 'http://localhost:3000',
   lang: externalLang,
   setLang: externalSetLang,
   onSwitchToForm,
@@ -359,13 +357,18 @@ export function AICitizenChat({
         formData.append('files', f);
       });
 
-      const res = await fetch(`${apiBaseUrl}/api/submit/${endpoint.slug}`, {
+      const res = await fetch(`/api/submit/${endpoint.slug}`, {
         method: 'POST',
         body: formData,
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Submission failed');
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch {
+        // Non-JSON response (e.g. an HTML error page) — fall through to friendly error
+      }
+      if (!res.ok || !data) throw new Error(data?.error || 'Submission failed. Please try again.');
 
       setSubmissionResult(data);
       setShowConsentModal(false);

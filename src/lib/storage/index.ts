@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-// Private storage directory - completely outside public/ to prevent direct unauthenticated HTTP access
-export const UPLOAD_BASE_DIR = process.env.UPLOAD_DIR
-  ? path.resolve(process.env.UPLOAD_DIR)
-  : path.join(process.cwd(), 'uploads');
+// Private storage directory - completely outside public/ to prevent direct unauthenticated HTTP access.
+// Statically scoped to <cwd>/uploads so build-time file tracing stays narrow
+// (an env-derived base would force Turbopack to trace the whole project).
+export const UPLOAD_BASE_DIR = path.join(process.cwd(), 'uploads');
 
 /**
  * Ensures a directory exists synchronously or creates it recursively.
