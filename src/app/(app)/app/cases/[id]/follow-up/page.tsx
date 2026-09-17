@@ -97,8 +97,8 @@ export default function CaseFollowUpPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-border-light p-12 flex justify-center">
-        <Loader2 size={24} className="animate-spin text-electric-blue" />
+      <div className="bg-white rounded-2xl border border-surface-3 p-12 flex justify-center">
+        <Loader2 size={24} className="animate-spin text-primary" />
       </div>
     );
   }
@@ -114,11 +114,11 @@ export default function CaseFollowUpPage() {
   return (
     <div className="space-y-8">
       {/* 1. Resolution Status Card */}
-      <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border-light">
+      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-surface-3">
           <div>
-            <h2 className="text-base font-bold text-navy">Public Impact & Resolution Lifecycle</h2>
-            <p className="text-xs text-slate mt-0.5">
+            <h2 className="text-base font-bold text-primary">Public Impact & Resolution Lifecycle</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
               Track what happens after publication: official action, citizen outcome, and long-term resolution.
             </p>
           </div>
@@ -129,7 +129,7 @@ export default function CaseFollowUpPage() {
               value={resolutionStatus}
               onChange={(e) => handleResolutionUpdate(e.target.value)}
               disabled={savingResolution}
-              className="text-xs bg-off-white border border-border-light rounded-xl px-3 py-2 text-navy font-bold focus:outline-none cursor-pointer"
+              className="text-xs bg-background border border-surface-3 rounded-xl px-3 py-2 text-primary font-bold focus:outline-none cursor-pointer"
             >
               {RESOLUTION_STATUSES.map((res) => (
                 <option key={res} value={res}>
@@ -141,44 +141,44 @@ export default function CaseFollowUpPage() {
         </div>
 
         <div className="grid sm:grid-cols-3 gap-4 text-xs">
-          <div className="p-4 rounded-xl bg-off-white/60 border border-border-light">
+          <div className="p-4 rounded-xl bg-background/60 border border-surface-3">
             <span className="text-slate-500 font-bold uppercase tracking-wider block mb-1">
               Publication Date
             </span>
-            <div className="font-semibold text-navy">
+            <div className="font-semibold text-primary">
               {caseRecord.publishedAt
                 ? new Date(caseRecord.publishedAt).toLocaleDateString()
                 : 'Not yet published'}
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-off-white/60 border border-border-light">
+          <div className="p-4 rounded-xl bg-background/60 border border-surface-3">
             <span className="text-slate-500 font-bold uppercase tracking-wider block mb-1">
               Authority Action
             </span>
-            <div className="font-semibold text-navy">
+            <div className="font-semibold text-primary">
               {caseRecord.responseRequests?.some((r: any) => r.status === 'RECEIVED')
                 ? 'Official Response on Record'
                 : 'Awaiting Action / Statement'}
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-off-white/60 border border-border-light">
+          <div className="p-4 rounded-xl bg-background/60 border border-surface-3">
             <span className="text-slate-500 font-bold uppercase tracking-wider block mb-1">
               Case Status
             </span>
-            <div className="font-semibold text-navy">{caseRecord.status.replace(/_/g, ' ')}</div>
+            <div className="font-semibold text-primary">{caseRecord.status.replace(/_/g, ' ')}</div>
           </div>
         </div>
       </div>
 
       {/* 2. Post-Publication Timeline */}
-      <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-border-light">
-          <h3 className="text-sm font-bold text-navy">Post-Publication Developments</h3>
+      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-surface-3">
+          <h3 className="text-sm font-bold text-primary">Post-Publication Developments</h3>
           <button
             onClick={() => setShowEventModal(true)}
-            className="py-1.5 px-3 bg-navy hover:bg-navy/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+            className="py-1.5 px-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
           >
             <Plus size={13} />
             <span>Log Development</span>
@@ -192,9 +192,9 @@ export default function CaseFollowUpPage() {
             </p>
           ) : (
             followUpEvents.map((ev: any) => (
-              <div key={ev.id} className="p-4 rounded-xl bg-off-white/40 border border-border-light text-xs space-y-1">
+              <div key={ev.id} className="p-4 rounded-xl bg-background/40 border border-surface-3 text-xs space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-navy">{ev.title}</span>
+                  <span className="font-bold text-primary">{ev.title}</span>
                   <span className="text-[10px] text-slate-500">
                     {new Date(ev.eventDate).toLocaleDateString()}
                   </span>
@@ -208,13 +208,13 @@ export default function CaseFollowUpPage() {
 
       {/* Log Modal */}
       {showEventModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/40 backdrop-blur-xs">
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-border-light p-6 space-y-4">
-            <h3 className="text-base font-bold text-navy">Log Citizen Outcome or Authority Action</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-xs">
+          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-surface-3 p-6 space-y-4">
+            <h3 className="text-base font-bold text-primary">Log Citizen Outcome or Authority Action</h3>
 
             <form onSubmit={handleAddFollowUpEvent} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1">
                   Title
                 </label>
                 <input
@@ -223,12 +223,12 @@ export default function CaseFollowUpPage() {
                   value={eventTitle}
                   onChange={(e) => setEventTitle(e.target.value)}
                   placeholder="e.g. Municipal commissioner ordered immediate pipe desiltation"
-                  className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1">
                   Details & Citizen Feedback
                 </label>
                 <textarea
@@ -236,22 +236,22 @@ export default function CaseFollowUpPage() {
                   value={eventDesc}
                   onChange={(e) => setEventDesc(e.target.value)}
                   placeholder="e.g. Complainant confirmed clean water supply restored as of yesterday afternoon."
-                  className="w-full p-3 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="w-full p-3 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-border-light">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-surface-3">
                 <button
                   type="button"
                   onClick={() => setShowEventModal(false)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingEvent}
-                  className="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
                 >
                   {savingEvent ? 'Saving...' : 'Record Outcome'}
                 </button>

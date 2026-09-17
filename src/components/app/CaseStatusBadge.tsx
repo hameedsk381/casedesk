@@ -44,10 +44,10 @@ const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; b
   },
   INVESTIGATION: {
     label: 'Investigation',
-    bg: 'bg-teal-50',
-    text: 'text-teal-800',
-    border: 'border-teal-200',
-    dot: 'bg-teal-600',
+    bg: 'bg-success-50',
+    text: 'text-success-800',
+    border: 'border-success-200',
+    dot: 'bg-success-600',
   },
   CONTENT_READY: {
     label: 'Content Ready',

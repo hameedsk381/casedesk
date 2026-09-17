@@ -66,7 +66,7 @@ export default function DashboardClient({
       />
 
       {/* Top Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-border-light shadow-xs bg-radial from-slate-50 to-white">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-surface-3 shadow-xs bg-radial from-slate-50 to-white">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -74,10 +74,10 @@ export default function DashboardClient({
               Live Investigation Ops
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-navy">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-primary">
             Your Investigation Desk
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-slate max-w-2xl leading-relaxed">
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
             Organize citizen complaints, verify core claims, manage evidence, and follow every case through to real public impact.
           </p>
         </div>
@@ -85,19 +85,19 @@ export default function DashboardClient({
         <div className="flex items-center gap-3 shrink-0">
           <Link
             href="/app/inbox"
-            className="px-4 py-2.5 bg-off-white hover:bg-slate-100 text-navy font-bold text-xs rounded-xl border border-border-light transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 bg-background hover:bg-slate-100 text-primary font-bold text-xs rounded-xl border border-surface-3 transition-colors flex items-center gap-2"
           >
-            <Inbox size={15} className="text-electric-blue" />
+            <Inbox size={15} className="text-primary" />
             <span>Intake Inbox</span>
             {inboxUnprocessedCount > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full bg-electric-blue text-white text-[10px] font-bold">
+              <span className="px-1.5 py-0.2 rounded-full bg-primary text-white text-[10px] font-bold">
                 {inboxUnprocessedCount}
               </span>
             )}
           </Link>
           <button
             onClick={() => setIsIntakeModalOpen(true)}
-            className="px-4 py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer hover:shadow-md active:scale-95"
+            className="px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer hover:shadow-md active:scale-95"
           >
             <FolderPlus size={15} />
             <span>＋ New Case</span>
@@ -107,8 +107,8 @@ export default function DashboardClient({
 
       {/* Dismissible Onboarding Quick Guide */}
       {showOnboarding && (
-        <div className="p-5 sm:p-6 bg-navy text-white rounded-3xl relative overflow-hidden shadow-lg border border-navy/30">
-          <div className="absolute -right-8 -bottom-8 w-48 h-48 rounded-full bg-electric-blue/15 blur-2xl pointer-events-none" />
+        <div className="p-5 sm:p-6 bg-primary text-white rounded-3xl relative overflow-hidden shadow-lg border border-primary/30">
+          <div className="absolute -right-8 -bottom-8 w-48 h-48 rounded-full bg-primary/15 blur-2xl pointer-events-none" />
 
           <button
             onClick={handleDismissOnboarding}
@@ -129,7 +129,7 @@ export default function DashboardClient({
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
             <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-1">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-teal-300">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-success-300">
                 Step 1: Intake
               </div>
               <div className="text-xs font-bold text-white">Bring in a complaint</div>
@@ -175,10 +175,10 @@ export default function DashboardClient({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-black tracking-tight text-navy">
+            <h2 className="text-lg font-black tracking-tight text-primary">
               Needs Your Attention
             </h2>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-red-100 text-coral">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-red-100 text-warning">
               High-Urgency Action Items
             </span>
           </div>
@@ -207,7 +207,7 @@ export default function DashboardClient({
             <div className="mt-1 text-xs text-slate-500 line-clamp-1 font-medium">
               {blockedCases[0] ? blockedCases[0].healthReason : 'No blocked cases'}
             </div>
-            <div className="mt-4 pt-3 border-t border-border-light/60 flex items-center justify-between text-[11px] font-bold text-red-600 group-hover:underline">
+            <div className="mt-4 pt-3 border-t border-surface-3/60 flex items-center justify-between text-[11px] font-bold text-red-600 group-hover:underline">
               <span>View Blocked Cases</span>
               <ArrowRight size={12} />
             </div>
@@ -232,7 +232,7 @@ export default function DashboardClient({
             <div className="mt-1 text-xs text-slate-500 line-clamp-1 font-medium">
               {needsAttentionCases[0] ? needsAttentionCases[0].healthReason : 'Verification pending'}
             </div>
-            <div className="mt-4 pt-3 border-t border-border-light/60 flex items-center justify-between text-[11px] font-bold text-amber-700 group-hover:underline">
+            <div className="mt-4 pt-3 border-t border-surface-3/60 flex items-center justify-between text-[11px] font-bold text-amber-700 group-hover:underline">
               <span>Resolve Incomplete</span>
               <ArrowRight size={12} />
             </div>
@@ -241,23 +241,23 @@ export default function DashboardClient({
           {/* Card 3: Due Today / Follow-ups */}
           <Link
             href="/app/cases?status=FOLLOW_UP"
-            className="p-5 bg-white rounded-3xl border border-border-light shadow-xs hover:border-electric-blue hover:shadow-md transition-all group relative overflow-hidden"
+            className="p-5 bg-white rounded-3xl border border-surface-3 shadow-xs hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                 Follow-ups / Today
               </span>
-              <div className="w-7 h-7 rounded-xl bg-electric-blue/10 text-electric-blue flex items-center justify-center">
+              <div className="w-7 h-7 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                 <Clock size={15} />
               </div>
             </div>
-            <div className="mt-3 text-3xl font-black text-navy group-hover:text-electric-blue transition-colors">
+            <div className="mt-3 text-3xl font-black text-primary group-hover:text-primary transition-colors">
               {dueTodayCases.length}
             </div>
             <div className="mt-1 text-xs text-slate-500 line-clamp-1 font-medium">
               Official inquiry deadlines & impact reviews
             </div>
-            <div className="mt-4 pt-3 border-t border-border-light/60 flex items-center justify-between text-[11px] font-bold text-electric-blue group-hover:underline">
+            <div className="mt-4 pt-3 border-t border-surface-3/60 flex items-center justify-between text-[11px] font-bold text-primary group-hover:underline">
               <span>Review Follow-ups</span>
               <ArrowRight size={12} />
             </div>
@@ -266,7 +266,7 @@ export default function DashboardClient({
           {/* Card 4: Unprocessed Citizen Reports */}
           <Link
             href="/app/inbox"
-            className="p-5 bg-white rounded-3xl border border-border-light shadow-xs hover:border-emerald-500 hover:shadow-md transition-all group relative overflow-hidden"
+            className="p-5 bg-white rounded-3xl border border-surface-3 shadow-xs hover:border-emerald-500 hover:shadow-md transition-all group relative overflow-hidden"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -276,13 +276,13 @@ export default function DashboardClient({
                 <Inbox size={15} />
               </div>
             </div>
-            <div className="mt-3 text-3xl font-black text-navy group-hover:text-emerald-600 transition-colors">
+            <div className="mt-3 text-3xl font-black text-primary group-hover:text-emerald-600 transition-colors">
               {inboxUnprocessedCount}
             </div>
             <div className="mt-1 text-xs text-slate-500 line-clamp-1 font-medium">
               WhatsApp & DM reports waiting for triage
             </div>
-            <div className="mt-4 pt-3 border-t border-border-light/60 flex items-center justify-between text-[11px] font-bold text-emerald-600 group-hover:underline">
+            <div className="mt-4 pt-3 border-t border-surface-3/60 flex items-center justify-between text-[11px] font-bold text-emerald-600 group-hover:underline">
               <span>Open Triage Buffer</span>
               <ArrowRight size={12} />
             </div>
@@ -296,7 +296,7 @@ export default function DashboardClient({
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-black tracking-tight text-navy">
+              <h2 className="text-lg font-black tracking-tight text-primary">
                 Investigation Cases
               </h2>
               <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
@@ -305,18 +305,18 @@ export default function DashboardClient({
             </div>
             <Link
               href="/app/cases"
-              className="text-xs font-bold text-electric-blue hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
             >
               <span>View full registry ({cases.length})</span>
               <ChevronRight size={14} />
             </Link>
           </div>
 
-          <div className="bg-white rounded-3xl border border-border-light shadow-xs overflow-hidden">
+          <div className="bg-white rounded-3xl border border-surface-3 shadow-xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-border-light bg-off-white/50 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                  <tr className="border-b border-surface-3 bg-background/50 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                     <th className="py-3.5 px-4">Case & Location</th>
                     <th className="py-3.5 px-4">Health</th>
                     <th className="py-3.5 px-4">Status</th>
@@ -326,16 +326,16 @@ export default function DashboardClient({
                     <th className="py-3.5 px-4 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border-light/60 text-xs">
+                <tbody className="divide-y divide-surface-3/60 text-xs">
                   {cases.map((c) => (
-                    <tr key={c.id} className="hover:bg-off-white/50 transition-colors group">
+                    <tr key={c.id} className="hover:bg-background/50 transition-colors group">
                       {/* Case details */}
                       <td className="py-4 px-4 min-w-[200px] max-w-[260px]">
                         <Link href={`/app/cases/${c.id}`} className="block">
-                          <span className="font-mono text-[11px] font-bold text-electric-blue">
+                          <span className="font-mono text-[11px] font-bold text-primary">
                             {c.caseNumber}
                           </span>
-                          <div className="font-bold text-navy group-hover:text-electric-blue transition-colors line-clamp-2 mt-0.5 leading-snug">
+                          <div className="font-bold text-primary group-hover:text-primary transition-colors line-clamp-2 mt-0.5 leading-snug">
                             {c.title}
                           </div>
                           <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-1.5">
@@ -363,7 +363,7 @@ export default function DashboardClient({
 
                       {/* Next Action */}
                       <td className="py-4 px-4 min-w-[200px] max-w-[240px]">
-                        <div className="text-xs font-semibold text-slate-700 leading-snug line-clamp-2 bg-off-white/80 p-2 rounded-xl border border-border-light/60">
+                        <div className="text-xs font-semibold text-slate-700 leading-snug line-clamp-2 bg-background/80 p-2 rounded-xl border border-surface-3/60">
                           {c.nextAction || 'Conduct initial witness interview and formulate verification plan'}
                         </div>
                       </td>
@@ -378,7 +378,7 @@ export default function DashboardClient({
                             <span
                               className={
                                 c.verificationPercentage >= 60
-                                  ? 'text-teal'
+                                  ? 'text-success'
                                   : c.verificationPercentage > 0
                                   ? 'text-amber-600'
                                   : 'text-slate-500'
@@ -391,7 +391,7 @@ export default function DashboardClient({
                             <div
                               className={`h-full rounded-full transition-all duration-300 ${
                                 c.verificationPercentage >= 60
-                                  ? 'bg-teal'
+                                  ? 'bg-success'
                                   : c.verificationPercentage > 0
                                   ? 'bg-amber-500'
                                   : 'bg-slate-300'
@@ -422,7 +422,7 @@ export default function DashboardClient({
                       <td className="py-4 px-4 text-right whitespace-nowrap">
                         <Link
                           href={`/app/cases/${c.id}`}
-                          className="px-3 py-1.5 text-[11px] font-bold text-navy hover:bg-slate-100 rounded-xl border border-border-light transition-colors inline-block"
+                          className="px-3 py-1.5 text-[11px] font-bold text-primary hover:bg-slate-100 rounded-xl border border-surface-3 transition-colors inline-block"
                         >
                           Open Desk
                         </Link>
@@ -441,27 +441,27 @@ export default function DashboardClient({
           <div className="bg-white p-5 rounded-3xl border border-red-100 shadow-xs space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-red-100">
               <div className="flex items-center gap-2">
-                <ShieldAlert size={17} className="text-coral" />
-                <h3 className="text-sm font-black text-navy">Urgent Attention Queue</h3>
+                <ShieldAlert size={17} className="text-warning" />
+                <h3 className="text-sm font-black text-primary">Urgent Attention Queue</h3>
               </div>
-              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-red-100 text-coral">
+              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-red-100 text-warning">
                 {urgentCases.length} Cases
               </span>
             </div>
 
-            <div className="divide-y divide-border-light/60">
+            <div className="divide-y divide-surface-3/60">
               {urgentCases.map((c) => (
                 <Link
                   key={c.id}
                   href={`/app/cases/${c.id}`}
-                  className="block py-3 hover:bg-off-white/60 -mx-2 px-2 rounded-2xl transition-all group"
+                  className="block py-3 hover:bg-background/60 -mx-2 px-2 rounded-2xl transition-all group"
                 >
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-mono font-bold text-electric-blue">{c.caseNumber}</span>
+                    <span className="font-mono font-bold text-primary">{c.caseNumber}</span>
                     <CaseHealthBadge status={c.healthStatus} size="sm" />
                   </div>
 
-                  <div className="mt-1 text-xs font-bold text-navy group-hover:text-electric-blue transition-colors line-clamp-2">
+                  <div className="mt-1 text-xs font-bold text-primary group-hover:text-primary transition-colors line-clamp-2">
                     {c.title}
                   </div>
 
@@ -481,9 +481,9 @@ export default function DashboardClient({
           </div>
 
           {/* Live Activity Log */}
-          <div className="bg-white p-5 rounded-3xl border border-border-light shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-border-light">
-              <h3 className="text-sm font-black text-navy">Live Operations Stream</h3>
+          <div className="bg-white p-5 rounded-3xl border border-surface-3 shadow-xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-surface-3">
+              <h3 className="text-sm font-black text-primary">Live Operations Stream</h3>
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                 Audit Trail
               </span>
@@ -492,7 +492,7 @@ export default function DashboardClient({
             <div className="space-y-3.5">
               {recentActivities.map((act) => (
                 <div key={act.id} className="text-xs space-y-0.5">
-                  <div className="font-bold text-navy">
+                  <div className="font-bold text-primary">
                     {act.user?.name || 'System'}{' '}
                     <span className="font-normal text-slate-500">
                       {act.action.toLowerCase().replace(/_/g, ' ')}
@@ -501,7 +501,7 @@ export default function DashboardClient({
                   {act.case && (
                     <Link
                       href={`/app/cases/${act.caseId}`}
-                      className="font-mono text-[11px] text-electric-blue hover:underline block truncate"
+                      className="font-mono text-[11px] text-primary hover:underline block truncate"
                     >
                       {act.case.caseNumber} — {act.case.title}
                     </Link>

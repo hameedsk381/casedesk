@@ -6,11 +6,11 @@ import AnimateOnScroll from '@/components/ui/AnimateOnScroll';
 import { Building2, Send, Clock, FileCheck, ArrowRight, ShieldCheck } from 'lucide-react';
 
 const steps = [
-  { icon: <Building2 size={16} />, label: 'Authority identified', color: 'bg-electric-blue-subtle text-electric-blue' },
-  { icon: <Send size={16} />, label: 'Response requested', color: 'bg-teal-subtle text-teal' },
-  { icon: <Clock size={16} />, label: 'Deadline tracked', color: 'bg-yellow-subtle text-yellow' },
-  { icon: <FileCheck size={16} />, label: 'Response received', color: 'bg-green-subtle text-green' },
-  { icon: <ShieldCheck size={16} />, label: 'Added to case', color: 'bg-coral-subtle text-coral' },
+  { icon: <Building2 size={16} />, label: 'Authority identified', color: 'bg-primary-subtle text-primary' },
+  { icon: <Send size={16} />, label: 'Response requested', color: 'bg-success-subtle text-success' },
+  { icon: <Clock size={16} />, label: 'Deadline tracked', color: 'bg-warning-subtle text-yellow' },
+  { icon: <FileCheck size={16} />, label: 'Response received', color: 'bg-success-subtle text-green' },
+  { icon: <ShieldCheck size={16} />, label: 'Added to case', color: 'bg-warning-subtle text-warning' },
 ];
 
 export default function RightOfReplySection() {
@@ -30,21 +30,21 @@ export default function RightOfReplySection() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               {steps.map((step, i) => (
                 <React.Fragment key={step.label}>
-                  <div className={`flex items-center gap-2 px-4 py-3 rounded-xl border border-border-light bg-white ${i === steps.length - 1 ? 'ring-1 ring-green/20' : ''}`}>
+                  <div className={`flex items-center gap-2 px-4 py-3 rounded-xl border border-surface-3 bg-white ${i === steps.length - 1 ? 'ring-1 ring-green/20' : ''}`}>
                     <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${step.color}`}>
                       {step.icon}
                     </div>
-                    <span className="text-sm font-medium text-navy">{step.label}</span>
+                    <span className="text-sm font-medium text-primary">{step.label}</span>
                   </div>
                   {i < steps.length - 1 && (
-                    <ArrowRight size={16} className="text-slate-light hidden sm:block flex-shrink-0" />
+                    <ArrowRight size={16} className="text-secondary hidden sm:block flex-shrink-0" />
                   )}
                 </React.Fragment>
               ))}
             </div>
 
             <div className="mt-8 text-center">
-              <p className="text-sm text-slate italic">
+              <p className="text-sm text-muted-foreground italic">
                 Built for responsible public-interest reporting.
               </p>
             </div>

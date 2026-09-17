@@ -65,12 +65,12 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
   const activeTab = getActiveTab();
 
   return (
-    <div className="bg-white border-b border-border-light -mx-4 sm:-mx-6 lg:-mx-8 -mt-4 sm:-mt-6 lg:-mt-8 px-4 sm:px-6 lg:px-8 pt-6">
+    <div className="bg-white border-b border-surface-3 -mx-4 sm:-mx-6 lg:-mx-8 -mt-4 sm:-mt-6 lg:-mt-8 px-4 sm:px-6 lg:px-8 pt-6">
       {/* Top Meta & Action Bar */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6">
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-electric-blue/10 text-electric-blue border border-electric-blue/20">
+            <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
               {caseRecord.caseNumber}
             </span>
             <span className="text-xs font-semibold text-slate-500">
@@ -83,7 +83,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
             </div>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-navy">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-primary">
             {caseRecord.title}
           </h1>
 
@@ -93,7 +93,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
             {caseRecord.sources?.[0] && (
               <span className="text-xs text-slate-500 ml-2">
                 Source:{' '}
-                <strong className="text-navy">
+                <strong className="text-primary">
                   {caseRecord.sources[0].anonymous ? 'Anonymous Complainant' : caseRecord.sources[0].name}
                 </strong>
               </span>
@@ -108,7 +108,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
             value={status}
             onChange={(e) => handleStatusChange(e.target.value)}
             disabled={updating}
-            className="text-xs bg-off-white border border-border-light rounded-xl px-3 py-2 text-navy font-semibold focus:outline-none cursor-pointer"
+            className="text-xs bg-background border border-surface-3 rounded-xl px-3 py-2 text-primary font-semibold focus:outline-none cursor-pointer"
           >
             <option value="NEW">Status: New</option>
             <option value="TRIAGE">Status: Triage</option>
@@ -125,25 +125,25 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
 
           <Link
             href={`${basePath}/evidence`}
-            className="px-3 py-2 bg-off-white hover:bg-slate-100 text-navy font-semibold text-xs rounded-xl border border-border-light transition-colors flex items-center gap-1.5"
+            className="px-3 py-2 bg-background hover:bg-slate-100 text-primary font-semibold text-xs rounded-xl border border-surface-3 transition-colors flex items-center gap-1.5"
           >
-            <FilePlus size={14} className="text-electric-blue" />
+            <FilePlus size={14} className="text-primary" />
             <span>Add Evidence</span>
           </Link>
 
           <Link
             href={`${basePath}/contacts`}
-            className="px-3 py-2 bg-off-white hover:bg-slate-100 text-navy font-semibold text-xs rounded-xl border border-border-light transition-colors flex items-center gap-1.5"
+            className="px-3 py-2 bg-background hover:bg-slate-100 text-primary font-semibold text-xs rounded-xl border border-surface-3 transition-colors flex items-center gap-1.5"
           >
-            <Send size={14} className="text-coral" />
+            <Send size={14} className="text-warning" />
             <span>Request Response</span>
           </Link>
 
           <Link
             href={`${basePath}/content`}
-            className="px-3.5 py-2 bg-navy hover:bg-navy/90 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-2 bg-primary hover:bg-primary/90 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
           >
-            <Share2 size={14} className="text-teal" />
+            <Share2 size={14} className="text-success" />
             <span>Create Content</span>
           </Link>
         </div>
@@ -154,14 +154,14 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
         (caseRecord.mergedIntakes && caseRecord.mergedIntakes.length > 0)) && (
         <div className="mb-4 p-3.5 bg-blue-50/70 border border-blue-200/70 rounded-xl text-xs">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-navy font-medium">
-              <span className="p-1 bg-electric-blue/10 text-electric-blue rounded-md font-bold text-[11px] uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-primary font-medium">
+              <span className="p-1 bg-primary/10 text-primary rounded-md font-bold text-[11px] uppercase tracking-wider">
                 Intake Provenance
               </span>
               {caseRecord.createdFromIntakes?.[0] ? (
                 <span>
                   Created from{' '}
-                  <strong className="text-navy font-semibold">
+                  <strong className="text-primary font-semibold">
                     {caseRecord.createdFromIntakes[0].sourceType} dispatch
                   </strong>{' '}
                   ({new Date(caseRecord.createdFromIntakes[0].createdAt).toLocaleDateString('en-IN', {
@@ -186,7 +186,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
 
             <Link
               href="/app/inbox"
-              className="text-electric-blue hover:text-navy font-semibold text-xs flex items-center gap-1 transition-colors"
+              className="text-primary hover:text-primary font-semibold text-xs flex items-center gap-1 transition-colors"
             >
               <span>View in Inbox</span>
               <ChevronDown size={14} className="-rotate-90" />
@@ -206,7 +206,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
                     className="p-2 bg-white/80 rounded-lg border border-blue-100 text-slate-700 flex flex-col gap-1"
                   >
                     <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-semibold text-navy">
+                      <span className="font-semibold text-primary">
                         {merged.sourceType} • {merged.senderName || 'Anonymous'}
                       </span>
                       <span className="text-slate-500">
@@ -228,7 +228,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
       )}
 
       {/* Tabs Navigation Bar */}
-      <div className="flex items-center gap-1 overflow-x-auto border-t border-border-light/70 pt-1 -mb-px">
+      <div className="flex items-center gap-1 overflow-x-auto border-t border-surface-3/70 pt-1 -mb-px">
         {TABS.map((tab) => {
           const tabHref = tab.slug ? `${basePath}/${tab.slug}` : basePath;
           const isTabActive = activeTab === tab.slug;
@@ -239,8 +239,8 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
               href={tabHref}
               className={`px-4 py-3 text-xs font-bold transition-all border-b-2 whitespace-nowrap ${
                 isTabActive
-                  ? 'border-electric-blue text-electric-blue bg-electric-blue/5 rounded-t-lg'
-                  : 'border-transparent text-slate hover:text-navy hover:border-slate-300'
+                  ? 'border-primary text-primary bg-primary/5 rounded-t-lg'
+                  : 'border-transparent text-muted-foreground hover:text-primary hover:border-slate-300'
               }`}
             >
               {tab.label}

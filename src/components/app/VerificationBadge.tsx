@@ -24,9 +24,9 @@ const VERIFY_CONFIG: Record<string, { label: string; bg: string; text: string; b
   },
   SUBSTANTIALLY_VERIFIED: {
     label: 'Verified',
-    bg: 'bg-teal-50',
-    text: 'text-teal-800',
-    border: 'border-teal-200',
+    bg: 'bg-success-50',
+    text: 'text-success-800',
+    border: 'border-success-200',
     icon: CheckCircle2,
   },
   DISPUTED: {

@@ -57,7 +57,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
     return (
       <div className="min-h-screen flex flex-col">
         {/* Back button bar */}
-        <div className="bg-navy text-white px-4 py-2 text-xs flex items-center justify-between">
+        <div className="bg-primary text-white px-4 py-2 text-xs flex items-center justify-between">
           <button
             onClick={() => setView('landing')}
             className="flex items-center gap-1.5 hover:text-slate-300 font-bold transition cursor-pointer"
@@ -149,18 +149,18 @@ export function CitizenLandingPage({ endpoint }: Props) {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-card via-background to-surface text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
       
       {/* 1. SIMPLE CLEAN HEADER */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-border-light shadow-2xs py-3 px-4 sm:px-6">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-surface-3 shadow-2xs py-3 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-2xs">
+            <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-2xs">
               <ShieldCheck size={16} />
             </div>
             <div>
-              <span className="font-extrabold text-sm tracking-tight text-navy block leading-none">
+              <span className="font-extrabold text-sm tracking-tight text-primary block leading-none">
                 {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
               </span>
               <span className="text-[11px] text-slate-500 font-medium">
@@ -173,18 +173,18 @@ export function CitizenLandingPage({ endpoint }: Props) {
             {/* Status Button */}
             <button
               onClick={() => setShowStatusModal(true)}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-off-white hover:bg-slate-100 border border-border-light text-xs font-semibold text-slate-700 transition cursor-pointer"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-background hover:bg-slate-100 border border-surface-3 text-xs font-semibold text-slate-700 transition cursor-pointer"
             >
               <Search size={13} className="text-slate-500" />
               <span className="hidden sm:inline">{lang === 'te' ? 'ఫిర్యాదు స్థితి' : 'Track Status'}</span>
             </button>
 
             {/* Language Pill Switcher */}
-            <div className="flex items-center gap-1 p-1 bg-white border border-border-light rounded-xl text-xs font-bold shadow-2xs">
+            <div className="flex items-center gap-1 p-1 bg-white border border-surface-3 rounded-xl text-xs font-bold shadow-2xs">
               <button
                 onClick={() => setLang('te')}
                 className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'te' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                  lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
                 }`}
               >
                 తెలుగు
@@ -192,7 +192,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
               <button
                 onClick={() => setLang('en')}
                 className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'en' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                  lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
                 }`}
               >
                 English
@@ -212,16 +212,16 @@ export function CitizenLandingPage({ endpoint }: Props) {
             <span>{lang === 'te' ? '100% ఉచితం & మీ పేరు రహస్యం' : '100% Free & Identity Protected'}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black text-navy leading-tight tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-black text-primary leading-tight tracking-tight">
             {lang === 'te' ? (
               <>
                 మీ ఊరిలో సమస్య ఉందా? <br />
-                <span className="text-electric-blue">మా జర్నలిస్టులకు చెప్పండి.</span>
+                <span className="text-primary">మా జర్నలిస్టులకు చెప్పండి.</span>
               </>
             ) : (
               <>
                 Facing a public issue? <br />
-                <span className="text-electric-blue">Tell our investigative reporters.</span>
+                <span className="text-primary">Tell our investigative reporters.</span>
               </>
             )}
           </h1>
@@ -236,9 +236,9 @@ export function CitizenLandingPage({ endpoint }: Props) {
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
           <button
             onClick={() => setView('submit_hub')}
-            className="w-full sm:w-auto px-8 py-4 bg-navy hover:bg-navy/90 text-white font-black text-sm sm:text-base rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-95"
+            className="w-full sm:w-auto px-8 py-4 bg-primary hover:bg-primary/90 text-white font-black text-sm sm:text-base rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-95"
           >
-            <Mic size={18} className="text-electric-blue" />
+            <Mic size={18} className="text-primary" />
             <span>{lang === 'te' ? 'మీ సమస్య చెప్పండి →' : 'Tell Us What Happened →'}</span>
           </button>
           </div>
@@ -269,7 +269,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
       {/* 3. TWO EASY CHOICES (CHAT OR FORM) */}
       <section className="px-4 py-8 max-w-3xl mx-auto w-full">
         <div className="text-center mb-6">
-          <h2 className="text-base sm:text-lg font-bold text-navy">
+          <h2 className="text-base sm:text-lg font-bold text-primary">
             {lang === 'te' ? 'మీకు ఏది సులభంగా అనిపిస్తే అది ఎంచుకోండి:' : 'Choose how you want to report:'}
           </h2>
         </div>
@@ -279,19 +279,19 @@ export function CitizenLandingPage({ endpoint }: Props) {
           {/* Choice 1: AI Chat */}
           <div
             onClick={() => setView('submit_hub')}
-            className="p-5 rounded-3xl bg-white border-2 border-electric-blue/30 hover:border-electric-blue shadow-2xs hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+            className="p-5 rounded-3xl bg-white border-2 border-primary/30 hover:border-primary shadow-2xs hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-electric-blue/10 text-electric-blue flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
+                <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                   <Bot size={20} />
                 </div>
-                <span className="px-2 py-0.5 rounded-full bg-electric-blue/10 text-electric-blue text-[10px] font-bold">
+                <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">
                   {lang === 'te' ? 'చాలా సులభం' : 'Easiest • Voice'}
                 </span>
               </div>
 
-              <h3 className="font-black text-sm sm:text-base text-navy group-hover:text-electric-blue transition">
+              <h3 className="font-black text-sm sm:text-base text-primary group-hover:text-primary transition">
                 {lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Chat with AI Assistant'}
               </h3>
 
@@ -302,7 +302,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
               </p>
             </div>
 
-            <div className="pt-4 flex items-center text-xs font-bold text-electric-blue">
+            <div className="pt-4 flex items-center text-xs font-bold text-primary">
               <span>{lang === 'te' ? 'చాట్ ప్రారంభించండి →' : 'Start Chat →'}</span>
             </div>
           </div>
@@ -310,11 +310,11 @@ export function CitizenLandingPage({ endpoint }: Props) {
           {/* Choice 2: Simple Form */}
           <div
             onClick={() => setView('submit_hub')}
-            className="p-5 rounded-3xl bg-white border border-border-light hover:border-slate-300 shadow-2xs hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+            className="p-5 rounded-3xl bg-white border border-surface-3 hover:border-slate-300 shadow-2xs hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-slate-100 text-navy flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
+                <div className="w-10 h-10 rounded-2xl bg-slate-100 text-primary flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                   <FileText size={20} />
                 </div>
                 <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">
@@ -322,7 +322,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
                 </span>
               </div>
 
-              <h3 className="font-black text-sm sm:text-base text-navy group-hover:text-navy/80 transition">
+              <h3 className="font-black text-sm sm:text-base text-primary group-hover:text-primary/80 transition">
                 {lang === 'te' ? 'ఫారమ్ పూరించండి' : 'Fill Out a Form'}
               </h3>
 
@@ -333,7 +333,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
               </p>
             </div>
 
-            <div className="pt-4 flex items-center text-xs font-bold text-navy">
+            <div className="pt-4 flex items-center text-xs font-bold text-primary">
               <span>{lang === 'te' ? 'ఫారమ్ తెరవండి →' : 'Open Form →'}</span>
             </div>
           </div>
@@ -343,8 +343,8 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
       {/* 4. COMMON PROBLEMS WE SOLVE */}
       <section className="px-4 py-8 max-w-3xl mx-auto w-full">
-        <div className="p-6 rounded-3xl bg-white border border-border-light shadow-2xs space-y-4">
-          <h2 className="text-sm sm:text-base font-bold text-navy">
+        <div className="p-6 rounded-3xl bg-white border border-surface-3 shadow-2xs space-y-4">
+          <h2 className="text-sm sm:text-base font-bold text-primary">
             {lang === 'te' ? 'సాధారణంగా ప్రజలు చెప్పే సమస్యలు:' : 'Common issues reported by citizens:'}
           </h2>
 
@@ -352,12 +352,12 @@ export function CitizenLandingPage({ endpoint }: Props) {
             {simpleCategories.map((cat, idx) => {
               const Icon = cat.icon;
               return (
-                <div key={idx} className="p-3 rounded-2xl bg-off-white/70 border border-border-light flex items-start gap-2.5">
+                <div key={idx} className="p-3 rounded-2xl bg-background/70 border border-surface-3 flex items-start gap-2.5">
                   <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${cat.color}`}>
                     <Icon size={16} />
                   </div>
                   <div className="min-w-0">
-                    <span className="font-bold text-xs text-navy block truncate">
+                    <span className="font-bold text-xs text-primary block truncate">
                       {cat.title}
                     </span>
                     <span className="text-[11px] text-slate-500 block leading-tight mt-0.5">
@@ -374,17 +374,17 @@ export function CitizenLandingPage({ endpoint }: Props) {
       {/* 5. HOW IT WORKS (JUST 3 SIMPLE STEPS) */}
       <section className="px-4 py-8 max-w-3xl mx-auto w-full">
         <div className="text-center mb-6">
-          <h2 className="text-base sm:text-lg font-bold text-navy">
+          <h2 className="text-base sm:text-lg font-bold text-primary">
             {lang === 'te' ? 'మీ ఫిర్యాదు తర్వాత ఏం జరుగుతుంది?' : 'What happens after you report?'}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          <div className="p-4 rounded-2xl bg-white border border-border-light space-y-1.5 text-center shadow-2xs">
-            <div className="w-7 h-7 rounded-full bg-electric-blue text-white font-bold text-xs flex items-center justify-center mx-auto">
+          <div className="p-4 rounded-2xl bg-white border border-surface-3 space-y-1.5 text-center shadow-2xs">
+            <div className="w-7 h-7 rounded-full bg-primary text-white font-bold text-xs flex items-center justify-center mx-auto">
               1
             </div>
-            <h3 className="font-bold text-xs text-navy">
+            <h3 className="font-bold text-xs text-primary">
               {lang === 'te' ? 'మీరు చెబుతారు' : '1. You Tell Us'}
             </h3>
             <p className="text-[11px] text-slate-500 leading-snug">
@@ -392,11 +392,11 @@ export function CitizenLandingPage({ endpoint }: Props) {
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-border-light space-y-1.5 text-center shadow-2xs">
-            <div className="w-7 h-7 rounded-full bg-electric-blue text-white font-bold text-xs flex items-center justify-center mx-auto">
+          <div className="p-4 rounded-2xl bg-white border border-surface-3 space-y-1.5 text-center shadow-2xs">
+            <div className="w-7 h-7 rounded-full bg-primary text-white font-bold text-xs flex items-center justify-center mx-auto">
               2
             </div>
-            <h3 className="font-bold text-xs text-navy">
+            <h3 className="font-bold text-xs text-primary">
               {lang === 'te' ? 'మేము పరిశీలిస్తాము' : '2. We Investigate'}
             </h3>
             <p className="text-[11px] text-slate-500 leading-snug">
@@ -404,11 +404,11 @@ export function CitizenLandingPage({ endpoint }: Props) {
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-border-light space-y-1.5 text-center shadow-2xs">
+          <div className="p-4 rounded-2xl bg-white border border-surface-3 space-y-1.5 text-center shadow-2xs">
             <div className="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center mx-auto">
               3
             </div>
-            <h3 className="font-bold text-xs text-navy">
+            <h3 className="font-bold text-xs text-primary">
               {lang === 'te' ? 'సమస్య పరిష్కారం' : '3. Problem Solved'}
             </h3>
             <p className="text-[11px] text-slate-500 leading-snug">
@@ -420,7 +420,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
       {/* 6. BOTTOM PROMINENT CTA */}
       <section className="px-4 py-8 max-w-3xl mx-auto w-full text-center">
-        <div className="p-6 sm:p-8 rounded-3xl bg-navy text-white space-y-4 shadow-md">
+        <div className="p-6 sm:p-8 rounded-3xl bg-primary text-white space-y-4 shadow-md">
           <h2 className="text-lg sm:text-2xl font-black">
             {lang === 'te' ? 'సమస్యను దాచవద్దు. ధైర్యంగా చెప్పండి.' : 'Don\'t stay silent. Tell us what\'s wrong.'}
           </h2>
@@ -431,7 +431,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
           </p>
           <button
             onClick={() => setView('submit_hub')}
-            className="px-8 py-3.5 bg-electric-blue hover:bg-electric-blue-dark text-white font-bold text-xs sm:text-sm rounded-2xl shadow-sm transition active:scale-95 cursor-pointer"
+            className="px-8 py-3.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs sm:text-sm rounded-2xl shadow-sm transition active:scale-95 cursor-pointer"
           >
             {lang === 'te' ? 'ఇప్పుడే చెప్పండి →' : 'Report Now →'}
           </button>
@@ -439,9 +439,9 @@ export function CitizenLandingPage({ endpoint }: Props) {
       </section>
 
       {/* 7. REASSURING FOOTER */}
-      <footer className="mt-auto border-t border-border-light/70 bg-white/70 py-6 px-4 text-center text-xs text-slate-500">
+      <footer className="mt-auto border-t border-surface-3/70 bg-white/70 py-6 px-4 text-center text-xs text-slate-500">
         <div className="max-w-xl mx-auto space-y-2">
-          <div className="flex items-center justify-center gap-1.5 font-bold text-navy text-xs">
+          <div className="flex items-center justify-center gap-1.5 font-bold text-primary text-xs">
             <Lock size={13} className="text-emerald-600" />
             <span>{lang === 'te' ? 'మీ సమాచారం పూర్తిగా గోప్యంగా ఉంటుంది' : 'Your Information Is Safe With Us'}</span>
           </div>
@@ -455,12 +455,12 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
       {/* STATUS LOOKUP MODAL */}
       {showStatusModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/40 backdrop-blur-xs p-4 animate-fade-in">
-          <div className="w-full max-w-sm bg-white border border-border-light rounded-3xl p-6 space-y-4 shadow-xl animate-slide-up">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/40 backdrop-blur-xs p-4 animate-fade-in">
+          <div className="w-full max-w-sm bg-white border border-surface-3 rounded-3xl p-6 space-y-4 shadow-xl animate-slide-up">
             
-            <div className="flex items-center justify-between pb-2 border-b border-border-light">
-              <div className="flex items-center gap-2 text-navy font-bold text-sm">
-                <Search size={16} className="text-electric-blue" />
+            <div className="flex items-center justify-between pb-2 border-b border-surface-3">
+              <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                <Search size={16} className="text-primary" />
                 <span>{lang === 'te' ? 'ఫిర్యాదు స్థితి చూడండి' : 'Check Report Status'}</span>
               </div>
               <button
@@ -469,7 +469,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
                   setLookupResult(null);
                   setTrackingCode('');
                 }}
-                className="p-1 text-slate-500 hover:text-navy cursor-pointer"
+                className="p-1 text-slate-500 hover:text-primary cursor-pointer"
               >
                 <X size={16} />
               </button>
@@ -489,13 +489,13 @@ export function CitizenLandingPage({ endpoint }: Props) {
                   placeholder="CD-IN-2026-XXXXX"
                   value={trackingCode}
                   onChange={(e) => setTrackingCode(e.target.value)}
-                  className="w-full p-2.5 bg-off-white border border-border-light rounded-xl text-xs font-mono font-bold text-navy placeholder:text-slate-500 focus:outline-none focus:border-electric-blue uppercase"
+                  className="w-full p-2.5 bg-background border border-surface-3 rounded-xl text-xs font-mono font-bold text-primary placeholder:text-slate-500 focus:outline-none focus:border-primary uppercase"
                 />
 
                 <button
                   type="submit"
                   disabled={isSearching || !trackingCode.trim()}
-                  className="w-full py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer disabled:opacity-50"
+                  className="w-full py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer disabled:opacity-50"
                 >
                   {isSearching
                     ? (lang === 'te' ? 'వెతుకుతున్నాము...' : 'Checking...')
@@ -519,7 +519,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
                 </div>
                 <button
                   onClick={() => setLookupResult(null)}
-                  className="w-full py-2 text-xs font-bold text-slate-600 hover:text-navy cursor-pointer"
+                  className="w-full py-2 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer"
                 >
                   {lang === 'te' ? 'మళ్లీ ప్రయత్నించండి' : 'Try another code'}
                 </button>
@@ -540,13 +540,13 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
                 <div className="space-y-1.5">
                   {lookupResult.steps.map((st: any, i: number) => (
-                    <div key={i} className="flex items-center gap-2 text-xs p-1.5 rounded-lg bg-off-white">
+                    <div key={i} className="flex items-center gap-2 text-xs p-1.5 rounded-lg bg-background">
                       {st.done ? (
                         <Check size={13} className="text-emerald-600 shrink-0 font-bold" />
                       ) : (
                         <div className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" />
                       )}
-                      <span className={st.done ? 'text-navy font-semibold' : 'text-slate-500'}>
+                      <span className={st.done ? 'text-primary font-semibold' : 'text-slate-500'}>
                         {st.title}
                       </span>
                     </div>
@@ -555,7 +555,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
                 <button
                   onClick={() => setLookupResult(null)}
-                  className="w-full py-2 text-xs font-bold text-slate-600 hover:text-navy cursor-pointer"
+                  className="w-full py-2 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer"
                 >
                   {lang === 'te' ? 'మరొక కోడ్ చూడండి' : 'Check another code'}
                 </button>

@@ -408,18 +408,18 @@ export function AICitizenChat({
   const isInitialState = userMessagesCount === 0;
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-card via-background to-surface text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
       
       {/* Creator Portal Trust Header */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-surface-3 shadow-xs py-3.5 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-xs">
+            <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
               <ShieldCheck size={16} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm tracking-tight text-navy">
+                <span className="font-extrabold text-sm tracking-tight text-primary">
                   {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
                 </span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
@@ -436,10 +436,10 @@ export function AICitizenChat({
             {onSwitchToForm && (
               <button
                 onClick={onSwitchToForm}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-navy text-xs font-bold transition cursor-pointer border border-border-light shadow-2xs"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-primary text-xs font-bold transition cursor-pointer border border-surface-3 shadow-2xs"
                 title={lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill a Form Instead'}
               >
-                <FileText size={13} className="text-electric-blue" />
+                <FileText size={13} className="text-primary" />
                 <span className="hidden sm:inline">{lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill a Form Instead'}</span>
               </button>
             )}
@@ -450,12 +450,12 @@ export function AICitizenChat({
             </div>
 
             {/* Multilingual Switcher matching creator portal */}
-            <div className="flex items-center gap-1.5 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
+            <div className="flex items-center gap-1.5 p-1 bg-white border border-surface-3 rounded-xl text-xs font-semibold shadow-2xs">
               <Languages size={13} className="text-slate-500 ml-1.5" />
               <button
                 onClick={() => setLang('en')}
                 className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'en' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                  lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
                 }`}
               >
                 English
@@ -463,7 +463,7 @@ export function AICitizenChat({
               <button
                 onClick={() => setLang('te')}
                 className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'te' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                  lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
                 }`}
               >
                 తెలుగు
@@ -477,26 +477,26 @@ export function AICitizenChat({
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 flex flex-col">
         
         {/* Chat Card Box matching Creator Portal */}
-        <div className="bg-white rounded-3xl border border-border-light shadow-sm flex flex-col flex-1 h-[78vh] sm:h-[82vh] overflow-hidden relative">
+        <div className="bg-white rounded-3xl border border-surface-3 shadow-sm flex flex-col flex-1 h-[78vh] sm:h-[82vh] overflow-hidden relative">
           
           {/* Internal Chat Header Bar */}
-          <div className="px-5 py-3 border-b border-border-light/80 bg-off-white/80 flex items-center justify-between">
+          <div className="px-5 py-3 border-b border-surface-3/80 bg-background/80 flex items-center justify-between">
             <div className="flex items-center gap-2">
               {onBackToSelect && (
                 <button
                   onClick={onBackToSelect}
-                  className="text-xs font-semibold text-slate-500 hover:text-navy mr-1 cursor-pointer flex items-center gap-1"
+                  className="text-xs font-semibold text-slate-500 hover:text-primary mr-1 cursor-pointer flex items-center gap-1"
                 >
                   ← <span className="hidden sm:inline">{lang === 'te' ? 'వెనుకకు' : 'Back'}</span>
                 </button>
               )}
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-              <span className="text-xs font-bold text-navy">
+              <span className="text-xs font-bold text-primary">
                 {lang === 'te' ? 'సహాయకుడు' : 'AI Assistant'}
               </span>
               <span className="text-[10px] text-slate-500">• Online</span>
-              <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-cream text-navy border border-border-light text-[10px] font-bold ml-1">
-                <Languages size={11} className="text-electric-blue" />
+              <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface text-primary border border-surface-3 text-[10px] font-bold ml-1">
+                <Languages size={11} className="text-primary" />
                 <span>తెలుగు • Tenglish • English</span>
               </div>
             </div>
@@ -515,13 +515,13 @@ export function AICitizenChat({
             {/* Initial Welcome Banner (Matching Step 1 of Creator Portal) */}
             {isInitialState && (
               <div className="space-y-5 animate-fade-in my-2">
-                <div className="p-5 sm:p-6 rounded-2xl bg-off-white border border-border-light/80 space-y-3">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-electric-blue/10 text-electric-blue text-xs font-bold">
+                <div className="p-5 sm:p-6 rounded-2xl bg-background border border-surface-3/80 space-y-3">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
                     <Sparkles size={12} />
                     <span>{endpoint.title || 'Citizen Helpdesk'}</span>
                   </div>
 
-                  <h1 className="text-xl sm:text-2xl font-black tracking-tight text-navy leading-snug">
+                  <h1 className="text-xl sm:text-2xl font-black tracking-tight text-primary leading-snug">
                     {lang === 'te' ? 'మీ ఏరియాలో ఏదైనా సమస్య ఉందా?' : 'Got a problem that needs attention?'}
                   </h1>
 
@@ -535,7 +535,7 @@ export function AICitizenChat({
                   <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <button
                       onClick={startRecording}
-                      className="px-6 py-3 bg-navy hover:bg-navy/90 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+                      className="px-6 py-3 bg-primary hover:bg-primary/90 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                     >
                       <Mic size={16} />
                       <span>{lang === 'te' ? 'మైక్ నొక్కి మాట్లాడండి' : 'Tap Mic to Speak'}</span>
@@ -559,9 +559,9 @@ export function AICitizenChat({
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(chip.prompt)}
-                        className="p-3.5 rounded-2xl bg-white hover:bg-off-white border border-border-light hover:border-slate-300 text-left transition-all shadow-2xs flex flex-col gap-1 group active:scale-[0.99] cursor-pointer"
+                        className="p-3.5 rounded-2xl bg-white hover:bg-background border border-surface-3 hover:border-slate-300 text-left transition-all shadow-2xs flex flex-col gap-1 group active:scale-[0.99] cursor-pointer"
                       >
-                        <span className="font-bold text-xs sm:text-sm text-navy group-hover:text-electric-blue transition">
+                        <span className="font-bold text-xs sm:text-sm text-primary group-hover:text-primary transition">
                           {chip.label}
                         </span>
                         <span className="text-[11px] text-slate-500">
@@ -582,7 +582,7 @@ export function AICitizenChat({
               >
                 <div className="flex items-end gap-2.5 max-w-[88%] sm:max-w-[80%]">
                   {msg.role === 'assistant' && (
-                    <div className="w-7 h-7 rounded-xl bg-navy text-white flex items-center justify-center font-black text-[10px] shrink-0 mb-1 shadow-2xs">
+                    <div className="w-7 h-7 rounded-xl bg-primary text-white flex items-center justify-center font-black text-[10px] shrink-0 mb-1 shadow-2xs">
                       CD
                     </div>
                   )}
@@ -591,8 +591,8 @@ export function AICitizenChat({
                   <div
                     className={`rounded-2xl p-4 text-xs sm:text-sm leading-relaxed ${
                       msg.role === 'user'
-                        ? 'bg-navy text-white rounded-br-xs shadow-xs'
-                        : 'bg-off-white border border-border-light text-navy rounded-bl-xs shadow-2xs'
+                        ? 'bg-primary text-white rounded-br-xs shadow-xs'
+                        : 'bg-background border border-surface-3 text-primary rounded-bl-xs shadow-2xs'
                     }`}
                   >
                     {/* Voice header */}
@@ -606,24 +606,24 @@ export function AICitizenChat({
                     )}
 
                     {msg.role === 'assistant' ? (
-                      <div className="prose prose-sm max-w-none text-navy text-xs sm:text-sm">
+                      <div className="prose prose-sm max-w-none text-primary text-xs sm:text-sm">
                         <ReactMarkdown
                           components={{
                             p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
-                            strong: ({ children }) => <strong className="font-black text-navy">{children}</strong>,
+                            strong: ({ children }) => <strong className="font-black text-primary">{children}</strong>,
                             ul: ({ children }) => <ul className="list-disc pl-5 my-2 space-y-1">{children}</ul>,
                             ol: ({ children }) => <ol className="list-decimal pl-5 my-2 space-y-1">{children}</ol>,
                             li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-                            h1: ({ children }) => <h1 className="text-base font-bold text-navy my-2">{children}</h1>,
-                            h2: ({ children }) => <h2 className="text-sm font-bold text-navy my-1.5">{children}</h2>,
-                            h3: ({ children }) => <h3 className="text-xs font-bold text-navy my-1">{children}</h3>,
+                            h1: ({ children }) => <h1 className="text-base font-bold text-primary my-2">{children}</h1>,
+                            h2: ({ children }) => <h2 className="text-sm font-bold text-primary my-1.5">{children}</h2>,
+                            h3: ({ children }) => <h3 className="text-xs font-bold text-primary my-1">{children}</h3>,
                             blockquote: ({ children }) => (
-                              <blockquote className="border-l-2 border-electric-blue/50 pl-3 py-1 my-2 text-slate-600 bg-cream/70 rounded-r-lg">
+                              <blockquote className="border-l-2 border-primary/50 pl-3 py-1 my-2 text-slate-600 bg-surface/70 rounded-r-lg">
                                 {children}
                               </blockquote>
                             ),
                             code: ({ children }) => (
-                              <code className="px-1.5 py-0.5 rounded bg-slate-200/70 font-mono text-xs text-navy font-semibold">
+                              <code className="px-1.5 py-0.5 rounded bg-slate-200/70 font-mono text-xs text-primary font-semibold">
                                 {children}
                               </code>
                             ),
@@ -664,7 +664,7 @@ export function AICitizenChat({
                     <CheckCircle2 size={40} className="text-emerald-600 mx-auto" />
                     
                     <div className="space-y-1">
-                      <h3 className="text-lg font-black text-navy">
+                      <h3 className="text-lg font-black text-primary">
                         {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'Report Received!'}
                       </h3>
                       <p className="text-xs text-slate-600">
@@ -675,17 +675,17 @@ export function AICitizenChat({
                     </div>
 
                     {/* Reference Number Box */}
-                    <div className="p-4 rounded-2xl bg-white border border-border-light max-w-sm mx-auto space-y-1.5 shadow-2xs">
+                    <div className="p-4 rounded-2xl bg-white border border-surface-3 max-w-sm mx-auto space-y-1.5 shadow-2xs">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
                         {lang === 'te' ? 'రిఫరెన్స్ కోడ్' : 'Reference Number'}
                       </span>
                       <div className="flex items-center justify-center gap-2">
-                        <span className="text-xl sm:text-2xl font-mono font-black text-navy tracking-wider">
+                        <span className="text-xl sm:text-2xl font-mono font-black text-primary tracking-wider">
                           {submissionResult.referenceNumber}
                         </span>
                         <button
                           onClick={copyRefCode}
-                          className="p-1.5 rounded-lg bg-off-white hover:bg-slate-100 border border-border-light text-slate-600 transition cursor-pointer"
+                          className="p-1.5 rounded-lg bg-background hover:bg-slate-100 border border-surface-3 text-slate-600 transition cursor-pointer"
                           title="Copy Code"
                         >
                           {copiedRef ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
@@ -708,8 +708,8 @@ export function AICitizenChat({
                             st.completed
                               ? 'bg-emerald-100/60 text-emerald-900 font-bold border border-emerald-200'
                               : idx === 1
-                              ? 'bg-electric-blue-subtle text-navy font-semibold border border-border'
-                              : 'text-slate-500 bg-white border border-border-light/60'
+                              ? 'bg-primary-subtle text-primary font-semibold border border-border'
+                              : 'text-slate-500 bg-white border border-surface-3/60'
                           }`}
                         >
                           {st.completed ? (
@@ -730,8 +730,8 @@ export function AICitizenChat({
 
             {/* Typing Indicator */}
             {isTyping && (
-              <div className="flex items-center gap-2 p-3 rounded-2xl bg-off-white border border-border-light text-slate-500 w-fit animate-fade-in">
-                <Sparkles size={14} className="text-electric-blue animate-spin" />
+              <div className="flex items-center gap-2 p-3 rounded-2xl bg-background border border-surface-3 text-slate-500 w-fit animate-fade-in">
+                <Sparkles size={14} className="text-primary animate-spin" />
                 <span className="text-xs font-medium">
                   {lang === 'te' ? 'AI స్పందిస్తోంది...' : 'Reviewing report...'}
                 </span>
@@ -757,7 +757,7 @@ export function AICitizenChat({
               </div>
               <button
                 onClick={() => setShowConsentModal(true)}
-                className="px-4 py-2 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
+                className="px-4 py-2 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
               >
                 <UserCheck size={14} />
                 <span>{lang === 'te' ? 'సమీక్షించి సమర్పించండి' : 'Review & Submit'}</span>
@@ -768,13 +768,13 @@ export function AICitizenChat({
 
           {/* Attached Files Preview Bar */}
           {attachedFiles.length > 0 && (
-            <div className="px-4 py-2 bg-off-white border-t border-border-light flex items-center gap-2 overflow-x-auto">
+            <div className="px-4 py-2 bg-background border-t border-surface-3 flex items-center gap-2 overflow-x-auto">
               {attachedFiles.map((file, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-border-light text-xs text-navy shrink-0 shadow-2xs"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-surface-3 text-xs text-primary shrink-0 shadow-2xs"
                 >
-                  <FileText size={13} className="text-electric-blue" />
+                  <FileText size={13} className="text-primary" />
                   <span className="truncate max-w-[130px] font-medium">{file.name}</span>
                   <button
                     onClick={() => setAttachedFiles((prev) => prev.filter((_, i) => i !== idx))}
@@ -788,20 +788,20 @@ export function AICitizenChat({
           )}
 
           {/* Bottom Interactive Input Bar */}
-          <div className="p-3.5 sm:p-4 bg-white/95 backdrop-blur-md border-t border-border-light shrink-0">
+          <div className="p-3.5 sm:p-4 bg-white/95 backdrop-blur-md border-t border-surface-3 shrink-0">
             {isRecording ? (
               /* Voice Recording Active Bar (matching Creator Portal style) */
-              <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-electric-blue-subtle/70 border border-border animate-fade-in">
+              <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-primary-subtle/70 border border-border animate-fade-in">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-red animate-pulse"></div>
                   <div className="flex items-center gap-1 h-5">
-                    <span className="w-1 bg-electric-blue rounded-full wave-bar-1"></span>
-                    <span className="w-1 bg-electric-blue rounded-full wave-bar-2"></span>
-                    <span className="w-1 bg-electric-blue rounded-full wave-bar-3"></span>
-                    <span className="w-1 bg-electric-blue rounded-full wave-bar-4"></span>
-                    <span className="w-1 bg-electric-blue rounded-full wave-bar-5"></span>
+                    <span className="w-1 bg-primary rounded-full wave-bar-1"></span>
+                    <span className="w-1 bg-primary rounded-full wave-bar-2"></span>
+                    <span className="w-1 bg-primary rounded-full wave-bar-3"></span>
+                    <span className="w-1 bg-primary rounded-full wave-bar-4"></span>
+                    <span className="w-1 bg-primary rounded-full wave-bar-5"></span>
                   </div>
-                  <span className="text-xs font-mono font-bold text-navy">
+                  <span className="text-xs font-mono font-bold text-primary">
                     {formatSeconds(recordingDuration)}
                   </span>
                   <span className="hidden sm:inline text-xs text-slate-500">
@@ -841,7 +841,7 @@ export function AICitizenChat({
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="p-2.5 sm:p-3 rounded-xl bg-off-white hover:bg-slate-100 border border-border-light text-slate-600 transition shrink-0 active:scale-95 cursor-pointer"
+                  className="p-2.5 sm:p-3 rounded-xl bg-background hover:bg-slate-100 border border-surface-3 text-slate-600 transition shrink-0 active:scale-95 cursor-pointer"
                   title="Attach photos or documents"
                 >
                   <Paperclip size={16} />
@@ -851,7 +851,7 @@ export function AICitizenChat({
                 <button
                   type="button"
                   onClick={startRecording}
-                  className="p-2.5 sm:p-3 rounded-xl bg-electric-blue hover:bg-electric-blue-dark text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer"
+                  className="p-2.5 sm:p-3 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer"
                   title="Record voice note"
                 >
                   <Mic size={16} />
@@ -867,14 +867,14 @@ export function AICitizenChat({
                       ? 'Maa oori lo... లేదా మీ మాటల్లో రాయండి / మైక్ నొక్కండి...'
                       : 'Type in English, Telugu, or Tenglish (e.g., Maa oori lo...)...'
                   }
-                  className="flex-1 bg-off-white border border-border-light focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/20 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-navy placeholder:text-slate-500 focus:outline-none transition"
+                  className="flex-1 bg-background border border-surface-3 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-primary placeholder:text-slate-500 focus:outline-none transition"
                 />
 
                 {/* Send Button */}
                 <button
                   type="submit"
                   disabled={!inputValue.trim() && attachedFiles.length === 0}
-                  className="p-2.5 sm:p-3 rounded-xl bg-navy hover:bg-navy/90 disabled:opacity-40 text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer"
+                  className="p-2.5 sm:p-3 rounded-xl bg-primary hover:bg-primary/90 disabled:opacity-40 text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer"
                   title="Send Message"
                 >
                   <Send size={16} />
@@ -887,10 +887,10 @@ export function AICitizenChat({
       </main>
 
       {/* Creator Portal Whistleblower Footer Guarantee */}
-      <footer className="mt-auto border-t border-border-light/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
+      <footer className="mt-auto border-t border-surface-3/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
         <div className="max-w-2xl mx-auto space-y-2">
-          <div className="flex items-center justify-center gap-2 text-navy font-semibold text-xs">
-            <ShieldCheck size={14} className="text-electric-blue" />
+          <div className="flex items-center justify-center gap-2 text-primary font-semibold text-xs">
+            <ShieldCheck size={14} className="text-primary" />
             <span>{lang === 'te' ? 'జర్నలిస్టిక్ మూలాల రక్షణ హామీ' : 'Journalistic Whistleblower & Source Protection Guarantee'}</span>
           </div>
           <p className="text-[11px] leading-relaxed text-slate-500">
@@ -906,33 +906,33 @@ export function AICitizenChat({
 
       {/* Review & Consent Modal (Matching Creator Portal Step 5 & 6) */}
       {showConsentModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/40 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="w-full max-w-lg bg-white border border-border-light rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/40 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="w-full max-w-lg bg-white border border-surface-3 rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto">
             
-            <div className="flex items-center justify-between pb-3 border-b border-border-light">
-              <div className="flex items-center gap-2 text-navy font-bold text-base">
-                <UserCheck size={18} className="text-electric-blue" />
+            <div className="flex items-center justify-between pb-3 border-b border-surface-3">
+              <div className="flex items-center gap-2 text-primary font-bold text-base">
+                <UserCheck size={18} className="text-primary" />
                 <span>{lang === 'te' ? 'వివరాలు & సమ్మతి' : 'Contact & Consent'}</span>
               </div>
               <button
                 onClick={() => setShowConsentModal(false)}
-                className="p-1 rounded-lg text-slate-500 hover:text-navy cursor-pointer"
+                className="p-1 rounded-lg text-slate-500 hover:text-primary cursor-pointer"
               >
                 <X size={18} />
               </button>
             </div>
 
             {/* Anonymity Checkbox Box matching Creator Portal */}
-            <div className="p-4 rounded-2xl bg-off-white border border-border-light space-y-3">
+            <div className="p-4 rounded-2xl bg-background border border-surface-3 space-y-3">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={isAnonymous}
                   onChange={(e) => setIsAnonymous(e.target.checked)}
-                  className="mt-1 w-4 h-4 rounded text-electric-blue border-border accent-navy"
+                  className="mt-1 w-4 h-4 rounded text-primary border-border accent-primary"
                 />
                 <div>
-                  <span className="font-bold text-xs sm:text-sm text-navy block">
+                  <span className="font-bold text-xs sm:text-sm text-primary block">
                     {lang === 'te' ? 'నేను అనామకంగా ఉండాలనుకుంటున్నాను' : 'I prefer to remain anonymous'}
                   </span>
                   <span className="text-[11px] text-slate-500 block mt-0.5 leading-relaxed">
@@ -945,7 +945,7 @@ export function AICitizenChat({
 
               {/* Contact fields if not anonymous */}
               {!isAnonymous && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-border-light animate-fade-in">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-surface-3 animate-fade-in">
                   <div>
                     <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                       {lang === 'te' ? 'మీ పేరు' : 'Your Name'}
@@ -955,7 +955,7 @@ export function AICitizenChat({
                       placeholder={lang === 'te' ? 'పూర్తి పేరు' : 'Full Name'}
                       value={senderName}
                       onChange={(e) => setSenderName(e.target.value)}
-                      className="w-full rounded-xl bg-white border border-border-light px-3 py-2 text-xs text-navy placeholder:text-slate-500 focus:outline-none focus:border-electric-blue"
+                      className="w-full rounded-xl bg-white border border-surface-3 px-3 py-2 text-xs text-primary placeholder:text-slate-500 focus:outline-none focus:border-primary"
                     />
                   </div>
                   <div>
@@ -967,7 +967,7 @@ export function AICitizenChat({
                       placeholder={lang === 'te' ? 'నంబర్' : 'Phone Number'}
                       value={senderPhone}
                       onChange={(e) => setSenderPhone(e.target.value)}
-                      className="w-full rounded-xl bg-white border border-border-light px-3 py-2 text-xs text-navy placeholder:text-slate-500 focus:outline-none focus:border-electric-blue"
+                      className="w-full rounded-xl bg-white border border-surface-3 px-3 py-2 text-xs text-primary placeholder:text-slate-500 focus:outline-none focus:border-primary"
                     />
                   </div>
                 </div>
@@ -981,7 +981,7 @@ export function AICitizenChat({
                   type="checkbox"
                   checked={consentAccuracy}
                   onChange={(e) => setConsentAccuracy(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded text-electric-blue accent-navy"
+                  className="mt-0.5 w-4 h-4 rounded text-primary accent-primary"
                 />
                 <span className="text-[11px] leading-relaxed">
                   {lang === 'te'
@@ -995,7 +995,7 @@ export function AICitizenChat({
                   type="checkbox"
                   checked={consentNoGuarantee}
                   onChange={(e) => setConsentNoGuarantee(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded text-electric-blue accent-navy"
+                  className="mt-0.5 w-4 h-4 rounded text-primary accent-primary"
                 />
                 <span className="text-[11px] leading-relaxed">
                   {lang === 'te'
@@ -1009,7 +1009,7 @@ export function AICitizenChat({
             <button
               onClick={handleFinalSubmit}
               disabled={submittingDossier || !consentAccuracy || !consentNoGuarantee}
-              className="w-full py-3.5 bg-navy hover:bg-navy/90 disabled:opacity-50 text-white font-bold text-sm rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              className="w-full py-3.5 bg-primary hover:bg-primary/90 disabled:opacity-50 text-white font-bold text-sm rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
               {submittingDossier ? (
                 <>

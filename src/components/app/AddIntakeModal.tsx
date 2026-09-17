@@ -76,27 +76,27 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/60 backdrop-blur-xs animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-border-light overflow-hidden flex flex-col"
+        className="w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-surface-3 overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6 border-b border-border-light flex items-center justify-between bg-off-white/40">
+        <div className="p-6 border-b border-surface-3 flex items-center justify-between bg-background/40">
           <div>
-            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-electric-blue/10 text-electric-blue text-[10px] font-bold uppercase tracking-wider mb-1">
+            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider mb-1">
               <Sparkles size={11} />
               <span>Intelligent Ingestion</span>
             </div>
-            <h3 className="text-lg font-black text-navy">Add Incoming Citizen Report</h3>
+            <h3 className="text-lg font-black text-primary">Add Incoming Citizen Report</h3>
           </div>
-          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-navy cursor-pointer">
+          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-primary cursor-pointer">
             <X size={18} />
           </button>
         </div>
 
         {/* Ingestion Mode Tabs */}
-        <div className="px-6 pt-4 border-b border-border-light flex items-center gap-2 bg-off-white/20">
+        <div className="px-6 pt-4 border-b border-surface-3 flex items-center gap-2 bg-background/20">
           <button
             type="button"
             onClick={() => {
@@ -105,8 +105,8 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
             }}
             className={`pb-3 text-xs font-bold border-b-2 transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'text'
-                ? 'border-navy text-navy'
-                : 'border-transparent text-slate-500 hover:text-navy'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-slate-500 hover:text-primary'
             }`}
           >
             <MessageSquare size={14} />
@@ -122,7 +122,7 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
             className={`pb-3 text-xs font-bold border-b-2 transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'audio'
                 ? 'border-purple-600 text-purple-700'
-                : 'border-transparent text-slate-500 hover:text-navy'
+                : 'border-transparent text-slate-500 hover:text-primary'
             }`}
           >
             <Mic size={14} />
@@ -138,7 +138,7 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
             className={`pb-3 text-xs font-bold border-b-2 transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'file'
                 ? 'border-emerald-600 text-emerald-700'
-                : 'border-transparent text-slate-500 hover:text-navy'
+                : 'border-transparent text-slate-500 hover:text-primary'
             }`}
           >
             <FileUp size={14} />
@@ -153,8 +153,8 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
             }}
             className={`pb-3 text-xs font-bold border-b-2 transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'manual'
-                ? 'border-navy text-navy'
-                : 'border-transparent text-slate-500 hover:text-navy'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-slate-500 hover:text-primary'
             }`}
           >
             <PenTool size={14} />
@@ -172,13 +172,13 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-navy uppercase tracking-wider mb-1.5">
+              <label className="block font-bold text-primary uppercase tracking-wider mb-1.5">
                 Channel / Source
               </label>
               <select
                 value={sourceType}
                 onChange={(e) => setSourceType(e.target.value)}
-                className="w-full p-2.5 bg-off-white border border-border-light rounded-xl font-semibold text-navy focus:outline-none"
+                className="w-full p-2.5 bg-background border border-surface-3 rounded-xl font-semibold text-primary focus:outline-none"
               >
                 <option value="WHATSAPP">WhatsApp</option>
                 <option value="INSTAGRAM">Instagram DM</option>
@@ -190,13 +190,13 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
             </div>
 
             <div>
-              <label className="block font-bold text-navy uppercase tracking-wider mb-1.5">
+              <label className="block font-bold text-primary uppercase tracking-wider mb-1.5">
                 Primary Language
               </label>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="w-full p-2.5 bg-off-white border border-border-light rounded-xl font-semibold text-navy focus:outline-none"
+                className="w-full p-2.5 bg-background border border-surface-3 rounded-xl font-semibold text-primary focus:outline-none"
               >
                 <option value="English">English</option>
                 <option value="Telugu">Telugu (తెలుగు)</option>
@@ -207,7 +207,7 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-navy uppercase tracking-wider mb-1.5">
+              <label className="block font-bold text-primary uppercase tracking-wider mb-1.5">
                 Complainant Name
               </label>
               <input
@@ -216,12 +216,12 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
                 placeholder="e.g. Ramesh Kumar"
-                className="w-full p-2.5 bg-off-white border border-border-light rounded-xl font-semibold text-navy focus:outline-none"
+                className="w-full p-2.5 bg-background border border-surface-3 rounded-xl font-semibold text-primary focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-navy uppercase tracking-wider mb-1.5">
+              <label className="block font-bold text-primary uppercase tracking-wider mb-1.5">
                 Phone Number / Handle
               </label>
               <input
@@ -229,7 +229,7 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
                 value={senderPhone}
                 onChange={(e) => setSenderPhone(e.target.value)}
                 placeholder="+91 98480 12345"
-                className="w-full p-2.5 bg-off-white border border-border-light rounded-xl font-semibold text-navy focus:outline-none"
+                className="w-full p-2.5 bg-background border border-surface-3 rounded-xl font-semibold text-primary focus:outline-none"
               />
             </div>
           </div>
@@ -277,7 +277,7 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
                     rows={3}
                     value={transcription}
                     onChange={(e) => setTranscription(e.target.value)}
-                    className="w-full p-2.5 bg-white border border-purple-200 rounded-xl text-xs text-navy focus:outline-none"
+                    className="w-full p-2.5 bg-white border border-purple-200 rounded-xl text-xs text-primary focus:outline-none"
                   />
                 </div>
               )}
@@ -318,7 +318,7 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="font-bold text-navy uppercase tracking-wider">
+              <label className="font-bold text-primary uppercase tracking-wider">
                 Raw Citizen Report Text
               </label>
               <button
@@ -331,7 +331,7 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
                     'నమస్కారం సార్, తెనాలి ఆర్టీసీ బస్టాండ్ సమీపంలో డ్రైనేజీ లీక్ అయ్యి రోడ్డుపై మురుగునీరు ప్రవహిస్తోంది. మునిసిపల్ అధికారులకు 3 సార్లు ఫిర్యాదు చేసినా పట్టించుకోలేదు. పిల్లలు అనారోగ్యం పాలవుతున్నారు.'
                   );
                 }}
-                className="text-[11px] font-bold text-electric-blue hover:underline cursor-pointer"
+                className="text-[11px] font-bold text-primary hover:underline cursor-pointer"
               >
                 Fill Sample Telugu Report
               </button>
@@ -342,22 +342,22 @@ export default function AddIntakeModal({ isOpen, onClose, onSuccess }: AddIntake
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder="Paste the raw grievance text as received from the complainant..."
-              className="w-full p-3 bg-off-white border border-border-light rounded-xl font-normal text-navy text-xs focus:outline-none focus:ring-2 focus:ring-electric-blue/30 leading-relaxed"
+              className="w-full p-3 bg-background border border-surface-3 rounded-xl font-normal text-primary text-xs focus:outline-none focus:ring-2 focus:ring-primary/30 leading-relaxed"
             />
           </div>
 
-          <div className="pt-3 border-t border-border-light flex items-center justify-end gap-3">
+          <div className="pt-3 border-t border-surface-3 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-5 py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
+              className="px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {submitting ? (
                 <>

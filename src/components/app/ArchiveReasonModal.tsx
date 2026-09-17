@@ -58,24 +58,24 @@ export default function ArchiveReasonModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/60 backdrop-blur-xs animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-border-light overflow-hidden"
+        className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-surface-3 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6 border-b border-border-light flex items-center justify-between bg-slate-50">
+        <div className="p-6 border-b border-surface-3 flex items-center justify-between bg-slate-50">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-700 flex items-center justify-center font-bold">
               <Archive size={18} />
             </div>
             <div>
-              <h3 className="text-base font-black text-navy">Archive Intake Report</h3>
+              <h3 className="text-base font-black text-primary">Archive Intake Report</h3>
               <p className="text-[11px] text-slate-500">
                 Preserve the record while removing it from active review queues.
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-navy cursor-pointer">
+          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-primary cursor-pointer">
             <X size={18} />
           </button>
         </div>
@@ -88,7 +88,7 @@ export default function ArchiveReasonModal({
           )}
 
           <div>
-            <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-2">
               Select Archival Reason (Mandatory)
             </label>
             <div className="space-y-2">
@@ -100,8 +100,8 @@ export default function ArchiveReasonModal({
                     onClick={() => setReason(r.id)}
                     className={`block p-3 rounded-xl border transition-all cursor-pointer text-xs ${
                       selected
-                        ? 'bg-slate-100 border-navy text-navy font-bold'
-                        : 'bg-off-white/40 border-border-light text-slate-600 hover:bg-slate-50'
+                        ? 'bg-slate-100 border-primary text-primary font-bold'
+                        : 'bg-background/40 border-surface-3 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -111,7 +111,7 @@ export default function ArchiveReasonModal({
                         name="archive_reason"
                         checked={selected}
                         onChange={() => setReason(r.id)}
-                        className="text-navy focus:ring-navy"
+                        className="text-primary focus:ring-primary"
                       />
                     </div>
                     <div className="text-[11px] font-normal text-slate-500 mt-0.5">
@@ -123,11 +123,11 @@ export default function ArchiveReasonModal({
             </div>
           </div>
 
-          <div className="pt-3 border-t border-border-light flex items-center justify-end gap-3">
+          <div className="pt-3 border-t border-surface-3 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
             >
               Cancel
             </button>

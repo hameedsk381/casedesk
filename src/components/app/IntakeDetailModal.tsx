@@ -186,18 +186,18 @@ export default function IntakeDetailModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-navy/70 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-primary/70 backdrop-blur-xs animate-in fade-in duration-150">
         <div
-          className="w-full max-w-6xl max-h-[92vh] bg-white rounded-3xl shadow-2xl border border-border-light flex flex-col overflow-hidden"
+          className="w-full max-w-6xl max-h-[92vh] bg-white rounded-3xl shadow-2xl border border-surface-3 flex flex-col overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Top Command Bar */}
-          <div className="px-6 py-4 border-b border-border-light flex flex-wrap items-center justify-between gap-4 bg-off-white/40">
+          <div className="px-6 py-4 border-b border-surface-3 flex flex-wrap items-center justify-between gap-4 bg-background/40">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold text-electric-blue">
+              <span className="font-mono text-xs font-bold text-primary">
                 INTAKE #{intakeItem.id.slice(-6).toUpperCase()}
               </span>
-              <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-navy/5 text-navy border border-navy/10">
+              <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-primary/5 text-primary border border-primary/10">
                 {intakeItem.sourceType}
               </span>
               <span className="text-xs text-slate-500 flex items-center gap-1">
@@ -211,18 +211,18 @@ export default function IntakeDetailModal({
               <button
                 onClick={handleCreateCase}
                 disabled={actionLoading}
-                className="px-3.5 py-2 bg-navy hover:bg-navy/90 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                className="px-3.5 py-2 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
               >
-                <FileCheck2 size={14} className="text-teal" />
+                <FileCheck2 size={14} className="text-success" />
                 <span>Create Case</span>
               </button>
 
               <button
                 onClick={() => setIsMergeModalOpen(true)}
                 disabled={actionLoading}
-                className="px-3.5 py-2 bg-off-white hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-border-light transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-3.5 py-2 bg-background hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-surface-3 transition-all flex items-center gap-1.5 cursor-pointer"
               >
-                <GitMerge size={14} className="text-electric-blue" />
+                <GitMerge size={14} className="text-primary" />
                 <span>Merge with Case</span>
               </button>
 
@@ -246,7 +246,7 @@ export default function IntakeDetailModal({
 
               <button
                 onClick={onClose}
-                className="p-1.5 text-slate-500 hover:text-navy hover:bg-slate-100 rounded-full transition-colors ml-1 cursor-pointer"
+                className="p-1.5 text-slate-500 hover:text-primary hover:bg-slate-100 rounded-full transition-colors ml-1 cursor-pointer"
                 title="Close"
               >
                 <X size={18} />
@@ -263,12 +263,12 @@ export default function IntakeDetailModal({
           )}
 
           {/* 2-Column Body Workspace */}
-          <div className="flex-1 overflow-y-auto grid lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-border-light">
+          <div className="flex-1 overflow-y-auto grid lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-surface-3">
             {/* LEFT COLUMN: Original Message as Received */}
             <div className="p-6 sm:p-7 space-y-6 overflow-y-auto">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-black text-navy uppercase tracking-wider">
+                  <h3 className="text-sm font-black text-primary uppercase tracking-wider">
                     Original Citizen Message
                   </h3>
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
@@ -276,7 +276,7 @@ export default function IntakeDetailModal({
                   </span>
                 </div>
                 <div className="text-xs font-semibold text-slate-500">
-                  Language: <span className="font-bold text-navy">{intakeItem.preferredLanguage}</span>
+                  Language: <span className="font-bold text-primary">{intakeItem.preferredLanguage}</span>
                 </div>
               </div>
 
@@ -348,7 +348,7 @@ export default function IntakeDetailModal({
                       <div className="text-[10px] font-bold uppercase tracking-wider text-purple-700">
                         Automated Audio Transcript
                       </div>
-                      <p className="text-xs text-navy leading-relaxed whitespace-pre-wrap font-sans">
+                      <p className="text-xs text-primary leading-relaxed whitespace-pre-wrap font-sans">
                         &ldquo;{intakeItem.transcription}&rdquo;
                       </p>
                     </div>
@@ -357,14 +357,14 @@ export default function IntakeDetailModal({
               )}
 
               {/* Raw Message Box */}
-              <div className="p-4 rounded-2xl bg-off-white/80 border border-border-light text-xs text-navy leading-relaxed font-sans whitespace-pre-wrap shadow-2xs">
+              <div className="p-4 rounded-2xl bg-background/80 border border-surface-3 text-xs text-primary leading-relaxed font-sans whitespace-pre-wrap shadow-2xs">
                 &ldquo;{intakeItem.rawText}&rdquo;
               </div>
 
               {/* Attachments Section */}
               {intakeItem.attachments && intakeItem.attachments.length > 0 && (
                 <div className="space-y-2">
-                  <div className="text-xs font-bold text-navy flex items-center gap-1.5">
+                  <div className="text-xs font-bold text-primary flex items-center gap-1.5">
                     <Paperclip size={14} className="text-slate-500" />
                     <span>Attached Evidence / Files ({intakeItem.attachments.length})</span>
                   </div>
@@ -372,10 +372,10 @@ export default function IntakeDetailModal({
                     {intakeItem.attachments.map((att: any) => (
                       <div
                         key={att.id}
-                        className="p-3 rounded-xl bg-off-white border border-border-light text-xs flex items-center justify-between"
+                        className="p-3 rounded-xl bg-background border border-surface-3 text-xs flex items-center justify-between"
                       >
                         <div className="truncate mr-2">
-                          <div className="font-semibold text-navy truncate">{att.fileName}</div>
+                          <div className="font-semibold text-primary truncate">{att.fileName}</div>
                           <div className="text-[10px] text-slate-500">{Math.round(att.size / 1024)} KB · {att.type}</div>
                         </div>
                         <div className="flex items-center gap-1.5 shrink-0">
@@ -386,7 +386,7 @@ export default function IntakeDetailModal({
                             href={`/api/intake/attachments/${att.id}/download`}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-navy transition-colors"
+                            className="p-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-primary transition-colors"
                             title="Download Attachment"
                           >
                             <Download size={12} />
@@ -399,14 +399,14 @@ export default function IntakeDetailModal({
               )}
 
               {/* Complainant Profile Card */}
-              <div className="p-4 rounded-2xl bg-white border border-border-light space-y-2">
+              <div className="p-4 rounded-2xl bg-white border border-surface-3 space-y-2">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                   Citizen Source Profile
                 </div>
                 <div className="grid sm:grid-cols-2 gap-3 text-xs">
                   <div className="flex items-center gap-2">
                     <User size={13} className="text-slate-500" />
-                    <span className="font-bold text-navy">{intakeItem.senderName}</span>
+                    <span className="font-bold text-primary">{intakeItem.senderName}</span>
                   </div>
                   {intakeItem.senderPhone && (
                     <div className="flex items-center gap-2">
@@ -432,8 +432,8 @@ export default function IntakeDetailModal({
             <div className="p-6 sm:p-7 space-y-6 overflow-y-auto bg-slate-50/40">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Sparkles size={16} className="text-electric-blue" />
-                  <h3 className="text-sm font-black text-navy uppercase tracking-wider">
+                  <Sparkles size={16} className="text-primary" />
+                  <h3 className="text-sm font-black text-primary uppercase tracking-wider">
                     AI Triage & Review
                   </h3>
                 </div>
@@ -442,7 +442,7 @@ export default function IntakeDetailModal({
                   <button
                     onClick={handleSaveEdits}
                     disabled={savingEdits}
-                    className="px-3 py-1 bg-navy text-white text-xs font-bold rounded-lg shadow-xs flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                    className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-lg shadow-xs flex items-center gap-1 cursor-pointer disabled:opacity-50"
                   >
                     {savingEdits ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
                     <span>Save Edits</span>
@@ -450,7 +450,7 @@ export default function IntakeDetailModal({
                 ) : (
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-navy hover:bg-white rounded-lg border border-border-light transition-colors flex items-center gap-1 cursor-pointer"
+                    className="px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-primary hover:bg-white rounded-lg border border-surface-3 transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <Edit3 size={12} />
                     <span>Edit Values</span>
@@ -477,7 +477,7 @@ export default function IntakeDetailModal({
                     <Link
                       href={`/app/cases/${intakeItem.duplicateCaseId}`}
                       target="_blank"
-                      className="font-bold text-navy hover:text-electric-blue flex items-center gap-1"
+                      className="font-bold text-primary hover:text-primary flex items-center gap-1"
                     >
                       <span>
                         {intakeItem.mergedCase
@@ -504,7 +504,7 @@ export default function IntakeDetailModal({
                           body: JSON.stringify({ duplicateCandidate: false }),
                         }).then(() => onUpdated());
                       }}
-                      className="px-2.5 py-1.5 text-xs text-slate-500 hover:text-navy cursor-pointer"
+                      className="px-2.5 py-1.5 text-xs text-slate-500 hover:text-primary cursor-pointer"
                     >
                       Not Related
                     </button>
@@ -525,10 +525,10 @@ export default function IntakeDetailModal({
                         type="text"
                         value={editCategory}
                         onChange={(e) => setEditCategory(e.target.value)}
-                        className="w-full p-2 bg-white border border-border-light rounded-xl text-xs font-semibold text-navy focus:outline-none"
+                        className="w-full p-2 bg-white border border-surface-3 rounded-xl text-xs font-semibold text-primary focus:outline-none"
                       />
                     ) : (
-                      <div className="p-2.5 bg-white rounded-xl border border-border-light text-xs font-bold text-navy">
+                      <div className="p-2.5 bg-white rounded-xl border border-surface-3 text-xs font-bold text-primary">
                         {editCategory}
                       </div>
                     )}
@@ -542,7 +542,7 @@ export default function IntakeDetailModal({
                       <select
                         value={editPriority}
                         onChange={(e) => setEditPriority(e.target.value)}
-                        className="w-full p-2 bg-white border border-border-light rounded-xl text-xs font-semibold text-navy focus:outline-none"
+                        className="w-full p-2 bg-white border border-surface-3 rounded-xl text-xs font-semibold text-primary focus:outline-none"
                       >
                         <option value="URGENT">🔴 URGENT</option>
                         <option value="HIGH">🟠 HIGH</option>
@@ -550,7 +550,7 @@ export default function IntakeDetailModal({
                         <option value="LOW">⚪ LOW</option>
                       </select>
                     ) : (
-                      <div className="p-2.5 bg-white rounded-xl border border-border-light">
+                      <div className="p-2.5 bg-white rounded-xl border border-surface-3">
                         <PriorityBadge priority={editPriority} size="sm" />
                       </div>
                     )}
@@ -567,10 +567,10 @@ export default function IntakeDetailModal({
                       type="text"
                       value={editPriorityReason}
                       onChange={(e) => setEditPriorityReason(e.target.value)}
-                      className="w-full p-2 bg-white border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                      className="w-full p-2 bg-white border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                     />
                   ) : (
-                    <p className="text-xs text-slate-600 p-2.5 bg-white rounded-xl border border-border-light leading-relaxed">
+                    <p className="text-xs text-slate-600 p-2.5 bg-white rounded-xl border border-surface-3 leading-relaxed">
                       {editPriorityReason || 'Standard editorial review applied.'}
                     </p>
                   )}
@@ -586,14 +586,14 @@ export default function IntakeDetailModal({
                       rows={3}
                       value={editSummary}
                       onChange={(e) => setEditSummary(e.target.value)}
-                      className="w-full p-2.5 bg-white border border-border-light rounded-xl text-xs text-navy focus:outline-none leading-relaxed"
+                      className="w-full p-2.5 bg-white border border-surface-3 rounded-xl text-xs text-primary focus:outline-none leading-relaxed"
                     />
                   ) : (
-                    <div className="text-xs text-navy p-3 bg-white rounded-xl border border-border-light leading-relaxed font-medium">
+                    <div className="text-xs text-primary p-3 bg-white rounded-xl border border-surface-3 leading-relaxed font-medium">
                       <ReactMarkdown
                         components={{
                           p: ({ children }) => <p className="mb-1.5 last:mb-0 leading-relaxed">{children}</p>,
-                          strong: ({ children }) => <strong className="font-bold text-navy">{children}</strong>,
+                          strong: ({ children }) => <strong className="font-bold text-primary">{children}</strong>,
                           ul: ({ children }) => <ul className="list-disc pl-4 my-1 space-y-0.5">{children}</ul>,
                           ol: ({ children }) => <ol className="list-decimal pl-4 my-1 space-y-0.5">{children}</ol>,
                           li: ({ children }) => <li className="leading-relaxed">{children}</li>,
@@ -616,7 +616,7 @@ export default function IntakeDetailModal({
                     {editClaims.map((claim, idx) => (
                       <div
                         key={idx}
-                        className="p-2.5 bg-white rounded-xl border border-border-light text-xs text-navy flex items-start justify-between gap-2"
+                        className="p-2.5 bg-white rounded-xl border border-surface-3 text-xs text-primary flex items-start justify-between gap-2"
                       >
                         <span>• {claim}</span>
                         {isEditing && (
@@ -637,7 +637,7 @@ export default function IntakeDetailModal({
                           value={newClaimInput}
                           onChange={(e) => setNewClaimInput(e.target.value)}
                           placeholder="Add new claim..."
-                          className="flex-1 p-2 bg-white border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                          className="flex-1 p-2 bg-white border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                         />
                         <button
                           type="button"
@@ -647,7 +647,7 @@ export default function IntakeDetailModal({
                               setNewClaimInput('');
                             }
                           }}
-                          className="p-2 bg-navy text-white rounded-xl cursor-pointer"
+                          className="p-2 bg-primary text-white rounded-xl cursor-pointer"
                         >
                           <Plus size={14} />
                         </button>
@@ -702,19 +702,19 @@ export default function IntakeDetailModal({
 
       {/* Merge with Case Selector Modal */}
       {isMergeModalOpen && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-navy/60 backdrop-blur-xs animate-in fade-in duration-150">
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-primary/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-border-light p-6 space-y-4"
+            className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-surface-3 p-6 space-y-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between border-b border-border-light pb-3">
-              <h3 className="text-base font-black text-navy flex items-center gap-2">
-                <GitMerge size={16} className="text-electric-blue" />
+            <div className="flex items-center justify-between border-b border-surface-3 pb-3">
+              <h3 className="text-base font-black text-primary flex items-center gap-2">
+                <GitMerge size={16} className="text-primary" />
                 <span>Merge Report into Existing Case</span>
               </h3>
               <button
                 onClick={() => setIsMergeModalOpen(false)}
-                className="text-slate-500 hover:text-navy cursor-pointer"
+                className="text-slate-500 hover:text-primary cursor-pointer"
               >
                 <X size={16} />
               </button>
@@ -725,13 +725,13 @@ export default function IntakeDetailModal({
             </p>
 
             <div>
-              <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                 Target Case
               </label>
               <select
                 value={selectedMergeCaseId}
                 onChange={(e) => setSelectedMergeCaseId(e.target.value)}
-                className="w-full p-2.5 bg-off-white border border-border-light rounded-xl text-xs font-semibold text-navy focus:outline-none"
+                className="w-full p-2.5 bg-background border border-surface-3 rounded-xl text-xs font-semibold text-primary focus:outline-none"
               >
                 <option value="">-- Choose active case --</option>
                 {existingCases.map((c) => (
@@ -745,14 +745,14 @@ export default function IntakeDetailModal({
             <div className="pt-2 flex items-center justify-end gap-2">
               <button
                 onClick={() => setIsMergeModalOpen(false)}
-                className="px-3.5 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+                className="px-3.5 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleExecuteMerge(selectedMergeCaseId)}
                 disabled={!selectedMergeCaseId || actionLoading}
-                className="px-4 py-2 bg-navy text-white text-xs font-bold rounded-xl shadow-xs cursor-pointer disabled:opacity-50"
+                className="px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl shadow-xs cursor-pointer disabled:opacity-50"
               >
                 Confirm Merge
               </button>

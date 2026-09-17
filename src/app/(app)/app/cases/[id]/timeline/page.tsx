@@ -21,28 +21,28 @@ export default async function CaseTimelinePage({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-navy">Chronological Case Timeline</h2>
-          <p className="text-xs text-slate mt-0.5">
+          <h2 className="text-lg font-bold text-primary">Chronological Case Timeline</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
             Audit history of citizen interactions, documentary uploads, right-of-reply notices, and status changes.
           </p>
         </div>
       </div>
 
-      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-border-light shadow-xs">
+      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-surface-3 shadow-xs">
         {events.length === 0 ? (
           <div className="py-12 text-center text-xs text-slate-500">
             No events recorded yet.
           </div>
         ) : (
-          <div className="relative pl-6 border-l-2 border-border-light space-y-8">
+          <div className="relative pl-6 border-l-2 border-surface-3 space-y-8">
             {events.map((ev: any, index: number) => (
               <div key={ev.id} className="relative group">
                 {/* Node dot */}
-                <span className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full border-2 border-white bg-electric-blue ring-4 ring-electric-blue/10" />
+                <span className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full border-2 border-white bg-primary ring-4 ring-primary/10" />
 
                 <div>
                   <div className="flex flex-wrap items-baseline gap-2">
-                    <span className="text-xs font-bold text-navy">{ev.title}</span>
+                    <span className="text-xs font-bold text-primary">{ev.title}</span>
                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 uppercase tracking-wider">
                       {ev.type.replace(/_/g, ' ')}
                     </span>
@@ -56,7 +56,7 @@ export default async function CaseTimelinePage({
                   </div>
 
                   {ev.description && (
-                    <p className="mt-1.5 text-xs text-slate leading-relaxed">
+                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
                       {ev.description}
                     </p>
                   )}

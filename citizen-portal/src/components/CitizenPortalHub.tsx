@@ -56,17 +56,17 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
   // If user selected Form Mode
   if (mode === 'form') {
     return (
-      <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+      <div className="min-h-screen flex flex-col bg-linear-to-b from-card via-background to-surface text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
         {/* Creator Portal Trust Header */}
-        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
+        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-surface-3 shadow-xs py-3.5 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-xs">
+              <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
                 <ShieldCheck size={16} />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-extrabold text-sm tracking-tight text-navy">
+                  <span className="font-extrabold text-sm tracking-tight text-primary">
                     {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
                   </span>
                   <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
@@ -82,7 +82,7 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
             <div className="flex items-center gap-3 text-xs text-slate-500">
               <button
                 onClick={() => setMode('chat')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-electric-blue/10 hover:bg-electric-blue/15 text-electric-blue text-xs font-bold transition cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary text-xs font-bold transition cursor-pointer"
                 title={lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Assistant'}
               >
                 <Bot size={14} />
@@ -95,12 +95,12 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
               </div>
 
               {/* Language Switcher */}
-              <div className="flex items-center gap-1.5 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
+              <div className="flex items-center gap-1.5 p-1 bg-white border border-surface-3 rounded-xl text-xs font-semibold shadow-2xs">
                 <Languages size={13} className="text-slate-500 ml-1.5" />
                 <button
                   onClick={() => setLang('en')}
                   className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                    lang === 'en' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                    lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
                   }`}
                 >
                   English
@@ -108,7 +108,7 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
                 <button
                   onClick={() => setLang('te')}
                   className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                    lang === 'te' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                    lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
                   }`}
                 >
                   తెలుగు
@@ -130,10 +130,10 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
         </main>
 
         {/* Footer */}
-        <footer className="mt-auto border-t border-border-light/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
+        <footer className="mt-auto border-t border-surface-3/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
           <div className="max-w-2xl mx-auto space-y-2">
-            <div className="flex items-center justify-center gap-2 text-navy font-semibold text-xs">
-              <ShieldCheck size={14} className="text-electric-blue" />
+            <div className="flex items-center justify-center gap-2 text-primary font-semibold text-xs">
+              <ShieldCheck size={14} className="text-primary" />
               <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
             </div>
             <p className="text-[11px] leading-relaxed text-slate-500">
@@ -149,17 +149,17 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
 
   // DEFAULT: MODE SELECTION SCREEN AT THE BEGINNING
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-warm-white via-off-white to-cream text-foreground font-sans antialiased selection:bg-electric-blue/15 selection:text-electric-blue">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-card via-background to-surface text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
       {/* Creator Portal Trust Header */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-surface-3 shadow-xs py-3.5 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-xs">
+            <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
               <ShieldCheck size={16} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm tracking-tight text-navy">
+                <span className="font-extrabold text-sm tracking-tight text-primary">
                   {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
                 </span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
@@ -179,12 +179,12 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
             </div>
 
             {/* Multilingual Switcher matching creator portal */}
-            <div className="flex items-center gap-1.5 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
+            <div className="flex items-center gap-1.5 p-1 bg-white border border-surface-3 rounded-xl text-xs font-semibold shadow-2xs">
               <Languages size={13} className="text-slate-500 ml-1.5" />
               <button
                 onClick={() => setLang('en')}
                 className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'en' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                  lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
                 }`}
               >
                 English
@@ -192,7 +192,7 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
               <button
                 onClick={() => setLang('te')}
                 className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'te' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                  lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
                 }`}
               >
                 తెలుగు
@@ -208,7 +208,7 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
           
           {/* Headline & Overview */}
           <div className="text-center space-y-2 max-w-xl mx-auto">
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-navy leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-primary leading-tight">
               {lang === 'te'
                 ? 'మీకు ఏది సులభంగా అనిపిస్తే అది ఎంచుకోండి'
                 : 'How would you like to tell us?'}
@@ -225,18 +225,18 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
             
             {/* OPTION 1: AI CHAT ASSISTANT */}
-            <div className="bg-white rounded-3xl p-6 border-2 border-electric-blue/30 hover:border-electric-blue shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
-              <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-electric-blue/10 text-electric-blue text-[10px] font-bold uppercase">
+            <div className="bg-white rounded-3xl p-6 border-2 border-primary/30 hover:border-primary shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
+              <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase">
                 {lang === 'te' ? 'చాలా సులభం' : 'Easiest • Voice'}
               </div>
 
               <div className="space-y-3">
-                <div className="w-11 h-11 rounded-2xl bg-electric-blue/10 text-electric-blue flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
+                <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                   <Bot size={22} />
                 </div>
 
                 <div className="space-y-1">
-                  <h2 className="text-base sm:text-lg font-black text-navy group-hover:text-electric-blue transition">
+                  <h2 className="text-base sm:text-lg font-black text-primary group-hover:text-primary transition">
                     {lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Assistant'}
                   </h2>
                   <p className="text-xs text-slate-600 leading-relaxed">
@@ -250,7 +250,7 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
               <div className="pt-5">
                 <button
                   onClick={() => setMode('chat')}
-                  className="w-full py-3 px-4 bg-electric-blue hover:bg-electric-blue-dark text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                  className="w-full py-3 px-4 bg-primary hover:bg-primary-hover text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
                 >
                   <Mic size={15} />
                   <span>{lang === 'te' ? 'మాట్లాడండి / టైప్ చేయండి →' : 'Start Talking →'}</span>
@@ -259,9 +259,9 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
             </div>
 
             {/* OPTION 2: STRUCTURED 6-STEP FORM */}
-            <div className="bg-white rounded-3xl p-6 border border-border-light hover:border-slate-300 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <div className="bg-white rounded-3xl p-6 border border-surface-3 hover:border-slate-300 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="flex items-center justify-between">
-                <div className="w-11 h-11 rounded-2xl bg-slate-100 text-navy flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
+                <div className="w-11 h-11 rounded-2xl bg-slate-100 text-primary flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                   <FileText size={22} />
                 </div>
                 <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">
@@ -271,7 +271,7 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
 
               <div className="space-y-3 mt-3">
                 <div className="space-y-1">
-                  <h2 className="text-base sm:text-lg font-black text-navy group-hover:text-navy/80 transition">
+                  <h2 className="text-base sm:text-lg font-black text-primary group-hover:text-primary/80 transition">
                     {lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill Out a Form'}
                   </h2>
                   <p className="text-xs text-slate-600 leading-relaxed">
@@ -285,7 +285,7 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
               <div className="pt-5">
                 <button
                   onClick={() => setMode('form')}
-                  className="w-full py-3 px-4 bg-navy hover:bg-navy/90 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                  className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
                 >
                   <span>{lang === 'te' ? 'ఫారమ్ తెరవండి →' : 'Open Form →'}</span>
                 </button>
@@ -295,8 +295,8 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
           </div>
 
           {/* Reassurance Notice Card */}
-          <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-white border border-border-light/80 space-y-2 text-xs text-slate-600 shadow-2xs">
-            <div className="font-bold text-navy flex items-center gap-2">
+          <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-white border border-surface-3/80 space-y-2 text-xs text-slate-600 shadow-2xs">
+            <div className="font-bold text-primary flex items-center gap-2">
               <Shield size={16} className="text-emerald-600" />
               <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
             </div>
@@ -311,10 +311,10 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
       </main>
 
       {/* Creator Portal Footer */}
-      <footer className="mt-auto border-t border-border-light/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
+      <footer className="mt-auto border-t border-surface-3/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
         <div className="max-w-2xl mx-auto space-y-2">
-          <div className="flex items-center justify-center gap-2 text-navy font-semibold text-xs">
-            <ShieldCheck size={14} className="text-electric-blue" />
+          <div className="flex items-center justify-center gap-2 text-primary font-semibold text-xs">
+            <ShieldCheck size={14} className="text-primary" />
             <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
           </div>
           <p className="text-[11px] leading-relaxed text-slate-500">

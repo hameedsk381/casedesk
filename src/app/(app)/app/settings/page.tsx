@@ -81,8 +81,8 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-border-light p-12 flex justify-center">
-        <Loader2 size={24} className="animate-spin text-electric-blue" />
+      <div className="bg-white rounded-2xl border border-surface-3 p-12 flex justify-center">
+        <Loader2 size={24} className="animate-spin text-primary" />
       </div>
     );
   }
@@ -91,16 +91,16 @@ export default function SettingsPage() {
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-extrabold tracking-tight text-navy">
+        <h1 className="text-2xl font-extrabold tracking-tight text-primary">
           Desk Configuration
         </h1>
-        <p className="mt-1 text-sm text-slate">
+        <p className="mt-1 text-sm text-muted-foreground">
           Manage your newsroom profile, team permissions, categories, and AI extraction engine.
         </p>
       </div>
 
       {savedMessage && (
-        <div className="p-3.5 rounded-xl bg-teal/10 border border-teal/20 text-teal text-xs font-semibold flex items-center gap-2">
+        <div className="p-3.5 rounded-xl bg-success/10 border border-success/20 text-success text-xs font-semibold flex items-center gap-2">
           <CheckCircle2 size={16} />
           <span>{savedMessage}</span>
         </div>
@@ -109,7 +109,7 @@ export default function SettingsPage() {
       {/* Main Settings Grid */}
       <div className="grid md:grid-cols-4 gap-6 items-start">
         {/* Navigation tabs */}
-        <div className="bg-white p-2 rounded-2xl border border-border-light shadow-xs space-y-1">
+        <div className="bg-white p-2 rounded-2xl border border-surface-3 shadow-xs space-y-1">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isSelected = activeTab === tab.id;
@@ -120,11 +120,11 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-colors text-left cursor-pointer ${
                   isSelected
-                    ? 'bg-navy text-white shadow-2xs'
-                    : 'text-slate-600 hover:text-navy hover:bg-off-white'
+                    ? 'bg-primary text-white shadow-2xs'
+                    : 'text-slate-600 hover:text-primary hover:bg-background'
                 }`}
               >
-                <Icon size={16} className={isSelected ? 'text-teal' : 'text-slate-500'} />
+                <Icon size={16} className={isSelected ? 'text-success' : 'text-slate-500'} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -132,47 +132,47 @@ export default function SettingsPage() {
         </div>
 
         {/* Tab Content Panel */}
-        <div className="md:col-span-3 bg-white p-6 sm:p-8 rounded-2xl border border-border-light shadow-xs space-y-6">
+        <div className="md:col-span-3 bg-white p-6 sm:p-8 rounded-2xl border border-surface-3 shadow-xs space-y-6">
           {/* PROFILE TAB */}
           {activeTab === 'profile' && (
             <div className="space-y-5">
-              <div className="border-b border-border-light pb-3">
-                <h3 className="text-base font-bold text-navy">Investigator Profile</h3>
-                <p className="text-xs text-slate mt-0.5">
+              <div className="border-b border-surface-3 pb-3">
+                <h3 className="text-base font-bold text-primary">Investigator Profile</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Your identity when logging case events, tasks, and audit logs.
                 </p>
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                     Full Name
                   </label>
                   <input
                     type="text"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
-                    className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                     Email Address
                   </label>
                   <input
                     type="email"
                     disabled
                     value={userEmail}
-                    className="w-full px-3 py-2 bg-slate-100 border border-border-light rounded-xl text-xs text-slate-500 cursor-not-allowed"
+                    className="w-full px-3 py-2 bg-slate-100 border border-surface-3 rounded-xl text-xs text-slate-500 cursor-not-allowed"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                     Assigned Role
                   </label>
-                  <div className="px-3 py-2 bg-slate-100 border border-border-light rounded-xl text-xs font-bold text-navy">
+                  <div className="px-3 py-2 bg-slate-100 border border-surface-3 rounded-xl text-xs font-bold text-primary">
                     {currentUser?.role || 'RESEARCHER'}
                   </div>
                 </div>
@@ -181,7 +181,7 @@ export default function SettingsPage() {
               <div className="pt-2">
                 <button
                   onClick={() => handleSave('Profile changes updated locally.')}
-                  className="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl cursor-pointer"
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer"
                 >
                   Save Profile
                 </button>
@@ -192,45 +192,45 @@ export default function SettingsPage() {
           {/* WORKSPACE TAB */}
           {activeTab === 'workspace' && (
             <div className="space-y-5">
-              <div className="border-b border-border-light pb-3">
-                <h3 className="text-base font-bold text-navy">Workspace Settings</h3>
-                <p className="text-xs text-slate mt-0.5">
+              <div className="border-b border-surface-3 pb-3">
+                <h3 className="text-base font-bold text-primary">Workspace Settings</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Organization name and local filesystem vault scope.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                     Workspace Name
                   </label>
                   <input
                     type="text"
                     value={wsName}
                     onChange={(e) => setWsName(e.target.value)}
-                    className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                     Mission Description
                   </label>
                   <textarea
                     rows={3}
                     value={wsDesc}
                     onChange={(e) => setWsDesc(e.target.value)}
-                    className="w-full p-3 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                    className="w-full p-3 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                   />
                 </div>
               </div>
 
               {/* Public Citizen Submission Portal Config Card */}
-              <div className="mt-6 pt-6 border-t border-border-light space-y-4">
+              <div className="mt-6 pt-6 border-t border-surface-3 space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-sm font-bold text-navy">Public Citizen Submission Portal</h4>
-                    <p className="text-xs text-slate mt-0.5">
+                    <h4 className="text-sm font-bold text-primary">Public Citizen Submission Portal</h4>
+                    <p className="text-xs text-muted-foreground mt-0.5">
                       Share this public link with citizens and whistleblowers to receive structured stories into your inbox.
                     </p>
                   </div>
@@ -245,7 +245,7 @@ export default function SettingsPage() {
                       <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                         Public Portal URL
                       </div>
-                      <div className="font-mono text-xs font-bold text-navy truncate">
+                      <div className="font-mono text-xs font-bold text-primary truncate">
                         /submit/janata-investigation-desk
                       </div>
                     </div>
@@ -257,7 +257,7 @@ export default function SettingsPage() {
                           navigator.clipboard.writeText(`${origin}/submit/janata-investigation-desk`);
                           handleSave('Public portal link copied to clipboard.');
                         }}
-                        className="px-3 py-1.5 bg-white hover:bg-slate-50 text-navy font-bold text-xs rounded-xl border border-border-light shadow-2xs transition-all cursor-pointer"
+                        className="px-3 py-1.5 bg-white hover:bg-slate-50 text-primary font-bold text-xs rounded-xl border border-surface-3 shadow-2xs transition-all cursor-pointer"
                       >
                         Copy Public Link
                       </button>
@@ -265,7 +265,7 @@ export default function SettingsPage() {
                         href="/submit/janata-investigation-desk"
                         target="_blank"
                         rel="noreferrer"
-                        className="px-3 py-1.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+                        className="px-3 py-1.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
                       >
                         <span>Open Portal</span>
                         <span className="text-[10px]">↗</span>
@@ -293,7 +293,7 @@ export default function SettingsPage() {
               <div className="pt-2">
                 <button
                   onClick={() => handleSave('Workspace settings updated.')}
-                  className="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl cursor-pointer"
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer"
                 >
                   Update Workspace
                 </button>
@@ -304,9 +304,9 @@ export default function SettingsPage() {
           {/* TEAM TAB */}
           {activeTab === 'team' && (
             <div className="space-y-5">
-              <div className="border-b border-border-light pb-3">
-                <h3 className="text-base font-bold text-navy">Newsroom Team Members</h3>
-                <p className="text-xs text-slate mt-0.5">
+              <div className="border-b border-surface-3 pb-3">
+                <h3 className="text-base font-bold text-primary">Newsroom Team Members</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Role-based permissions (OWNER, ADMIN, RESEARCHER, EDITOR, VIEWER).
                 </p>
               </div>
@@ -314,10 +314,10 @@ export default function SettingsPage() {
               <div className="space-y-3">
                 {currentUser && (
                   <div
-                    className="p-4 rounded-xl bg-off-white/50 border border-border-light flex items-center justify-between gap-4"
+                    className="p-4 rounded-xl bg-background/50 border border-surface-3 flex items-center justify-between gap-4"
                   >
                     <div>
-                      <div className="text-xs font-bold text-navy">{currentUser.name}</div>
+                      <div className="text-xs font-bold text-primary">{currentUser.name}</div>
                       <div className="text-[11px] text-slate-500">
                         <span className="font-mono">{currentUser.email}</span>
                       </div>
@@ -330,7 +330,7 @@ export default function SettingsPage() {
                           : currentUser.role === 'ADMIN'
                           ? 'bg-blue-100 text-blue-800'
                           : currentUser.role === 'EDITOR'
-                          ? 'bg-teal/15 text-teal'
+                          ? 'bg-success/15 text-success'
                           : 'bg-slate-200 text-slate-700'
                       }`}
                     >
@@ -345,9 +345,9 @@ export default function SettingsPage() {
           {/* CATEGORIES TAB */}
           {activeTab === 'categories' && (
             <div className="space-y-5">
-              <div className="border-b border-border-light pb-3">
-                <h3 className="text-base font-bold text-navy">Case Classification Categories</h3>
-                <p className="text-xs text-slate mt-0.5">
+              <div className="border-b border-surface-3 pb-3">
+                <h3 className="text-base font-bold text-primary">Case Classification Categories</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Standardized categories for organizing complaints and sorting public-interest cases.
                 </p>
               </div>
@@ -356,24 +356,24 @@ export default function SettingsPage() {
                 {categories.map((cat) => (
                   <span
                     key={cat}
-                    className="px-3 py-1.5 rounded-xl bg-off-white border border-border-light text-xs font-semibold text-navy"
+                    className="px-3 py-1.5 rounded-xl bg-background border border-surface-3 text-xs font-semibold text-primary"
                   >
                     {cat}
                   </span>
                 ))}
               </div>
 
-              <div className="flex gap-2 pt-2 border-t border-border-light">
+              <div className="flex gap-2 pt-2 border-t border-surface-3">
                 <input
                   type="text"
                   value={newCat}
                   onChange={(e) => setNewCat(e.target.value)}
                   placeholder="New category name..."
-                  className="flex-1 px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="flex-1 px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 />
                 <button
                   onClick={handleAddCategory}
-                  className="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl cursor-pointer"
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer"
                 >
                   Add
                 </button>
@@ -384,17 +384,17 @@ export default function SettingsPage() {
           {/* AI TAB */}
           {activeTab === 'ai' && (
             <div className="space-y-5">
-              <div className="border-b border-border-light pb-3">
+              <div className="border-b border-surface-3 pb-3">
                 <div className="flex items-center gap-2">
-                  <Sparkles size={16} className="text-electric-blue" />
-                  <h3 className="text-base font-bold text-navy">AI Intelligence Architecture</h3>
+                  <Sparkles size={16} className="text-primary" />
+                  <h3 className="text-base font-bold text-primary">AI Intelligence Architecture</h3>
                 </div>
-                <p className="text-xs text-slate mt-0.5">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Decoupled provider interface. Uses local deterministic extraction by default.
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-teal/10 border border-teal/20 text-xs text-teal space-y-1">
+              <div className="p-4 rounded-xl bg-success/10 border border-success/20 text-xs text-success space-y-1">
                 <div className="font-bold">Active Engine: Local Deterministic Heuristic Provider</div>
                 <p className="text-[11px] leading-relaxed">
                   Extracts claims, entities, missing info, and generates format-tailored content scripts locally without requiring an OpenAI or Gemini API key.
@@ -403,24 +403,24 @@ export default function SettingsPage() {
 
               <div className="space-y-3 text-xs">
                 <div>
-                  <label className="block font-bold text-navy uppercase tracking-wider mb-1">
+                  <label className="block font-bold text-primary uppercase tracking-wider mb-1">
                     OpenAI API Key (Optional)
                   </label>
                   <input
                     type="password"
                     placeholder="sk-••••••••••••••••"
-                    className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-navy uppercase tracking-wider mb-1">
+                  <label className="block font-bold text-primary uppercase tracking-wider mb-1">
                     Gemini API Key (Optional)
                   </label>
                   <input
                     type="password"
                     placeholder="AIzaSy••••••••••••••••"
-                    className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                   />
                 </div>
               </div>
@@ -428,7 +428,7 @@ export default function SettingsPage() {
               <div className="pt-2">
                 <button
                   onClick={() => handleSave('API provider configuration saved.')}
-                  className="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl cursor-pointer"
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer"
                 >
                   Save Configuration
                 </button>

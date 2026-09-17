@@ -29,9 +29,9 @@ const CLAIM_STATUS_MAP: Record<string, { label: string; bg: string; text: string
   },
   SUPPORTED: {
     label: 'Supported by Evidence',
-    bg: 'bg-teal-50',
-    text: 'text-teal-800',
-    border: 'border-teal-200',
+    bg: 'bg-success-50',
+    text: 'text-success-800',
+    border: 'border-success-200',
   },
   DISPUTED: {
     label: 'Disputed by Authority/Witness',
@@ -128,8 +128,8 @@ export default function CaseClaimsPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-border-light p-12 flex justify-center">
-        <Loader2 size={24} className="animate-spin text-electric-blue" />
+      <div className="bg-white rounded-2xl border border-surface-3 p-12 flex justify-center">
+        <Loader2 size={24} className="animate-spin text-primary" />
       </div>
     );
   }
@@ -147,15 +147,15 @@ export default function CaseClaimsPage() {
       {/* Header & Add Button */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-navy">Recorded Claims & Allegations</h2>
-          <p className="text-xs text-slate mt-0.5">
+          <h2 className="text-lg font-bold text-primary">Recorded Claims & Allegations</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
             Test each claim against primary documentary evidence and authority response.
           </p>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="py-2 px-3.5 bg-navy hover:bg-navy/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+          className="py-2 px-3.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
         >
           <Plus size={14} />
           <span>Add Claim</span>
@@ -165,10 +165,10 @@ export default function CaseClaimsPage() {
       {/* Claims List */}
       <div className="space-y-4">
         {claims.length === 0 ? (
-          <div className="bg-white p-12 rounded-2xl border border-border-light text-center">
+          <div className="bg-white p-12 rounded-2xl border border-surface-3 text-center">
             <HelpCircle size={28} className="mx-auto text-slate-300 mb-2" />
-            <h3 className="text-sm font-bold text-navy">No claims logged for this case</h3>
-            <p className="text-xs text-slate mt-1 max-w-sm mx-auto">
+            <h3 className="text-sm font-bold text-primary">No claims logged for this case</h3>
+            <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
               Add individual factual allegations made by the complainant to track corroboration.
             </p>
           </div>
@@ -179,7 +179,7 @@ export default function CaseClaimsPage() {
             return (
               <div
                 key={claim.id}
-                className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-3"
+                className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-3"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <span
@@ -193,7 +193,7 @@ export default function CaseClaimsPage() {
                     <select
                       value={claim.status}
                       onChange={(e) => handleUpdateStatus(claim.id, e.target.value)}
-                      className="text-xs bg-off-white border border-border-light rounded-lg px-2.5 py-1 text-navy font-semibold focus:outline-none cursor-pointer"
+                      className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
                     >
                       <option value="UNVERIFIED">Mark Unverified</option>
                       <option value="PARTIALLY_SUPPORTED">Mark Partially Supported</option>
@@ -211,13 +211,13 @@ export default function CaseClaimsPage() {
                   </div>
                 </div>
 
-                <div className="text-sm font-semibold text-navy leading-relaxed">
+                <div className="text-sm font-semibold text-primary leading-relaxed">
                   &ldquo;{claim.text}&rdquo;
                 </div>
 
                 {claim.source && (
-                  <div className="text-[11px] text-slate-500 pt-1 border-t border-border-light/60">
-                    Source attribution: <strong className="text-navy">{claim.source}</strong>
+                  <div className="text-[11px] text-slate-500 pt-1 border-t border-surface-3/60">
+                    Source attribution: <strong className="text-primary">{claim.source}</strong>
                   </div>
                 )}
               </div>
@@ -228,13 +228,13 @@ export default function CaseClaimsPage() {
 
       {/* Add Claim Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/40 backdrop-blur-xs">
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-border-light p-6 space-y-4">
-            <h3 className="text-base font-bold text-navy">Record New Claim</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-xs">
+          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-surface-3 p-6 space-y-4">
+            <h3 className="text-base font-bold text-primary">Record New Claim</h3>
 
             <form onSubmit={handleAddClaim} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                   Allegation Statement
                 </label>
                 <textarea
@@ -243,12 +243,12 @@ export default function CaseClaimsPage() {
                   value={newText}
                   onChange={(e) => setNewText(e.target.value)}
                   placeholder="e.g. Power was out for 45 minutes and backup generator failed to engage..."
-                  className="w-full p-3 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue"
+                  className="w-full p-3 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                   Source / Attribution
                 </label>
                 <input
@@ -256,18 +256,18 @@ export default function CaseClaimsPage() {
                   value={newSource}
                   onChange={(e) => setNewSource(e.target.value)}
                   placeholder="e.g. Complainant WhatsApp voice note & prescription timestamp"
-                  className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                   Initial Editorial Status
                 </label>
                 <select
                   value={newStatus}
                   onChange={(e) => setNewStatus(e.target.value)}
-                  className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 >
                   <option value="UNVERIFIED">Unverified Allegation</option>
                   <option value="PARTIALLY_SUPPORTED">Partially Supported</option>
@@ -276,18 +276,18 @@ export default function CaseClaimsPage() {
                 </select>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-border-light">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-surface-3">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={adding}
-                  className="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
                 >
                   {adding ? 'Saving...' : 'Add Claim'}
                 </button>

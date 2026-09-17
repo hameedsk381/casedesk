@@ -14,23 +14,23 @@ export default function HeroSection() {
           {/* Left — Copy */}
           <div className="max-w-xl">
             <AnimateOnScroll animation="fade-in-up">
-              <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-electric-blue mb-5">
+              <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-primary mb-5">
                 The case desk for public-interest creators
               </span>
             </AnimateOnScroll>
 
             <AnimateOnScroll animation="fade-in-up" delay={100}>
-              <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-navy">
+              <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-primary">
                 Turn messages
                 <br />
                 into cases.
                 <br />
-                <span className="text-electric-blue">Cases into action.</span>
+                <span className="text-primary">Cases into action.</span>
               </h1>
             </AnimateOnScroll>
 
             <AnimateOnScroll animation="fade-in-up" delay={200}>
-              <p className="mt-6 text-lg leading-relaxed text-slate max-w-md">
+              <p className="mt-6 text-lg leading-relaxed text-muted-foreground max-w-md">
                 Collect complaints, organize evidence, verify claims, create content, and track what
                 happens next — all from one workspace.
               </p>
@@ -58,7 +58,7 @@ export default function HeroSection() {
       </div>
 
       {/* Background subtle gradient */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-electric-blue/[0.03] to-transparent -z-10 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/[0.03] to-transparent -z-10 pointer-events-none" />
     </section>
   );
 }

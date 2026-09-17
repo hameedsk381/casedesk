@@ -45,10 +45,10 @@ export default function IntakeChoiceModal({ isOpen, onClose }: IntakeChoiceModal
       title: 'Paste Citizen Message',
       subtitle: 'WhatsApp forward, Instagram DM, or grievance email text',
       badge: 'AI Powered',
-      badgeColor: 'bg-electric-blue/10 text-electric-blue',
+      badgeColor: 'bg-primary/10 text-primary',
       icon: MessageSquareText,
-      iconBg: 'bg-electric-blue/10 text-electric-blue group-hover:bg-electric-blue group-hover:text-white',
-      borderColor: 'hover:border-electric-blue',
+      iconBg: 'bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white',
+      borderColor: 'hover:border-primary',
     },
     {
       id: 'file',
@@ -77,34 +77,34 @@ export default function IntakeChoiceModal({ isOpen, onClose }: IntakeChoiceModal
       badge: 'Direct Entry',
       badgeColor: 'bg-slate-100 text-slate-700',
       icon: PenTool,
-      iconBg: 'bg-slate-100 text-slate-700 group-hover:bg-navy group-hover:text-white',
-      borderColor: 'hover:border-navy',
+      iconBg: 'bg-slate-100 text-slate-700 group-hover:bg-primary group-hover:text-white',
+      borderColor: 'hover:border-primary',
     },
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/60 backdrop-blur-xs animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-border-light overflow-hidden transition-all scale-100 animate-in zoom-in-95 duration-150"
+        className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-surface-3 overflow-hidden transition-all scale-100 animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="px-7 pt-7 pb-5 border-b border-border-light/80 flex items-start justify-between bg-radial from-electric-blue/5 to-transparent">
+        <div className="px-7 pt-7 pb-5 border-b border-surface-3/80 flex items-start justify-between bg-radial from-primary/5 to-transparent">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-electric-blue/10 text-electric-blue text-[11px] font-bold tracking-wide uppercase mb-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-bold tracking-wide uppercase mb-2">
               <Sparkles size={12} />
               <span>Intelligent Case Intake</span>
             </div>
-            <h2 className="text-xl font-black tracking-tight text-navy">
+            <h2 className="text-xl font-black tracking-tight text-primary">
               Choose How to Bring in This Report
             </h2>
-            <p className="text-xs text-slate mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Select your source format. CaseDesk will extract claims, detect locations, and propose verification checks.
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full text-slate-500 hover:text-navy hover:bg-off-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-full text-slate-500 hover:text-primary hover:bg-background transition-colors cursor-pointer"
             title="Close"
           >
             <X size={18} />
@@ -112,14 +112,14 @@ export default function IntakeChoiceModal({ isOpen, onClose }: IntakeChoiceModal
         </div>
 
         {/* Modal Options Grid */}
-        <div className="p-6 grid sm:grid-cols-2 gap-3.5 bg-off-white/30">
+        <div className="p-6 grid sm:grid-cols-2 gap-3.5 bg-background/30">
           {options.map((opt) => {
             const Icon = opt.icon;
             return (
               <button
                 key={opt.id}
                 onClick={() => handleSelectMode(opt.id)}
-                className={`group text-left p-4 rounded-2xl bg-white border border-border-light/90 shadow-xs ${opt.borderColor} hover:shadow-md transition-all cursor-pointer flex flex-col justify-between`}
+                className={`group text-left p-4 rounded-2xl bg-white border border-surface-3/90 shadow-xs ${opt.borderColor} hover:shadow-md transition-all cursor-pointer flex flex-col justify-between`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -132,7 +132,7 @@ export default function IntakeChoiceModal({ isOpen, onClose }: IntakeChoiceModal
                       {opt.badge}
                     </span>
                   </div>
-                  <h3 className="text-sm font-bold text-navy group-hover:text-electric-blue transition-colors">
+                  <h3 className="text-sm font-bold text-primary group-hover:text-primary transition-colors">
                     {opt.title}
                   </h3>
                   <p className="mt-1 text-xs text-slate-500 leading-relaxed">
@@ -140,7 +140,7 @@ export default function IntakeChoiceModal({ isOpen, onClose }: IntakeChoiceModal
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-border-light/50 flex items-center justify-between text-[11px] font-semibold text-slate-500 group-hover:text-electric-blue transition-colors">
+                <div className="mt-4 pt-3 border-t border-surface-3/50 flex items-center justify-between text-[11px] font-semibold text-slate-500 group-hover:text-primary transition-colors">
                   <span>Continue</span>
                   <ArrowRight size={13} className="transform group-hover:translate-x-0.5 transition-transform" />
                 </div>
@@ -150,15 +150,15 @@ export default function IntakeChoiceModal({ isOpen, onClose }: IntakeChoiceModal
         </div>
 
         {/* Modal Footer with Inbox shortcut */}
-        <div className="px-6 py-4 bg-off-white/80 border-t border-border-light/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div className="px-6 py-4 bg-background/80 border-t border-surface-3/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2 text-slate-600">
-            <Inbox size={15} className="text-electric-blue" />
+            <Inbox size={15} className="text-primary" />
             <span>Have raw citizen messages waiting?</span>
           </div>
           <Link
             href="/app/inbox"
             onClick={onClose}
-            className="text-xs font-bold text-electric-blue hover:text-navy hover:underline flex items-center gap-1 transition-colors"
+            className="text-xs font-bold text-primary hover:text-primary hover:underline flex items-center gap-1 transition-colors"
           >
             <span>Review Intake Inbox (8 Reports)</span>
             <ArrowRight size={12} />

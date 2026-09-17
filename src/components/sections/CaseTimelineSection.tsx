@@ -7,22 +7,22 @@ import Badge from '@/components/ui/Badge';
 import { Circle } from 'lucide-react';
 
 const timelineEntries = [
-  { date: '12 Sep', event: 'Complaint received', dotColor: 'bg-electric-blue' },
-  { date: '13 Sep', event: 'Additional information requested', dotColor: 'bg-electric-blue' },
-  { date: '14 Sep', event: 'Documents uploaded', dotColor: 'bg-teal' },
-  { date: '16 Sep', event: 'Evidence reviewed', dotColor: 'bg-teal' },
+  { date: '12 Sep', event: 'Complaint received', dotColor: 'bg-primary' },
+  { date: '13 Sep', event: 'Additional information requested', dotColor: 'bg-primary' },
+  { date: '14 Sep', event: 'Documents uploaded', dotColor: 'bg-success' },
+  { date: '16 Sep', event: 'Evidence reviewed', dotColor: 'bg-success' },
   { date: '18 Sep', event: 'Authority contacted', dotColor: 'bg-yellow' },
   { date: '21 Sep', event: 'Response received', dotColor: 'bg-green' },
-  { date: '23 Sep', event: 'Content published', dotColor: 'bg-coral' },
-  { date: '30 Sep', event: 'Follow-up', dotColor: 'bg-electric-blue' },
+  { date: '23 Sep', event: 'Content published', dotColor: 'bg-warning' },
+  { date: '30 Sep', event: 'Follow-up', dotColor: 'bg-primary' },
 ];
 
 const statuses = [
   { label: 'Open', color: 'blue' as const },
-  { label: 'Investigating', color: 'yellow' as const },
-  { label: 'Published', color: 'coral' as const },
-  { label: 'Monitoring', color: 'teal' as const },
-  { label: 'Resolved', color: 'green' as const },
+  { label: 'Investigating', color: 'warning' as const },
+  { label: 'Published', color: 'warning' as const },
+  { label: 'Monitoring', color: 'success' as const },
+  { label: 'Resolved', color: 'success' as const },
 ];
 
 export default function CaseTimelineSection() {
@@ -36,7 +36,7 @@ export default function CaseTimelineSection() {
               <>
                 The story doesn&apos;t end
                 <br />
-                <span className="text-slate">when the video goes live.</span>
+                <span className="text-muted-foreground">when the video goes live.</span>
               </>
             }
           />
@@ -58,10 +58,10 @@ export default function CaseTimelineSection() {
 
                   {/* Content */}
                   <div className="flex items-baseline gap-4">
-                    <span className="text-xs font-mono font-medium text-slate-light w-12 flex-shrink-0">
+                    <span className="text-xs font-mono font-medium text-secondary w-12 flex-shrink-0">
                       {entry.date}
                     </span>
-                    <span className="text-sm text-navy group-hover:text-electric-blue transition-colors">
+                    <span className="text-sm text-primary group-hover:text-primary transition-colors">
                       {entry.event}
                     </span>
                   </div>
@@ -79,7 +79,7 @@ export default function CaseTimelineSection() {
                 <React.Fragment key={status.label}>
                   <Badge variant={status.color} dot>{status.label}</Badge>
                   {i < statuses.length - 1 && (
-                    <span className="text-slate-light text-xs hidden sm:inline">→</span>
+                    <span className="text-secondary text-xs hidden sm:inline">→</span>
                   )}
                 </React.Fragment>
               ))}

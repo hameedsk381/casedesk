@@ -334,12 +334,12 @@ export default function IntakeInboxPage() {
       )}
 
       {/* Header (Section 4) */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-border-light shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-surface-3 shadow-xs">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-navy">
+          <h1 className="text-2xl font-black tracking-tight text-primary">
             Intake Inbox
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-slate">
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
             Review incoming reports before they become cases.
           </p>
         </div>
@@ -347,7 +347,7 @@ export default function IntakeInboxPage() {
         <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           <button
             onClick={handleCopyPortalLink}
-            className="px-3.5 py-2.5 bg-white hover:bg-slate-50 text-navy font-bold text-xs rounded-xl border border-border-light shadow-2xs transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+            className="px-3.5 py-2.5 bg-white hover:bg-slate-50 text-primary font-bold text-xs rounded-xl border border-surface-3 shadow-2xs transition-all flex items-center gap-2 cursor-pointer active:scale-95"
             title="Copy Public Submission Link for Citizens"
           >
             {copiedPortalLink ? (
@@ -357,7 +357,7 @@ export default function IntakeInboxPage() {
               </>
             ) : (
               <>
-                <Share2 size={14} className="text-electric-blue" />
+                <Share2 size={14} className="text-primary" />
                 <span>Share Citizen Portal</span>
               </>
             )}
@@ -366,14 +366,14 @@ export default function IntakeInboxPage() {
             href={`${process.env.NEXT_PUBLIC_CITIZEN_PORTAL_URL || 'http://localhost:3001'}/janata-investigation-desk`}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2.5 bg-white hover:bg-slate-50 text-slate-500 hover:text-navy rounded-xl border border-border-light shadow-2xs transition-colors"
+            className="p-2.5 bg-white hover:bg-slate-50 text-slate-500 hover:text-primary rounded-xl border border-surface-3 shadow-2xs transition-colors"
             title="Launch Standalone Citizen Portal (Port 3001)"
           >
             <ExternalLink size={14} />
           </a>
           <button
             onClick={() => setIsAddIntakeOpen(true)}
-            className="px-4 py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer hover:shadow-md active:scale-95"
+            className="px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer hover:shadow-md active:scale-95"
           >
             <Plus size={15} />
             <span>+ Add Intake</span>
@@ -387,8 +387,8 @@ export default function IntakeInboxPage() {
           onClick={() => handleSelectFilterCard('ALL')}
           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
             activeFilterCard === 'ALL'
-              ? 'bg-navy text-white border-navy shadow-md'
-              : 'bg-white text-navy border-border-light hover:border-slate-300'
+              ? 'bg-primary text-white border-primary shadow-md'
+              : 'bg-white text-primary border-surface-3 hover:border-slate-300'
           }`}
         >
           <div className="text-2xl font-black">{counts.total}</div>
@@ -401,8 +401,8 @@ export default function IntakeInboxPage() {
           onClick={() => handleSelectFilterCard('NEEDS_REVIEW')}
           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
             activeFilterCard === 'NEEDS_REVIEW'
-              ? 'bg-electric-blue text-white border-electric-blue shadow-md'
-              : 'bg-white text-navy border-border-light hover:border-electric-blue/40'
+              ? 'bg-primary text-white border-primary shadow-md'
+              : 'bg-white text-primary border-surface-3 hover:border-primary/40'
           }`}
         >
           <div className="text-2xl font-black">{counts.needsReview}</div>
@@ -416,7 +416,7 @@ export default function IntakeInboxPage() {
           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
             activeFilterCard === 'HIGH_PRIORITY'
               ? 'bg-red-600 text-white border-red-600 shadow-md'
-              : 'bg-white text-navy border-border-light hover:border-red-300'
+              : 'bg-white text-primary border-surface-3 hover:border-red-300'
           }`}
         >
           <div className="text-2xl font-black">{counts.highPriority}</div>
@@ -430,7 +430,7 @@ export default function IntakeInboxPage() {
           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
             activeFilterCard === 'DUPLICATES'
               ? 'bg-amber-600 text-white border-amber-600 shadow-md'
-              : 'bg-white text-navy border-border-light hover:border-amber-300'
+              : 'bg-white text-primary border-surface-3 hover:border-amber-300'
           }`}
         >
           <div className="text-2xl font-black">{counts.potentialDuplicates}</div>
@@ -443,19 +443,19 @@ export default function IntakeInboxPage() {
           onClick={() => handleSelectFilterCard('NEEDS_INFORMATION')}
           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer col-span-2 sm:col-span-1 ${
             activeFilterCard === 'NEEDS_INFORMATION'
-              ? 'bg-teal-700 text-white border-teal-700 shadow-md'
-              : 'bg-white text-navy border-border-light hover:border-teal-300'
+              ? 'bg-success-700 text-white border-success-700 shadow-md'
+              : 'bg-white text-primary border-surface-3 hover:border-success-300'
           }`}
         >
           <div className="text-2xl font-black">{counts.needsInformation}</div>
-          <div className={`text-xs font-semibold mt-0.5 ${activeFilterCard === 'NEEDS_INFORMATION' ? 'text-teal-100' : 'text-slate-500'}`}>
+          <div className={`text-xs font-semibold mt-0.5 ${activeFilterCard === 'NEEDS_INFORMATION' ? 'text-success-100' : 'text-slate-500'}`}>
             Needs Information
           </div>
         </button>
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="bg-white p-4 rounded-3xl border border-border-light shadow-xs space-y-3">
+      <div className="bg-white p-4 rounded-3xl border border-surface-3 shadow-xs space-y-3">
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
           {/* Debounced Search */}
           <div className="relative flex-1">
@@ -465,7 +465,7 @@ export default function IntakeInboxPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search content, sender, phone, location, or summary..."
-              className="w-full pl-9 pr-4 py-2 bg-off-white/50 border border-border-light rounded-xl text-xs text-navy focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue transition-all"
+              className="w-full pl-9 pr-4 py-2 bg-background/50 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
             />
           </div>
 
@@ -474,7 +474,7 @@ export default function IntakeInboxPage() {
             <span>Sort:</span>
             <button
               onClick={() => setSortBy(sortBy === 'priority' ? 'newest' : 'priority')}
-              className="px-3 py-1.5 rounded-xl border border-border-light bg-off-white hover:bg-slate-100 text-navy font-bold transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-xl border border-surface-3 bg-background hover:bg-slate-100 text-primary font-bold transition-colors cursor-pointer"
             >
               {sortBy === 'priority' ? '⚡ Sorted by priority' : '🕐 Sorted by newest'}
             </button>
@@ -482,7 +482,7 @@ export default function IntakeInboxPage() {
         </div>
 
         {/* Filter Dropdowns */}
-        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border-light/60 text-xs">
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-surface-3/60 text-xs">
           <span className="font-bold text-slate-500 flex items-center gap-1 mr-1">
             <Filter size={12} />
             <span>Filters:</span>
@@ -492,7 +492,7 @@ export default function IntakeInboxPage() {
           <select
             value={sourceFilter}
             onChange={(e) => setSourceFilter(e.target.value)}
-            className="p-1.5 bg-off-white border border-border-light rounded-lg font-medium text-navy focus:outline-none cursor-pointer"
+            className="p-1.5 bg-background border border-surface-3 rounded-lg font-medium text-primary focus:outline-none cursor-pointer"
           >
             {SOURCES.map((s) => (
               <option key={s.id} value={s.id}>
@@ -505,7 +505,7 @@ export default function IntakeInboxPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="p-1.5 bg-off-white border border-border-light rounded-lg font-medium text-navy focus:outline-none cursor-pointer"
+            className="p-1.5 bg-background border border-surface-3 rounded-lg font-medium text-primary focus:outline-none cursor-pointer"
           >
             <option value="ALL">Status: All</option>
             <option value="NEEDS_REVIEW">Needs Review</option>
@@ -520,7 +520,7 @@ export default function IntakeInboxPage() {
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className="p-1.5 bg-off-white border border-border-light rounded-lg font-medium text-navy focus:outline-none cursor-pointer"
+            className="p-1.5 bg-background border border-surface-3 rounded-lg font-medium text-primary focus:outline-none cursor-pointer"
           >
             <option value="ALL">Priority: All</option>
             <option value="URGENT">🔴 Urgent</option>
@@ -533,7 +533,7 @@ export default function IntakeInboxPage() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="p-1.5 bg-off-white border border-border-light rounded-lg font-medium text-navy focus:outline-none cursor-pointer"
+            className="p-1.5 bg-background border border-surface-3 rounded-lg font-medium text-primary focus:outline-none cursor-pointer"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -546,7 +546,7 @@ export default function IntakeInboxPage() {
           <select
             value={languageFilter}
             onChange={(e) => setLanguageFilter(e.target.value)}
-            className="p-1.5 bg-off-white border border-border-light rounded-lg font-medium text-navy focus:outline-none cursor-pointer"
+            className="p-1.5 bg-background border border-surface-3 rounded-lg font-medium text-primary focus:outline-none cursor-pointer"
           >
             <option value="ALL">Language: All</option>
             <option value="Telugu">Telugu (తెలుగు)</option>
@@ -569,7 +569,7 @@ export default function IntakeInboxPage() {
                 setLanguageFilter('ALL');
                 setSearch('');
               }}
-              className="font-bold text-electric-blue hover:underline ml-auto cursor-pointer"
+              className="font-bold text-primary hover:underline ml-auto cursor-pointer"
             >
               Clear filters
             </button>
@@ -579,7 +579,7 @@ export default function IntakeInboxPage() {
 
       {/* Bulk Action Bar (Section 23) */}
       {selectedIds.length > 0 && (
-        <div className="p-3 bg-navy text-white rounded-2xl flex items-center justify-between shadow-lg animate-in slide-in-from-top-2">
+        <div className="p-3 bg-primary text-white rounded-2xl flex items-center justify-between shadow-lg animate-in slide-in-from-top-2">
           <div className="flex items-center gap-3 text-xs">
             <span className="font-bold px-2 py-0.5 rounded bg-white/20">
               {selectedIds.length} Selected
@@ -617,24 +617,24 @@ export default function IntakeInboxPage() {
 
       {/* Message List Content */}
       {loading ? (
-        <div className="bg-white rounded-3xl border border-border-light p-16 flex flex-col items-center justify-center text-slate-500">
-          <Loader2 size={32} className="animate-spin text-electric-blue mb-3" />
+        <div className="bg-white rounded-3xl border border-surface-3 p-16 flex flex-col items-center justify-center text-slate-500">
+          <Loader2 size={32} className="animate-spin text-primary mb-3" />
           <span className="text-sm font-medium">Filtering intake reports...</span>
         </div>
       ) : items.length === 0 ? (
         /* Empty State (Section 32) */
-        <div className="bg-white rounded-3xl border border-border-light p-16 text-center space-y-3">
+        <div className="bg-white rounded-3xl border border-surface-3 p-16 text-center space-y-3">
           <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
             <CheckCircle2 size={28} />
           </div>
-          <h2 className="text-xl font-black text-navy">Your inbox is clear.</h2>
-          <p className="text-xs text-slate max-w-sm mx-auto">
+          <h2 className="text-xl font-black text-primary">Your inbox is clear.</h2>
+          <p className="text-xs text-muted-foreground max-w-sm mx-auto">
             New citizen reports will appear here for review.
           </p>
           <div className="pt-2">
             <button
               onClick={() => setIsAddIntakeOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer"
             >
               <Plus size={14} />
               <span>＋ Add Intake</span>
@@ -650,7 +650,7 @@ export default function IntakeInboxPage() {
                 type="checkbox"
                 checked={selectedIds.length === items.length && items.length > 0}
                 onChange={handleSelectAll}
-                className="w-4 h-4 rounded text-navy"
+                className="w-4 h-4 rounded text-primary"
               />
               <span>Select All</span>
             </label>
@@ -682,8 +682,8 @@ export default function IntakeInboxPage() {
                 key={item.id}
                 className={`p-5 bg-white rounded-2xl border transition-all ${
                   isSelected
-                    ? 'border-navy shadow-sm ring-1 ring-navy/20'
-                    : 'border-border-light hover:border-electric-blue/60 shadow-xs'
+                    ? 'border-primary shadow-sm ring-1 ring-primary/20'
+                    : 'border-surface-3 hover:border-primary/60 shadow-xs'
                 }`}
               >
                 <div className="flex items-start gap-3.5">
@@ -692,7 +692,7 @@ export default function IntakeInboxPage() {
                     type="checkbox"
                     checked={isSelected}
                     onChange={() => handleToggleSelect(item.id)}
-                    className="w-4 h-4 mt-1 rounded text-navy cursor-pointer shrink-0"
+                    className="w-4 h-4 mt-1 rounded text-primary cursor-pointer shrink-0"
                   />
 
                   {/* Main Card Content */}
@@ -706,7 +706,7 @@ export default function IntakeInboxPage() {
                             {item.referenceNumber}
                           </span>
                         )}
-                        <span className="font-semibold text-navy">
+                        <span className="font-semibold text-primary">
                           {item.senderName}
                         </span>
                         {item.preferredLanguage === 'Telugu' && (
@@ -733,7 +733,7 @@ export default function IntakeInboxPage() {
                     </div>
 
                     {/* Quotation Preview */}
-                    <p className="text-xs text-navy font-medium leading-relaxed line-clamp-2 italic text-slate-700">
+                    <p className="text-xs text-primary font-medium leading-relaxed line-clamp-2 italic text-slate-700">
                       &ldquo;{item.rawText}&rdquo;
                     </p>
 
@@ -742,15 +742,15 @@ export default function IntakeInboxPage() {
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
                         AI
                       </span>
-                      <span className="text-navy">{item.aiCategory || 'Civic Infrastructure'}</span>
+                      <span className="text-primary">{item.aiCategory || 'Civic Infrastructure'}</span>
                       <span>·</span>
                       <PriorityBadge priority={item.aiPriority || 'MEDIUM'} size="sm" />
                     </div>
 
                     {/* AI Summary */}
                     {item.aiSummary && (
-                      <div className="p-2.5 rounded-xl bg-off-white/80 border border-border-light/60 text-xs text-slate-600 leading-relaxed">
-                        <span className="font-bold text-navy mr-1">AI Summary:</span>
+                      <div className="p-2.5 rounded-xl bg-background/80 border border-surface-3/60 text-xs text-slate-600 leading-relaxed">
+                        <span className="font-bold text-primary mr-1">AI Summary:</span>
                         {item.aiSummary}
                       </div>
                     )}
@@ -795,7 +795,7 @@ export default function IntakeInboxPage() {
                   <div className="flex flex-col items-end gap-1.5 shrink-0">
                     <button
                       onClick={() => setSelectedItem(item)}
-                      className="px-3 py-1.5 bg-navy hover:bg-navy/90 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+                      className="px-3 py-1.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
                     >
                       Review
                     </button>
@@ -803,7 +803,7 @@ export default function IntakeInboxPage() {
                     {!item.createdCaseId && (
                       <button
                         onClick={() => setSelectedItem(item)}
-                        className="px-3 py-1 text-slate-600 hover:text-navy hover:bg-off-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                        className="px-3 py-1 text-slate-600 hover:text-primary hover:bg-background text-xs font-semibold rounded-lg transition-colors cursor-pointer"
                       >
                         Create Case
                       </button>

@@ -41,7 +41,7 @@ export default function ProblemSection() {
               <>
                 The problem isn&apos;t a lack of stories.
                 <br />
-                <span className="text-slate">It&apos;s too many of them.</span>
+                <span className="text-muted-foreground">It&apos;s too many of them.</span>
               </>
             }
             body="Creators who speak about public issues often receive a constant stream of complaints and requests for help. The challenge is separating urgent cases from noise, collecting evidence, verifying claims, coordinating investigation, and remembering to follow up."

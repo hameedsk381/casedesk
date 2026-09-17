@@ -160,8 +160,8 @@ export default function CaseInvestigationPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-border-light p-12 flex justify-center">
-        <Loader2 size={24} className="animate-spin text-electric-blue" />
+      <div className="bg-white rounded-2xl border border-surface-3 p-12 flex justify-center">
+        <Loader2 size={24} className="animate-spin text-primary" />
       </div>
     );
   }
@@ -171,18 +171,18 @@ export default function CaseInvestigationPage() {
   return (
     <div className="space-y-8">
       {/* 1. Verification Checklist Section */}
-      <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-border-light">
+      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-surface-3">
           <div>
-            <h2 className="text-base font-bold text-navy">Factual Verification Matrix</h2>
-            <p className="text-xs text-slate mt-0.5">
+            <h2 className="text-base font-bold text-primary">Factual Verification Matrix</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
               Specific statements that require evidentiary corroboration before publication.
             </p>
           </div>
 
           <button
             onClick={() => setShowVerifyModal(true)}
-            className="py-1.5 px-3 bg-teal hover:bg-teal/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+            className="py-1.5 px-3 bg-success hover:bg-success/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
           >
             <Plus size={13} />
             <span>Add Statement</span>
@@ -198,20 +198,20 @@ export default function CaseInvestigationPage() {
             verificationItems.map((item) => (
               <div
                 key={item.id}
-                className="p-4 rounded-xl bg-off-white/50 border border-border-light flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                className="p-4 rounded-xl bg-background/50 border border-surface-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <span
                       className={`w-2 h-2 rounded-full ${
                         item.status === 'VERIFIED'
-                          ? 'bg-teal'
+                          ? 'bg-success'
                           : item.status === 'DISPUTED'
                           ? 'bg-red-500'
                           : 'bg-amber-500'
                       }`}
                     />
-                    <span className="text-xs font-bold text-navy">{item.statement}</span>
+                    <span className="text-xs font-bold text-primary">{item.statement}</span>
                   </div>
                   {item.evidenceRequired && (
                     <div className="text-[11px] text-slate-500 pl-4">
@@ -227,7 +227,7 @@ export default function CaseInvestigationPage() {
                   <select
                     value={item.status}
                     onChange={(e) => handleUpdateVerification(item.id, e.target.value)}
-                    className="text-xs bg-white border border-border-light rounded-lg px-2.5 py-1 text-navy font-semibold focus:outline-none cursor-pointer"
+                    className="text-xs bg-white border border-surface-3 rounded-lg px-2.5 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
                   >
                     <option value="PENDING">Pending Check</option>
                     <option value="VERIFIED">Verified ✓</option>
@@ -242,20 +242,20 @@ export default function CaseInvestigationPage() {
       </div>
 
       {/* 2. Investigation Task Checklist Section */}
-      <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-border-light">
+      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-surface-3">
           <div>
-            <h2 className="text-base font-bold text-navy">
+            <h2 className="text-base font-bold text-primary">
               Investigation Tasks ({completedTasks}/{tasks.length} Done)
             </h2>
-            <p className="text-xs text-slate mt-0.5">
+            <p className="text-xs text-muted-foreground mt-0.5">
               Assigned newsroom research checklist and authority outreach tasks.
             </p>
           </div>
 
           <button
             onClick={() => setShowTaskModal(true)}
-            className="py-1.5 px-3 bg-navy hover:bg-navy/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+            className="py-1.5 px-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
           >
             <Plus size={13} />
             <span>New Task</span>
@@ -276,17 +276,17 @@ export default function CaseInvestigationPage() {
                   key={task.id}
                   className={`p-3.5 rounded-xl border transition-all flex items-start justify-between gap-3 ${
                     isDone
-                      ? 'bg-off-white/40 border-border-light/60 opacity-65'
-                      : 'bg-white border-border-light hover:border-slate-300'
+                      ? 'bg-background/40 border-surface-3/60 opacity-65'
+                      : 'bg-white border-surface-3 hover:border-slate-300'
                   }`}
                 >
                   <div className="flex items-start gap-3 min-w-0">
                     <button
                       onClick={() => handleToggleTask(task.id, task.status)}
-                      className="mt-0.5 text-navy hover:text-teal transition-colors cursor-pointer"
+                      className="mt-0.5 text-primary hover:text-success transition-colors cursor-pointer"
                     >
                       {isDone ? (
-                        <CheckSquare size={18} className="text-teal" />
+                        <CheckSquare size={18} className="text-success" />
                       ) : (
                         <Square size={18} className="text-slate-500" />
                       )}
@@ -295,7 +295,7 @@ export default function CaseInvestigationPage() {
                     <div className="min-w-0">
                       <div
                         className={`text-xs font-bold ${
-                          isDone ? 'line-through text-slate-500' : 'text-navy'
+                          isDone ? 'line-through text-slate-500' : 'text-primary'
                         }`}
                       >
                         {task.title}
@@ -343,13 +343,13 @@ export default function CaseInvestigationPage() {
 
       {/* New Task Modal */}
       {showTaskModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/40 backdrop-blur-xs">
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-border-light p-6 space-y-4">
-            <h3 className="text-base font-bold text-navy">Create Investigation Task</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-xs">
+          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-surface-3 p-6 space-y-4">
+            <h3 className="text-base font-bold text-primary">Create Investigation Task</h3>
 
             <form onSubmit={handleCreateTask} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                   Task Title
                 </label>
                 <input
@@ -358,12 +358,12 @@ export default function CaseInvestigationPage() {
                   value={taskTitle}
                   onChange={(e) => setTaskTitle(e.target.value)}
                   placeholder="e.g. Call Substation Engineer at Collectorate Feeder"
-                  className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                   Description / Instructions
                 </label>
                 <textarea
@@ -371,19 +371,19 @@ export default function CaseInvestigationPage() {
                   value={taskDesc}
                   onChange={(e) => setTaskDesc(e.target.value)}
                   placeholder="e.g. Verify grid outage timings between 11:20 PM and 12:05 AM on Sep 12."
-                  className="w-full p-3 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="w-full p-3 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                     Priority
                   </label>
                   <select
                     value={taskPriority}
                     onChange={(e) => setTaskPriority(e.target.value)}
-                    className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none cursor-pointer"
+                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none cursor-pointer"
                   >
                     <option value="LOW">Low</option>
                     <option value="MEDIUM">Medium</option>
@@ -393,30 +393,30 @@ export default function CaseInvestigationPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                     Due Date
                   </label>
                   <input
                     type="date"
                     value={taskDueDate}
                     onChange={(e) => setTaskDueDate(e.target.value)}
-                    className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-border-light">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-surface-3">
                 <button
                   type="button"
                   onClick={() => setShowTaskModal(false)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingTask}
-                  className="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
                 >
                   {savingTask ? 'Creating...' : 'Create Task'}
                 </button>
@@ -428,13 +428,13 @@ export default function CaseInvestigationPage() {
 
       {/* New Verification Statement Modal */}
       {showVerifyModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/40 backdrop-blur-xs">
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-border-light p-6 space-y-4">
-            <h3 className="text-base font-bold text-navy">Add Verification Statement</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-xs">
+          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-surface-3 p-6 space-y-4">
+            <h3 className="text-base font-bold text-primary">Add Verification Statement</h3>
 
             <form onSubmit={handleCreateVerification} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                   Factual Statement to Verify
                 </label>
                 <input
@@ -443,12 +443,12 @@ export default function CaseInvestigationPage() {
                   value={statement}
                   onChange={(e) => setStatement(e.target.value)}
                   placeholder="e.g. Commercial meter USC No. 441092 erroneously mapped to domestic hut"
-                  className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                   Evidence Required
                 </label>
                 <input
@@ -456,22 +456,22 @@ export default function CaseInvestigationPage() {
                   value={evidenceRequired}
                   onChange={(e) => setEvidenceRequired(e.target.value)}
                   placeholder="e.g. ADE Electricity written confirmation letter and physical bill copies"
-                  className="w-full px-3 py-2 bg-off-white/40 border border-border-light rounded-xl text-xs text-navy focus:outline-none"
+                  className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-border-light">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-surface-3">
                 <button
                   type="button"
                   onClick={() => setShowVerifyModal(false)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingVerify}
-                  className="px-4 py-2 bg-teal text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 bg-success text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
                 >
                   {savingVerify ? 'Saving...' : 'Add Statement'}
                 </button>

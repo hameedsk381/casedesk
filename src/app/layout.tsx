@@ -50,7 +50,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${bricolage.variable} ${sourceSerif.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-off-white text-navy font-sans">
+      <body className="min-h-full flex flex-col bg-background text-primary font-sans">
         {children}
       </body>
     </html>

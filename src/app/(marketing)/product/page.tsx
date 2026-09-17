@@ -12,13 +12,13 @@ export default function ProductPage() {
   return (
     <div className="pt-32 pb-24 max-w-7xl mx-auto px-5 sm:px-8">
       <div className="max-w-3xl">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-electric-blue/10 text-electric-blue border border-electric-blue/20 mb-6">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20 mb-6">
           CaseDesk Suite
         </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-navy leading-tight">
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary leading-tight">
           A newsroom investigation desk built for the creator era.
         </h1>
-        <p className="mt-6 text-lg text-slate leading-relaxed">
+        <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
           CaseDesk replaces messy WhatsApp group notes, lost email attachments, and unverified allegations with a rigorous, verifiable editorial workflow.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
@@ -28,32 +28,32 @@ export default function ProductPage() {
       </div>
 
       <div className="mt-20 grid md:grid-cols-3 gap-8">
-        <div className="p-8 bg-white rounded-2xl border border-border-light shadow-xs">
-          <div className="w-12 h-12 rounded-xl bg-electric-blue/10 text-electric-blue flex items-center justify-center mb-6">
+        <div className="p-8 bg-white rounded-2xl border border-surface-3 shadow-xs">
+          <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6">
             <Cpu size={24} />
           </div>
-          <h3 className="text-xl font-bold text-navy">AI-Assisted Intake</h3>
-          <p className="mt-3 text-sm text-slate leading-relaxed">
+          <h3 className="text-xl font-bold text-primary">AI-Assisted Intake</h3>
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
             Extract claims, locations, people, timeline entities, and suggested priority from raw citizen complaints with editable AI suggestions.
           </p>
         </div>
 
-        <div className="p-8 bg-white rounded-2xl border border-border-light shadow-xs">
-          <div className="w-12 h-12 rounded-xl bg-teal/10 text-teal flex items-center justify-center mb-6">
+        <div className="p-8 bg-white rounded-2xl border border-surface-3 shadow-xs">
+          <div className="w-12 h-12 rounded-xl bg-success/10 text-success flex items-center justify-center mb-6">
             <FileCheck size={24} />
           </div>
-          <h3 className="text-xl font-bold text-navy">Verification & Right of Reply</h3>
-          <p className="mt-3 text-sm text-slate leading-relaxed">
+          <h3 className="text-xl font-bold text-primary">Verification & Right of Reply</h3>
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
             Distinguish between unverified claims and verified documents. Track formal letters and deadlines sent to statutory authorities.
           </p>
         </div>
 
-        <div className="p-8 bg-white rounded-2xl border border-border-light shadow-xs">
-          <div className="w-12 h-12 rounded-xl bg-coral/10 text-coral flex items-center justify-center mb-6">
+        <div className="p-8 bg-white rounded-2xl border border-surface-3 shadow-xs">
+          <div className="w-12 h-12 rounded-xl bg-warning/10 text-warning flex items-center justify-center mb-6">
             <Layers size={24} />
           </div>
-          <h3 className="text-xl font-bold text-navy">Content Studio & Safety</h3>
-          <p className="mt-3 text-sm text-slate leading-relaxed">
+          <h3 className="text-xl font-bold text-primary">Content Studio & Safety</h3>
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
             Convert complex case dossiers into Instagram Reels, YouTube Shorts, Carousels, and Articles with pre-publication safety warnings.
           </p>
         </div>

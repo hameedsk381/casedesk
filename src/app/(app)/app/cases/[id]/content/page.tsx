@@ -139,8 +139,8 @@ export default function CaseContentStudioPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-border-light p-12 flex justify-center">
-        <Loader2 size={24} className="animate-spin text-electric-blue" />
+      <div className="bg-white rounded-2xl border border-surface-3 p-12 flex justify-center">
+        <Loader2 size={24} className="animate-spin text-primary" />
       </div>
     );
   }
@@ -148,11 +148,11 @@ export default function CaseContentStudioPage() {
   return (
     <div className="space-y-8">
       {/* 1. Format Selection */}
-      <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-4">
+      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-base font-bold text-navy">Content Studio & Publisher</h2>
-            <p className="text-xs text-slate mt-0.5">
+            <h2 className="text-base font-bold text-primary">Content Studio & Publisher</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
               Turn verified case dossiers into responsible public-interest content formats.
             </p>
           </div>
@@ -160,7 +160,7 @@ export default function CaseContentStudioPage() {
           <button
             onClick={handleGenerateDraft}
             disabled={generating}
-            className="py-2 px-4 bg-navy hover:bg-navy/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
+            className="py-2 px-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
           >
             {generating ? (
               <>
@@ -169,7 +169,7 @@ export default function CaseContentStudioPage() {
               </>
             ) : (
               <>
-                <Sparkles size={14} className="text-teal" />
+                <Sparkles size={14} className="text-success" />
                 <span>Generate Script Draft</span>
               </>
             )}
@@ -188,17 +188,17 @@ export default function CaseContentStudioPage() {
                 onClick={() => setSelectedFormat(fmt.id)}
                 className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                   isSelected
-                    ? 'border-electric-blue bg-electric-blue/5 shadow-2xs'
-                    : 'border-border-light hover:bg-off-white/60 text-slate-600'
+                    ? 'border-primary bg-primary/5 shadow-2xs'
+                    : 'border-surface-3 hover:bg-background/60 text-slate-600'
                 }`}
               >
                 <Icon
                   size={18}
-                  className={`mb-2 ${isSelected ? 'text-electric-blue' : 'text-slate-500'}`}
+                  className={`mb-2 ${isSelected ? 'text-primary' : 'text-slate-500'}`}
                 />
                 <div
                   className={`text-xs font-bold truncate ${
-                    isSelected ? 'text-navy' : 'text-slate-700'
+                    isSelected ? 'text-primary' : 'text-slate-700'
                   }`}
                 >
                   {fmt.name}
@@ -211,16 +211,16 @@ export default function CaseContentStudioPage() {
       </div>
 
       {/* 2. Script Editor Area */}
-      <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-4">
+      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
         <div className="flex items-center justify-between">
           <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
             Script & Content Body
           </label>
           <button
             onClick={handleCopyScript}
-            className="p-1.5 rounded-lg border border-border-light text-slate-600 hover:text-navy hover:bg-slate-100 transition-colors text-xs font-semibold flex items-center gap-1 cursor-pointer"
+            className="p-1.5 rounded-lg border border-surface-3 text-slate-600 hover:text-primary hover:bg-slate-100 transition-colors text-xs font-semibold flex items-center gap-1 cursor-pointer"
           >
-            {copied ? <Check size={13} className="text-teal" /> : <Copy size={13} />}
+            {copied ? <Check size={13} className="text-success" /> : <Copy size={13} />}
             <span>{copied ? 'Copied' : 'Copy Text'}</span>
           </button>
         </div>
@@ -231,7 +231,7 @@ export default function CaseContentStudioPage() {
             value={contentTitle}
             onChange={(e) => setContentTitle(e.target.value)}
             placeholder="Content Headline / Hook..."
-            className="w-full px-4 py-2.5 bg-off-white/50 border border-border-light rounded-xl text-sm font-bold text-navy focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue"
+            className="w-full px-4 py-2.5 bg-background/50 border border-surface-3 rounded-xl text-sm font-bold text-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
           />
         </div>
 
@@ -241,16 +241,16 @@ export default function CaseContentStudioPage() {
             value={contentBody}
             onChange={(e) => setContentBody(e.target.value)}
             placeholder="Type or generate your investigative script here with hook, verified evidence callouts, and right of reply remarks..."
-            className="w-full p-4 bg-off-white/40 border border-border-light rounded-2xl text-xs text-navy font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue"
+            className="w-full p-4 bg-background/40 border border-surface-3 rounded-2xl text-xs text-primary font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
           />
         </div>
 
         {/* Action Row */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-border-light">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-surface-3">
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleSaveDraft('DRAFT')}
-              className="py-2 px-4 bg-off-white hover:bg-slate-100 text-navy font-semibold rounded-xl text-xs border border-border-light transition-colors cursor-pointer"
+              className="py-2 px-4 bg-background hover:bg-slate-100 text-primary font-semibold rounded-xl text-xs border border-surface-3 transition-colors cursor-pointer"
             >
               Save as Draft
             </button>
@@ -259,9 +259,9 @@ export default function CaseContentStudioPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowSafetyModal(true)}
-              className="py-2.5 px-5 bg-navy hover:bg-navy/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="py-2.5 px-5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              <ShieldAlert size={14} className="text-coral" />
+              <ShieldAlert size={14} className="text-warning" />
               <span>Review Publication Safety & Approve</span>
             </button>
           </div>
@@ -270,15 +270,15 @@ export default function CaseContentStudioPage() {
 
       {/* Pre-Publication Safety Review Modal (Section 29) */}
       {showSafetyModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/40 backdrop-blur-xs">
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-border-light p-6 space-y-5 animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-xs">
+          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-surface-3 p-6 space-y-5 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-coral/10 text-coral flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-warning/10 text-warning flex items-center justify-center shrink-0">
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h3 className="text-base font-bold text-navy">Pre-Publication Editorial Review</h3>
-                <p className="text-xs text-slate mt-0.5">
+                <h3 className="text-base font-bold text-primary">Pre-Publication Editorial Review</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Automated checklist to prevent defamation, unverified allegations, and source harm.
                 </p>
               </div>
@@ -287,7 +287,7 @@ export default function CaseContentStudioPage() {
             {/* Warnings list */}
             <div className="space-y-2.5 max-h-64 overflow-y-auto">
               {safetyCheck?.warnings?.length === 0 ? (
-                <div className="p-3.5 rounded-xl bg-teal/10 text-teal text-xs font-semibold flex items-center gap-2">
+                <div className="p-3.5 rounded-xl bg-success/10 text-success text-xs font-semibold flex items-center gap-2">
                   <CheckCircle2 size={16} />
                   <span>All core checks passed! Claims are corroborated and right of reply is recorded.</span>
                 </div>
@@ -297,24 +297,24 @@ export default function CaseContentStudioPage() {
                     key={i}
                     className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5"
                   >
-                    <AlertTriangle size={15} className="text-coral shrink-0 mt-0.5" />
+                    <AlertTriangle size={15} className="text-warning shrink-0 mt-0.5" />
                     <span className="leading-relaxed">{warn}</span>
                   </div>
                 ))
               )}
             </div>
 
-            <div className="p-3.5 rounded-xl bg-off-white/70 border border-border-light text-xs space-y-1 text-slate-500">
-              <div className="font-bold text-navy">Creator Override Protocol</div>
+            <div className="p-3.5 rounded-xl bg-background/70 border border-surface-3 text-xs space-y-1 text-slate-500">
+              <div className="font-bold text-primary">Creator Override Protocol</div>
               <p className="text-[11px] leading-relaxed">
                 As the editorial lead, you may proceed if all allegations are carefully qualified as claims in the script.
               </p>
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-border-light">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-surface-3">
               <button
                 onClick={() => setShowSafetyModal(false)}
-                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
               >
                 Return to Script
               </button>
@@ -323,9 +323,9 @@ export default function CaseContentStudioPage() {
                   setShowSafetyModal(false);
                   await handleSaveDraft('APPROVED');
                 }}
-                className="px-4 py-2.5 bg-navy text-white text-xs font-semibold rounded-xl shadow-xs cursor-pointer flex items-center gap-1.5"
+                className="px-4 py-2.5 bg-primary text-white text-xs font-semibold rounded-xl shadow-xs cursor-pointer flex items-center gap-1.5"
               >
-                <CheckCircle2 size={14} className="text-teal" />
+                <CheckCircle2 size={14} className="text-success" />
                 <span>Confirm & Mark Approved</span>
               </button>
             </div>

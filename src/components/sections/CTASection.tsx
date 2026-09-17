@@ -7,10 +7,10 @@ import { ArrowRight, MessageCircle } from 'lucide-react';
 
 export default function CTASection() {
   return (
-    <section className="py-24 lg:py-32 bg-navy text-white relative overflow-hidden" id="cta">
+    <section className="py-24 lg:py-32 bg-primary text-white relative overflow-hidden" id="cta">
       {/* Background accents */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-electric-blue/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-teal/10 rounded-full blur-3xl translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-success/10 rounded-full blur-3xl translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
         <AnimateOnScroll>
@@ -20,12 +20,12 @@ export default function CTASection() {
               <br />
               shouldn&apos;t get lost in your inbox.
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-slate-light max-w-xl mx-auto">
+            <p className="mt-6 text-lg leading-relaxed text-secondary max-w-xl mx-auto">
               CaseDesk gives public-interest creators one place to organize, investigate, create, and follow through.
             </p>
 
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="!bg-white !text-navy hover:!bg-cream">
+              <Button size="lg" className="!bg-white !text-primary hover:!bg-surface">
                 Join the Waitlist
                 <ArrowRight size={16} />
               </Button>

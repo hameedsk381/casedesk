@@ -1,6 +1,6 @@
 import React from 'react';
 
-type BadgeVariant = 'blue' | 'teal' | 'coral' | 'red' | 'green' | 'yellow' | 'neutral';
+type BadgeVariant = 'blue' | 'success' | 'warning' | 'destructive' | 'success' | 'warning' | 'neutral';
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -10,23 +10,23 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  blue: 'bg-electric-blue-subtle text-electric-blue',
-  teal: 'bg-teal-subtle text-teal',
-  coral: 'bg-coral-subtle text-coral',
-  red: 'bg-red-subtle text-red',
-  green: 'bg-green-subtle text-green',
-  yellow: 'bg-yellow-subtle text-yellow',
-  neutral: 'bg-cream text-slate',
+  blue: 'bg-primary-subtle text-primary',
+  success: 'bg-success-subtle text-success',
+  warning: 'bg-warning-subtle text-warning',
+  destructive: 'bg-destructive-subtle text-red',
+  success: 'bg-success-subtle text-green',
+  warning: 'bg-warning-subtle text-yellow',
+  neutral: 'bg-surface text-muted-foreground',
 };
 
 const dotStyles: Record<BadgeVariant, string> = {
-  blue: 'bg-electric-blue',
-  teal: 'bg-teal',
-  coral: 'bg-coral',
-  red: 'bg-red',
-  green: 'bg-green',
-  yellow: 'bg-yellow',
-  neutral: 'bg-slate-light',
+  blue: 'bg-primary',
+  success: 'bg-success',
+  warning: 'bg-warning',
+  destructive: 'bg-red',
+  success: 'bg-green',
+  warning: 'bg-yellow',
+  neutral: 'bg-secondary',
 };
 
 export default function Badge({ children, variant = 'neutral', dot = false, className = '' }: BadgeProps) {

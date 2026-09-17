@@ -43,7 +43,7 @@ export default function AppShell({ children, user: initialUser }: AppShellProps)
   }, []);
 
   return (
-    <div className="min-h-screen bg-off-white flex">
+    <div className="min-h-screen bg-background flex">
       {/* Persistent Sidebar */}
       <Sidebar
         user={currentUser}

@@ -230,17 +230,17 @@ export function CitizenSubmissionForm({
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Top Controls Bar inside Form */}
-      <div className="flex items-center justify-between pb-3 border-b border-border-light">
+      <div className="flex items-center justify-between pb-3 border-b border-surface-3">
         <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
           {onBackToSelect && (
             <button
               onClick={onBackToSelect}
-              className="text-slate-500 hover:text-navy mr-2 font-medium cursor-pointer"
+              className="text-slate-500 hover:text-primary mr-2 font-medium cursor-pointer"
             >
               ← {lang === 'te' ? 'మార్చుకోండి' : 'Change Mode'}
             </button>
           )}
-          <span className="text-electric-blue font-extrabold">
+          <span className="text-primary font-extrabold">
             {step < 7 ? `Step ${step} of 6` : 'Done'}
           </span>
           {step < 7 && (
@@ -260,19 +260,19 @@ export function CitizenSubmissionForm({
           {onSwitchToChat && (
             <button
               onClick={onSwitchToChat}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-electric-blue/10 hover:bg-electric-blue/15 text-electric-blue text-xs font-bold transition cursor-pointer"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary text-xs font-bold transition cursor-pointer"
             >
               <Bot size={14} />
               <span className="hidden sm:inline">{lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Instead'}</span>
             </button>
           )}
 
-          <div className="flex items-center gap-1 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
+          <div className="flex items-center gap-1 p-1 bg-white border border-surface-3 rounded-xl text-xs font-semibold shadow-2xs">
             <Languages size={13} className="text-slate-500 ml-1" />
             <button
               onClick={() => setLang('en')}
               className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                lang === 'en' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
               }`}
             >
               EN
@@ -280,7 +280,7 @@ export function CitizenSubmissionForm({
             <button
               onClick={() => setLang('te')}
               className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                lang === 'te' ? 'bg-navy text-white' : 'text-slate-600 hover:text-navy'
+                lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
               }`}
             >
               తె
@@ -293,7 +293,7 @@ export function CitizenSubmissionForm({
       {step < 7 && (
         <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
           <div
-            className="bg-electric-blue h-full transition-all duration-300"
+            className="bg-primary h-full transition-all duration-300"
             style={{ width: `${((step - 1) / 5) * 100}%` }}
           />
         </div>
@@ -301,14 +301,14 @@ export function CitizenSubmissionForm({
 
       {/* STEP 1: INTRODUCTION */}
       {step === 1 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-border-light shadow-sm space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-electric-blue/10 text-electric-blue text-xs font-bold">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-surface-3 shadow-sm space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">
             <Sparkles size={13} />
             <span>{endpoint.workspaceName || endpoint.title || 'Investigation Desk'}</span>
           </div>
 
           <div className="space-y-3">
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-navy leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-primary leading-tight">
               {t.introHeadline}
             </h1>
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
@@ -316,8 +316,8 @@ export function CitizenSubmissionForm({
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-off-white border border-border-light/70 space-y-2 text-xs text-slate-600">
-            <div className="font-bold text-navy flex items-center gap-1.5">
+          <div className="p-4 rounded-2xl bg-background border border-surface-3/70 space-y-2 text-xs text-slate-600">
+            <div className="font-bold text-primary flex items-center gap-1.5">
               <Shield size={14} className="text-emerald-600" />
               <span>{lang === 'te' ? 'మీకు తెలియజేద్దాము:' : 'Good to know:'}</span>
             </div>
@@ -331,7 +331,7 @@ export function CitizenSubmissionForm({
           <div className="pt-4 flex items-center gap-3">
             <button
               onClick={() => setStep(2)}
-              className="w-full sm:w-auto px-8 py-3.5 bg-navy hover:bg-navy/90 text-white font-bold text-sm rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              className="w-full sm:w-auto px-8 py-3.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
               <span>{t.startCta}</span>
             </button>
@@ -341,9 +341,9 @@ export function CitizenSubmissionForm({
 
       {/* STEP 2: WHAT HAPPENED */}
       {step === 2 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-border-light shadow-sm space-y-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-navy">{t.describeLabel}</h2>
+            <h2 className="text-xl font-bold text-primary">{t.describeLabel}</h2>
             <p className="text-xs text-slate-500 mt-1">
               {lang === 'te' ? 'ఏం జరిగింది? ఎవరికి నష్టం? ఎవరు బాధ్యులు? వివరంగా రాయండి.' : 'What happened? Who was affected? Who is responsible? Write as much as you know.'}
             </p>
@@ -354,15 +354,15 @@ export function CitizenSubmissionForm({
             onChange={(e) => setStory(e.target.value)}
             rows={7}
             placeholder={t.describePlaceholder}
-            className="w-full p-4 text-sm bg-off-white border border-border-light rounded-2xl focus:outline-none focus:ring-2 focus:ring-electric-blue/40 focus:border-electric-blue leading-relaxed text-navy"
+            className="w-full p-4 text-sm bg-background border border-surface-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary leading-relaxed text-primary"
           />
 
           {/* Voice Recording Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-electric-blue-subtle/60 border border-border space-y-3">
+          <div className="p-4 sm:p-5 rounded-2xl bg-primary-subtle/60 border border-border space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Mic size={16} className="text-electric-blue" />
-                <span className="text-xs font-bold text-navy">{t.recordVoice}</span>
+                <Mic size={16} className="text-primary" />
+                <span className="text-xs font-bold text-primary">{t.recordVoice}</span>
               </div>
               {isRecording && (
                 <div className="flex items-center gap-2 text-xs font-bold text-red-600 animate-pulse">
@@ -381,7 +381,7 @@ export function CitizenSubmissionForm({
                 <button
                   onClick={startRecording}
                   type="button"
-                  className="px-4 py-2.5 bg-electric-blue hover:bg-electric-blue-dark text-white font-bold text-xs rounded-xl transition-all shadow-2xs flex items-center gap-2 cursor-pointer active:scale-95"
+                  className="px-4 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl transition-all shadow-2xs flex items-center gap-2 cursor-pointer active:scale-95"
                 >
                   <Mic size={14} />
                   <span>{lang === 'te' ? 'వాయిస్ రికార్డింగ్ ప్రారంభించండి' : 'Record Voice Note'}</span>
@@ -419,7 +419,7 @@ export function CitizenSubmissionForm({
             <button
               onClick={() => setStep(1)}
               type="button"
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
             >
               {t.backBtn}
             </button>
@@ -432,7 +432,7 @@ export function CitizenSubmissionForm({
                 setStep(3);
               }}
               type="button"
-              className="px-6 py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
+              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
             >
               {t.continueBtn}
             </button>
@@ -442,9 +442,9 @@ export function CitizenSubmissionForm({
 
       {/* STEP 3: LOCATION & TIME */}
       {step === 3 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-border-light shadow-sm space-y-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-navy">{t.whereLabel}</h2>
+            <h2 className="text-xl font-bold text-primary">{t.whereLabel}</h2>
             <p className="text-xs text-slate-500 mt-1">
               {lang === 'te' ? 'ఖచ్చితమైన చోటు చెప్పితే మా టీమ్ కి సులభంగా అర్థమవుతుంది.' : 'The more specific the location, the easier for our team to find it.'}
             </p>
@@ -452,52 +452,52 @@ export function CitizenSubmissionForm({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-navy mb-1.5">{t.districtLabel} *</label>
+              <label className="block text-xs font-bold text-primary mb-1.5">{t.districtLabel} *</label>
               <input
                 type="text"
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
                 placeholder="e.g. Guntur, Kurnool, Visakhapatnam"
-                className="w-full p-3 text-xs bg-off-white border border-border-light rounded-xl focus:outline-none focus:border-electric-blue text-navy font-medium"
+                className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-navy mb-1.5">{t.townLabel} *</label>
+              <label className="block text-xs font-bold text-primary mb-1.5">{t.townLabel} *</label>
               <input
                 type="text"
                 value={town}
                 onChange={(e) => setTown(e.target.value)}
                 placeholder="e.g. Tenali, Narasaraopet, Pedakakani"
-                className="w-full p-3 text-xs bg-off-white border border-border-light rounded-xl focus:outline-none focus:border-electric-blue text-navy font-medium"
+                className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-bold text-navy mb-1.5">{t.addressLabel}</label>
+              <label className="block text-xs font-bold text-primary mb-1.5">{t.addressLabel}</label>
               <input
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="e.g. Ward No. 4, Near Primary School"
-                className="w-full p-3 text-xs bg-off-white border border-border-light rounded-xl focus:outline-none focus:border-electric-blue text-navy font-medium"
+                className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
               />
             </div>
           </div>
 
-          <div className="pt-2 border-t border-border-light">
-            <label className="block text-xs font-bold text-navy mb-1.5">{t.whenLabel}</label>
+          <div className="pt-2 border-t border-surface-3">
+            <label className="block text-xs font-bold text-primary mb-1.5">{t.whenLabel}</label>
             <input
               type="text"
               value={incidentDate}
               onChange={(e) => setIncidentDate(e.target.value)}
               placeholder={t.whenPlaceholder}
-              className="w-full p-3 text-xs bg-off-white border border-border-light rounded-xl focus:outline-none focus:border-electric-blue text-navy font-medium"
+              className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
             />
           </div>
 
-          <div className="pt-2 border-t border-border-light">
-            <label className="block text-xs font-bold text-navy mb-2">{t.categoryLabel}</label>
+          <div className="pt-2 border-t border-surface-3">
+            <label className="block text-xs font-bold text-primary mb-2">{t.categoryLabel}</label>
             <div className="flex flex-wrap gap-2">
               {CIVIC_CATEGORIES.map((cat) => (
                 <button
@@ -506,8 +506,8 @@ export function CitizenSubmissionForm({
                   onClick={() => setCategory(cat.id)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     category === cat.id
-                      ? 'bg-electric-blue text-white shadow-xs'
-                      : 'bg-off-white text-slate-700 hover:bg-slate-200/70'
+                      ? 'bg-primary text-white shadow-xs'
+                      : 'bg-background text-slate-700 hover:bg-slate-200/70'
                   }`}
                 >
                   {lang === 'te' ? cat.te : cat.en}
@@ -520,14 +520,14 @@ export function CitizenSubmissionForm({
             <button
               onClick={() => setStep(2)}
               type="button"
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
             >
               {t.backBtn}
             </button>
             <button
               onClick={() => setStep(4)}
               type="button"
-              className="px-6 py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
+              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
             >
               {t.continueBtn}
             </button>
@@ -537,9 +537,9 @@ export function CitizenSubmissionForm({
 
       {/* STEP 4: EVIDENCE UPLOADS */}
       {step === 4 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-border-light shadow-sm space-y-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-navy">{t.evidenceLabel}</h2>
+            <h2 className="text-xl font-bold text-primary">{t.evidenceLabel}</h2>
             <p className="text-xs text-slate-500 mt-1">
               {lang === 'te' ? 'ఫోటోలు, పత్రాలు, రశీదులు ఉంటే జతచేయండి. లేకపోయినా సరే.' : 'Attach photos, documents, or receipts if you have them. No problem if you don\'t.'}
             </p>
@@ -555,11 +555,11 @@ export function CitizenSubmissionForm({
             </div>
           </div>
 
-          <label className="border-2 border-dashed border-border-light hover:border-electric-blue/50 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-off-white/40 group">
-            <div className="w-12 h-12 rounded-full bg-electric-blue/10 text-electric-blue flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+          <label className="border-2 border-dashed border-surface-3 hover:border-primary/50 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-background/40 group">
+            <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
               <Upload size={20} />
             </div>
-            <div className="text-xs font-bold text-navy">{t.uploadDoc}</div>
+            <div className="text-xs font-bold text-primary">{t.uploadDoc}</div>
             <div className="text-[11px] text-slate-500 mt-1">
               Supports PDF, JPG, PNG, MP4, MP3, DOCX (Max 25MB each)
             </div>
@@ -568,18 +568,18 @@ export function CitizenSubmissionForm({
 
           {files.length > 0 && (
             <div className="space-y-2">
-              <div className="text-xs font-bold text-navy uppercase tracking-wider">
+              <div className="text-xs font-bold text-primary uppercase tracking-wider">
                 Attached Files ({files.length}):
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {files.map((f, idx) => (
                   <div
                     key={idx}
-                    className="p-2.5 bg-off-white rounded-xl border border-border-light flex items-center justify-between text-xs"
+                    className="p-2.5 bg-background rounded-xl border border-surface-3 flex items-center justify-between text-xs"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <FileText size={14} className="text-electric-blue shrink-0" />
-                      <span className="font-semibold text-navy truncate">{f.name}</span>
+                      <FileText size={14} className="text-primary shrink-0" />
+                      <span className="font-semibold text-primary truncate">{f.name}</span>
                     </div>
                     <button
                       onClick={() => removeFile(idx)}
@@ -598,14 +598,14 @@ export function CitizenSubmissionForm({
             <button
               onClick={() => setStep(3)}
               type="button"
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
             >
               {t.backBtn}
             </button>
             <button
               onClick={() => setStep(5)}
               type="button"
-              className="px-6 py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
+              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
             >
               {t.continueBtn}
             </button>
@@ -615,9 +615,9 @@ export function CitizenSubmissionForm({
 
       {/* STEP 5: ABOUT YOU */}
       {step === 5 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-border-light shadow-sm space-y-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-navy">{t.aboutYouLabel}</h2>
+            <h2 className="text-xl font-bold text-primary">{t.aboutYouLabel}</h2>
             <p className="text-xs text-slate-500 mt-1">{t.anonymousNotice}</p>
           </div>
 
@@ -635,42 +635,42 @@ export function CitizenSubmissionForm({
               type="checkbox"
               checked={isAnonymous}
               onChange={(e) => setIsAnonymous(e.target.checked)}
-              className="w-5 h-5 accent-navy rounded cursor-pointer shrink-0"
+              className="w-5 h-5 accent-primary rounded cursor-pointer shrink-0"
             />
           </div>
 
           {!isAnonymous && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-navy mb-1.5">{t.nameLabel}</label>
+                <label className="block text-xs font-bold text-primary mb-1.5">{t.nameLabel}</label>
                 <input
                   type="text"
                   value={senderName}
                   onChange={(e) => setSenderName(e.target.value)}
                   placeholder="e.g. Ramesh Reddy"
-                  className="w-full p-3 text-xs bg-off-white border border-border-light rounded-xl focus:outline-none focus:border-electric-blue text-navy font-medium"
+                  className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-navy mb-1.5">{t.phoneLabel}</label>
+                <label className="block text-xs font-bold text-primary mb-1.5">{t.phoneLabel}</label>
                 <input
                   type="tel"
                   value={senderPhone}
                   onChange={(e) => setSenderPhone(e.target.value)}
                   placeholder="e.g. +91 98480 12345"
-                  className="w-full p-3 text-xs bg-off-white border border-border-light rounded-xl focus:outline-none focus:border-electric-blue text-navy font-medium"
+                  className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-navy mb-1.5">{t.emailLabel}</label>
+                <label className="block text-xs font-bold text-primary mb-1.5">{t.emailLabel}</label>
                 <input
                   type="email"
                   value={senderEmail}
                   onChange={(e) => setSenderEmail(e.target.value)}
                   placeholder="e.g. yourname@gmail.com"
-                  className="w-full p-3 text-xs bg-off-white border border-border-light rounded-xl focus:outline-none focus:border-electric-blue text-navy font-medium"
+                  className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
                 />
               </div>
             </div>
@@ -680,14 +680,14 @@ export function CitizenSubmissionForm({
             <button
               onClick={() => setStep(4)}
               type="button"
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
             >
               {t.backBtn}
             </button>
             <button
               onClick={() => setStep(6)}
               type="button"
-              className="px-6 py-2.5 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
+              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
             >
               {t.continueBtn}
             </button>
@@ -697,45 +697,45 @@ export function CitizenSubmissionForm({
 
       {/* STEP 6: CONSENT & SUBMIT */}
       {step === 6 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-border-light shadow-sm space-y-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-navy">{t.consentHeader}</h2>
+            <h2 className="text-xl font-bold text-primary">{t.consentHeader}</h2>
             <p className="text-xs text-slate-500 mt-1">
               {lang === 'te' ? 'క్రిందివి చెక్ చేసి పంపండి.' : 'Check the boxes below and send.'}
             </p>
           </div>
 
           <div className="space-y-3">
-            <label className="flex items-start gap-3 p-3 rounded-xl bg-off-white border border-border-light cursor-pointer hover:bg-slate-100/70 transition-colors">
+            <label className="flex items-start gap-3 p-3 rounded-xl bg-background border border-surface-3 cursor-pointer hover:bg-slate-100/70 transition-colors">
               <input
                 type="checkbox"
                 checked={consentAccuracy}
                 onChange={(e) => setConsentAccuracy(e.target.checked)}
-                className="w-4 h-4 accent-navy rounded mt-0.5 shrink-0 cursor-pointer"
+                className="w-4 h-4 accent-primary rounded mt-0.5 shrink-0 cursor-pointer"
               />
               <span className="text-xs text-slate-700 leading-relaxed font-medium">
                 {t.consent1}
               </span>
             </label>
 
-            <label className="flex items-start gap-3 p-3 rounded-xl bg-off-white border border-border-light cursor-pointer hover:bg-slate-100/70 transition-colors">
+            <label className="flex items-start gap-3 p-3 rounded-xl bg-background border border-surface-3 cursor-pointer hover:bg-slate-100/70 transition-colors">
               <input
                 type="checkbox"
                 checked={consentContact}
                 onChange={(e) => setConsentContact(e.target.checked)}
-                className="w-4 h-4 accent-navy rounded mt-0.5 shrink-0 cursor-pointer"
+                className="w-4 h-4 accent-primary rounded mt-0.5 shrink-0 cursor-pointer"
               />
               <span className="text-xs text-slate-700 leading-relaxed font-medium">
                 {t.consent2}
               </span>
             </label>
 
-            <label className="flex items-start gap-3 p-3 rounded-xl bg-off-white border border-border-light cursor-pointer hover:bg-slate-100/70 transition-colors">
+            <label className="flex items-start gap-3 p-3 rounded-xl bg-background border border-surface-3 cursor-pointer hover:bg-slate-100/70 transition-colors">
               <input
                 type="checkbox"
                 checked={consentNoGuarantee}
                 onChange={(e) => setConsentNoGuarantee(e.target.checked)}
-                className="w-4 h-4 accent-navy rounded mt-0.5 shrink-0 cursor-pointer"
+                className="w-4 h-4 accent-primary rounded mt-0.5 shrink-0 cursor-pointer"
               />
               <span className="text-xs text-slate-700 leading-relaxed font-medium">
                 {t.consent3}
@@ -744,8 +744,8 @@ export function CitizenSubmissionForm({
           </div>
 
           {/* Public Reporting Consent Question */}
-          <div className="pt-3 border-t border-border-light space-y-3">
-            <label className="block text-xs font-bold text-navy">
+          <div className="pt-3 border-t border-surface-3 space-y-3">
+            <label className="block text-xs font-bold text-primary">
               {t.consentPublishQ}
             </label>
 
@@ -753,8 +753,8 @@ export function CitizenSubmissionForm({
               <label
                 className={`p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all flex flex-col justify-between ${
                   consentToPublish === 'YES'
-                    ? 'border-electric-blue bg-electric-blue/5 text-electric-blue ring-1 ring-electric-blue'
-                    : 'border-border-light bg-off-white text-slate-700 hover:bg-slate-100'
+                    ? 'border-primary bg-primary/5 text-primary ring-1 ring-primary'
+                    : 'border-surface-3 bg-background text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1">
@@ -763,7 +763,7 @@ export function CitizenSubmissionForm({
                     name="consentPublishForm"
                     checked={consentToPublish === 'YES'}
                     onChange={() => setConsentToPublish('YES')}
-                    className="accent-electric-blue"
+                    className="accent-primary"
                   />
                   <span>{lang === 'te' ? 'అవును' : 'Yes'}</span>
                 </div>
@@ -775,8 +775,8 @@ export function CitizenSubmissionForm({
               <label
                 className={`p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all flex flex-col justify-between ${
                   consentToPublish === 'DISCUSS_FIRST'
-                    ? 'border-electric-blue bg-electric-blue/5 text-electric-blue ring-1 ring-electric-blue'
-                    : 'border-border-light bg-off-white text-slate-700 hover:bg-slate-100'
+                    ? 'border-primary bg-primary/5 text-primary ring-1 ring-primary'
+                    : 'border-surface-3 bg-background text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1">
@@ -785,7 +785,7 @@ export function CitizenSubmissionForm({
                     name="consentPublishForm"
                     checked={consentToPublish === 'DISCUSS_FIRST'}
                     onChange={() => setConsentToPublish('DISCUSS_FIRST')}
-                    className="accent-electric-blue"
+                    className="accent-primary"
                   />
                   <span>{lang === 'te' ? 'నాతో మాట్లాడండి' : 'Discuss first'}</span>
                 </div>
@@ -797,8 +797,8 @@ export function CitizenSubmissionForm({
               <label
                 className={`p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all flex flex-col justify-between ${
                   consentToPublish === 'NO'
-                    ? 'border-electric-blue bg-electric-blue/5 text-electric-blue ring-1 ring-electric-blue'
-                    : 'border-border-light bg-off-white text-slate-700 hover:bg-slate-100'
+                    ? 'border-primary bg-primary/5 text-primary ring-1 ring-primary'
+                    : 'border-surface-3 bg-background text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1">
@@ -807,7 +807,7 @@ export function CitizenSubmissionForm({
                     name="consentPublishForm"
                     checked={consentToPublish === 'NO'}
                     onChange={() => setConsentToPublish('NO')}
-                    className="accent-electric-blue"
+                    className="accent-primary"
                   />
                   <span>{lang === 'te' ? 'కాదు' : 'No'}</span>
                 </div>
@@ -830,7 +830,7 @@ export function CitizenSubmissionForm({
               onClick={() => setStep(5)}
               type="button"
               disabled={submitting}
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer disabled:opacity-50"
+              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer disabled:opacity-50"
             >
               {t.backBtn}
             </button>
@@ -838,7 +838,7 @@ export function CitizenSubmissionForm({
               onClick={handleSubmit}
               type="button"
               disabled={submitting || !consentAccuracy || !consentNoGuarantee}
-              className="px-8 py-3 bg-navy hover:bg-navy/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
+              className="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
             >
               {submitting ? (
                 <>
@@ -855,13 +855,13 @@ export function CitizenSubmissionForm({
 
       {/* STEP 7: RECEIPT */}
       {step === 7 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-border-light shadow-sm space-y-8 animate-slide-up">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-surface-3 shadow-sm space-y-8 animate-slide-up">
           <div className="text-center space-y-3 max-w-lg mx-auto">
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-2xs">
               <CheckCircle2 size={32} />
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-navy">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-primary">
               {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'We Got Your Report!'}
             </h1>
 
@@ -876,7 +876,7 @@ export function CitizenSubmissionForm({
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                       {lang === 'te' ? 'రిఫరెన్స్ కోడ్' : 'Reference Code'}
                     </div>
-                    <div className="font-mono text-base font-black text-navy tracking-tight">
+                    <div className="font-mono text-base font-black text-primary tracking-tight">
                       {referenceNumber}
                     </div>
                   </div>

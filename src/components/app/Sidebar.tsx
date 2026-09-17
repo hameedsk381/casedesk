@@ -75,7 +75,7 @@ export default function Sidebar({
       href: '/app/inbox',
       icon: Inbox,
       badge: inboxUnprocessedCount !== null && inboxUnprocessedCount > 0 ? `${inboxUnprocessedCount}` : null,
-      badgeColor: 'bg-electric-blue text-white font-bold',
+      badgeColor: 'bg-primary text-white font-bold',
     },
     {
       label: 'Cases',
@@ -135,7 +135,7 @@ export default function Sidebar({
       {/* Mobile Backdrop */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-navy/50 backdrop-blur-xs lg:hidden"
+          className="fixed inset-0 z-40 bg-primary/50 backdrop-blur-xs lg:hidden"
           onClick={onCloseMobile}
         />
       )}
@@ -147,22 +147,22 @@ export default function Sidebar({
       />
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 w-64 bg-white border-r border-border-light flex flex-col transition-transform duration-200 lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-40 w-64 bg-white border-r border-surface-3 flex flex-col transition-transform duration-200 lg:translate-x-0 ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Workspace Brand Header */}
-        <div className="p-5 border-b border-border-light flex items-center justify-between">
+        <div className="p-5 border-b border-surface-3 flex items-center justify-between">
           <Link href="/app" className="flex items-baseline gap-2">
-            <span className="text-xl font-black tracking-tight text-navy">CaseDesk</span>
-            <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-electric-blue">
+            <span className="text-xl font-black tracking-tight text-primary">CaseDesk</span>
+            <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-primary">
               ops 2.0
             </span>
           </Link>
           <Link
             href="/"
             target="_blank"
-            className="text-slate-500 hover:text-navy p-1 rounded-md transition-colors"
+            className="text-slate-500 hover:text-primary p-1 rounded-md transition-colors"
             title="Open Public Site"
           >
             <ExternalLink size={14} />
@@ -170,13 +170,13 @@ export default function Sidebar({
         </div>
 
         {/* Workspace Selector Bar */}
-        <div className="px-4 py-3 border-b border-border-light/60 bg-off-white/40">
+        <div className="px-4 py-3 border-b border-surface-3/60 bg-background/40">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-electric-blue/10 text-electric-blue flex items-center justify-center shrink-0 font-bold">
+            <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 font-bold">
               <Building2 size={14} />
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-xs font-bold text-navy truncate">{workspaceName}</div>
+              <div className="text-xs font-bold text-primary truncate">{workspaceName}</div>
               <div className="text-[10px] text-slate-500 font-medium">Investigation Desk</div>
             </div>
           </div>
@@ -189,7 +189,7 @@ export default function Sidebar({
               if (onCloseMobile) onCloseMobile();
               setIsIntakeModalOpen(true);
             }}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-navy hover:bg-navy/90 text-white font-semibold rounded-xl text-sm shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-[0.98]"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-[0.98]"
           >
             <PlusCircle size={16} />
             <span>＋ New Case</span>
@@ -215,12 +215,12 @@ export default function Sidebar({
                     onClick={onCloseMobile}
                     className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                       active
-                        ? 'bg-electric-blue/10 text-electric-blue'
-                        : 'text-slate hover:text-navy hover:bg-off-white'
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:text-primary hover:bg-background'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-500'} />
+                      <Icon size={16} className={active ? 'text-primary' : 'text-slate-500'} />
                       <span>{link.label}</span>
                     </div>
                     {link.badge && (
@@ -251,12 +251,12 @@ export default function Sidebar({
                     onClick={onCloseMobile}
                     className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                       active
-                        ? 'bg-electric-blue/10 text-electric-blue'
-                        : 'text-slate hover:text-navy hover:bg-off-white'
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:text-primary hover:bg-background'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-500'} />
+                      <Icon size={16} className={active ? 'text-primary' : 'text-slate-500'} />
                       <span>{link.label}</span>
                     </div>
                     {link.badge && (
@@ -287,12 +287,12 @@ export default function Sidebar({
                     onClick={onCloseMobile}
                     className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                       active
-                        ? 'bg-electric-blue/10 text-electric-blue'
-                        : 'text-slate hover:text-navy hover:bg-off-white'
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:text-primary hover:bg-background'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-500'} />
+                      <Icon size={16} className={active ? 'text-primary' : 'text-slate-500'} />
                       <span>{link.label}</span>
                     </div>
                   </Link>
@@ -303,10 +303,10 @@ export default function Sidebar({
         </div>
 
         {/* User Footer Profile & Role */}
-        <div className="p-4 border-t border-border-light bg-off-white/30">
+        <div className="p-4 border-t border-surface-3 bg-background/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-full bg-navy text-white flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden">
+              <div className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden">
                 {user?.avatarUrl ? (
                   <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
                 ) : (
@@ -314,7 +314,7 @@ export default function Sidebar({
                 )}
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-navy truncate">{user?.name || 'Investigator'}</div>
+                <div className="text-xs font-bold text-primary truncate">{user?.name || 'Investigator'}</div>
                 <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                   {user?.role || 'RESEARCHER'}
                 </div>

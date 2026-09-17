@@ -10,22 +10,22 @@ const categories = [
   {
     label: 'CLAIM',
     description: 'What the complainant says happened.',
-    color: 'bg-coral-subtle text-coral border-coral/20',
+    color: 'bg-warning-subtle text-warning border-warning/20',
   },
   {
     label: 'EVIDENCE',
     description: 'Documents, media, records, and other supporting material.',
-    color: 'bg-electric-blue-subtle text-electric-blue border-electric-blue/20',
+    color: 'bg-primary-subtle text-primary border-primary/20',
   },
   {
     label: 'VERIFIED',
     description: 'Information independently established by the creator.',
-    color: 'bg-green-subtle text-green border-green/20',
+    color: 'bg-success-subtle text-green border-green/20',
   },
   {
     label: 'RESPONSE',
     description: 'What the relevant person, organization, or authority says.',
-    color: 'bg-teal-subtle text-teal border-teal/20',
+    color: 'bg-success-subtle text-success border-success/20',
   },
 ];
 
@@ -41,7 +41,7 @@ const verificationItems = [
 function StatusIcon({ status }: { status: string }) {
   if (status === 'verified') return <CheckCircle size={14} className="text-green flex-shrink-0" />;
   if (status === 'partial') return <Loader size={14} className="text-yellow flex-shrink-0" />;
-  return <Circle size={14} className="text-slate-light flex-shrink-0" />;
+  return <Circle size={14} className="text-secondary flex-shrink-0" />;
 }
 
 export default function VerificationSection() {
@@ -55,7 +55,7 @@ export default function VerificationSection() {
               <>
                 Know what you know.
                 <br />
-                <span className="text-slate">Know what you don&apos;t.</span>
+                <span className="text-muted-foreground">Know what you don&apos;t.</span>
               </>
             }
           />
@@ -78,19 +78,19 @@ export default function VerificationSection() {
 
         {/* Verification panel */}
         <AnimateOnScroll delay={300}>
-          <div className="mt-12 max-w-lg mx-auto bg-white rounded-xl border border-border-light p-6 shadow-sm">
+          <div className="mt-12 max-w-lg mx-auto bg-white rounded-xl border border-surface-3 p-6 shadow-sm">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-sm font-semibold text-navy">Verification Panel</h3>
+              <h3 className="text-sm font-semibold text-primary">Verification Panel</h3>
               <Badge variant="blue">CD-1247</Badge>
             </div>
 
-            <div className="mb-4 p-3 bg-coral-subtle rounded-lg border border-coral/10">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-coral">Claim</span>
-              <p className="mt-1 text-sm text-navy/80">&quot;Complaint was ignored.&quot;</p>
+            <div className="mb-4 p-3 bg-warning-subtle rounded-lg border border-warning/10">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-warning">Claim</span>
+              <p className="mt-1 text-sm text-primary/80">&quot;Complaint was ignored.&quot;</p>
             </div>
 
             <div>
-              <span className="text-[10px] font-bold tracking-wider uppercase text-slate-light mb-3 block">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-secondary mb-3 block">
                 Verification Status
               </span>
               <div className="space-y-2.5">
@@ -100,10 +100,10 @@ export default function VerificationSection() {
                     <span
                       className={`text-sm ${
                         item.status === 'verified'
-                          ? 'text-navy'
+                          ? 'text-primary'
                           : item.status === 'partial'
-                          ? 'text-navy/70'
-                          : 'text-slate-light'
+                          ? 'text-primary/70'
+                          : 'text-secondary'
                       }`}
                     >
                       {item.label}
@@ -113,8 +113,8 @@ export default function VerificationSection() {
               </div>
             </div>
 
-            <div className="mt-5 pt-4 border-t border-border-light">
-              <div className="flex items-center gap-4 text-xs text-slate-light">
+            <div className="mt-5 pt-4 border-t border-surface-3">
+              <div className="flex items-center gap-4 text-xs text-secondary">
                 <span className="flex items-center gap-1.5">
                   <CheckCircle size={11} className="text-green" /> 4 Verified
                 </span>

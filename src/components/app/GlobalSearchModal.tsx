@@ -59,26 +59,26 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
   const getIcon = (type: string) => {
     switch (type) {
       case 'case':
-        return <Folder size={16} className="text-electric-blue" />;
+        return <Folder size={16} className="text-primary" />;
       case 'source':
-        return <User size={16} className="text-teal" />;
+        return <User size={16} className="text-success" />;
       case 'contact':
-        return <PhoneCall size={16} className="text-coral" />;
+        return <PhoneCall size={16} className="text-warning" />;
       case 'evidence':
-        return <FileText size={16} className="text-navy" />;
+        return <FileText size={16} className="text-primary" />;
       default:
-        return <Search size={16} className="text-slate" />;
+        return <Search size={16} className="text-muted-foreground" />;
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-navy/40 backdrop-blur-xs">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-primary/40 backdrop-blur-xs">
       <div
-        className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-border-light overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+        className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-surface-3 overflow-hidden animate-in fade-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
-        <div className="flex items-center px-4 py-3.5 border-b border-border-light">
+        <div className="flex items-center px-4 py-3.5 border-b border-surface-3">
           <Search size={20} className="text-slate-500 mr-3 shrink-0" />
           <input
             ref={inputRef}
@@ -86,12 +86,12 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search cases, sources, contacts, or evidence files..."
-            className="w-full bg-transparent text-navy text-base focus:outline-none placeholder:text-slate-500"
+            className="w-full bg-transparent text-primary text-base focus:outline-none placeholder:text-slate-500"
           />
-          {loading && <Loader2 size={18} className="animate-spin text-electric-blue mr-2" />}
+          {loading && <Loader2 size={18} className="animate-spin text-primary mr-2" />}
           <button
             onClick={onClose}
-            className="p-1 text-slate-500 hover:text-navy hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+            className="p-1 text-slate-500 hover:text-primary hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -107,7 +107,7 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
 
           {query.length >= 2 && results.length === 0 && !loading && (
             <div className="py-8 text-center text-xs text-slate-500">
-              No results found for &ldquo;<span className="font-semibold text-navy">{query}</span>&rdquo;
+              No results found for &ldquo;<span className="font-semibold text-primary">{query}</span>&rdquo;
             </div>
           )}
 
@@ -117,14 +117,14 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                 <div
                   key={`${res.type}-${res.id}`}
                   onClick={() => handleSelect(res.href)}
-                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-off-white transition-colors cursor-pointer group"
+                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-background transition-colors cursor-pointer group"
                 >
                   <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="w-8 h-8 rounded-lg bg-off-white border border-border-light flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-background border border-surface-3 flex items-center justify-center shrink-0">
                       {getIcon(res.type)}
                     </div>
                     <div className="min-w-0">
-                      <div className="text-sm font-semibold text-navy truncate group-hover:text-electric-blue transition-colors">
+                      <div className="text-sm font-semibold text-primary truncate group-hover:text-primary transition-colors">
                         {res.title}
                       </div>
                       <div className="text-xs text-slate-500 truncate">{res.subtitle}</div>
@@ -146,10 +146,10 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
         </div>
 
         {/* Modal Footer */}
-        <div className="px-4 py-2 bg-off-white/70 border-t border-border-light flex items-center justify-between text-[11px] text-slate-500">
+        <div className="px-4 py-2 bg-background/70 border-t border-surface-3 flex items-center justify-between text-[11px] text-slate-500">
           <div className="flex items-center gap-3">
             <span>
-              <kbd className="px-1.5 py-0.5 bg-white border border-border-light rounded text-[10px]">Esc</kbd> to close
+              <kbd className="px-1.5 py-0.5 bg-white border border-surface-3 rounded text-[10px]">Esc</kbd> to close
             </span>
           </div>
           <span>CaseDesk Global Index</span>

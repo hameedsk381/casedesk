@@ -27,8 +27,8 @@ const roles = [
 
 const activities = [
   { icon: <CheckCircle size={12} className="text-green" />, action: 'Editor verified complaint document', time: '2h ago' },
-  { icon: <MessageSquare size={12} className="text-electric-blue" />, action: 'Researcher added internal note', time: '3h ago' },
-  { icon: <ListTodo size={12} className="text-coral" />, action: 'Task assigned to investigator', time: '5h ago' },
+  { icon: <MessageSquare size={12} className="text-primary" />, action: 'Researcher added internal note', time: '3h ago' },
+  { icon: <ListTodo size={12} className="text-warning" />, action: 'Task assigned to investigator', time: '5h ago' },
   { icon: <Clock size={12} className="text-yellow" />, action: 'Deadline updated for response', time: '1d ago' },
 ];
 
@@ -43,7 +43,7 @@ export default function TeamSection() {
               <>
                 Built for creators.
                 <br />
-                <span className="text-slate">Ready for teams.</span>
+                <span className="text-muted-foreground">Ready for teams.</span>
               </>
             }
             body="Professional creators may work with researchers, reporters, editors, legal reviewers, and social media managers."
@@ -53,18 +53,18 @@ export default function TeamSection() {
         <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Roles */}
           <AnimateOnScroll animation="slide-in-left" delay={100}>
-            <div className="bg-white rounded-xl border border-border-light p-6">
-              <h3 className="text-sm font-semibold text-navy mb-4">Team Roles</h3>
+            <div className="bg-white rounded-xl border border-surface-3 p-6">
+              <h3 className="text-sm font-semibold text-primary mb-4">Team Roles</h3>
               <div className="space-y-2">
                 {roles.map((role) => (
                   <div
                     key={role.label}
-                    className="flex items-center gap-3 px-4 py-3 bg-off-white rounded-lg border border-border-light hover:border-border transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 bg-background rounded-lg border border-surface-3 hover:border-border transition-colors"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-electric-blue-subtle flex items-center justify-center text-electric-blue">
+                    <div className="w-7 h-7 rounded-lg bg-primary-subtle flex items-center justify-center text-primary">
                       {role.icon}
                     </div>
-                    <span className="text-sm font-medium text-navy">{role.label}</span>
+                    <span className="text-sm font-medium text-primary">{role.label}</span>
                   </div>
                 ))}
               </div>
@@ -73,21 +73,21 @@ export default function TeamSection() {
 
           {/* Activity */}
           <AnimateOnScroll animation="slide-in-right" delay={200}>
-            <div className="bg-white rounded-xl border border-border-light p-6">
+            <div className="bg-white rounded-xl border border-surface-3 p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-navy">Activity History</h3>
+                <h3 className="text-sm font-semibold text-primary">Activity History</h3>
                 <Badge variant="blue">CD-1247</Badge>
               </div>
               <div className="space-y-3">
                 {activities.map((activity, i) => (
                   <div
                     key={i}
-                    className="flex items-start gap-3 p-3 bg-off-white rounded-lg border border-border-light"
+                    className="flex items-start gap-3 p-3 bg-background rounded-lg border border-surface-3"
                   >
                     <div className="mt-0.5">{activity.icon}</div>
                     <div className="flex-1 min-w-0">
-                      <span className="text-sm text-navy block">{activity.action}</span>
-                      <span className="text-[11px] text-slate-light">{activity.time}</span>
+                      <span className="text-sm text-primary block">{activity.action}</span>
+                      <span className="text-[11px] text-secondary">{activity.time}</span>
                     </div>
                   </div>
                 ))}

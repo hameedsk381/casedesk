@@ -18,42 +18,42 @@ const steps = [
     title: 'Capture',
     description: 'Bring complaints and reports into one place.',
     icon: <Download size={20} />,
-    color: 'bg-electric-blue-subtle text-electric-blue',
+    color: 'bg-primary-subtle text-primary',
   },
   {
     number: '02',
     title: 'Understand',
     description: 'AI extracts the issue, people, location, timeline, and missing information.',
     icon: <Brain size={20} />,
-    color: 'bg-teal-subtle text-teal',
+    color: 'bg-success-subtle text-success',
   },
   {
     number: '03',
     title: 'Verify',
     description: 'Separate claims from evidence and verified information.',
     icon: <ShieldCheck size={20} />,
-    color: 'bg-green-subtle text-green',
+    color: 'bg-success-subtle text-green',
   },
   {
     number: '04',
     title: 'Investigate',
     description: 'Organize documents, contacts, notes, tasks, and responses.',
     icon: <FolderSearch size={20} />,
-    color: 'bg-yellow-subtle text-yellow',
+    color: 'bg-warning-subtle text-yellow',
   },
   {
     number: '05',
     title: 'Create',
     description: 'Turn the investigation into responsible content.',
     icon: <PenTool size={20} />,
-    color: 'bg-coral-subtle text-coral',
+    color: 'bg-warning-subtle text-warning',
   },
   {
     number: '06',
     title: 'Follow Up',
     description: 'Track responses, developments, and resolution.',
     icon: <RefreshCw size={20} />,
-    color: 'bg-electric-blue-subtle text-electric-blue',
+    color: 'bg-primary-subtle text-primary',
   },
 ];
 
@@ -74,7 +74,7 @@ export default function SolutionSection() {
               <div className="relative flex gap-6 pb-12 last:pb-0 group">
                 {/* Connecting line */}
                 {i < steps.length - 1 && (
-                  <div className="absolute left-5 top-12 bottom-0 w-px bg-border-light group-hover:bg-electric-blue/20 transition-colors duration-500" />
+                  <div className="absolute left-5 top-12 bottom-0 w-px bg-surface-3 group-hover:bg-primary/20 transition-colors duration-500" />
                 )}
 
                 {/* Step indicator */}
@@ -89,12 +89,12 @@ export default function SolutionSection() {
                 {/* Content */}
                 <div className="flex-1 pt-1">
                   <div className="flex items-baseline gap-3 mb-1.5">
-                    <span className="text-xs font-bold tracking-wider text-slate-light">
+                    <span className="text-xs font-bold tracking-wider text-secondary">
                       {step.number}
                     </span>
-                    <h3 className="text-lg font-semibold text-navy">{step.title}</h3>
+                    <h3 className="text-lg font-semibold text-primary">{step.title}</h3>
                   </div>
-                  <p className="text-sm leading-relaxed text-slate">{step.description}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{step.description}</p>
                 </div>
               </div>
             </AnimateOnScroll>

@@ -78,24 +78,24 @@ export default function RequestInfoModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/60 backdrop-blur-xs animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-border-light overflow-hidden"
+        className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-surface-3 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6 border-b border-border-light flex items-center justify-between bg-amber-50/50">
+        <div className="p-6 border-b border-surface-3 flex items-center justify-between bg-amber-50/50">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
               <HelpCircle size={18} />
             </div>
             <div>
-              <h3 className="text-base font-black text-navy">Request Missing Information</h3>
+              <h3 className="text-base font-black text-primary">Request Missing Information</h3>
               <p className="text-[11px] text-slate-500">
                 Identify what is required from {intakeItem.senderName} before turning this into a case.
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-navy cursor-pointer">
+          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-primary cursor-pointer">
             <X size={18} />
           </button>
         </div>
@@ -108,7 +108,7 @@ export default function RequestInfoModal({
           )}
 
           <div>
-            <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-2">
               What information is needed?
             </label>
             <div className="space-y-2">
@@ -121,7 +121,7 @@ export default function RequestInfoModal({
                     className={`flex items-center gap-3 p-2.5 rounded-xl border transition-all cursor-pointer text-xs ${
                       checked
                         ? 'bg-amber-50/60 border-amber-300 text-amber-900 font-semibold'
-                        : 'bg-off-white/40 border-border-light text-slate-600 hover:bg-slate-50'
+                        : 'bg-background/40 border-surface-3 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
                     <input
@@ -138,7 +138,7 @@ export default function RequestInfoModal({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
               Internal Notes / Message Draft for Source
             </label>
             <textarea
@@ -146,15 +146,15 @@ export default function RequestInfoModal({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="e.g. Complainant provided verbal claim but needs to furnish official ration card photocopy..."
-              className="w-full p-3 bg-off-white border border-border-light rounded-xl text-xs text-navy focus:outline-none focus:ring-2 focus:ring-amber-500/30"
+              className="w-full p-3 bg-background border border-surface-3 rounded-xl text-xs text-primary focus:outline-none focus:ring-2 focus:ring-amber-500/30"
             />
           </div>
 
-          <div className="pt-3 border-t border-border-light flex items-center justify-end gap-3">
+          <div className="pt-3 border-t border-surface-3 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-navy cursor-pointer"
+              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
             >
               Cancel
             </button>

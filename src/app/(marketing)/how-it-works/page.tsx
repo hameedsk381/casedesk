@@ -40,26 +40,26 @@ export default function HowItWorksPage() {
   return (
     <div className="pt-32 pb-24 max-w-7xl mx-auto px-5 sm:px-8">
       <div className="max-w-3xl">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-teal/10 text-teal border border-teal/20 mb-6">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-success/10 text-success border border-success/20 mb-6">
           The Workflow
         </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-navy leading-tight">
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary leading-tight">
           How citizen messages become responsible public investigations.
         </h1>
-        <p className="mt-6 text-lg text-slate leading-relaxed">
+        <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
           CaseDesk transforms chaotic citizen intake into a disciplined, multi-stage editorial pipeline trusted by newsrooms and public creators.
         </p>
       </div>
 
       <div className="mt-16 space-y-6 max-w-4xl">
         {steps.map((step) => (
-          <div key={step.num} className="p-6 sm:p-8 bg-white rounded-2xl border border-border-light shadow-xs flex flex-col sm:flex-row sm:items-center gap-6">
-            <div className="w-14 h-14 shrink-0 rounded-2xl bg-electric-blue/10 text-electric-blue font-mono font-extrabold text-xl flex items-center justify-center">
+          <div key={step.num} className="p-6 sm:p-8 bg-white rounded-2xl border border-surface-3 shadow-xs flex flex-col sm:flex-row sm:items-center gap-6">
+            <div className="w-14 h-14 shrink-0 rounded-2xl bg-primary/10 text-primary font-mono font-extrabold text-xl flex items-center justify-center">
               {step.num}
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-navy">{step.title}</h3>
-              <p className="mt-2 text-slate text-sm leading-relaxed">{step.desc}</p>
+              <h3 className="text-xl font-bold text-primary">{step.title}</h3>
+              <p className="mt-2 text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
             </div>
           </div>
         ))}

@@ -48,16 +48,16 @@ export default function ContentStudioSection() {
         <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Format selection */}
           <AnimateOnScroll animation="slide-in-left" delay={100}>
-            <div className="bg-white rounded-xl border border-border-light p-6">
-              <h3 className="text-sm font-semibold text-navy mb-4">Choose Format</h3>
+            <div className="bg-white rounded-xl border border-surface-3 p-6">
+              <h3 className="text-sm font-semibold text-primary mb-4">Choose Format</h3>
               <div className="grid grid-cols-2 gap-2">
                 {formats.map((format, i) => (
                   <button
                     key={format.label}
                     className={`flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
                       i === 0
-                        ? 'bg-electric-blue text-white shadow-sm'
-                        : 'bg-off-white text-slate hover:bg-cream hover:text-navy border border-border-light'
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'bg-background text-muted-foreground hover:bg-surface hover:text-primary border border-surface-3'
                     }`}
                   >
                     {format.icon}
@@ -67,20 +67,20 @@ export default function ContentStudioSection() {
               </div>
 
               {/* Publication flow */}
-              <div className="mt-6 pt-5 border-t border-border-light">
-                <span className="text-[10px] font-bold tracking-wider uppercase text-slate-light mb-3 block">
+              <div className="mt-6 pt-5 border-t border-surface-3">
+                <span className="text-[10px] font-bold tracking-wider uppercase text-secondary mb-3 block">
                   Publication Flow
                 </span>
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-cream rounded-lg text-xs font-medium text-navy">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-surface rounded-lg text-xs font-medium text-primary">
                     <User size={12} /> Creator reviews
                   </div>
-                  <span className="text-slate-light text-xs">→</span>
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-subtle rounded-lg text-xs font-medium text-green">
+                  <span className="text-secondary text-xs">→</span>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-success-subtle rounded-lg text-xs font-medium text-green">
                     <CheckCircle size={12} /> Creator approves
                   </div>
-                  <span className="text-slate-light text-xs">→</span>
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-electric-blue-subtle rounded-lg text-xs font-medium text-electric-blue">
+                  <span className="text-secondary text-xs">→</span>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-subtle rounded-lg text-xs font-medium text-primary">
                     <Send size={12} /> Publish
                   </div>
                 </div>
@@ -90,18 +90,18 @@ export default function ContentStudioSection() {
 
           {/* Content preview */}
           <AnimateOnScroll animation="slide-in-right" delay={200}>
-            <div className="bg-white rounded-xl border border-border-light p-6">
+            <div className="bg-white rounded-xl border border-surface-3 p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-navy">Content Preview</h3>
+                <h3 className="text-sm font-semibold text-primary">Content Preview</h3>
                 <Badge variant="blue">Instagram Reel</Badge>
               </div>
               <div className="space-y-3">
                 {contentPreview.map((item) => (
-                  <div key={item.label} className="bg-off-white rounded-lg p-3 border border-border-light">
-                    <span className="text-[10px] font-bold tracking-wider uppercase text-electric-blue block mb-1">
+                  <div key={item.label} className="bg-background rounded-lg p-3 border border-surface-3">
+                    <span className="text-[10px] font-bold tracking-wider uppercase text-primary block mb-1">
                       {item.label}
                     </span>
-                    <p className="text-xs leading-relaxed text-navy/80">{item.content}</p>
+                    <p className="text-xs leading-relaxed text-primary/80">{item.content}</p>
                   </div>
                 ))}
               </div>

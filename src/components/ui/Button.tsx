@@ -14,13 +14,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-electric-blue text-white hover:bg-electric-blue-dark shadow-sm hover:shadow-md active:scale-[0.98]',
+    'bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-md active:scale-[0.98]',
   secondary:
-    'bg-white text-navy border border-border hover:border-slate-light hover:bg-cream active:scale-[0.98]',
+    'bg-white text-primary border border-border hover:border-secondary hover:bg-surface active:scale-[0.98]',
   ghost:
-    'text-slate hover:text-navy hover:bg-cream/60',
+    'text-muted-foreground hover:text-primary hover:bg-surface/60',
   outline:
-    'border border-electric-blue text-electric-blue hover:bg-electric-blue-subtle active:scale-[0.98]',
+    'border border-primary text-primary hover:bg-primary-subtle active:scale-[0.98]',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -38,7 +38,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    'inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-200 cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-blue';
+    'inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-200 cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
 
   const classes = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 

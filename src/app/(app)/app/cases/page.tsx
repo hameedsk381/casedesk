@@ -115,17 +115,17 @@ export default function CasesPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-navy">
+          <h1 className="text-2xl font-black tracking-tight text-primary">
             Case Registry 2.0
           </h1>
-          <p className="mt-1 text-sm text-slate">
+          <p className="mt-1 text-sm text-muted-foreground">
             All citizen reports, active investigations, diagnostic health metrics, and next operational steps.
           </p>
         </div>
 
         <button
           onClick={() => setIsIntakeModalOpen(true)}
-          className="inline-flex items-center gap-2 py-2.5 px-4 bg-navy hover:bg-navy/90 text-white font-bold rounded-xl text-sm shadow-xs transition-all self-start sm:self-auto cursor-pointer hover:shadow-md active:scale-95"
+          className="inline-flex items-center gap-2 py-2.5 px-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl text-sm shadow-xs transition-all self-start sm:self-auto cursor-pointer hover:shadow-md active:scale-95"
         >
           <Plus size={16} />
           <span>＋ New Case</span>
@@ -133,7 +133,7 @@ export default function CasesPage() {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="bg-white p-4 rounded-3xl border border-border-light shadow-xs space-y-4">
+      <div className="bg-white p-4 rounded-3xl border border-surface-3 shadow-xs space-y-4">
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
           {/* Search Input */}
           <div className="relative flex-1">
@@ -143,16 +143,16 @@ export default function CasesPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by case number, title, next action, location, or complainant..."
-              className="w-full pl-10 pr-4 py-2 bg-off-white/50 border border-border-light rounded-xl text-sm text-navy focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-background/50 border border-surface-3 rounded-xl text-sm text-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
             />
           </div>
 
           {/* View Mode Toggle */}
-          <div className="flex items-center gap-1 self-end md:self-auto border border-border-light rounded-xl p-1 bg-off-white/40">
+          <div className="flex items-center gap-1 self-end md:self-auto border border-surface-3 rounded-xl p-1 bg-background/40">
             <button
               onClick={() => setViewMode('table')}
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                viewMode === 'table' ? 'bg-white shadow-xs text-navy font-bold' : 'text-slate-500 hover:text-navy'
+                viewMode === 'table' ? 'bg-white shadow-xs text-primary font-bold' : 'text-slate-500 hover:text-primary'
               }`}
               title="Table View"
             >
@@ -161,7 +161,7 @@ export default function CasesPage() {
             <button
               onClick={() => setViewMode('grid')}
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                viewMode === 'grid' ? 'bg-white shadow-xs text-navy font-bold' : 'text-slate-500 hover:text-navy'
+                viewMode === 'grid' ? 'bg-white shadow-xs text-primary font-bold' : 'text-slate-500 hover:text-primary'
               }`}
               title="Grid View"
             >
@@ -171,7 +171,7 @@ export default function CasesPage() {
         </div>
 
         {/* Filter Dropdowns & Pills */}
-        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border-light/60">
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-surface-3/60">
           <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mr-2">
             <Filter size={13} />
             <span>Filters:</span>
@@ -181,7 +181,7 @@ export default function CasesPage() {
           <select
             value={healthFilter}
             onChange={(e) => setHealthFilter(e.target.value)}
-            className="text-xs bg-off-white border border-border-light rounded-lg px-2.5 py-1.5 text-navy font-semibold focus:outline-none cursor-pointer"
+            className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1.5 text-primary font-semibold focus:outline-none cursor-pointer"
           >
             {HEALTH_OPTIONS.map((h) => (
               <option key={h.id} value={h.id}>
@@ -194,7 +194,7 @@ export default function CasesPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="text-xs bg-off-white border border-border-light rounded-lg px-2.5 py-1.5 text-navy font-medium focus:outline-none cursor-pointer"
+            className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1.5 text-primary font-medium focus:outline-none cursor-pointer"
           >
             <option value="ALL">Status: All</option>
             {STATUSES.filter((s) => s !== 'ALL').map((s) => (
@@ -208,7 +208,7 @@ export default function CasesPage() {
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className="text-xs bg-off-white border border-border-light rounded-lg px-2.5 py-1.5 text-navy font-medium focus:outline-none cursor-pointer"
+            className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1.5 text-primary font-medium focus:outline-none cursor-pointer"
           >
             <option value="ALL">Priority: All</option>
             {PRIORITIES.filter((p) => p !== 'ALL').map((p) => (
@@ -222,7 +222,7 @@ export default function CasesPage() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="text-xs bg-off-white border border-border-light rounded-lg px-2.5 py-1.5 text-navy font-medium focus:outline-none cursor-pointer"
+            className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1.5 text-primary font-medium focus:outline-none cursor-pointer"
           >
             <option value="ALL">Category: All</option>
             {CATEGORIES.filter((c) => c !== 'ALL').map((c) => (
@@ -245,7 +245,7 @@ export default function CasesPage() {
                 setHealthFilter('ALL');
                 setSearch('');
               }}
-              className="text-xs font-bold text-electric-blue hover:underline ml-auto cursor-pointer"
+              className="text-xs font-bold text-primary hover:underline ml-auto cursor-pointer"
             >
               Clear filters
             </button>
@@ -255,23 +255,23 @@ export default function CasesPage() {
 
       {/* Case List Content */}
       {loading ? (
-        <div className="bg-white rounded-3xl border border-border-light p-16 flex flex-col items-center justify-center text-slate-500">
-          <Loader2 size={32} className="animate-spin text-electric-blue mb-3" />
+        <div className="bg-white rounded-3xl border border-surface-3 p-16 flex flex-col items-center justify-center text-slate-500">
+          <Loader2 size={32} className="animate-spin text-primary mb-3" />
           <span className="text-sm font-medium">Filtering case registry...</span>
         </div>
       ) : cases.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-border-light p-16 text-center">
+        <div className="bg-white rounded-3xl border border-surface-3 p-16 text-center">
           <div className="w-14 h-14 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4">
             <FolderOpen size={28} />
           </div>
-          <h3 className="text-base font-bold text-navy">No cases match your filters</h3>
-          <p className="mt-1 text-xs text-slate max-w-sm mx-auto">
+          <h3 className="text-base font-bold text-primary">No cases match your filters</h3>
+          <p className="mt-1 text-xs text-muted-foreground max-w-sm mx-auto">
             Try adjusting your search keywords or reset filter conditions to see all registered cases.
           </p>
           <div className="mt-6">
             <button
               onClick={() => setIsIntakeModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl"
             >
               <Plus size={14} /> Create a new case
             </button>
@@ -279,11 +279,11 @@ export default function CasesPage() {
         </div>
       ) : viewMode === 'table' ? (
         /* Table View 2.0 with Health, Next Action, and Verification % */
-        <div className="bg-white rounded-3xl border border-border-light shadow-xs overflow-hidden">
+        <div className="bg-white rounded-3xl border border-surface-3 shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-border-light bg-off-white/50 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-surface-3 bg-background/50 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   <th className="py-3.5 px-4">Case & Location</th>
                   <th className="py-3.5 px-4">Health</th>
                   <th className="py-3.5 px-4">Priority</th>
@@ -294,16 +294,16 @@ export default function CasesPage() {
                   <th className="py-3.5 px-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border-light/60 text-xs">
+              <tbody className="divide-y divide-surface-3/60 text-xs">
                 {cases.map((c) => (
-                  <tr key={c.id} className="hover:bg-off-white/50 transition-colors group">
+                  <tr key={c.id} className="hover:bg-background/50 transition-colors group">
                     {/* Case details */}
                     <td className="py-4 px-4 min-w-[220px] max-w-[280px]">
                       <Link href={`/app/cases/${c.id}`} className="block">
-                        <span className="font-mono text-[11px] font-bold text-electric-blue">
+                        <span className="font-mono text-[11px] font-bold text-primary">
                           {c.caseNumber}
                         </span>
-                        <div className="font-bold text-navy group-hover:text-electric-blue transition-colors line-clamp-2 mt-0.5 leading-snug">
+                        <div className="font-bold text-primary group-hover:text-primary transition-colors line-clamp-2 mt-0.5 leading-snug">
                           {c.title}
                         </div>
                         <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-1.5">
@@ -336,7 +336,7 @@ export default function CasesPage() {
 
                     {/* Next Action */}
                     <td className="py-4 px-4 min-w-[200px] max-w-[240px]">
-                      <div className="text-xs font-semibold text-slate-700 leading-snug line-clamp-2 bg-off-white/80 p-2 rounded-xl border border-border-light/60">
+                      <div className="text-xs font-semibold text-slate-700 leading-snug line-clamp-2 bg-background/80 p-2 rounded-xl border border-surface-3/60">
                         {c.nextAction || 'Conduct initial witness interview and formulate verification plan'}
                       </div>
                     </td>
@@ -351,7 +351,7 @@ export default function CasesPage() {
                           <span
                             className={
                               c.verificationPercentage >= 60
-                                ? 'text-teal'
+                                ? 'text-success'
                                 : c.verificationPercentage > 0
                                 ? 'text-amber-600'
                                 : 'text-slate-500'
@@ -364,7 +364,7 @@ export default function CasesPage() {
                           <div
                             className={`h-full rounded-full transition-all duration-300 ${
                               c.verificationPercentage >= 60
-                                ? 'bg-teal'
+                                ? 'bg-success'
                                 : c.verificationPercentage > 0
                                 ? 'bg-amber-500'
                                 : 'bg-slate-300'
@@ -386,7 +386,7 @@ export default function CasesPage() {
                     <td className="py-4 px-4 text-right whitespace-nowrap">
                       <Link
                         href={`/app/cases/${c.id}`}
-                        className="px-3 py-1.5 text-xs font-bold text-navy hover:bg-slate-100 rounded-xl border border-border-light transition-colors inline-block"
+                        className="px-3 py-1.5 text-xs font-bold text-primary hover:bg-slate-100 rounded-xl border border-surface-3 transition-colors inline-block"
                       >
                         Open Desk
                       </Link>
@@ -404,42 +404,42 @@ export default function CasesPage() {
             <Link
               key={c.id}
               href={`/app/cases/${c.id}`}
-              className="p-6 bg-white rounded-3xl border border-border-light shadow-xs hover:border-electric-blue hover:shadow-md transition-all flex flex-col justify-between group"
+              className="p-6 bg-white rounded-3xl border border-surface-3 shadow-xs hover:border-primary hover:shadow-md transition-all flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between mb-2.5">
-                  <span className="font-mono text-xs font-bold text-electric-blue">
+                  <span className="font-mono text-xs font-bold text-primary">
                     {c.caseNumber}
                   </span>
                   <CaseHealthBadge status={c.healthStatus} size="sm" />
                 </div>
 
-                <h3 className="text-sm font-bold text-navy group-hover:text-electric-blue transition-colors line-clamp-2 leading-snug">
+                <h3 className="text-sm font-bold text-primary group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                   {c.title}
                 </h3>
-                <p className="mt-2 text-xs text-slate line-clamp-2 leading-relaxed">
+                <p className="mt-2 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                   {c.summary}
                 </p>
 
                 {/* Next Action Snippet */}
-                <div className="mt-3.5 p-2.5 bg-off-white/80 rounded-xl border border-border-light/60">
+                <div className="mt-3.5 p-2.5 bg-background/80 rounded-xl border border-surface-3/60">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">
                     Next Action
                   </div>
-                  <div className="text-xs font-semibold text-navy line-clamp-2 leading-snug">
+                  <div className="text-xs font-semibold text-primary line-clamp-2 leading-snug">
                     {c.nextAction || 'Formulate verification plan and contact complainant'}
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-border-light/60 space-y-3">
+              <div className="mt-4 pt-4 border-t border-surface-3/60 space-y-3">
                 {/* Verification Bar */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between text-[10px] font-bold">
                     <span className="text-slate-500">
                       Verification ({c.verifiedCount || 0}/{c.totalVerificationCount || 0})
                     </span>
-                    <span className={c.verificationPercentage >= 60 ? 'text-teal' : 'text-slate-600'}>
+                    <span className={c.verificationPercentage >= 60 ? 'text-success' : 'text-slate-600'}>
                       {c.verificationPercentage || 0}%
                     </span>
                   </div>
@@ -447,7 +447,7 @@ export default function CasesPage() {
                     <div
                       className={`h-full rounded-full ${
                         c.verificationPercentage >= 60
-                          ? 'bg-teal'
+                          ? 'bg-success'
                           : c.verificationPercentage > 0
                           ? 'bg-amber-500'
                           : 'bg-slate-300'

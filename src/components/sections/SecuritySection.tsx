@@ -34,7 +34,7 @@ export default function SecuritySection() {
               <>
                 Sensitive cases deserve
                 <br />
-                <span className="text-slate">serious protection.</span>
+                <span className="text-muted-foreground">serious protection.</span>
               </>
             }
             body="Citizen complaints can contain deeply personal information. CaseDesk is designed around controlled access, responsible handling, and deliberate publication."
@@ -44,12 +44,12 @@ export default function SecuritySection() {
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-5xl mx-auto">
           {features.map((feature, i) => (
             <AnimateOnScroll key={feature.title} animation="fade-in-up" delay={i * 80}>
-              <div className="group bg-white rounded-xl border border-border-light p-5 hover:border-border hover:shadow-sm transition-all duration-300">
-                <div className="w-9 h-9 rounded-lg bg-navy/5 flex items-center justify-center text-navy mb-4 group-hover:bg-electric-blue group-hover:text-white transition-colors duration-300">
+              <div className="group bg-white rounded-xl border border-surface-3 p-5 hover:border-border hover:shadow-sm transition-all duration-300">
+                <div className="w-9 h-9 rounded-lg bg-primary/5 flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                   {feature.icon}
                 </div>
-                <h3 className="text-sm font-semibold text-navy mb-1">{feature.title}</h3>
-                <p className="text-xs leading-relaxed text-slate">{feature.description}</p>
+                <h3 className="text-sm font-semibold text-primary mb-1">{feature.title}</h3>
+                <p className="text-xs leading-relaxed text-muted-foreground">{feature.description}</p>
               </div>
             </AnimateOnScroll>
           ))}

@@ -72,41 +72,41 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
   return (
     <aside className="w-full lg:w-80 shrink-0 space-y-6">
       {/* Dossier Meta Card */}
-      <div className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-4">
+      <div className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-4">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
           Investigation Dossier Meta
         </h3>
 
         <div className="space-y-3 text-xs">
-          <div className="flex items-center justify-between pb-2 border-b border-border-light/60">
+          <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
             <span className="text-slate-500 font-medium">Priority</span>
             <PriorityBadge priority={caseRecord.priority} />
           </div>
 
-          <div className="flex items-center justify-between pb-2 border-b border-border-light/60">
+          <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
             <span className="text-slate-500 font-medium">Status</span>
             <CaseStatusBadge status={caseRecord.status} />
           </div>
 
-          <div className="flex items-center justify-between pb-2 border-b border-border-light/60">
+          <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
             <span className="text-slate-500 font-medium">Category</span>
-            <span className="font-semibold text-navy">{caseRecord.category}</span>
+            <span className="font-semibold text-primary">{caseRecord.category}</span>
           </div>
 
-          <div className="flex items-center justify-between pb-2 border-b border-border-light/60">
+          <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
             <span className="text-slate-500 font-medium">Location</span>
-            <span className="font-semibold text-navy text-right max-w-[140px] truncate">
+            <span className="font-semibold text-primary text-right max-w-[140px] truncate">
               {caseRecord.location}
             </span>
           </div>
 
-          <div className="flex items-center justify-between pb-2 border-b border-border-light/60">
+          <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
             <span className="text-slate-500 font-medium">Assigned Lead</span>
             <select
               value={assignedToId}
               onChange={(e) => handleAssignChange(e.target.value)}
               disabled={saving}
-              className="text-xs bg-off-white border border-border-light rounded-lg px-2 py-1 text-navy font-semibold focus:outline-none cursor-pointer max-w-[140px] truncate"
+              className="text-xs bg-background border border-surface-3 rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer max-w-[140px] truncate"
             >
               <option value="">Unassigned</option>
               {users.map((u) => (
@@ -130,7 +130,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
       </div>
 
       {/* Verification Progress Card */}
-      <div className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-3">
+      <div className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
             Verification Index
@@ -140,14 +140,14 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
 
         <div>
           <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="font-semibold text-navy">Factual Items Verified</span>
-            <span className="font-bold text-teal">
+            <span className="font-semibold text-primary">Factual Items Verified</span>
+            <span className="font-bold text-success">
               {verifiedCount}/{totalVerifications} ({verificationPercent}%)
             </span>
           </div>
           <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
             <div
-              className="h-full bg-teal transition-all duration-300"
+              className="h-full bg-success transition-all duration-300"
               style={{ width: `${verificationPercent}%` }}
             />
           </div>
@@ -161,13 +161,13 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
       </div>
 
       {/* Publication & Resolution Card */}
-      <div className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-4">
+      <div className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-4">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
           Editorial Lifecycle
         </h3>
 
         <div className="space-y-3 text-xs">
-          <div className="flex items-center justify-between pb-2 border-b border-border-light/60">
+          <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
             <span className="text-slate-500 font-medium">Publication</span>
             <span
               className={`px-2 py-0.5 rounded text-[11px] font-bold ${
@@ -187,7 +187,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
             <select
               value={resolutionStatus}
               onChange={(e) => handleResolutionChange(e.target.value)}
-              className="text-xs bg-off-white border border-border-light rounded-lg px-2 py-1 text-navy font-semibold focus:outline-none cursor-pointer"
+              className="text-xs bg-background border border-surface-3 rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
             >
               <option value="OPEN">Open</option>
               <option value="ONGOING">Ongoing</option>
@@ -201,18 +201,18 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
 
       {/* Source & Complainant Privacy Card */}
       {primarySource && (
-        <div className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-3">
+        <div className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Source Consent Flags
             </h3>
-            <ShieldCheck size={16} className="text-teal" />
+            <ShieldCheck size={16} className="text-success" />
           </div>
 
           <div className="space-y-2 text-xs">
             <div className="flex items-center justify-between">
               <span className="text-slate-500">Identity Mode</span>
-              <span className="font-semibold text-navy">
+              <span className="font-semibold text-primary">
                 {primarySource.anonymous ? 'ANONYMOUS' : 'Identified'}
               </span>
             </div>
@@ -221,7 +221,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
               <span className="text-slate-500">Contact Consent</span>
               <span
                 className={`font-semibold ${
-                  primarySource.consentToContact ? 'text-teal' : 'text-slate-500'
+                  primarySource.consentToContact ? 'text-success' : 'text-slate-500'
                 }`}
               >
                 {primarySource.consentToContact ? 'Granted ✓' : 'No'}
@@ -232,7 +232,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
               <span className="text-slate-500">Publish Consent</span>
               <span
                 className={`font-semibold ${
-                  primarySource.consentToPublish ? 'text-teal' : 'text-coral'
+                  primarySource.consentToPublish ? 'text-success' : 'text-warning'
                 }`}
               >
                 {primarySource.consentToPublish ? 'Granted ✓' : 'Protected (Do not name)'}
