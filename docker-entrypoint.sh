@@ -3,12 +3,12 @@ set -e
 
 echo "=== CaseDesk Production Startup ==="
 
-# Wait and ensure schema is synced
+# Apply versioned schema changes before serving traffic.
 if [ -f "prisma/schema.prisma" ]; then
-  echo "Connecting to MySQL and syncing database schema..."
+  echo "Connecting to MySQL and applying database migrations..."
   MAX_RETRIES=10
   RETRY_COUNT=0
-  until npx prisma db push --skip-generate || [ $RETRY_COUNT -ge $MAX_RETRIES ]; do
+  until npx prisma migrate deploy || [ $RETRY_COUNT -ge $MAX_RETRIES ]; do
     RETRY_COUNT=$((RETRY_COUNT + 1))
     echo "Waiting for database to be ready (attempt $RETRY_COUNT/$MAX_RETRIES)..."
     sleep 3

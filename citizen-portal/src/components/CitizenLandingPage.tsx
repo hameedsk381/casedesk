@@ -112,10 +112,10 @@ export function CitizenLandingPage({ endpoint }: Props) {
   ];
 
   const steps = [
-    { n: '1', title: lang === 'te' ? 'చెప్పండి' : 'Tell Us', desc: lang === 'te' ? 'వాయిస్ లేదా టైప్ చేసి మీ సమస్య చెప్పండి.' : 'Speak or type your issue in any language.', icon: MessageCircle },
-    { n: '2', title: lang === 'te' ? 'ధృవీకరించండి' : 'We Verify', desc: lang === 'te' ? 'మా జర్నలిస్టులు వాస్తవాలను ధృవీకరిస్తారు.' : 'Our journalists verify the facts independently.', icon: Search },
-    { n: '3', title: lang === 'te' ? 'ప్రచురిస్తాము' : 'We Publish', desc: lang === 'te' ? 'నిజాలు బయటపెట్టి పరిష్కారం కోరతాము.' : 'We expose the truth and demand accountability.', icon: Eye },
-    { n: '4', title: lang === 'te' ? 'ఫలితం' : 'Impact', desc: lang === 'te' ? 'అధికారులను ప్రశ్నించి మార్పు తెస్తాము.' : 'Officials are questioned and change follows.', icon: TrendingUp },
+    { n: '1', title: lang === 'te' ? 'వివరాలు చెప్పండి' : 'Share Details', desc: lang === 'te' ? 'వాయిస్ లేదా టైప్ చేసి సేవకు సంబంధించిన వివరాలు చెప్పండి.' : 'Speak or type the service need in any language.', icon: MessageCircle },
+    { n: '2', title: lang === 'te' ? 'సమీక్ష' : 'We Review', desc: lang === 'te' ? 'మా బృందం వివరాలను జాగ్రత్తగా పరిశీలిస్తుంది.' : 'Our team reviews the details carefully.', icon: Search },
+    { n: '3', title: lang === 'te' ? 'సమన్వయం' : 'Coordinate', desc: lang === 'te' ? 'అవసరమైతే సంబంధిత సేవా విభాగానికి సమాచారాన్ని పంపడంలో సహాయం చేస్తాము.' : 'When appropriate, we help route information to the relevant service team.', icon: Eye },
+    { n: '4', title: lang === 'te' ? 'పురోగతి' : 'Follow-up', desc: lang === 'te' ? 'మీ రిఫరెన్స్ కోడ్‌తో స్థితిని చూడవచ్చు.' : 'Use your reference code to check progress.', icon: TrendingUp },
   ];
 
   const stats = [
@@ -176,14 +176,14 @@ export function CitizenLandingPage({ endpoint }: Props) {
             {lang === 'te' ? (
               <>మీ ఊరిలో సమస్య?<br /><span className="text-primary/60">మాకు చెప్పండి.</span></>
             ) : (
-              <>Something wrong<br className="hidden sm:block" /> in your area?<br /><span className="text-primary/60">Tell our reporters.</span></>
+              <>Help improve<br className="hidden sm:block" /> your area.<br /><span className="text-primary/60">Share the details with us.</span></>
             )}
           </h1>
 
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto">
             {lang === 'te'
               ? 'మైక్ నొక్కి మాట్లాడండి లేదా టైప్ చేయండి. మా జర్నలిస్టులు పరిశీలిస్తారు.'
-              : 'Tap the mic to speak or type below. Our investigative team follows up.'}
+              : 'Tap the mic to speak or type below. Our helpdesk team will review your submission.'}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 max-w-md mx-auto">
@@ -192,7 +192,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
               className="w-full group py-4 px-6 bg-primary hover:bg-primary-hover text-white font-bold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.97]"
             >
               <Mic size={20} />
-              <span>{lang === 'te' ? 'ఇప్పుడే చెప్పండి' : 'Report Now'}</span>
+              <span>{lang === 'te' ? 'ఇప్పుడే చెప్పండి' : 'Share Details'}</span>
               <ArrowRight size={17} className="group-hover:translate-x-0.5 transition-transform" />
             </button>
             <button

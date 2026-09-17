@@ -32,7 +32,6 @@ export async function GET(request: Request) {
         id: true,
         referenceNumber: true,
         status: true,
-        aiCategory: true,
         createdAt: true,
         createdCase: {
           select: {
@@ -102,7 +101,6 @@ export async function GET(request: Request) {
       {
         ref: intakeItem.referenceNumber,
         receivedAt: intakeItem.createdAt,
-        category: intakeItem.aiCategory || 'General Civic Report',
         status: statusEn,
         statusTe,
         steps: [

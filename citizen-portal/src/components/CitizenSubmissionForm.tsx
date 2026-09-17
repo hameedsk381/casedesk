@@ -95,6 +95,21 @@ export function CitizenSubmissionForm({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selected = Array.from(e.target.files);
+      const nextFiles = [...files, ...selected];
+      const exceedsFileLimit = nextFiles.length > 10;
+      const hasOversizedFile = selected.some((file) => file.size > 10 * 1024 * 1024);
+      const totalSize = nextFiles.reduce((total, file) => total + file.size, 0);
+
+      if (exceedsFileLimit || hasOversizedFile || totalSize > 30 * 1024 * 1024) {
+        setSubmitError(
+          lang === 'te'
+            ? 'గరిష్టంగా 10 ఫైళ్లు, ఒక్కో ఫైలు 10 MB మరియు మొత్తం 30 MB వరకు మాత్రమే జతచేయవచ్చు.'
+            : 'You can attach up to 10 files, 10 MB each, with a 30 MB total limit.'
+        );
+        e.target.value = '';
+        return;
+      }
+      setSubmitError(null);
       setFiles((prev) => [...prev, ...selected]);
     }
   };
@@ -404,9 +419,9 @@ export function CitizenSubmissionForm({
               {lang === 'te' ? 'ఫోటోలు, పత్రాలు జతచేయండి' : 'Upload Photos, Documents, Audio or Videos'}
             </div>
             <div className="text-[10px] text-muted-foreground mt-0.5">
-              PDF, JPG, PNG, MP4, MP3, DOCX (max 25MB each)
+              PDF, JPG, PNG, WEBP, MP4, MP3, WAV, DOCX (max 10 MB each; 30 MB total)
             </div>
-            <input type="file" multiple onChange={handleFileChange} className="hidden" />
+            <input type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.mp3,.wav,.webm,.ogg,.mp4,.mov" onChange={handleFileChange} className="hidden" />
           </label>
 
           {files.length > 0 && (
@@ -451,17 +466,17 @@ export function CitizenSubmissionForm({
         <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border shadow-sm space-y-5">
           <div>
             <h2 className="text-lg font-bold text-primary">
-              {lang === 'te' ? 'సమర్పించండి' : 'Submit Report'}
+              {lang === 'te' ? 'వివరాలు పంపండి' : 'Share Details'}
             </h2>
             <p className="text-xs text-muted-foreground mt-1">
-              {lang === 'te' ? 'మీ ఫిర్యాదు ఎలా ఉందో సమీక్షించి పంపండి.' : 'Review your report and send.'}
+              {lang === 'te' ? 'వివరాలను సమీక్షించి పంపండి.' : 'Review your details and send.'}
             </p>
           </div>
 
           {/* Summary */}
           <div className="p-3.5 rounded-xl bg-surface border border-border space-y-1.5">
             <div className="text-[10px] font-bold text-primary uppercase tracking-wider">
-              {lang === 'te' ? 'మీ ఫిర్యాదు' : 'Your Report'}
+              {lang === 'te' ? 'మీ వివరాలు' : 'Your Details'}
             </div>
             <p className="text-sm text-foreground leading-relaxed line-clamp-3">
               {story || (audioUrl ? `🎤 ${lang === 'te' ? 'వాయిస్ రికార్డింగ్' : 'Voice recording'}` : '')}
@@ -526,7 +541,7 @@ export function CitizenSubmissionForm({
             <div className="text-xs font-bold text-primary">{lang === 'te' ? 'ధృవీకరణ' : 'Confirm'}</div>
             {[
               { checked: consentAccuracy, set: setConsentAccuracy, text: lang === 'te' ? 'నేను చెప్పినది నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm this information is true to the best of my knowledge.' },
-              { checked: consentContact, set: setConsentContact, text: lang === 'te' ? 'మా జర్నలిస్టులు నన్ను సంప్రదించవచ్చు.' : 'Our journalists may contact me about this.' },
+              { checked: consentContact, set: setConsentContact, text: lang === 'te' ? 'మా సహాయ కేంద్రం బృందం ఈ వివరాల గురించి నన్ను సంప్రదించవచ్చు.' : 'The helpdesk team may contact me about these details.' },
               { checked: consentNoGuarantee, set: setConsentNoGuarantee, text: lang === 'te' ? 'ప్రచురణ హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand this may not be published immediately.' },
             ].map((c, i) => (
               <label key={i} className="flex items-start gap-3 p-3 rounded-xl bg-background border border-border cursor-pointer hover:bg-surface transition-colors">
@@ -539,13 +554,13 @@ export function CitizenSubmissionForm({
           {/* Publish preference */}
           <div className="space-y-2">
             <label className="text-xs font-bold text-primary">
-              {lang === 'te' ? 'మీ కథను ప్రచురించవచ్చా?' : 'Can we publish your report?'}
+              {lang === 'te' ? 'ఈ సమాచారాన్ని ప్రజా ప్రయోజన నవీకరణల్లో ఉపయోగించవచ్చా?' : 'May we use this information in public-interest updates?'}
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {([
                 { val: 'YES', label: lang === 'te' ? 'అవును' : 'Yes', desc: lang === 'te' ? 'ప్రచురించవచ్చు' : 'You can publish' },
                 { val: 'DISCUSS_FIRST', label: lang === 'te' ? 'మాట్లాడండి' : 'Discuss first', desc: lang === 'te' ? 'ముందు నాతో మాట్లాడండి' : 'Talk to me first' },
-                { val: 'NO', label: lang === 'te' ? 'కాదు' : 'No', desc: lang === 'te' ? 'పరిశోధన మాత్రమే' : 'Investigate only' },
+                { val: 'NO', label: lang === 'te' ? 'కాదు' : 'No', desc: lang === 'te' ? 'సమీక్ష కోసం మాత్రమే' : 'Use for review only' },
               ] as const).map((opt) => (
                 <label
                   key={opt.val}
@@ -603,10 +618,10 @@ export function CitizenSubmissionForm({
               <CheckCircle2 size={28} />
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-primary">
-              {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'Report Received!'}
+              {lang === 'te' ? 'మీ వివరాలు అందాయి!' : 'Details Received!'}
             </h1>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              {lang === 'te' ? 'ధన్యవాదాలు. మా టీమ్ పరిశీలిస్తుంది.' : 'Thank you. Our team will review your report.'}
+              {lang === 'te' ? 'ధన్యవాదాలు. మా బృందం వివరాలను పరిశీలిస్తుంది.' : 'Thank you. Our team will review your details.'}
             </p>
 
             {referenceNumber && (

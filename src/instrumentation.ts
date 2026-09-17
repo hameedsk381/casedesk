@@ -5,12 +5,13 @@
 export async function register() {
   if (process.env.NEXT_RUNTIME !== 'nodejs') return;
 
-  const { processPendingIntakes } = await import('./lib/queue/intakeQueue');
+  const { processPendingIntakes, startIntakeQueueWorker } = await import('./lib/queue/intakeQueue');
 
   const MAX_ATTEMPTS = 5;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
       const recovered = await processPendingIntakes();
+      startIntakeQueueWorker();
       if (recovered > 0) {
         console.log(`[startup] Recovered ${recovered} pending intake item(s) for AI triage`);
       }

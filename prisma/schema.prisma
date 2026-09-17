@@ -377,6 +377,7 @@ model IntakeItem {
   assignedTo            User?              @relation("AssignedIntakeItems", fields: [assignedToId], references: [id], onDelete: SetNull)
   reviewedBy            User?              @relation("ReviewedIntakeItems", fields: [reviewedById], references: [id], onDelete: SetNull)
   attachments           IntakeAttachment[]
+  triageJob             IntakeTriageJob?
 
   @@index([workspaceId])
   @@index([status])
@@ -385,6 +386,29 @@ model IntakeItem {
   @@index([createdCaseId])
   @@index([duplicateCaseId])
   @@index([referenceNumber])
+}
+
+// Durable background work for citizen-intake transcription and AI triage.
+// A database-backed job survives application restarts and is safe to claim
+// from more than one application instance.
+model IntakeTriageJob {
+  id           String   @id @default(cuid())
+  intakeItemId String   @unique
+  workspaceId  String
+  status       String   @default("QUEUED") // QUEUED, RUNNING, COMPLETED, FAILED
+  attempts     Int      @default(0)
+  maxAttempts  Int      @default(3)
+  availableAt  DateTime @default(now())
+  lockedAt     DateTime?
+  completedAt  DateTime?
+  lastError    String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  intakeItem IntakeItem @relation(fields: [intakeItemId], references: [id], onDelete: Cascade)
+
+  @@index([status, availableAt])
+  @@index([workspaceId])
 }
 
 model IntakeAttachment {

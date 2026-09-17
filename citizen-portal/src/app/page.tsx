@@ -19,13 +19,13 @@ async function getEndpoint() {
 
   return {
     slug: DEFAULT_SLUG,
-    title: 'ComplainBox',
-    description: 'Report civic issues, government failures, and public problems to the team investigating them.',
+    title: 'Community Helpdesk',
+    description: 'Share community service needs and local improvement suggestions with the helpdesk team.',
     requireContact: false,
     allowAnonymous: true,
     allowVoice: true,
     allowAttachments: true,
-    workspaceName: 'ComplainBox',
+    workspaceName: 'Community Helpdesk',
   };
 }
 

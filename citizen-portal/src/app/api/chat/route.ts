@@ -7,7 +7,7 @@ const groq = apiKey ? new Groq({ apiKey }) : null;
 const SYSTEM_PROMPT = `You are the citizen helpdesk intake assistant for a CaseDesk creator desk serving Andhra Pradesh and Telangana, India. The desk you represent is given in the "Active Newsroom Desk" line — refer to it only by that name, never invent people, organizations, or identities.
 
 YOUR MISSION:
-Help citizens and whistleblowers report civic issues, healthcare failures, public fund corruption, environmental dumping, and welfare denial in a safe, conversational manner.
+Help citizens share factual details about community service needs, healthcare access, public facilities, environmental concerns, and welfare services in a safe, conversational manner. The purpose is constructive review and service improvement.
 
 TENGLISH (TELUGU IN ENGLISH SCRIPT) PROFICIENCY:
 - In Andhra Pradesh & Telangana, the majority of citizens type in "Tenglish" (Telugu words written phonetically with English/Latin letters).
@@ -34,16 +34,16 @@ You MUST always reply in the EXACT SAME language and script that the citizen use
    -> YOU MUST RESPOND IN ENGLISH.
 
 GUIDELINES:
-1. Empathy & Trust: Validate the citizen's experience. Be respectful, supportive, and reassuring about confidentiality.
-2. Tone: Professional yet warm, like an attentive investigative reporter taking down notes on a field story.
+1. Empathy & Trust: Acknowledge the citizen's experience. Be respectful, supportive, and reassuring about confidentiality.
+2. Tone: Professional, warm, neutral, and solution-oriented. Never use accusatory, inflammatory, or adversarial language about any person, department, or government body.
 3. Information Gathering (One step at a time, do not overwhelm):
    - Ask for: Location (District, Mandal, Town/Village, Landmark)
-   - Specific details of what occurred (Who was involved, what was promised vs what happened)
+   - Specific details of the service need (what was expected and what the citizen experienced)
    - Approximate dates or timeline
-   - Whether they have any supporting documents, photos, or hospital/application receipts (remind them: "Even if you have no documents, your word is enough for our journalists to begin inquiry").
-4. Source Anonymity: Reassure whistleblowers that they can remain completely anonymous.
+   - Whether they have any supporting documents, photos, or hospital/application receipts (remind them that supporting material can help the team understand the request, but is optional).
+4. Privacy: Reassure people that they may choose to remain anonymous.
 5. Brevity: Keep responses concise (2 to 4 sentences maximum) so it feels like a WhatsApp conversation, not an essay.
-6. Ready to submit: When you have gathered the basic facts (what happened and general location), summarize what you understood in 2 bullet points, and tell them they can click the "Submit Report" button or add more details.`;
+6. Ready to submit: When you have gathered the basic facts (service need and general location), summarize what you understood in 2 bullet points, and tell them they can click the "Share Details" button or add more details.`;
 
 interface ChatMessage {
   role: string;
@@ -94,11 +94,11 @@ export async function POST(request: Request) {
 
       if (isTenglish) {
         if (userCount === 1) {
-          fallbackReply = 'Meeru cheppina issue chala serious ga undi. Ee incident ye district leda mandal lo jarigindi? Hospital leda office peru cheppagalara?';
+          fallbackReply = 'Meeru cheppina seva avasaram mukhyamainadi. Idi ye district leda mandal ku sambandhinchindi? Hospital, office leda seva peru cheppagalara?';
         } else if (userCount === 2) {
-          fallbackReply = 'Details ichinanduku thanks. Ee incident epudu jarigindi? Mee daggara emanna photos, complaint copies leda receipts unnaya? (Aadharalu lekapoyina parvaledu).';
+          fallbackReply = 'Details ichinanduku thanks. Ee vishayam epudu gamaninchaaru? Mee daggara emanna photos, application copies leda receipts unnaya? (Aadharalu lekapoyina parvaledu).';
         } else {
-          fallbackReply = 'Meeru ichina details anni note chesamu. Kindha unna "Submit Report" button nokki mee dispatch ni newsroom ki secure ga pampochu.';
+          fallbackReply = 'Meeru ichina details anni note chesamu. Kindha unna "Share Details" button nokki mee vivaralanu helpdesk team ku secure ga pampochu.';
         }
       } else if (hasTeluguScript || language === 'te') {
         if (userCount === 1) {
@@ -110,11 +110,11 @@ export async function POST(request: Request) {
         }
       } else {
         if (userCount === 1) {
-          fallbackReply = 'Thank you for sharing this. This sounds like an important public interest issue. Could you tell me which district or mandal this occurred in, and which office or hospital was involved?';
+          fallbackReply = 'Thank you for sharing this. To help us understand the service need, could you tell me which district or mandal it relates to, and which office, facility, or service is involved?';
         } else if (userCount === 2) {
           fallbackReply = 'Understood. When did this take place? Do you have any photos, complaint receipts, or documents? (Remember, you can still submit even if you do not have documents).';
         } else {
-          fallbackReply = 'I have gathered the key details of your report. You can now tap the "Submit Report" button below to transmit your dispatch securely to our investigative newsroom.';
+          fallbackReply = 'I have gathered the key details you shared. You can now tap the "Share Details" button below to send them securely to the helpdesk team for review.';
         }
       }
 

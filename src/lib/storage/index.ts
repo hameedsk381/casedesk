@@ -37,8 +37,15 @@ export function getPrivateFilePath(relativePath: string): string | null {
 
   const resolved = path.resolve(UPLOAD_BASE_DIR, cleaned);
 
-  // Security check: ensure resolved path is within UPLOAD_BASE_DIR
-  if (!resolved.startsWith(UPLOAD_BASE_DIR)) {
+  // Security check: ensure resolved path is within UPLOAD_BASE_DIR. Comparing
+  // path prefixes is unsafe (e.g. "uploads-archive" starts with "uploads").
+  const relativeToUploadDir = path.relative(UPLOAD_BASE_DIR, resolved);
+  if (
+    relativeToUploadDir === '' ||
+    relativeToUploadDir === '..' ||
+    relativeToUploadDir.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relativeToUploadDir)
+  ) {
     console.warn(`Path traversal attempt blocked: ${relativePath}`);
     return null;
   }

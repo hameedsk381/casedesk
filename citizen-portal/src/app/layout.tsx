@@ -15,12 +15,12 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: 'ComplainBox',
-  description: 'Report civic issues, government failures, and public problems to the team investigating them.',
+  title: 'Community Helpdesk',
+  description: 'Share community service needs and local improvement suggestions with the helpdesk team.',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'ComplainBox',
+    title: 'Community Helpdesk',
   },
 };
 

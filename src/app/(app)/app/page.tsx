@@ -2,16 +2,21 @@ import React from 'react';
 import prisma from '@/lib/db/prisma';
 import DashboardClient from '@/components/app/DashboardClient';
 import { calculateCaseHealth } from '@/lib/cases/service';
+import { getCurrentUser, getAccessibleWorkspaceIds } from '@/lib/auth/permissions';
 
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
+  const user = await getCurrentUser();
+  const workspaceIds = user ? await getAccessibleWorkspaceIds(user) : [];
+
   const [
     allCases,
     inboxUnprocessedCount,
     recentActivities,
   ] = await Promise.all([
     prisma.case.findMany({
+      where: { workspaceId: { in: workspaceIds } },
       orderBy: { updatedAt: 'desc' },
       include: {
         assignedTo: {
@@ -41,9 +46,10 @@ export default async function DashboardPage() {
       },
     }),
     prisma.intakeItem.count({
-      where: { status: 'NEEDS_REVIEW' },
+      where: { status: 'NEEDS_REVIEW', workspaceId: { in: workspaceIds } },
     }),
     prisma.activityLog.findMany({
+      where: { workspaceId: { in: workspaceIds } },
       take: 5,
       orderBy: { createdAt: 'desc' },
       include: {

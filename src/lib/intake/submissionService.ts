@@ -136,6 +136,12 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
           type: f.type,
         })),
       },
+      // Nested write keeps the intake item and durable triage job atomic.
+      triageJob: {
+        create: {
+          workspaceId,
+        },
+      },
     },
   });
 
@@ -159,7 +165,7 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
   }
 
   // Enqueue background worker for Groq Whisper transcription & Llama triage
-  enqueueIntakeTriage(intakeItem.id);
+  enqueueIntakeTriage();
 
   // Notify the newsroom by email — fire-and-forget so a slow SMTP server
   // never delays the citizen's submission response
