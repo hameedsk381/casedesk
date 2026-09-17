@@ -17,11 +17,11 @@ import {
   MapPin,
   Calendar,
   X,
-  Languages,
   Sparkles,
   Info,
   Lock,
-  Bot
+  Bot,
+  ChevronRight,
 } from 'lucide-react';
 import { CIVIC_CATEGORIES } from '../lib/contracts/intake';
 import { useAudioRecorder } from '../hooks/useAudioRecorder';
@@ -52,10 +52,8 @@ export function CitizenSubmissionForm({
   onSwitchToChat,
   onBackToSelect,
 }: Props) {
-  // Step state: 1 to 7
   const [step, setStep] = useState<number>(1);
 
-  // Form fields
   const [story, setStory] = useState('');
   const [district, setDistrict] = useState('');
   const [town, setTown] = useState('');
@@ -63,20 +61,17 @@ export function CitizenSubmissionForm({
   const [incidentDate, setIncidentDate] = useState('');
   const [category, setCategory] = useState('');
 
-  // Contact
   const [senderName, setSenderName] = useState('');
   const [senderPhone, setSenderPhone] = useState('');
   const [senderEmail, setSenderEmail] = useState('');
   const [preferredLanguage, setPreferredLanguage] = useState('English');
   const [isAnonymous, setIsAnonymous] = useState(false);
 
-  // Consents
   const [consentAccuracy, setConsentAccuracy] = useState(true);
   const [consentContact, setConsentContact] = useState(true);
   const [consentNoGuarantee, setConsentNoGuarantee] = useState(true);
   const [consentToPublish, setConsentToPublish] = useState<'YES' | 'DISCUSS_FIRST' | 'NO'>('DISCUSS_FIRST');
 
-  // Files & Voice recording
   const [files, setFiles] = useState<File[]>([]);
   const {
     isRecording,
@@ -96,7 +91,6 @@ export function CitizenSubmissionForm({
     setFiles((prev) => prev.filter((f) => !f.name.startsWith('voice-recording-')));
   };
 
-  // Submission State
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
@@ -144,7 +138,6 @@ export function CitizenSubmissionForm({
       }
       formData.append('preferredLanguage', preferredLanguage);
       formData.append('isAnonymous', String(isAnonymous));
-
       formData.append('consentAccuracy', String(consentAccuracy));
       formData.append('consentContact', String(consentContact));
       formData.append('consentNoGuarantee', String(consentNoGuarantee));
@@ -162,9 +155,7 @@ export function CitizenSubmissionForm({
       let data: any = null;
       try {
         data = await res.json();
-      } catch {
-        // Non-JSON response (e.g. an HTML error page) — fall through to friendly error
-      }
+      } catch {}
       if (!res.ok || !data) {
         throw new Error(data?.error || 'Something went wrong. Please try again.');
       }
@@ -188,164 +179,182 @@ export function CitizenSubmissionForm({
   };
 
   const t = {
-    tellUsStory: lang === 'te' ? 'మీ సమస్య చెప్పండి' : 'Tell Us What Happened',
-    introHeadline: lang === 'te' ? 'మీ ఏరియాలో ఏదైనా సమస్య ఉందా?' : 'Got a problem that needs attention?',
-    introSub: lang === 'te' ? 'ఏం జరిగిందో మాకు చెప్పండి. మీ వద్ద ఉన్న సమాచారం లేదా ఆధారాలు ఇవ్వండి. మా టీమ్ పరిశీలిస్తుంది.' : 'Tell us what happened. Share whatever info or evidence you have. Our team will look into it.',
-    startCta: lang === 'te' ? 'స్టార్ట్ చేయండి →' : 'Start Reporting →',
-    describeLabel: lang === 'te' ? 'ఏం జరిగిందో చెప్పండి' : 'What Happened?',
-    describePlaceholder: lang === 'te' ? 'మీ మాటల్లో చెప్పండి. తెలుగు లేదా English లో రాయవచ్చు...' : 'Write what happened in your own words. Telugu or English is fine...',
-    recordVoice: lang === 'te' ? 'వాయిస్ రికార్డ్ చేయండి' : 'Record Your Voice',
-    stopRecord: lang === 'te' ? 'ఆపండి' : 'Stop',
-    deleteRecord: lang === 'te' ? 'తీసివేయండి' : 'Delete',
-    whereLabel: lang === 'te' ? 'ఎక్కడ జరిగింది?' : 'Where did this happen?',
     districtLabel: lang === 'te' ? 'జిల్లా' : 'District',
-    townLabel: lang === 'te' ? 'ఊరు / పట్టణం / మండలం' : 'Town / Village / Mandal',
+    townLabel: lang === 'te' ? 'ఊరు / పట్టణం' : 'Town / Village',
     addressLabel: lang === 'te' ? 'చిరునామా (ఐచ్ఛికం)' : 'Street / Landmark (Optional)',
     whenLabel: lang === 'te' ? 'ఎప్పుడు జరిగింది?' : 'When did this happen?',
-    whenPlaceholder: lang === 'te' ? 'తేదీ లేదా సుమారుగా (ఉదా: గత వారం, సెప్టెంబర్ 12)' : 'Date or approximate time (e.g. Last week, Sep 12)',
+    whenPlaceholder: lang === 'te' ? 'తేదీ లేదా సుమారుగా' : 'Date or approximate time',
     categoryLabel: lang === 'te' ? 'ఏ రకమైన సమస్య?' : 'What type of problem?',
-    evidenceLabel: lang === 'te' ? 'ఆధారాలు ఉన్నాయా?' : 'Do you have any evidence?',
-    evidenceReassurance: lang === 'te' ? 'గమనిక: ఆధారాలు లేకపోయినా ఫిర్యాదు చేయవచ్చు.' : 'No evidence needed — you can still report.',
     uploadDoc: lang === 'te' ? 'ఫోటోలు, పత్రాలు జతచేయండి' : 'Upload Photos, Documents, Audio or Videos',
-    aboutYouLabel: lang === 'te' ? 'మిమ్మల్ని ఎలా సంప్రదించాలి?' : 'How can we reach you?',
     nameLabel: lang === 'te' ? 'మీ పేరు' : 'Your Name',
     phoneLabel: lang === 'te' ? 'ఫోన్ / WhatsApp' : 'Phone / WhatsApp Number',
     emailLabel: lang === 'te' ? 'ఈమెయిల్ (ఐచ్ఛికం)' : 'Email Address (Optional)',
     anonymousToggle: lang === 'te' ? 'నేను అనామకంగా ఉండాలనుకుంటున్నాను' : 'I want to stay anonymous',
-    anonymousNotice: lang === 'te' ? 'అదనపు వివరాల కోసం మిమ్మల్ని సంప్రదించవచ్చు. సంప్రదింపు వివరాలు ఇవ్వడం వల్ల కథ ప్రచురించబడుతుందని హామీ ఉండదు.' : 'We may reach out for more details. Sharing contact info does not guarantee publication.',
-    consentHeader: lang === 'te' ? 'ధృవీకరణ' : 'Confirm & Submit',
+    anonymousNotice: lang === 'te' ? 'సంప్రదింపు వివరాలు ఇవ్వడం వల్ల కథ ప్రచురించబడుతుందని హామీ ఉండదు.' : 'Sharing contact info does not guarantee publication.',
     consent1: lang === 'te' ? 'నేను చెప్పినది నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm this information is true to the best of my knowledge.',
     consent2: lang === 'te' ? 'మా జర్నలిస్టులు నన్ను సంప్రదించవచ్చు.' : 'Our journalists may contact me about this.',
     consent3: lang === 'te' ? 'ప్రచురణ హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand this may not be published immediately.',
     consentPublishQ: lang === 'te' ? 'మీ కథను ప్రచురించవచ్చా?' : 'Can we publish your report?',
     publishYes: lang === 'te' ? 'అవును, ప్రచురించవచ్చు' : 'Yes, you can publish',
     publishDiscuss: lang === 'te' ? 'ముందు నాతో మాట్లాడండి' : 'Talk to me first',
-    publishNo: lang === 'te' ? 'వద్దు, పరిశోధన మాత్రమే' : 'No — investigate only, don\'t publish',
-    submitButton: lang === 'te' ? 'పంపండి →' : 'Send Report →',
-    submittingBtn: lang === 'te' ? 'పంపుతోంది...' : 'Sending...',
-    backBtn: lang === 'te' ? '← వెనుకకు' : '← Back',
-    continueBtn: lang === 'te' ? 'తరువాత →' : 'Next →',
+    publishNo: lang === 'te' ? 'వద్దు, పరిశోధన మాత్రమే' : 'No — investigate only',
   };
 
+  const STEPS = [
+    { num: 1, label: lang === 'te' ? 'ప్రారంభం' : 'Intro' },
+    { num: 2, label: lang === 'te' ? 'వివరాలు' : 'Details' },
+    { num: 3, label: lang === 'te' ? 'చోటు' : 'Location' },
+    { num: 4, label: lang === 'te' ? 'ఆధారాలు' : 'Evidence' },
+    { num: 5, label: lang === 'te' ? 'సంప్రదింపు' : 'Contact' },
+    { num: 6, label: lang === 'te' ? 'ధృవీకరణ' : 'Confirm' },
+  ];
+
+  const StepIndicator = () => (
+    <div className="flex items-center gap-1.5 sm:gap-2 mb-6">
+      {STEPS.map((s, i) => {
+        const isActive = step === s.num;
+        const isCompleted = step > s.num;
+        return (
+          <React.Fragment key={s.num}>
+            <div className="flex flex-col items-center gap-1 flex-shrink-0">
+              <div
+                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                  isCompleted
+                    ? 'bg-success text-white'
+                    : isActive
+                    ? 'bg-primary text-white ring-4 ring-primary/15'
+                    : 'bg-surface text-muted-foreground border border-border'
+                }`}
+              >
+                {isCompleted ? <Check size={14} /> : s.num}
+              </div>
+              <span
+                className={`text-[9px] sm:text-[10px] font-bold hidden sm:block ${
+                  isActive ? 'text-primary' : isCompleted ? 'text-success' : 'text-muted-foreground'
+                }`}
+              >
+                {s.label}
+              </span>
+            </div>
+            {i < STEPS.length - 1 && (
+              <div
+                className={`flex-1 h-0.5 rounded-full mt-0 sm:-mt-5 ${
+                  step > s.num ? 'bg-success' : 'bg-border'
+                }`}
+              />
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+
+  const InputField = ({
+    label,
+    required,
+    children,
+  }: {
+    label: string;
+    required?: boolean;
+    children: React.ReactNode;
+  }) => (
+    <div className="space-y-1.5">
+      <label className="text-xs font-bold text-primary flex items-center gap-1">
+        {label}
+        {required && <span className="text-destructive">*</span>}
+      </label>
+      {children}
+    </div>
+  );
+
+  const inputClass =
+    'w-full p-3 sm:p-3.5 text-sm bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground font-medium placeholder:text-muted-foreground transition-colors';
+
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Top Controls Bar inside Form */}
-      <div className="flex items-center justify-between pb-3 border-b border-surface-3">
-        <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
+    <div className="space-y-2 animate-fade-in">
+      <div className="flex items-center justify-between pb-3 border-b border-border">
+        <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground">
           {onBackToSelect && (
             <button
               onClick={onBackToSelect}
-              className="text-slate-500 hover:text-primary mr-2 font-medium cursor-pointer"
+              className="text-muted-foreground hover:text-primary mr-1 font-medium cursor-pointer"
             >
-              ← {lang === 'te' ? 'మార్చుకోండి' : 'Change Mode'}
+              ← {lang === 'te' ? 'మార్చు' : 'Change'}
             </button>
           )}
           <span className="text-primary font-extrabold">
-            {step < 7 ? `Step ${step} of 6` : 'Done'}
+            {step < 7 ? `${lang === 'te' ? 'దశ' : 'Step'} ${step}/6` : (lang === 'te' ? 'పూర్తయింది' : 'Done')}
           </span>
-          {step < 7 && (
-            <span className="hidden sm:inline text-slate-500">
-              • {step === 1 && (lang === 'te' ? 'స్టార్ట్' : 'Start')}
-              {step === 2 && (lang === 'te' ? 'ఏం జరిగింది' : 'What Happened')}
-              {step === 3 && (lang === 'te' ? 'ఎక్కడ & ఎప్పుడు' : 'Where & When')}
-              {step === 4 && (lang === 'te' ? 'ఆధారాలు' : 'Evidence')}
-              {step === 5 && (lang === 'te' ? 'మీ వివరాలు' : 'Your Details')}
-              {step === 6 && (lang === 'te' ? 'ధృవీకరణ' : 'Confirm')}
-            </span>
-          )}
         </div>
 
-        {/* Switch to Chat & Language Toggle */}
         <div className="flex items-center gap-2">
           {onSwitchToChat && (
             <button
               onClick={onSwitchToChat}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary text-xs font-bold transition cursor-pointer"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary text-xs font-bold transition cursor-pointer"
             >
-              <Bot size={14} />
-              <span className="hidden sm:inline">{lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Instead'}</span>
+              <Bot size={13} />
+              <span className="hidden sm:inline">{lang === 'te' ? 'AI చాట్' : 'AI Chat'}</span>
             </button>
           )}
-
-          <div className="flex items-center gap-1 p-1 bg-white border border-surface-3 rounded-xl text-xs font-semibold shadow-2xs">
-            <Languages size={13} className="text-slate-500 ml-1" />
-            <button
-              onClick={() => setLang('en')}
-              className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
-              }`}
-            >
-              EN
-            </button>
-            <button
-              onClick={() => setLang('te')}
-              className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
-              }`}
-            >
-              తె
-            </button>
+          <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-xs font-bold border border-border">
+            <button onClick={() => setLang('en')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
+            <button onClick={() => setLang('te')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
           </div>
         </div>
       </div>
 
-      {/* Progress Bar (Steps 1 to 6) */}
-      {step < 7 && (
-        <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-          <div
-            className="bg-primary h-full transition-all duration-300"
-            style={{ width: `${((step - 1) / 5) * 100}%` }}
-          />
-        </div>
-      )}
+      {step < 7 && <StepIndicator />}
 
-      {/* STEP 1: INTRODUCTION */}
+      {/* STEP 1: INTRO */}
       {step === 1 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-surface-3 shadow-sm space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">
-            <Sparkles size={13} />
-            <span>{endpoint.workspaceName || endpoint.title || 'Investigation Desk'}</span>
+        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border shadow-sm space-y-5">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+            <Sparkles size={12} />
+            <span>{endpoint.workspaceName || endpoint.title || 'Helpdesk'}</span>
           </div>
 
-          <div className="space-y-3">
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-primary leading-tight">
-              {t.introHeadline}
+          <div className="space-y-2">
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight text-primary leading-tight">
+              {lang === 'te' ? 'మీ సమస్య చెప్పండి' : "Tell Us What Happened"}
             </h1>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              {t.introSub}
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {lang === 'te'
+                ? 'ఏం జరిగిందో మాకు చెప్పండి. సమాచారం లేదా ఆధారాలు ఇవ్వండి. మా టీమ్ పరిశీలిస్తుంది.'
+                : 'Tell us what happened. Share any info or evidence. Our team will look into it.'}
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-background border border-surface-3/70 space-y-2 text-xs text-slate-600">
+          <div className="p-4 rounded-xl bg-surface border border-border space-y-2 text-xs text-muted-foreground">
             <div className="font-bold text-primary flex items-center gap-1.5">
-              <Shield size={14} className="text-emerald-600" />
+              <Shield size={13} className="text-success" />
               <span>{lang === 'te' ? 'మీకు తెలియజేద్దాము:' : 'Good to know:'}</span>
             </div>
-            <ul className="list-disc pl-5 space-y-1 leading-relaxed text-slate-600">
-              <li>{lang === 'te' ? 'ఆసుపత్రి, రోడ్లు, ఫించన్, లంచాలు — ఏదైనా చెప్పవచ్చు' : 'Hospitals, roads, pensions, bribes — report anything'}</li>
-              <li>{lang === 'te' ? 'తెలుగు లేదా English లో టైప్ చేయవచ్చు లేదా మాట్లాడవచ్చు' : 'Type or speak in Telugu or English'}</li>
-              <li>{lang === 'te' ? 'మీ పేరు దాగి ఉంచవచ్చు' : 'You can keep your name hidden'}</li>
+            <ul className="list-disc pl-4 space-y-1 leading-relaxed">
+              <li>{lang === 'te' ? 'ఆసుపత్రి, రోడ్లు, పింఛను, లంచాలు — ఏదైనా చెప్పవచ్చు' : 'Hospitals, roads, pensions, bribes — report anything'}</li>
+              <li>{lang === 'te' ? 'తెలుగు లేదా English లో టైప్ లేదా వాయిస్' : 'Type or speak in Telugu or English'}</li>
+              <li>{lang === 'te' ? 'మీ పేరు దాగి ఉంచవచ్చు' : 'You can stay anonymous'}</li>
             </ul>
           </div>
 
-          <div className="pt-4 flex items-center gap-3">
-            <button
-              onClick={() => setStep(2)}
-              className="w-full sm:w-auto px-8 py-3.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
-            >
-              <span>{t.startCta}</span>
-            </button>
-          </div>
+          <button
+            onClick={() => setStep(2)}
+            className="w-full sm:w-auto px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.97]"
+          >
+            <span>{lang === 'te' ? 'ప్రారంభించండి →' : 'Start Reporting →'}</span>
+          </button>
         </div>
       )}
 
       {/* STEP 2: WHAT HAPPENED */}
       {step === 2 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
+        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border shadow-sm space-y-5">
           <div>
-            <h2 className="text-xl font-bold text-primary">{t.describeLabel}</h2>
-            <p className="text-xs text-slate-500 mt-1">
-              {lang === 'te' ? 'ఏం జరిగింది? ఎవరికి నష్టం? ఎవరు బాధ్యులు? వివరంగా రాయండి.' : 'What happened? Who was affected? Who is responsible? Write as much as you know.'}
+            <h2 className="text-lg font-bold text-primary">
+              {lang === 'te' ? 'ఏం జరిగింది?' : 'What Happened?'}
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1">
+              {lang === 'te' ? 'ఏం జరిగింది? ఎవరికి నష్టం? ఎవరు బాధ్యులు?' : 'What happened? Who was affected? Who is responsible?'}
             </p>
           </div>
 
@@ -353,38 +362,40 @@ export function CitizenSubmissionForm({
             value={story}
             onChange={(e) => setStory(e.target.value)}
             rows={7}
-            placeholder={t.describePlaceholder}
-            className="w-full p-4 text-sm bg-background border border-surface-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary leading-relaxed text-primary"
+            placeholder={lang === 'te' ? 'మీ మాటల్లో చెప్పండి...' : 'Write what happened in your own words...'}
+            className="w-full p-4 text-sm bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary leading-relaxed text-foreground placeholder:text-muted-foreground resize-none"
           />
 
-          {/* Voice Recording Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-primary-subtle/60 border border-border space-y-3">
+          {/* Voice Recording */}
+          <div className="p-4 rounded-xl bg-primary/[0.03] border border-border space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Mic size={16} className="text-primary" />
-                <span className="text-xs font-bold text-primary">{t.recordVoice}</span>
+                <Mic size={14} className="text-primary" />
+                <span className="text-xs font-bold text-primary">
+                  {lang === 'te' ? 'వాయిస్ రికార్డ్' : 'Voice Note'}
+                </span>
               </div>
               {isRecording && (
-                <div className="flex items-center gap-2 text-xs font-bold text-red-600 animate-pulse">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-600" />
-                  <span>{formatSeconds(recordingSeconds)}</span>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-destructive animate-pulse">
+                  <span className="w-2 h-2 rounded-full bg-destructive" />
+                  <span className="font-mono">{formatSeconds(recordingSeconds)}</span>
                 </div>
               )}
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
-              {lang === 'te' ? 'రాయడం కష్టమైతే, మైక్ నొక్కి మాట్లాడి రికార్డ్ చేయండి.' : 'Hard to type? Tap the mic and just speak.'}
+            <p className="text-[11px] text-muted-foreground">
+              {lang === 'te' ? 'రాయడం కష్టమైతే మైక్ నొక్కి మాట్లాడండి.' : 'Hard to type? Tap the mic and speak.'}
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-2">
               {!isRecording && !audioUrl && (
                 <button
                   onClick={startRecording}
                   type="button"
-                  className="px-4 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl transition-all shadow-2xs flex items-center gap-2 cursor-pointer active:scale-95"
+                  className="px-4 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center gap-2 cursor-pointer active:scale-95"
                 >
-                  <Mic size={14} />
-                  <span>{lang === 'te' ? 'వాయిస్ రికార్డింగ్ ప్రారంభించండి' : 'Record Voice Note'}</span>
+                  <Mic size={13} />
+                  <span>{lang === 'te' ? 'రికార్డ్ ప్రారంభించు' : 'Start Recording'}</span>
                 </button>
               )}
 
@@ -392,36 +403,31 @@ export function CitizenSubmissionForm({
                 <button
                   onClick={stopRecording}
                   type="button"
-                  className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all shadow-2xs flex items-center gap-2 cursor-pointer active:scale-95 animate-pulse"
+                  className="px-4 py-2.5 bg-destructive hover:bg-destructive/90 text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center gap-2 cursor-pointer active:scale-95"
                 >
-                  <Square size={14} />
-                  <span>{t.stopRecord}</span>
+                  <Square size={13} />
+                  <span>{lang === 'te' ? 'ఆపు' : 'Stop'}</span>
                 </button>
               )}
 
               {audioUrl && (
-                <div className="flex items-center gap-3 w-full bg-white p-3 rounded-xl border border-blue-200">
+                <div className="flex items-center gap-2 w-full bg-background p-2.5 rounded-xl border border-border">
                   <audio src={audioUrl} controls className="h-8 flex-1" />
                   <button
                     onClick={discardRecording}
                     type="button"
-                    className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                    title={t.deleteRecord}
+                    className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors cursor-pointer"
                   >
-                    <X size={16} />
+                    <X size={14} />
                   </button>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-2">
-            <button
-              onClick={() => setStep(1)}
-              type="button"
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
-            >
-              {t.backBtn}
+          <div className="flex items-center justify-between pt-1">
+            <button onClick={() => setStep(1)} type="button" className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
+              {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
             <button
               onClick={() => {
@@ -432,72 +438,50 @@ export function CitizenSubmissionForm({
                 setStep(3);
               }}
               type="button"
-              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer active:scale-95"
             >
-              {t.continueBtn}
+              {lang === 'te' ? 'తరువాత →' : 'Next →'}
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 3: LOCATION & TIME */}
+      {/* STEP 3: LOCATION */}
       {step === 3 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
+        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border shadow-sm space-y-5">
           <div>
-            <h2 className="text-xl font-bold text-primary">{t.whereLabel}</h2>
-            <p className="text-xs text-slate-500 mt-1">
-              {lang === 'te' ? 'ఖచ్చితమైన చోటు చెప్పితే మా టీమ్ కి సులభంగా అర్థమవుతుంది.' : 'The more specific the location, the easier for our team to find it.'}
+            <h2 className="text-lg font-bold text-primary">
+              {lang === 'te' ? 'ఎక్కడ జరిగింది?' : 'Where did this happen?'}
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1">
+              {lang === 'te' ? 'ఖచ్చితమైన చోటు చెప్పితే సులభంగా అర్థమవుతుంది.' : 'The more specific, the easier for our team.'}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">{t.districtLabel} *</label>
-              <input
-                type="text"
-                value={district}
-                onChange={(e) => setDistrict(e.target.value)}
-                placeholder="e.g. Guntur, Kurnool, Visakhapatnam"
-                className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">{t.townLabel} *</label>
-              <input
-                type="text"
-                value={town}
-                onChange={(e) => setTown(e.target.value)}
-                placeholder="e.g. Tenali, Narasaraopet, Pedakakani"
-                className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
-              />
-            </div>
-
+            <InputField label={t.districtLabel} required>
+              <input type="text" value={district} onChange={(e) => setDistrict(e.target.value)} placeholder="Guntur, Kurnool, Visakhapatnam" className={inputClass} />
+            </InputField>
+            <InputField label={t.townLabel} required>
+              <input type="text" value={town} onChange={(e) => setTown(e.target.value)} placeholder="Tenali, Narasaraopet" className={inputClass} />
+            </InputField>
             <div className="sm:col-span-2">
-              <label className="block text-xs font-bold text-primary mb-1.5">{t.addressLabel}</label>
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="e.g. Ward No. 4, Near Primary School"
-                className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
-              />
+              <InputField label={t.addressLabel}>
+                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Ward No. 4, Near Primary School" className={inputClass} />
+              </InputField>
             </div>
           </div>
 
-          <div className="pt-2 border-t border-surface-3">
-            <label className="block text-xs font-bold text-primary mb-1.5">{t.whenLabel}</label>
-            <input
-              type="text"
-              value={incidentDate}
-              onChange={(e) => setIncidentDate(e.target.value)}
-              placeholder={t.whenPlaceholder}
-              className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
-            />
+          <div className="pt-3 border-t border-border">
+            <InputField label={t.whenLabel}>
+              <input type="text" value={incidentDate} onChange={(e) => setIncidentDate(e.target.value)} placeholder={t.whenPlaceholder} className={inputClass} />
+            </InputField>
           </div>
 
-          <div className="pt-2 border-t border-surface-3">
-            <label className="block text-xs font-bold text-primary mb-2">{t.categoryLabel}</label>
+          <div className="pt-3 border-t border-border space-y-2">
+            <label className="text-xs font-bold text-primary">
+              {t.categoryLabel}
+            </label>
             <div className="flex flex-wrap gap-2">
               {CIVIC_CATEGORIES.map((cat) => (
                 <button
@@ -507,7 +491,7 @@ export function CitizenSubmissionForm({
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     category === cat.id
                       ? 'bg-primary text-white shadow-xs'
-                      : 'bg-background text-slate-700 hover:bg-slate-200/70'
+                      : 'bg-surface text-muted-foreground hover:bg-surface-2 border border-border'
                   }`}
                 >
                   {lang === 'te' ? cat.te : cat.en}
@@ -516,77 +500,59 @@ export function CitizenSubmissionForm({
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-2">
-            <button
-              onClick={() => setStep(2)}
-              type="button"
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
-            >
-              {t.backBtn}
+          <div className="flex items-center justify-between pt-1">
+            <button onClick={() => setStep(2)} type="button" className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
+              {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
-            <button
-              onClick={() => setStep(4)}
-              type="button"
-              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
-            >
-              {t.continueBtn}
+            <button onClick={() => setStep(4)} type="button" className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
+              {lang === 'te' ? 'తరువాత →' : 'Next →'}
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 4: EVIDENCE UPLOADS */}
+      {/* STEP 4: EVIDENCE */}
       {step === 4 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
+        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border shadow-sm space-y-5">
           <div>
-            <h2 className="text-xl font-bold text-primary">{t.evidenceLabel}</h2>
-            <p className="text-xs text-slate-500 mt-1">
-              {lang === 'te' ? 'ఫోటోలు, పత్రాలు, రశీదులు ఉంటే జతచేయండి. లేకపోయినా సరే.' : 'Attach photos, documents, or receipts if you have them. No problem if you don\'t.'}
+            <h2 className="text-lg font-bold text-primary">
+              {lang === 'te' ? 'ఆధారాలు ఉన్నాయా?' : 'Do you have evidence?'}
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1">
+              {lang === 'te' ? 'ఫోటోలు, పత్రాలు ఉంటే జతచేయండి. లేకపోయినా సరే.' : 'Photos, documents, receipts — no problem if you don\'t have any.'}
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200/80 flex items-start gap-3">
-            <CheckCircle2 size={16} className="text-emerald-700 shrink-0 mt-0.5" />
-            <div className="text-xs text-emerald-900 leading-relaxed font-medium">
-              <strong>{t.evidenceReassurance}</strong>
-              <p className="text-emerald-800/80 text-[11px] mt-0.5">
-                {lang === 'te' ? 'మీరు కేవలం సమాచారం ఇస్తే చాలు. ఆధారాలు సేకరించే పని మాది.' : 'Just sharing info is enough. Collecting evidence is our job.'}
-              </p>
-            </div>
+          <div className="p-3 rounded-xl bg-success-subtle border border-success/20 text-xs text-success font-medium">
+            <strong>{lang === 'te' ? 'గమనిక:' : 'Note:'}</strong>{' '}
+            {lang === 'te' ? 'ఆధారాలు లేకపోయినా ఫిర్యాదు చేయవచ్చు. సేకరించే పని మాది.' : 'No evidence needed. Collecting proof is our job.'}
           </div>
 
-          <label className="border-2 border-dashed border-surface-3 hover:border-primary/50 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-background/40 group">
-            <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-              <Upload size={20} />
+          <label className="border-2 border-dashed border-border hover:border-primary/40 rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-background/50 group">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+              <Upload size={18} />
             </div>
             <div className="text-xs font-bold text-primary">{t.uploadDoc}</div>
-            <div className="text-[11px] text-slate-500 mt-1">
-              Supports PDF, JPG, PNG, MP4, MP3, DOCX (Max 25MB each)
+            <div className="text-[10px] text-muted-foreground mt-0.5">
+              PDF, JPG, PNG, MP4, MP3, DOCX (max 25MB each)
             </div>
             <input type="file" multiple onChange={handleFileChange} className="hidden" />
           </label>
 
           {files.length > 0 && (
             <div className="space-y-2">
-              <div className="text-xs font-bold text-primary uppercase tracking-wider">
-                Attached Files ({files.length}):
+              <div className="text-[10px] font-bold text-primary uppercase tracking-wider">
+                {lang === 'te' ? 'జతచేసిన ఫైలు' : 'Attached'} ({files.length})
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="space-y-1.5">
                 {files.map((f, idx) => (
-                  <div
-                    key={idx}
-                    className="p-2.5 bg-background rounded-xl border border-surface-3 flex items-center justify-between text-xs"
-                  >
+                  <div key={idx} className="p-2.5 bg-background rounded-xl border border-border flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2 min-w-0">
-                      <FileText size={14} className="text-primary shrink-0" />
-                      <span className="font-semibold text-primary truncate">{f.name}</span>
+                      <FileText size={13} className="text-primary shrink-0" />
+                      <span className="font-semibold text-foreground truncate">{f.name}</span>
                     </div>
-                    <button
-                      onClick={() => removeFile(idx)}
-                      type="button"
-                      className="text-slate-500 hover:text-red-600 p-1 cursor-pointer"
-                    >
-                      <X size={14} />
+                    <button onClick={() => removeFile(idx)} type="button" className="text-muted-foreground hover:text-destructive p-1 cursor-pointer">
+                      <X size={13} />
                     </button>
                   </div>
                 ))}
@@ -594,44 +560,38 @@ export function CitizenSubmissionForm({
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-2">
-            <button
-              onClick={() => setStep(3)}
-              type="button"
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
-            >
-              {t.backBtn}
+          <div className="flex items-center justify-between pt-1">
+            <button onClick={() => setStep(3)} type="button" className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
+              {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
-            <button
-              onClick={() => setStep(5)}
-              type="button"
-              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
-            >
-              {t.continueBtn}
+            <button onClick={() => setStep(5)} type="button" className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
+              {lang === 'te' ? 'తరువాత →' : 'Next →'}
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 5: ABOUT YOU */}
+      {/* STEP 5: CONTACT */}
       {step === 5 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
+        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border shadow-sm space-y-5">
           <div>
-            <h2 className="text-xl font-bold text-primary">{t.aboutYouLabel}</h2>
-            <p className="text-xs text-slate-500 mt-1">{t.anonymousNotice}</p>
+            <h2 className="text-lg font-bold text-primary">
+              {lang === 'te' ? 'మిమ్మల్ని ఎలా సంప్రదించాలి?' : 'How can we reach you?'}
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1">{t.anonymousNotice}</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex items-center justify-between gap-3">
+          <div className="p-3 rounded-xl bg-warning-subtle border border-warning/20 flex items-center justify-between gap-3">
             <div className="space-y-0.5">
-              <label htmlFor="anon-toggle-form" className="text-xs font-bold text-amber-950 cursor-pointer">
+              <label htmlFor="anon-toggle" className="text-xs font-bold text-foreground cursor-pointer">
                 {t.anonymousToggle}
               </label>
-              <div className="text-[11px] text-amber-900/80 leading-relaxed">
-                {lang === 'te' ? 'మీ పేరు లేదా వివరాలు బహిరంగంగా ప్రస్తావించబడవు.' : 'Your name and details will never be shown publicly.'}
+              <div className="text-[10px] text-muted-foreground leading-relaxed">
+                {lang === 'te' ? 'మీ పేరు బహిరంగంగా ప్రస్తావించబడదు.' : 'Your name will never be shown publicly.'}
               </div>
             </div>
             <input
-              id="anon-toggle-form"
+              id="anon-toggle"
               type="checkbox"
               checked={isAnonymous}
               onChange={(e) => setIsAnonymous(e.target.checked)}
@@ -641,212 +601,106 @@ export function CitizenSubmissionForm({
 
           {!isAnonymous && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-primary mb-1.5">{t.nameLabel}</label>
-                <input
-                  type="text"
-                  value={senderName}
-                  onChange={(e) => setSenderName(e.target.value)}
-                  placeholder="e.g. Ramesh Reddy"
-                  className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-primary mb-1.5">{t.phoneLabel}</label>
-                <input
-                  type="tel"
-                  value={senderPhone}
-                  onChange={(e) => setSenderPhone(e.target.value)}
-                  placeholder="e.g. +91 98480 12345"
-                  className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
-                />
-              </div>
-
+              <InputField label={t.nameLabel}>
+                <input type="text" value={senderName} onChange={(e) => setSenderName(e.target.value)} placeholder="Ramesh Reddy" className={inputClass} />
+              </InputField>
+              <InputField label={t.phoneLabel}>
+                <input type="tel" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)} placeholder="+91 98480 12345" className={inputClass} />
+              </InputField>
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-primary mb-1.5">{t.emailLabel}</label>
-                <input
-                  type="email"
-                  value={senderEmail}
-                  onChange={(e) => setSenderEmail(e.target.value)}
-                  placeholder="e.g. yourname@gmail.com"
-                  className="w-full p-3 text-xs bg-background border border-surface-3 rounded-xl focus:outline-none focus:border-primary text-primary font-medium"
-                />
+                <InputField label={t.emailLabel}>
+                  <input type="email" value={senderEmail} onChange={(e) => setSenderEmail(e.target.value)} placeholder="yourname@gmail.com" className={inputClass} />
+                </InputField>
               </div>
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-2">
-            <button
-              onClick={() => setStep(4)}
-              type="button"
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer"
-            >
-              {t.backBtn}
+          <div className="flex items-center justify-between pt-1">
+            <button onClick={() => setStep(4)} type="button" className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer">
+              {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
-            <button
-              onClick={() => setStep(6)}
-              type="button"
-              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-2xs transition-all cursor-pointer"
-            >
-              {t.continueBtn}
+            <button onClick={() => setStep(6)} type="button" className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer active:scale-95">
+              {lang === 'te' ? 'తరువాత →' : 'Next →'}
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 6: CONSENT & SUBMIT */}
+      {/* STEP 6: CONFIRM */}
       {step === 6 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-3 shadow-sm space-y-6">
+        <div className="bg-card rounded-2xl p-6 sm:p-8 border border-border shadow-sm space-y-5">
           <div>
-            <h2 className="text-xl font-bold text-primary">{t.consentHeader}</h2>
-            <p className="text-xs text-slate-500 mt-1">
-              {lang === 'te' ? 'క్రిందివి చెక్ చేసి పంపండి.' : 'Check the boxes below and send.'}
+            <h2 className="text-lg font-bold text-primary">
+              {lang === 'te' ? 'ధృవీకరించి పంపండి' : 'Confirm & Submit'}
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1">
+              {lang === 'te' ? 'క్రిందివి చెక్ చేసి పంపండి.' : 'Review and send.'}
             </p>
           </div>
 
-          <div className="space-y-3">
-            <label className="flex items-start gap-3 p-3 rounded-xl bg-background border border-surface-3 cursor-pointer hover:bg-slate-100/70 transition-colors">
-              <input
-                type="checkbox"
-                checked={consentAccuracy}
-                onChange={(e) => setConsentAccuracy(e.target.checked)}
-                className="w-4 h-4 accent-primary rounded mt-0.5 shrink-0 cursor-pointer"
-              />
-              <span className="text-xs text-slate-700 leading-relaxed font-medium">
-                {t.consent1}
-              </span>
-            </label>
-
-            <label className="flex items-start gap-3 p-3 rounded-xl bg-background border border-surface-3 cursor-pointer hover:bg-slate-100/70 transition-colors">
-              <input
-                type="checkbox"
-                checked={consentContact}
-                onChange={(e) => setConsentContact(e.target.checked)}
-                className="w-4 h-4 accent-primary rounded mt-0.5 shrink-0 cursor-pointer"
-              />
-              <span className="text-xs text-slate-700 leading-relaxed font-medium">
-                {t.consent2}
-              </span>
-            </label>
-
-            <label className="flex items-start gap-3 p-3 rounded-xl bg-background border border-surface-3 cursor-pointer hover:bg-slate-100/70 transition-colors">
-              <input
-                type="checkbox"
-                checked={consentNoGuarantee}
-                onChange={(e) => setConsentNoGuarantee(e.target.checked)}
-                className="w-4 h-4 accent-primary rounded mt-0.5 shrink-0 cursor-pointer"
-              />
-              <span className="text-xs text-slate-700 leading-relaxed font-medium">
-                {t.consent3}
-              </span>
-            </label>
+          <div className="space-y-2">
+            {[
+              { checked: consentAccuracy, set: setConsentAccuracy, text: t.consent1 },
+              { checked: consentContact, set: setConsentContact, text: t.consent2 },
+              { checked: consentNoGuarantee, set: setConsentNoGuarantee, text: t.consent3 },
+            ].map((c, i) => (
+              <label key={i} className="flex items-start gap-3 p-3 rounded-xl bg-background border border-border cursor-pointer hover:bg-surface transition-colors">
+                <input type="checkbox" checked={c.checked} onChange={(e) => c.set(e.target.checked)} className="w-4 h-4 accent-primary rounded mt-0.5 shrink-0 cursor-pointer" />
+                <span className="text-xs text-foreground leading-relaxed font-medium">{c.text}</span>
+              </label>
+            ))}
           </div>
 
-          {/* Public Reporting Consent Question */}
-          <div className="pt-3 border-t border-surface-3 space-y-3">
-            <label className="block text-xs font-bold text-primary">
-              {t.consentPublishQ}
-            </label>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              <label
-                className={`p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all flex flex-col justify-between ${
-                  consentToPublish === 'YES'
-                    ? 'border-primary bg-primary/5 text-primary ring-1 ring-primary'
-                    : 'border-surface-3 bg-background text-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <input
-                    type="radio"
-                    name="consentPublishForm"
-                    checked={consentToPublish === 'YES'}
-                    onChange={() => setConsentToPublish('YES')}
-                    className="accent-primary"
-                  />
-                  <span>{lang === 'te' ? 'అవును' : 'Yes'}</span>
-                </div>
-                <p className="text-[11px] font-normal text-slate-500 leading-snug">
-                  {t.publishYes}
-                </p>
-              </label>
-
-              <label
-                className={`p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all flex flex-col justify-between ${
-                  consentToPublish === 'DISCUSS_FIRST'
-                    ? 'border-primary bg-primary/5 text-primary ring-1 ring-primary'
-                    : 'border-surface-3 bg-background text-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <input
-                    type="radio"
-                    name="consentPublishForm"
-                    checked={consentToPublish === 'DISCUSS_FIRST'}
-                    onChange={() => setConsentToPublish('DISCUSS_FIRST')}
-                    className="accent-primary"
-                  />
-                  <span>{lang === 'te' ? 'నాతో మాట్లాడండి' : 'Discuss first'}</span>
-                </div>
-                <p className="text-[11px] font-normal text-slate-500 leading-snug">
-                  {t.publishDiscuss}
-                </p>
-              </label>
-
-              <label
-                className={`p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all flex flex-col justify-between ${
-                  consentToPublish === 'NO'
-                    ? 'border-primary bg-primary/5 text-primary ring-1 ring-primary'
-                    : 'border-surface-3 bg-background text-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <input
-                    type="radio"
-                    name="consentPublishForm"
-                    checked={consentToPublish === 'NO'}
-                    onChange={() => setConsentToPublish('NO')}
-                    className="accent-primary"
-                  />
-                  <span>{lang === 'te' ? 'కాదు' : 'No'}</span>
-                </div>
-                <p className="text-[11px] font-normal text-slate-500 leading-snug">
-                  {t.publishNo}
-                </p>
-              </label>
+          <div className="pt-3 border-t border-border space-y-2">
+            <label className="text-xs font-bold text-primary">{t.consentPublishQ}</label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {([
+                { val: 'YES', label: lang === 'te' ? 'అవును' : 'Yes', desc: t.publishYes },
+                { val: 'DISCUSS_FIRST', label: lang === 'te' ? 'మాట్లాడండి' : 'Discuss first', desc: t.publishDiscuss },
+                { val: 'NO', label: lang === 'te' ? 'కాదు' : 'No', desc: t.publishNo },
+              ] as const).map((opt) => (
+                <label
+                  key={opt.val}
+                  className={`p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${
+                    consentToPublish === opt.val
+                      ? 'border-primary bg-primary/5 text-primary ring-1 ring-primary'
+                      : 'border-border bg-background text-muted-foreground hover:bg-surface'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <input type="radio" name="consentPub" checked={consentToPublish === opt.val} onChange={() => setConsentToPublish(opt.val)} className="accent-primary" />
+                    <span>{opt.label}</span>
+                  </div>
+                  <p className="text-[10px] font-normal text-muted-foreground leading-snug">{opt.desc}</p>
+                </label>
+              ))}
             </div>
           </div>
 
           {submitError && (
-            <div className="p-3 bg-red-50 text-red-700 border border-red-200 rounded-xl text-xs flex items-center gap-2">
-              <AlertCircle size={15} className="shrink-0" />
+            <div className="p-3 bg-destructive/10 text-destructive border border-destructive/20 rounded-xl text-xs flex items-center gap-2">
+              <AlertCircle size={14} className="shrink-0" />
               <span>{submitError}</span>
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-2">
-            <button
-              onClick={() => setStep(5)}
-              type="button"
-              disabled={submitting}
-              className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-primary cursor-pointer disabled:opacity-50"
-            >
-              {t.backBtn}
+          <div className="flex items-center justify-between pt-1">
+            <button onClick={() => setStep(5)} type="button" disabled={submitting} className="text-xs font-semibold text-muted-foreground hover:text-primary cursor-pointer disabled:opacity-50">
+              {lang === 'te' ? '← వెనుక' : '← Back'}
             </button>
             <button
               onClick={handleSubmit}
               type="button"
               disabled={submitting || !consentAccuracy || !consentNoGuarantee}
-              className="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
+              className="px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-xs rounded-xl shadow-sm transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2 active:scale-95"
             >
               {submitting ? (
                 <>
                   <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>{t.submittingBtn}</span>
+                  <span>{lang === 'te' ? 'పంపుతోంది...' : 'Sending...'}</span>
                 </>
               ) : (
-                <span>{t.submitButton}</span>
+                <span>{lang === 'te' ? 'పంపండి →' : 'Send Report →'}</span>
               )}
             </button>
           </div>
@@ -855,41 +709,46 @@ export function CitizenSubmissionForm({
 
       {/* STEP 7: RECEIPT */}
       {step === 7 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-surface-3 shadow-sm space-y-8 animate-slide-up">
-          <div className="text-center space-y-3 max-w-lg mx-auto">
-            <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-2xs">
-              <CheckCircle2 size={32} />
+        <div className="bg-card rounded-2xl p-6 sm:p-10 border border-border shadow-sm space-y-6 animate-slide-up">
+          <div className="text-center space-y-3 max-w-sm mx-auto">
+            <div className="w-14 h-14 rounded-full bg-success-subtle text-success flex items-center justify-center mx-auto">
+              <CheckCircle2 size={28} />
             </div>
-
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-primary">
-              {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'We Got Your Report!'}
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight text-primary">
+              {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'Report Received!'}
             </h1>
-
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              {lang === 'te' ? 'ధన్యవాదాలు. మా టీమ్ దీనిని పరిశీలిస్తుంది.' : 'Thank you. Our team will review your report.'}
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              {lang === 'te' ? 'ధన్యవాదాలు. మా టీమ్ పరిశీలిస్తుంది.' : 'Thank you. Our team will review your report.'}
             </p>
 
             {referenceNumber && (
               <div className="pt-2">
-                <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-100 border border-slate-200 shadow-2xs">
-                  <div>
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-surface border border-border">
+                  <div className="text-left">
+                    <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">
                       {lang === 'te' ? 'రిఫరెన్స్ కోడ్' : 'Reference Code'}
                     </div>
-                    <div className="font-mono text-base font-black text-primary tracking-tight">
+                    <div className="font-mono text-sm font-black text-primary tracking-tight">
                       {referenceNumber}
                     </div>
                   </div>
                   <button
                     onClick={copyReferenceCode}
-                    className="p-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 transition cursor-pointer"
-                    title={lang === 'te' ? 'కాపీ చేయండి' : 'Copy Code'}
+                    className="p-1.5 rounded-lg bg-background border border-border hover:bg-surface text-muted-foreground transition cursor-pointer"
+                    title={lang === 'te' ? 'కాపీ' : 'Copy'}
                   >
-                    {copiedCode ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+                    {copiedCode ? <Check size={13} className="text-success" /> : <Copy size={13} />}
                   </button>
                 </div>
               </div>
             )}
+
+            <button
+              onClick={onBackToSelect}
+              className="text-xs font-bold text-primary hover:text-primary-hover cursor-pointer pt-2"
+            >
+              {lang === 'te' ? 'హోమ్ కు తిరిగి →' : 'Back to Home →'}
+            </button>
           </div>
         </div>
       )}

@@ -2,17 +2,13 @@
 
 import React, { useState } from 'react';
 import {
-  Sparkles,
   Bot,
   FileText,
-  Shield,
   ShieldCheck,
   Lock,
   Languages,
-  ArrowRight,
   Mic,
-  CheckCircle2,
-  HelpCircle
+  Shield,
 } from 'lucide-react';
 import { AICitizenChat } from './AICitizenChat';
 import { CitizenSubmissionForm } from './CitizenSubmissionForm';
@@ -40,85 +36,74 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
   const [mode, setMode] = useState<Mode>('select');
   const [lang, setLang] = useState<Language>(initialLang);
 
-  // If user selected Chat Mode
+  const TruncatedHeader = ({ onBack }: { onBack?: () => void }) => (
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-lg border-b border-border shadow-xs">
+      <div className="max-w-4xl mx-auto flex items-center justify-between h-13 px-4 sm:px-6">
+        <div className="flex items-center gap-2.5">
+          {onBack && (
+            <button onClick={onBack} className="text-xs font-bold text-muted-foreground hover:text-primary cursor-pointer">
+              ←
+            </button>
+          )}
+          <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
+            <ShieldCheck size={16} />
+          </div>
+          <div className="leading-tight">
+            <span className="font-extrabold text-xs text-primary block">
+              {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
+            </span>
+            <span className="text-[9px] text-muted-foreground font-medium">
+              {lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk'}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setMode(mode === 'chat' ? 'form' : 'chat')}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-background border border-border text-xs font-semibold text-muted-foreground hover:text-primary hover:border-primary/30 transition cursor-pointer"
+          >
+            {mode === 'chat' ? <FileText size={13} /> : <Bot size={13} />}
+            <span className="hidden sm:inline">
+              {mode === 'chat' ? (lang === 'te' ? 'ఫారమ్' : 'Form') : (lang === 'te' ? 'AI చాట్' : 'AI Chat')}
+            </span>
+          </button>
+
+          <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-xs font-bold border border-border">
+            <button onClick={() => setLang('en')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
+            <button onClick={() => setLang('te')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg bg-success-subtle border border-success/20 text-[10px] font-bold text-success">
+            <Lock size={10} />
+            <span>{lang === 'te' ? 'గోప్యం' : 'Encrypted'}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+
   if (mode === 'chat') {
     return (
-      <AICitizenChat
-        endpoint={endpoint}
-        lang={lang}
-        setLang={setLang}
-        onSwitchToForm={() => setMode('form')}
-        onBackToSelect={() => setMode('select')}
-      />
+      <div className="min-h-screen flex flex-col bg-background">
+        <TruncatedHeader onBack={() => setMode('select')} />
+        <div className="flex-1">
+          <AICitizenChat
+            endpoint={endpoint}
+            lang={lang}
+            setLang={setLang}
+            onSwitchToForm={() => setMode('form')}
+            onBackToSelect={() => setMode('select')}
+          />
+        </div>
+      </div>
     );
   }
 
-  // If user selected Form Mode
   if (mode === 'form') {
     return (
-      <div className="min-h-screen flex flex-col bg-linear-to-b from-card via-background to-surface text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
-        {/* Creator Portal Trust Header */}
-        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-surface-3 shadow-xs py-3.5 px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
-                <ShieldCheck size={16} />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-extrabold text-sm tracking-tight text-primary">
-                    {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
-                  </span>
-                  <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
-                    {lang === 'te' ? 'సహాయ కేంద్రం' : 'Helpdesk'}
-                  </span>
-                </div>
-                <div className="text-[11px] text-slate-500 font-medium">
-                  {lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk'}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 text-xs text-slate-500">
-              <button
-                onClick={() => setMode('chat')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary text-xs font-bold transition cursor-pointer"
-                title={lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Assistant'}
-              >
-                <Bot size={14} />
-                <span className="hidden sm:inline">{lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Assistant'}</span>
-              </button>
-
-              <div className="hidden sm:flex items-center gap-1.5 font-medium px-2.5 py-1 rounded-full bg-slate-100/80 border border-slate-200/60">
-                <Lock size={12} className="text-emerald-600" />
-                <span>{lang === 'te' ? 'గోప్యం & భద్రం' : 'Private & Secure'}</span>
-              </div>
-
-              {/* Language Switcher */}
-              <div className="flex items-center gap-1.5 p-1 bg-white border border-surface-3 rounded-xl text-xs font-semibold shadow-2xs">
-                <Languages size={13} className="text-slate-500 ml-1.5" />
-                <button
-                  onClick={() => setLang('en')}
-                  className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                    lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
-                  }`}
-                >
-                  English
-                </button>
-                <button
-                  onClick={() => setLang('te')}
-                  className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                    lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
-                  }`}
-                >
-                  తెలుగు
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Form Container */}
+      <div className="min-h-screen flex flex-col bg-background">
+        <TruncatedHeader onBack={() => setMode('select')} />
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 flex flex-col">
           <CitizenSubmissionForm
             endpoint={endpoint}
@@ -128,18 +113,16 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
             onBackToSelect={() => setMode('select')}
           />
         </main>
-
-        {/* Footer */}
-        <footer className="mt-auto border-t border-surface-3/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
-          <div className="max-w-2xl mx-auto space-y-2">
-            <div className="flex items-center justify-center gap-2 text-primary font-semibold text-xs">
-              <ShieldCheck size={14} className="text-primary" />
+        <footer className="mt-auto border-t border-border bg-surface/50 py-5 px-4 text-center text-xs text-muted-foreground">
+          <div className="max-w-2xl mx-auto space-y-1.5">
+            <div className="flex items-center justify-center gap-1.5 font-bold text-primary text-[11px]">
+              <ShieldCheck size={12} />
               <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
             </div>
-            <p className="text-[11px] leading-relaxed text-slate-500">
+            <p className="text-[10px] text-muted-foreground">
               {lang === 'te'
-                ? 'మీ సమాచారం మా జర్నలిస్టులకు మాత్రమే అందుతుంది. మీ భద్రత మరియు గోప్యత మాకు ముఖ్యం.'
-                : 'Your information is only seen by our journalists. Your safety and privacy matter to us.'}
+                ? 'మీ సమాచారం జర్నలిస్టులకు మాత్రమే. గోప్యత కాపాడబడుతుంది.'
+                : 'Information is only seen by journalists. Privacy protected.'}
             </p>
           </div>
         </footer>
@@ -147,184 +130,135 @@ export function CitizenPortalHub({ endpoint, initialLang = 'en' }: Props) {
     );
   }
 
-  // DEFAULT: MODE SELECTION SCREEN AT THE BEGINNING
+  // MODE SELECTION
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-card via-background to-surface text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
-      {/* Creator Portal Trust Header */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-surface-3 shadow-xs py-3.5 px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
+    <div className="min-h-screen flex flex-col bg-background">
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-lg border-b border-border shadow-xs">
+        <div className="max-w-4xl mx-auto flex items-center justify-between h-13 px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
               <ShieldCheck size={16} />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm tracking-tight text-primary">
-                  {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
-                </span>
-                <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
-                  {lang === 'te' ? 'సహాయ కేంద్రం' : 'Helpdesk'}
-                </span>
-              </div>
-              <div className="text-[11px] text-slate-500 font-medium">
+            <div className="leading-tight">
+              <span className="font-extrabold text-xs text-primary block">
+                {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
+              </span>
+              <span className="text-[9px] text-muted-foreground font-medium">
                 {lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk'}
-              </div>
+              </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 text-xs text-slate-500">
-            <div className="hidden sm:flex items-center gap-1.5 font-medium px-2.5 py-1 rounded-full bg-slate-100/80 border border-slate-200/60">
-              <Lock size={12} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'గోప్యం & భద్రం' : 'Private & Secure'}</span>
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg bg-success-subtle border border-success/20 text-[10px] font-bold text-success">
+              <Lock size={10} />
+              <span>{lang === 'te' ? 'గోప్యం' : 'Encrypted'}</span>
             </div>
 
-            {/* Multilingual Switcher matching creator portal */}
-            <div className="flex items-center gap-1.5 p-1 bg-white border border-surface-3 rounded-xl text-xs font-semibold shadow-2xs">
-              <Languages size={13} className="text-slate-500 ml-1.5" />
-              <button
-                onClick={() => setLang('en')}
-                className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
-                }`}
-              >
-                English
-              </button>
-              <button
-                onClick={() => setLang('te')}
-                className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
-                }`}
-              >
-                తెలుగు
-              </button>
+            <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-xs font-bold border border-border">
+              <button onClick={() => setLang('en')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
+              <button onClick={() => setLang('te')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Mode Selection Card Box */}
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-8 sm:py-12 flex flex-col justify-center">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-10 sm:py-16 flex flex-col justify-center">
         <div className="space-y-8 animate-fade-in">
-          
-          {/* Headline & Overview */}
-          <div className="text-center space-y-2 max-w-xl mx-auto">
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-primary leading-tight">
-              {lang === 'te'
-                ? 'మీకు ఏది సులభంగా అనిపిస్తే అది ఎంచుకోండి'
-                : 'How would you like to tell us?'}
-            </h1>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          <div className="text-center space-y-2 max-w-lg mx-auto">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-primary leading-tight">
+              {lang === 'te' ? 'మీకు ఏది సులభం?' : 'How would you like to proceed?'}
+            </h1>
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
               {lang === 'te'
-                ? 'మీకు ఎలా సౌకర్యంగా ఉంటే అలా చెప్పండి. మీ పేరు మరియు వివరాలు పూర్తిగా గోప్యంగా ఉంటాయి.'
-                : 'Choose what feels easiest for you. Your identity stays 100% private.'}
+                ? 'ఏది ఎంచుకున్నా మీ వివరాలు 100% గోప్యంగా ఉంటాయి.'
+                : 'Either way, your information stays 100% private.'}
             </p>
           </div>
 
-          {/* TWO MAIN OPTIONS SIDE-BY-SIDE */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-            
-            {/* OPTION 1: AI CHAT ASSISTANT */}
-            <div className="bg-white rounded-3xl p-6 border-2 border-primary/30 hover:border-primary shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
-              <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase">
-                {lang === 'te' ? 'చాలా సులభం' : 'Easiest • Voice'}
+
+            {/* AI CHAT */}
+            <button
+              onClick={() => setMode('chat')}
+              className="group relative p-6 rounded-2xl bg-card border-2 border-primary/20 hover:border-primary shadow-sm hover:shadow-lg hover:shadow-primary/10 transition-all text-left cursor-pointer"
+            >
+              <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-success-subtle text-success text-[9px] font-bold uppercase tracking-wider border border-success/20">
+                {lang === 'te' ? 'సులభం' : 'Easiest'}
               </div>
 
-              <div className="space-y-3">
-                <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
-                  <Bot size={22} />
-                </div>
-
-                <div className="space-y-1">
-                  <h2 className="text-base sm:text-lg font-black text-primary group-hover:text-primary transition">
-                    {lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Assistant'}
-                  </h2>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    {lang === 'te'
-                      ? 'వాట్సాప్ లాగా తెలుగు, Tenglish లేదా English లో మాట్లాడండి. మైక్ నొక్కి చెప్పవచ్చు.'
-                      : 'Just like WhatsApp — speak or type in Telugu, Tenglish, or English. The assistant asks simple questions.'}
-                  </p>
-                </div>
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Bot size={24} />
               </div>
 
-              <div className="pt-5">
-                <button
-                  onClick={() => setMode('chat')}
-                  className="w-full py-3 px-4 bg-primary hover:bg-primary-hover text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
-                >
-                  <Mic size={15} />
-                  <span>{lang === 'te' ? 'మాట్లాడండి / టైప్ చేయండి →' : 'Start Talking →'}</span>
-                </button>
-              </div>
-            </div>
+              <h2 className="text-base sm:text-lg font-black text-primary mb-1">
+                {lang === 'te' ? 'AI తో మాట్లాడండి' : 'Talk to AI'}
+              </h2>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                {lang === 'te'
+                  ? 'వాట్సాప్ లాగా తెలుగు, Tenglish లేదా English లో మాట్లాడండి. మైక్ నొక్కి చెప్పవచ్చు.'
+                  : 'Like WhatsApp — speak or type in Telugu, Tenglish, or English. Voice supported.'}
+              </p>
 
-            {/* OPTION 2: STRUCTURED 6-STEP FORM */}
-            <div className="bg-white rounded-3xl p-6 border border-surface-3 hover:border-slate-300 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group">
-              <div className="flex items-center justify-between">
-                <div className="w-11 h-11 rounded-2xl bg-slate-100 text-primary flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
-                  <FileText size={22} />
-                </div>
-                <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">
-                  {lang === 'te' ? 'దశల వారీగా' : 'Step-by-Step'}
-                </span>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
+                <Mic size={14} />
+                <span>{lang === 'te' ? 'ప్రారంభించండి →' : 'Start Talking →'}</span>
               </div>
+            </button>
 
-              <div className="space-y-3 mt-3">
-                <div className="space-y-1">
-                  <h2 className="text-base sm:text-lg font-black text-primary group-hover:text-primary/80 transition">
-                    {lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill Out a Form'}
-                  </h2>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    {lang === 'te'
-                      ? 'సింపుల్ ప్రశ్నలకు సమాధానం ఇవ్వండి. ఫోటోలు ఉంటే జతచేయండి.'
-                      : 'Answer a few simple questions step by step. Add photos or documents if you have them.'}
-                  </p>
-                </div>
+            {/* FORM */}
+            <button
+              onClick={() => setMode('form')}
+              className="group p-6 rounded-2xl bg-card border border-border hover:border-primary/40 shadow-sm hover:shadow-lg transition-all text-left cursor-pointer"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-surface-2 text-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <FileText size={24} />
               </div>
 
-              <div className="pt-5">
-                <button
-                  onClick={() => setMode('form')}
-                  className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
-                >
-                  <span>{lang === 'te' ? 'ఫారమ్ తెరవండి →' : 'Open Form →'}</span>
-                </button>
+              <h2 className="text-base sm:text-lg font-black text-primary mb-1">
+                {lang === 'te' ? 'ఫారమ్ పూరించండి' : 'Fill a Form'}
+              </h2>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                {lang === 'te'
+                  ? 'సింపుల్ ప్రశ్నలకు దశల వారీగా సమాధానం ఇవ్వండి. ఫోటోలు, వీడియోలు జత చేయండి.'
+                  : 'Answer simple questions step-by-step. Add photos or documents if you have them.'}
+              </p>
+
+              <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
+                <span>{lang === 'te' ? 'ఫారమ్ తెరవండి →' : 'Open Form →'}</span>
               </div>
-            </div>
+            </button>
 
           </div>
 
-          {/* Reassurance Notice Card */}
-          <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-white border border-surface-3/80 space-y-2 text-xs text-slate-600 shadow-2xs">
-            <div className="font-bold text-primary flex items-center gap-2">
-              <Shield size={16} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
+          {/* REASSURANCE */}
+          <div className="max-w-xl mx-auto p-4 rounded-2xl bg-card border border-border text-center space-y-2">
+            <div className="flex items-center justify-center gap-1.5 font-bold text-primary text-xs">
+              <Shield size={14} />
+              <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety First'}</span>
             </div>
-            <p className="leading-relaxed text-[11px] text-slate-500">
+            <p className="text-[11px] text-muted-foreground leading-relaxed">
               {lang === 'te'
-                ? 'మీరు చాట్ ఎంచుకున్నా లేదా ఫారమ్ ఎంచుకున్నా, మీ వివరాలు 100% గోప్యంగా ఉంచబడతాయి. సమర్పించిన తర్వాత మీకు ట్రాక్ చేయడానికి కోడ్ వస్తుంది.'
-                : 'Whether you choose chat or the form, your information is 100% private. After submitting, you get a code to track your report.'}
+                ? 'మీరు ఏది ఎంచుకున్నా, మీ వివరాలు 100% గోప్యంగా ఉంచబడతాయి. సమర్పణ తర్వాత ట్రాక్ కోడ్ వస్తుంది.'
+                : 'Whichever you choose, your details stay 100% private. You get a tracking code after submitting.'}
             </p>
           </div>
 
         </div>
       </main>
 
-      {/* Creator Portal Footer */}
-      <footer className="mt-auto border-t border-surface-3/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
-        <div className="max-w-2xl mx-auto space-y-2">
-          <div className="flex items-center justify-center gap-2 text-primary font-semibold text-xs">
-            <ShieldCheck size={14} className="text-primary" />
+      <footer className="mt-auto border-t border-border bg-surface/50 py-5 px-4 text-center text-xs text-muted-foreground">
+        <div className="max-w-2xl mx-auto space-y-1.5">
+          <div className="flex items-center justify-center gap-1.5 font-bold text-primary text-[11px]">
+            <ShieldCheck size={12} />
             <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
           </div>
-          <p className="text-[11px] leading-relaxed text-slate-500">
+          <p className="text-[10px] text-muted-foreground">
             {lang === 'te'
-              ? 'మీ సమాచారం మా జర్నలిస్టులకు మాత్రమే అందుతుంది. మీరు అనామకంగా ఉండవచ్చు.'
-              : 'Your information is only seen by our journalists. You can stay anonymous if you prefer.'}
+              ? 'మీ సమాచారం జర్నలిస్టులకు మాత్రమే. అనామకంగా ఉండవచ్చు.'
+              : 'Information is only seen by journalists. You can stay anonymous.'}
           </p>
-          <div className="pt-1 text-[10px] text-slate-500">
-            {endpoint.workspaceName || 'Citizen Helpdesk'} • {lang === 'te' ? 'డేటా భద్రత తో రక్షించబడింది' : 'Protected by data encryption'}
-          </div>
         </div>
       </footer>
     </div>

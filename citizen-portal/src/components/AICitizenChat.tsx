@@ -7,7 +7,6 @@ import {
   Send,
   Paperclip,
   ShieldCheck,
-  Languages,
   CheckCircle2,
   Clock,
   Copy,
@@ -17,13 +16,10 @@ import {
   Trash2,
   Sparkles,
   Lock,
-  ExternalLink,
-  Shield,
   ArrowRight,
   X,
-  AlertCircle
+  Shield,
 } from 'lucide-react';
-import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 
 interface EndpointConfig {
@@ -87,7 +83,6 @@ export function AICitizenChat({
   const [copiedRef, setCopiedRef] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
 
-  // Submitter preferences state
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [senderName, setSenderName] = useState('');
   const [senderPhone, setSenderPhone] = useState('');
@@ -98,7 +93,6 @@ export function AICitizenChat({
   const [submittingDossier, setSubmittingDossier] = useState(false);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
-  // Voice recording state
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -106,12 +100,11 @@ export function AICitizenChat({
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Bilingual initial greeting
   useEffect(() => {
     const greetingText =
       lang === 'te'
-        ? `నమస్కారం! నేను ${endpoint.title || 'కేస్‌డెస్క్'} AI పరిశోధనా సహాయకుడిని.\n\nప్రజా సమస్యలు, ఆసుపత్రుల నిర్లక్ష్యం, రోడ్లు/తాగునీటి కొరత లేదా లంచాల సమస్యలను నాతో పంచుకోండి.\n\n✨ మీరు తెలుగులో అయినా, Tenglish (ఇంగ్లీష్ అక్షరాలతో, ఉదా: "Maa oori hospital lo...") అయినా, లేదా English లో అయినా టైప్ చేయవచ్చు లేదా మైక్ నొక్కి మాట్లాడవచ్చు.`
-        : `Hello! I am the AI intake assistant for ${endpoint.title || 'Citizen Helpdesk'}.\n\nTell us what happened regarding healthcare failures, public works, civic emergencies, or government inaction.\n\n✨ You can write in English, Telugu, or Tenglish (Telugu phonetically in English letters, e.g. "Maa oori lo..."), or tap the microphone to speak naturally.`;
+        ? `నమస్కారం! నేను ${endpoint.title || 'సిటిజన్ హెల్ప్‌డెస్క్'} AI సహాయకుడిని.\n\nమీ సమస్యను తెలుగు, Tenglish లేదా English లో చెప్పండి. మైక్ నొక్కి మాట్లాడవచ్చు.`
+        : `Hello! I'm the AI assistant for ${endpoint.title || 'Citizen Helpdesk'}.\n\nTell us what happened in English, Telugu, or Tenglish. Tap the mic to speak.`;
 
     setMessages([
       {
@@ -128,31 +121,29 @@ export function AICitizenChat({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Common Issue Categories (aligned with CaseDesk creator portal categories)
   const categoryChips = [
     {
       label: lang === 'te' ? 'ఆసుపత్రి & వైద్యం' : 'Hospitals & Health',
       desc: lang === 'te' ? 'డాక్టర్లు లేరు, మందులు లేవు' : 'No doctors, missing medicines',
-      prompt: lang === 'te' ? 'మా ప్రాంతంలోని ప్రభుత్వ ఆసుపత్రిలో డాక్టర్లు మరియు మందులు అందుబాటులో లేక రోగులు ఇబ్బంది పడుతున్నారు.' : 'Our local hospital has no doctors and essential medicines are missing.'
+      prompt: lang === 'te' ? 'మా ప్రాంతంలోని ప్రభుత్వ ఆసుపత్రిలో డాక్టర్లు మరియు మందులు అందుబాటులో లేక రోగులు ఇబ్బంది పడుతున్నారు.' : 'Our local hospital has no doctors and essential medicines are missing.',
     },
     {
       label: lang === 'te' ? 'రోడ్లు & తాగునీరు' : 'Roads & Water',
       desc: lang === 'te' ? 'గుంతల రోడ్లు, నీటి సమస్య' : 'Potholes, water crisis',
-      prompt: lang === 'te' ? 'గత నెలలుగా మా ప్రాంతంలో సురక్షిత తాగునీరు రావడం లేదు, రోడ్లు గోతులతో ప్రమాదకరంగా ఉన్నాయి.' : 'No safe drinking water for months and the roads are full of potholes.'
+      prompt: lang === 'te' ? 'గత నెలలుగా మా ప్రాంతంలో సురక్షిత తాగునీరు రావడం లేదు, రోడ్లు గోతులతో ప్రమాదకరంగా ఉన్నాయి.' : 'No safe drinking water for months and the roads are full of potholes.',
     },
     {
       label: lang === 'te' ? 'ఫించన్లు & సంక్షేమం' : 'Pensions & Welfare',
-      desc: lang === 'te' ? 'ఫించన్ రావడం లేదు, పథకాలు ఆగాయి' : 'Pension delays, schemes blocked',
-      prompt: lang === 'te' ? 'ప్రభుత్వ సంక్షేమ పథకాలు మరియు పెన్షన్లు అర్హులైన పేదలకు అందడం లేదు.' : 'Government welfare schemes and pensions are not reaching eligible people.'
+      desc: lang === 'te' ? 'ఫించన్ రావడం లేదు' : 'Pension delays',
+      prompt: lang === 'te' ? 'ప్రభుత్వ సంక్షేమ పథకాలు మరియు పెన్షన్లు అర్హులైన పేదలకు అందడం లేదు.' : 'Government welfare schemes and pensions are not reaching eligible people.',
     },
     {
       label: lang === 'te' ? 'లంచాలు & అవినీతి' : 'Bribes & Corruption',
       desc: lang === 'te' ? 'అధికారులు లంచం అడగడం' : 'Officials demanding bribes',
-      prompt: lang === 'te' ? 'ప్రభుత్వ సేవలు లేదా డాక్యుమెంట్ల కోసం అధికారులు లంచాలు డిమాండ్ చేస్తున్నారు.' : 'Officials are demanding bribes to process govt documents and applications.'
+      prompt: lang === 'te' ? 'ప్రభుత్వ సేవలు లేదా డాక్యుమెంట్ల కోసం అధికారులు లంచాలు డిమాండ్ చేస్తున్నారు.' : 'Officials are demanding bribes to process govt documents and applications.',
     },
   ];
 
-  // Send text message
   const handleSendMessage = async (textToSend?: string) => {
     const text = (textToSend || inputValue).trim();
     if (!text && attachedFiles.length === 0) return;
@@ -207,7 +198,6 @@ export function AICitizenChat({
     }
   };
 
-  // Voice recording handlers
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -243,11 +233,7 @@ export function AICitizenChat({
           formData.append('file', audioBlob, `voice-${Date.now()}.webm`);
           formData.append('language', lang);
 
-          const transRes = await fetch('/api/transcribe', {
-            method: 'POST',
-            body: formData,
-          });
-
+          const transRes = await fetch('/api/transcribe', { method: 'POST', body: formData });
           const transData = await transRes.json();
           const transcribedText = transData.text || '';
 
@@ -306,7 +292,7 @@ export function AICitizenChat({
       }, 1000);
     } catch (err) {
       console.error('Microphone error:', err);
-      alert(lang === 'te' ? 'మైక్రోఫోన్ అనుమతి లభించలేదు. దయచేసి అనుమతి ఇవ్వండి.' : 'Microphone access denied. Please allow microphone access.');
+      alert(lang === 'te' ? 'మైక్రోఫోన్ అనుమతి లభించలేదు.' : 'Microphone access denied.');
     }
   };
 
@@ -318,7 +304,6 @@ export function AICitizenChat({
     }
   };
 
-  // Submit dossier to CaseDesk backend
   const handleFinalSubmit = async () => {
     setSubmittingDossier(true);
 
@@ -344,7 +329,6 @@ export function AICitizenChat({
       formData.append('consentNoGuarantee', String(consentNoGuarantee));
       formData.append('consentToPublish', consentToPublish);
 
-      // Collect audio recordings
       const voiceMessages = messages.filter((m) => m.type === 'voice' && m.audioBlob);
       voiceMessages.forEach((vm, idx) => {
         if (vm.audioBlob) {
@@ -352,23 +336,15 @@ export function AICitizenChat({
         }
       });
 
-      // Collect attached files
       attachedFiles.forEach((f) => {
         formData.append('files', f);
       });
 
-      const res = await fetch(`/api/submit/${endpoint.slug}`, {
-        method: 'POST',
-        body: formData,
-      });
+      const res = await fetch(`/api/submit/${endpoint.slug}`, { method: 'POST', body: formData });
 
       let data: any = null;
-      try {
-        data = await res.json();
-      } catch {
-        // Non-JSON response (e.g. an HTML error page) — fall through to friendly error
-      }
-      if (!res.ok || !data) throw new Error(data?.error || 'Submission failed. Please try again.');
+      try { data = await res.json(); } catch {}
+      if (!res.ok || !data) throw new Error(data?.error || 'Submission failed.');
 
       setSubmissionResult(data);
       setShowConsentModal(false);
@@ -408,625 +384,368 @@ export function AICitizenChat({
   const isInitialState = userMessagesCount === 0;
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-card via-background to-surface text-foreground font-sans antialiased selection:bg-primary/15 selection:text-primary">
-      
-      {/* Creator Portal Trust Header */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-surface-3 shadow-xs py-3.5 px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
-              <ShieldCheck size={16} />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm tracking-tight text-primary">
-                  {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
-                </span>
-                <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
-                  Citizen Portal
-                </span>
-              </div>
-              <div className="text-[11px] text-slate-500 font-medium">
-                {endpoint.title || 'Public Civic Investigation Desk'}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 text-xs text-slate-500">
-            {onSwitchToForm && (
-              <button
-                onClick={onSwitchToForm}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-primary text-xs font-bold transition cursor-pointer border border-surface-3 shadow-2xs"
-                title={lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill a Form Instead'}
-              >
-                <FileText size={13} className="text-primary" />
-                <span className="hidden sm:inline">{lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill a Form Instead'}</span>
-              </button>
-            )}
-
-            <div className="hidden sm:flex items-center gap-1.5 font-medium px-2.5 py-1 rounded-full bg-slate-100/80 border border-slate-200/60">
-              <Lock size={12} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'గోప్యం & భద్రం' : 'Private & Secure'}</span>
-            </div>
-
-            {/* Multilingual Switcher matching creator portal */}
-            <div className="flex items-center gap-1.5 p-1 bg-white border border-surface-3 rounded-xl text-xs font-semibold shadow-2xs">
-              <Languages size={13} className="text-slate-500 ml-1.5" />
-              <button
-                onClick={() => setLang('en')}
-                className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
-                }`}
-              >
-                English
-              </button>
-              <button
-                onClick={() => setLang('te')}
-                className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                  lang === 'te' ? 'bg-primary text-white' : 'text-slate-600 hover:text-primary'
-                }`}
-              >
-                తెలుగు
-              </button>
-            </div>
+    <div className="flex flex-col h-full bg-background">
+      {/* Internal Chat Header */}
+      <div className="px-4 py-3 border-b border-border bg-card flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          {onBackToSelect && (
+            <button onClick={onBackToSelect} className="text-xs font-semibold text-muted-foreground hover:text-primary mr-1 cursor-pointer">
+              ← <span className="hidden sm:inline">{lang === 'te' ? 'వెనుక' : 'Back'}</span>
+            </button>
+          )}
+          <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+          <span className="text-xs font-bold text-primary">{lang === 'te' ? 'AI సహాయకుడు' : 'AI Assistant'}</span>
+          <span className="text-[10px] text-muted-foreground">• Online</span>
+          <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface border border-border text-[10px] font-bold text-primary ml-1">
+            <span>తెలుగు • Tenglish • English</span>
           </div>
         </div>
-      </header>
 
-      {/* Main Workspace Container */}
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 flex flex-col">
-        
-        {/* Chat Card Box matching Creator Portal */}
-        <div className="bg-white rounded-3xl border border-surface-3 shadow-sm flex flex-col flex-1 h-[78vh] sm:h-[82vh] overflow-hidden relative">
-          
-          {/* Internal Chat Header Bar */}
-          <div className="px-5 py-3 border-b border-surface-3/80 bg-background/80 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {onBackToSelect && (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Shield size={12} className="text-success" />
+          <span className="text-[10px] font-medium hidden sm:inline">
+            {lang === 'te' ? 'జర్నలిస్టిక్ రక్షణ' : 'Source Protection'}
+          </span>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 scroll-smooth">
+        {/* Welcome Banner */}
+        {isInitialState && (
+          <div className="space-y-4 animate-fade-in my-2">
+            <div className="p-5 rounded-2xl bg-card border border-border space-y-3">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+                <Sparkles size={11} />
+                <span>{endpoint.title || 'Helpdesk'}</span>
+              </div>
+
+              <h1 className="text-lg sm:text-xl font-black tracking-tight text-primary leading-snug">
+                {lang === 'te' ? 'మీ సమస్య చెప్పండి' : 'Tell Us What Happened'}
+              </h1>
+
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {lang === 'te'
+                  ? 'తెలుగు, Tenglish లేదా English లో చెప్పవచ్చు. మైక్ నొక్కి మాట్లాడవచ్చు.'
+                  : 'Write or speak in English, Telugu, or Tenglish. Tap the mic to speak.'}
+              </p>
+
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <button
-                  onClick={onBackToSelect}
-                  className="text-xs font-semibold text-slate-500 hover:text-primary mr-1 cursor-pointer flex items-center gap-1"
+                  onClick={startRecording}
+                  className="px-5 py-3 bg-primary hover:bg-primary-hover text-white font-bold text-xs sm:text-sm rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.97]"
                 >
-                  ← <span className="hidden sm:inline">{lang === 'te' ? 'వెనుకకు' : 'Back'}</span>
+                  <Mic size={15} />
+                  <span>{lang === 'te' ? 'మైక్ నొక్కి మాట్లాడండి' : 'Tap Mic to Speak'}</span>
                 </button>
-              )}
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-              <span className="text-xs font-bold text-primary">
-                {lang === 'te' ? 'సహాయకుడు' : 'AI Assistant'}
-              </span>
-              <span className="text-[10px] text-slate-500">• Online</span>
-              <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface text-primary border border-surface-3 text-[10px] font-bold ml-1">
-                <Languages size={11} className="text-primary" />
-                <span>తెలుగు • Tenglish • English</span>
+
+                <div className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground">
+                  <Lock size={12} className="text-success" />
+                  <span>{lang === 'te' ? '100% గోప్యం' : '100% Private'}</span>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-slate-500">
-              <Shield size={13} className="text-emerald-600" />
-              <span className="text-[11px] font-medium hidden sm:inline">
-                {lang === 'te' ? 'జర్నలిస్టిక్ రక్షణ వర్తిస్తుంది' : 'Journalistic Privilege Applies'}
+            {/* Category Chips */}
+            <div className="space-y-2">
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
+                {lang === 'te' ? 'త్వరిత ఎంపికలు:' : 'Quick options:'}
               </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {categoryChips.map((chip, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSendMessage(chip.prompt)}
+                    className="p-3 rounded-xl bg-card hover:bg-surface border border-border hover:border-primary/30 text-left transition-all shadow-xs flex flex-col gap-0.5 group active:scale-[0.99] cursor-pointer"
+                  >
+                    <span className="font-bold text-xs text-primary">{chip.label}</span>
+                    <span className="text-[10px] text-muted-foreground">{chip.desc}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
+        )}
 
-          {/* Messages Stream */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 scroll-smooth">
-            
-            {/* Initial Welcome Banner (Matching Step 1 of Creator Portal) */}
-            {isInitialState && (
-              <div className="space-y-5 animate-fade-in my-2">
-                <div className="p-5 sm:p-6 rounded-2xl bg-background border border-surface-3/80 space-y-3">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
-                    <Sparkles size={12} />
-                    <span>{endpoint.title || 'Citizen Helpdesk'}</span>
-                  </div>
-
-                  <h1 className="text-xl sm:text-2xl font-black tracking-tight text-primary leading-snug">
-                    {lang === 'te' ? 'మీ ఏరియాలో ఏదైనా సమస్య ఉందా?' : 'Got a problem that needs attention?'}
-                  </h1>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    {lang === 'te'
-                      ? 'ఏం జరిగిందో మాకు చెప్పండి. మీరు తెలుగు, Tenglish (English అక్షరాలతో, e.g. "Maa oori hospital lo...") లేదా English లో చెప్పవచ్చు. మా బృందం మీ కథను పరిశీలిస్తుంది.'
-                      : 'Tell us what happened. You can write or speak in English, Telugu, or Tenglish (Telugu phonetically in English letters, e.g. "Maa oori lo..."). Our newsroom will review your submission.'}
-                  </p>
-
-                  {/* Primary Voice Recording Button */}
-                  <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                    <button
-                      onClick={startRecording}
-                      className="px-6 py-3 bg-primary hover:bg-primary/90 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
-                    >
-                      <Mic size={16} />
-                      <span>{lang === 'te' ? 'మైక్ నొక్కి మాట్లాడండి' : 'Tap Mic to Speak'}</span>
-                    </button>
-
-                    <div className="flex items-center justify-center gap-1.5 text-xs text-slate-500">
-                      <Lock size={13} className="text-emerald-600" />
-                      <span>{lang === 'te' ? '100% గోప్యం & భద్రం' : '100% Private & Safe'}</span>
-                    </div>
-                  </div>
+        {/* Messages */}
+        {messages.map((msg) => (
+          <div key={msg.id} className={`flex flex-col animate-slide-up ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
+            <div className="flex items-end gap-2 max-w-[88%] sm:max-w-[80%]">
+              {msg.role === 'assistant' && (
+                <div className="w-7 h-7 rounded-lg bg-primary text-white flex items-center justify-center font-black text-[9px] shrink-0 mb-0.5">
+                  AI
                 </div>
+              )}
 
-                {/* Common Issue Category Chips (Matching Creator Portal categories) */}
-                <div className="space-y-2.5">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-                    {lang === 'te' ? 'త్వరిత ఎంపికలు:' : 'Quick options:'}
-                  </span>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {categoryChips.map((chip, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleSendMessage(chip.prompt)}
-                        className="p-3.5 rounded-2xl bg-white hover:bg-background border border-surface-3 hover:border-slate-300 text-left transition-all shadow-2xs flex flex-col gap-1 group active:scale-[0.99] cursor-pointer"
-                      >
-                        <span className="font-bold text-xs sm:text-sm text-primary group-hover:text-primary transition">
-                          {chip.label}
-                        </span>
-                        <span className="text-[11px] text-slate-500">
-                          {chip.desc}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Chat Messages */}
-            {messages.map((msg) => (
               <div
-                key={msg.id}
-                className={`flex flex-col animate-slide-up ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
+                className={`rounded-2xl px-4 py-3 text-xs sm:text-sm leading-relaxed ${
+                  msg.role === 'user'
+                    ? 'bg-primary text-white rounded-br-md shadow-xs'
+                    : 'bg-card border border-border text-foreground rounded-bl-md'
+                }`}
               >
-                <div className="flex items-end gap-2.5 max-w-[88%] sm:max-w-[80%]">
-                  {msg.role === 'assistant' && (
-                    <div className="w-7 h-7 rounded-xl bg-primary text-white flex items-center justify-center font-black text-[10px] shrink-0 mb-1 shadow-2xs">
-                      CD
-                    </div>
-                  )}
-
-                  {/* Bubble Container */}
-                  <div
-                    className={`rounded-2xl p-4 text-xs sm:text-sm leading-relaxed ${
-                      msg.role === 'user'
-                        ? 'bg-primary text-white rounded-br-xs shadow-xs'
-                        : 'bg-background border border-surface-3 text-primary rounded-bl-xs shadow-2xs'
-                    }`}
-                  >
-                    {/* Voice header */}
-                    {msg.type === 'voice' && (
-                      <div className="flex items-center gap-2 mb-2 pb-1.5 border-b border-white/20 text-xs text-blue-200">
-                        <Mic size={14} className="animate-pulse" />
-                        <span className="font-semibold">
-                          {lang === 'te' ? 'వాయిస్ నోట్' : 'Voice Dispatch'} ({formatSeconds(msg.audioDuration || 0)})
-                        </span>
-                      </div>
-                    )}
-
-                    {msg.role === 'assistant' ? (
-                      <div className="prose prose-sm max-w-none text-primary text-xs sm:text-sm">
-                        <ReactMarkdown
-                          components={{
-                            p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
-                            strong: ({ children }) => <strong className="font-black text-primary">{children}</strong>,
-                            ul: ({ children }) => <ul className="list-disc pl-5 my-2 space-y-1">{children}</ul>,
-                            ol: ({ children }) => <ol className="list-decimal pl-5 my-2 space-y-1">{children}</ol>,
-                            li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-                            h1: ({ children }) => <h1 className="text-base font-bold text-primary my-2">{children}</h1>,
-                            h2: ({ children }) => <h2 className="text-sm font-bold text-primary my-1.5">{children}</h2>,
-                            h3: ({ children }) => <h3 className="text-xs font-bold text-primary my-1">{children}</h3>,
-                            blockquote: ({ children }) => (
-                              <blockquote className="border-l-2 border-primary/50 pl-3 py-1 my-2 text-slate-600 bg-surface/70 rounded-r-lg">
-                                {children}
-                              </blockquote>
-                            ),
-                            code: ({ children }) => (
-                              <code className="px-1.5 py-0.5 rounded bg-slate-200/70 font-mono text-xs text-primary font-semibold">
-                                {children}
-                              </code>
-                            ),
-                          }}
-                        >
-                          {msg.content}
-                        </ReactMarkdown>
-                      </div>
-                    ) : (
-                      <p className="whitespace-pre-line">{msg.content}</p>
-                    )}
-
-                    {/* Attached files */}
-                    {msg.files && msg.files.length > 0 && (
-                      <div className="mt-2.5 pt-2 border-t border-slate-200 space-y-1">
-                        {msg.files.map((file, idx) => (
-                          <div key={idx} className="flex items-center gap-1.5 text-xs text-slate-600 truncate">
-                            <FileText size={13} className="shrink-0" />
-                            <span className="truncate">{file.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <span
-                      className={`text-[10px] block mt-1.5 ${
-                        msg.role === 'user' ? 'text-slate-500 text-right' : 'text-slate-500 text-left'
-                      }`}
-                    >
-                      {msg.timestamp}
+                {msg.type === 'voice' && (
+                  <div className="flex items-center gap-1.5 mb-1.5 pb-1.5 border-b border-white/20 text-[10px]">
+                    <Mic size={12} className="animate-pulse" />
+                    <span className="font-semibold">
+                      {lang === 'te' ? 'వాయిస్' : 'Voice'} ({formatSeconds(msg.audioDuration || 0)})
                     </span>
                   </div>
-                </div>
+                )}
 
-                {/* Receipt Card when report is submitted (Matching Step 7 of Creator Portal) */}
-                {msg.type === 'receipt' && submissionResult && (
-                  <div className="w-full mt-4 p-6 sm:p-8 rounded-3xl bg-emerald-50/40 border border-emerald-200/80 text-center space-y-4 shadow-sm animate-slide-up">
-                    <CheckCircle2 size={40} className="text-emerald-600 mx-auto" />
-                    
-                    <div className="space-y-1">
-                      <h3 className="text-lg font-black text-primary">
-                        {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'Report Received!'}
-                      </h3>
-                      <p className="text-xs text-slate-600">
-                        {lang === 'te'
-                          ? 'మా పరిశోధనా బృందం మీ నివేదికను పరిశీలిస్తుంది.'
-                          : 'Our investigative journalism team will review your report and evidence.'}
-                      </p>
-                    </div>
+                {msg.role === 'assistant' ? (
+                  <div className="prose prose-sm max-w-none text-foreground text-xs sm:text-sm">
+                    <ReactMarkdown
+                      components={{
+                        p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+                        strong: ({ children }) => <strong className="font-black text-primary">{children}</strong>,
+                        ul: ({ children }) => <ul className="list-disc pl-4 my-1.5 space-y-0.5">{children}</ul>,
+                        ol: ({ children }) => <ol className="list-decimal pl-4 my-1.5 space-y-0.5">{children}</ol>,
+                        li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                        code: ({ children }) => (
+                          <code className="px-1.5 py-0.5 rounded bg-surface font-mono text-[11px] text-primary font-semibold">{children}</code>
+                        ),
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
+                  </div>
+                ) : (
+                  <p className="whitespace-pre-line">{msg.content}</p>
+                )}
 
-                    {/* Reference Number Box */}
-                    <div className="p-4 rounded-2xl bg-white border border-surface-3 max-w-sm mx-auto space-y-1.5 shadow-2xs">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
-                        {lang === 'te' ? 'రిఫరెన్స్ కోడ్' : 'Reference Number'}
-                      </span>
-                      <div className="flex items-center justify-center gap-2">
-                        <span className="text-xl sm:text-2xl font-mono font-black text-primary tracking-wider">
-                          {submissionResult.referenceNumber}
-                        </span>
-                        <button
-                          onClick={copyRefCode}
-                          className="p-1.5 rounded-lg bg-background hover:bg-slate-100 border border-surface-3 text-slate-600 transition cursor-pointer"
-                          title="Copy Code"
-                        >
-                          {copiedRef ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
-                        </button>
+                {msg.files && msg.files.length > 0 && (
+                  <div className="mt-2 pt-1.5 border-t border-white/20 space-y-0.5">
+                    {msg.files.map((file, idx) => (
+                      <div key={idx} className="flex items-center gap-1.5 text-[10px] opacity-80 truncate">
+                        <FileText size={11} className="shrink-0" />
+                        <span className="truncate">{file.name}</span>
                       </div>
-                      <p className="text-[11px] text-slate-500">
-                        {lang === 'te' ? 'భవిష్యత్తు సమాచారం కోసం ఈ కోడ్‌ను భద్రపరుచుకోండి.' : 'Save this number to follow up on your story.'}
-                      </p>
-                    </div>
-
-                    {/* 5-Stage Milestone Timeline */}
-                    <div className="max-w-md mx-auto space-y-2 pt-2 text-left">
-                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block text-center">
-                        {lang === 'te' ? 'తదుపరి పరిశోధన దశలు' : 'What Happens Next'}
-                      </span>
-                      {submissionResult.whatNext.map((st, idx) => (
-                        <div
-                          key={idx}
-                          className={`flex items-center gap-3 p-2.5 rounded-xl text-xs ${
-                            st.completed
-                              ? 'bg-emerald-100/60 text-emerald-900 font-bold border border-emerald-200'
-                              : idx === 1
-                              ? 'bg-primary-subtle text-primary font-semibold border border-border'
-                              : 'text-slate-500 bg-white border border-surface-3/60'
-                          }`}
-                        >
-                          {st.completed ? (
-                            <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
-                          ) : (
-                            <div className="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center text-[10px] font-bold shrink-0">
-                              {st.step}
-                            </div>
-                          )}
-                          <span>{st.title}</span>
-                        </div>
-                      ))}
-                    </div>
+                    ))}
                   </div>
                 )}
-              </div>
-            ))}
 
-            {/* Typing Indicator */}
-            {isTyping && (
-              <div className="flex items-center gap-2 p-3 rounded-2xl bg-background border border-surface-3 text-slate-500 w-fit animate-fade-in">
-                <Sparkles size={14} className="text-primary animate-spin" />
-                <span className="text-xs font-medium">
-                  {lang === 'te' ? 'AI స్పందిస్తోంది...' : 'Reviewing report...'}
+                <span className={`text-[9px] block mt-1 ${msg.role === 'user' ? 'text-white/50 text-right' : 'text-muted-foreground text-left'}`}>
+                  {msg.timestamp}
                 </span>
-                <div className="flex items-center gap-1 ml-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce"></span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.2s]"></span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.4s]"></span>
+              </div>
+            </div>
+
+            {/* Receipt Card */}
+            {msg.type === 'receipt' && submissionResult && (
+              <div className="w-full mt-3 p-5 rounded-2xl bg-success-subtle border border-success/20 text-center space-y-3 animate-slide-up">
+                <CheckCircle2 size={32} className="text-success mx-auto" />
+
+                <div className="space-y-1">
+                  <h3 className="text-base font-black text-primary">
+                    {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'Report Received!'}
+                  </h3>
+                  <p className="text-[11px] text-muted-foreground">
+                    {lang === 'te' ? 'మా బృందం పరిశీలిస్తుంది.' : 'Our team will review your report.'}
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-card border border-border max-w-xs mx-auto space-y-1">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground block">
+                    {lang === 'te' ? 'రిఫరెన్స్ కోడ్' : 'Reference Code'}
+                  </span>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-base font-mono font-black text-primary tracking-tight">
+                      {submissionResult.referenceNumber}
+                    </span>
+                    <button onClick={copyRefCode} className="p-1 rounded-md bg-surface hover:bg-surface-2 border border-border text-muted-foreground transition cursor-pointer">
+                      {copiedRef ? <Check size={12} className="text-success" /> : <Copy size={12} />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="max-w-xs mx-auto space-y-1.5 text-left">
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block text-center">
+                    {lang === 'te' ? 'తదుపరి దశలు' : 'What Happens Next'}
+                  </span>
+                  {submissionResult.whatNext.map((st, idx) => (
+                    <div
+                      key={idx}
+                      className={`flex items-center gap-2 p-2 rounded-lg text-[11px] ${
+                        st.completed
+                          ? 'bg-success/10 text-success font-bold border border-success/20'
+                          : idx === 1
+                          ? 'bg-primary/5 text-primary font-semibold border border-primary/20'
+                          : 'text-muted-foreground bg-card border border-border'
+                      }`}
+                    >
+                      {st.completed ? (
+                        <CheckCircle2 size={13} className="text-success shrink-0" />
+                      ) : (
+                        <div className="w-3.5 h-3.5 rounded-full border border-border flex items-center justify-center text-[9px] font-bold shrink-0">{st.step}</div>
+                      )}
+                      <span>{st.title}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
-
-            <div ref={messagesEndRef} />
           </div>
+        ))}
 
-          {/* Sticky Floating Ready-To-Submit Banner */}
-          {readyToSubmit && !submissionResult && (
-            <div className="px-5 py-3 bg-emerald-50 border-t border-emerald-200/80 flex items-center justify-between gap-3 shadow-sm z-10 animate-slide-up">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse shrink-0"></span>
-                <span className="text-xs text-emerald-950 font-bold truncate">
-                  {lang === 'te' ? 'వివరాలు సిద్ధమయ్యాయి — డెస్క్‌కు సమర్పించండి' : 'Story details ready — submit to newsroom'}
-                </span>
-              </div>
-              <button
-                onClick={() => setShowConsentModal(true)}
-                className="px-4 py-2 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
-              >
-                <UserCheck size={14} />
-                <span>{lang === 'te' ? 'సమీక్షించి సమర్పించండి' : 'Review & Submit'}</span>
-                <ArrowRight size={13} />
+        {/* Typing Indicator */}
+        {isTyping && (
+          <div className="flex items-center gap-2 p-3 rounded-2xl bg-card border border-border text-muted-foreground w-fit animate-fade-in">
+            <Sparkles size={13} className="text-primary animate-spin" />
+            <span className="text-[11px] font-medium">{lang === 'te' ? 'స్పందిస్తోంది...' : 'Thinking...'}</span>
+            <div className="flex items-center gap-0.5 ml-1">
+              <span className="w-1 h-1 rounded-full bg-muted-foreground animate-bounce" />
+              <span className="w-1 h-1 rounded-full bg-muted-foreground animate-bounce [animation-delay:0.2s]" />
+              <span className="w-1 h-1 rounded-full bg-muted-foreground animate-bounce [animation-delay:0.4s]" />
+            </div>
+          </div>
+        )}
+
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Ready to Submit Banner */}
+      {readyToSubmit && !submissionResult && (
+        <div className="px-4 py-2.5 bg-success-subtle border-t border-success/20 flex items-center justify-between gap-3 z-10 animate-slide-up">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-success animate-pulse shrink-0" />
+            <span className="text-[11px] text-success font-bold truncate">
+              {lang === 'te' ? 'సిద్ధం — సమర్పించండి' : 'Ready to submit'}
+            </span>
+          </div>
+          <button
+            onClick={() => setShowConsentModal(true)}
+            className="px-3 py-1.5 bg-primary hover:bg-primary-hover text-white font-bold text-[11px] rounded-lg shadow-xs transition-all flex items-center gap-1 cursor-pointer active:scale-95 shrink-0"
+          >
+            <UserCheck size={12} />
+            <span>{lang === 'te' ? 'సమర్పించు' : 'Submit'}</span>
+            <ArrowRight size={11} />
+          </button>
+        </div>
+      )}
+
+      {/* Attached Files */}
+      {attachedFiles.length > 0 && (
+        <div className="px-3 py-2 bg-surface border-t border-border flex items-center gap-1.5 overflow-x-auto">
+          {attachedFiles.map((file, idx) => (
+            <div key={idx} className="flex items-center gap-1 px-2 py-1 rounded-lg bg-card border border-border text-[10px] text-primary shrink-0">
+              <FileText size={11} />
+              <span className="truncate max-w-[100px] font-medium">{file.name}</span>
+              <button onClick={() => setAttachedFiles((prev) => prev.filter((_, i) => i !== idx))} className="text-muted-foreground hover:text-destructive ml-0.5 cursor-pointer">
+                <Trash2 size={11} />
               </button>
             </div>
-          )}
+          ))}
+        </div>
+      )}
 
-          {/* Attached Files Preview Bar */}
-          {attachedFiles.length > 0 && (
-            <div className="px-4 py-2 bg-background border-t border-surface-3 flex items-center gap-2 overflow-x-auto">
-              {attachedFiles.map((file, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-surface-3 text-xs text-primary shrink-0 shadow-2xs"
-                >
-                  <FileText size={13} className="text-primary" />
-                  <span className="truncate max-w-[130px] font-medium">{file.name}</span>
-                  <button
-                    onClick={() => setAttachedFiles((prev) => prev.filter((_, i) => i !== idx))}
-                    className="text-slate-500 hover:text-red-500 ml-1 cursor-pointer"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                </div>
-              ))}
+      {/* Input Bar */}
+      <div className="p-3 bg-card border-t border-border shrink-0">
+        {isRecording ? (
+          <div className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-primary/[0.05] border border-primary/20 animate-fade-in">
+            <div className="flex items-center gap-2">
+              <div className="w-2.5 h-2.5 rounded-full bg-destructive animate-pulse" />
+              <span className="text-xs font-mono font-bold text-primary">{formatSeconds(recordingDuration)}</span>
+              <span className="hidden sm:inline text-[11px] text-muted-foreground">
+                {lang === 'te' ? 'మాట్లాడండి...' : 'Recording...'}
+              </span>
             </div>
-          )}
-
-          {/* Bottom Interactive Input Bar */}
-          <div className="p-3.5 sm:p-4 bg-white/95 backdrop-blur-md border-t border-surface-3 shrink-0">
-            {isRecording ? (
-              /* Voice Recording Active Bar (matching Creator Portal style) */
-              <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-primary-subtle/70 border border-border animate-fade-in">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-red animate-pulse"></div>
-                  <div className="flex items-center gap-1 h-5">
-                    <span className="w-1 bg-primary rounded-full wave-bar-1"></span>
-                    <span className="w-1 bg-primary rounded-full wave-bar-2"></span>
-                    <span className="w-1 bg-primary rounded-full wave-bar-3"></span>
-                    <span className="w-1 bg-primary rounded-full wave-bar-4"></span>
-                    <span className="w-1 bg-primary rounded-full wave-bar-5"></span>
-                  </div>
-                  <span className="text-xs font-mono font-bold text-primary">
-                    {formatSeconds(recordingDuration)}
-                  </span>
-                  <span className="hidden sm:inline text-xs text-slate-500">
-                    {lang === 'te' ? 'మీ మాటల్లో స్పష్టంగా చెప్పండి...' : 'Recording your story...'}
-                  </span>
-                </div>
-
-                <button
-                  onClick={stopRecording}
-                  className="px-4 py-2 rounded-xl bg-red hover:bg-red/90 text-white text-xs font-bold flex items-center gap-1.5 transition active:scale-95 cursor-pointer shadow-xs"
-                >
-                  <Square size={13} className="fill-white" />
-                  <span>{lang === 'te' ? 'ఆపండి & పంపండి' : 'Stop & Send'}</span>
-                </button>
-              </div>
-            ) : (
-              /* Standard Input Form */
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSendMessage();
-                }}
-                className="flex items-center gap-2 sm:gap-2.5"
-              >
-                {/* File Attachment Button */}
-                <input
-                  type="file"
-                  multiple
-                  ref={fileInputRef}
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      setAttachedFiles((prev) => [...prev, ...Array.from(e.target.files!)]);
-                    }
-                  }}
-                  className="hidden"
-                />
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="p-2.5 sm:p-3 rounded-xl bg-background hover:bg-slate-100 border border-surface-3 text-slate-600 transition shrink-0 active:scale-95 cursor-pointer"
-                  title="Attach photos or documents"
-                >
-                  <Paperclip size={16} />
-                </button>
-
-                {/* Mic CTA Button */}
-                <button
-                  type="button"
-                  onClick={startRecording}
-                  className="p-2.5 sm:p-3 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer"
-                  title="Record voice note"
-                >
-                  <Mic size={16} />
-                </button>
-
-                {/* Text input */}
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  placeholder={
-                    lang === 'te'
-                      ? 'Maa oori lo... లేదా మీ మాటల్లో రాయండి / మైక్ నొక్కండి...'
-                      : 'Type in English, Telugu, or Tenglish (e.g., Maa oori lo...)...'
-                  }
-                  className="flex-1 bg-background border border-surface-3 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-primary placeholder:text-slate-500 focus:outline-none transition"
-                />
-
-                {/* Send Button */}
-                <button
-                  type="submit"
-                  disabled={!inputValue.trim() && attachedFiles.length === 0}
-                  className="p-2.5 sm:p-3 rounded-xl bg-primary hover:bg-primary/90 disabled:opacity-40 text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer"
-                  title="Send Message"
-                >
-                  <Send size={16} />
-                </button>
-              </form>
-            )}
+            <button onClick={stopRecording} className="px-3 py-1.5 rounded-lg bg-destructive hover:bg-destructive/90 text-white text-[11px] font-bold flex items-center gap-1 transition active:scale-95 cursor-pointer">
+              <Square size={11} className="fill-white" />
+              <span>{lang === 'te' ? 'ఆపు' : 'Stop'}</span>
+            </button>
           </div>
-        </div>
+        ) : (
+          <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center gap-2">
+            <input type="file" multiple ref={fileInputRef} onChange={(e) => { if (e.target.files) setAttachedFiles((prev) => [...prev, ...Array.from(e.target.files!)]); }} className="hidden" />
+            <button type="button" onClick={() => fileInputRef.current?.click()} className="p-2.5 rounded-lg bg-surface hover:bg-surface-2 border border-border text-muted-foreground transition shrink-0 active:scale-95 cursor-pointer">
+              <Paperclip size={15} />
+            </button>
+            <button type="button" onClick={startRecording} className="p-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer">
+              <Mic size={15} />
+            </button>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder={lang === 'te' ? 'మీ మాటల్లో రాయండి...' : 'Type in English, Telugu, or Tenglish...'}
+              className="flex-1 bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg px-3 py-2.5 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none transition"
+            />
+            <button type="submit" disabled={!inputValue.trim() && attachedFiles.length === 0} className="p-2.5 rounded-lg bg-primary hover:bg-primary-hover disabled:opacity-40 text-white font-bold transition shrink-0 shadow-xs active:scale-95 cursor-pointer">
+              <Send size={15} />
+            </button>
+          </form>
+        )}
+      </div>
 
-      </main>
-
-      {/* Creator Portal Whistleblower Footer Guarantee */}
-      <footer className="mt-auto border-t border-surface-3/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
-        <div className="max-w-2xl mx-auto space-y-2">
-          <div className="flex items-center justify-center gap-2 text-primary font-semibold text-xs">
-            <ShieldCheck size={14} className="text-primary" />
-            <span>{lang === 'te' ? 'జర్నలిస్టిక్ మూలాల రక్షణ హామీ' : 'Journalistic Whistleblower & Source Protection Guarantee'}</span>
-          </div>
-          <p className="text-[11px] leading-relaxed text-slate-500">
-            {lang === 'te'
-              ? 'మీ భద్రత మరియు గోప్యత గౌరవించబడతాయి. ప్రజల హక్కుల కోసం పరిశోధనాత్మక జర్నలిస్టులకు సమాచారం చేరుతుంది. మీరు అనామకంగా ఉండడాన్ని ఎంచుకోవచ్చు.'
-              : 'Your safety and privacy are respected. Information shared here is received by accredited journalists for public-interest reporting. You retain full control over anonymity and contact preferences.'}
-          </p>
-          <div className="pt-1 text-[10px] text-slate-500">
-            {endpoint.workspaceName || 'Citizen Helpdesk'} • Protected by end-to-end data encryption
-          </div>
-        </div>
-      </footer>
-
-      {/* Review & Consent Modal (Matching Creator Portal Step 5 & 6) */}
+      {/* Consent Modal */}
       {showConsentModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/40 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="w-full max-w-lg bg-white border border-surface-3 rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto">
-            
-            <div className="flex items-center justify-between pb-3 border-b border-surface-3">
-              <div className="flex items-center gap-2 text-primary font-bold text-base">
-                <UserCheck size={18} className="text-primary" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="w-full max-w-md bg-card border border-border rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl animate-slide-up max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-2 border-b border-border">
+              <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                <UserCheck size={16} />
                 <span>{lang === 'te' ? 'వివరాలు & సమ్మతి' : 'Contact & Consent'}</span>
               </div>
-              <button
-                onClick={() => setShowConsentModal(false)}
-                className="p-1 rounded-lg text-slate-500 hover:text-primary cursor-pointer"
-              >
-                <X size={18} />
+              <button onClick={() => setShowConsentModal(false)} className="p-1 rounded-md text-muted-foreground hover:text-primary cursor-pointer">
+                <X size={16} />
               </button>
             </div>
 
-            {/* Anonymity Checkbox Box matching Creator Portal */}
-            <div className="p-4 rounded-2xl bg-background border border-surface-3 space-y-3">
+            <div className="p-3 rounded-xl bg-background border border-border space-y-3">
               <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isAnonymous}
-                  onChange={(e) => setIsAnonymous(e.target.checked)}
-                  className="mt-1 w-4 h-4 rounded text-primary border-border accent-primary"
-                />
+                <input type="checkbox" checked={isAnonymous} onChange={(e) => setIsAnonymous(e.target.checked)} className="mt-0.5 w-4 h-4 accent-primary rounded" />
                 <div>
-                  <span className="font-bold text-xs sm:text-sm text-primary block">
-                    {lang === 'te' ? 'నేను అనామకంగా ఉండాలనుకుంటున్నాను' : 'I prefer to remain anonymous'}
-                  </span>
-                  <span className="text-[11px] text-slate-500 block mt-0.5 leading-relaxed">
-                    {lang === 'te'
-                      ? 'మీ పేరు లేదా ఫోన్ నంబర్ ఎవరికీ వెల్లడించబడదు.'
-                      : 'We will not share your personal identification with authorities or the public.'}
-                  </span>
+                  <span className="font-bold text-xs text-foreground block">{lang === 'te' ? 'అనామకంగా' : 'Stay anonymous'}</span>
+                  <span className="text-[10px] text-muted-foreground block mt-0.5">{lang === 'te' ? 'మీ పేరు బహిరంగంగా ప్రస్తావించబడదు.' : 'Your name will not be shown publicly.'}</span>
                 </div>
               </label>
 
-              {/* Contact fields if not anonymous */}
               {!isAnonymous && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-surface-3 animate-fade-in">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-border animate-fade-in">
                   <div>
-                    <label className="text-[11px] font-semibold text-slate-500 block mb-1">
-                      {lang === 'te' ? 'మీ పేరు' : 'Your Name'}
-                    </label>
-                    <input
-                      type="text"
-                      placeholder={lang === 'te' ? 'పూర్తి పేరు' : 'Full Name'}
-                      value={senderName}
-                      onChange={(e) => setSenderName(e.target.value)}
-                      className="w-full rounded-xl bg-white border border-surface-3 px-3 py-2 text-xs text-primary placeholder:text-slate-500 focus:outline-none focus:border-primary"
-                    />
+                    <label className="text-[10px] font-semibold text-muted-foreground block mb-1">{lang === 'te' ? 'పేరు' : 'Name'}</label>
+                    <input type="text" placeholder="Full Name" value={senderName} onChange={(e) => setSenderName(e.target.value)} className="w-full rounded-lg bg-background border border-border px-2.5 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary" />
                   </div>
                   <div>
-                    <label className="text-[11px] font-semibold text-slate-500 block mb-1">
-                      {lang === 'te' ? 'ఫోన్ నంబర్ / WhatsApp' : 'Phone / WhatsApp'}
-                    </label>
-                    <input
-                      type="tel"
-                      placeholder={lang === 'te' ? 'నంబర్' : 'Phone Number'}
-                      value={senderPhone}
-                      onChange={(e) => setSenderPhone(e.target.value)}
-                      className="w-full rounded-xl bg-white border border-surface-3 px-3 py-2 text-xs text-primary placeholder:text-slate-500 focus:outline-none focus:border-primary"
-                    />
+                    <label className="text-[10px] font-semibold text-muted-foreground block mb-1">{lang === 'te' ? 'ఫోన్' : 'Phone'}</label>
+                    <input type="tel" placeholder="Phone Number" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)} className="w-full rounded-lg bg-background border border-border px-2.5 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary" />
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Consents matching Creator Portal Step 6 */}
-            <div className="space-y-2.5 text-xs text-slate-600">
-              <label className="flex items-start gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={consentAccuracy}
-                  onChange={(e) => setConsentAccuracy(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded text-primary accent-primary"
-                />
-                <span className="text-[11px] leading-relaxed">
-                  {lang === 'te'
-                    ? 'నేను అందించిన సమాచారం నాకు తెలిసినంత వరకు నిజమని ధృవీకరిస్తున్నాను.'
-                    : 'I confirm that the information I have provided is accurate to the best of my knowledge.'}
-                </span>
+            <div className="space-y-2 text-[11px] text-muted-foreground">
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" checked={consentAccuracy} onChange={(e) => setConsentAccuracy(e.target.checked)} className="mt-0.5 w-3.5 h-3.5 accent-primary rounded" />
+                <span className="leading-relaxed">{lang === 'te' ? 'నేను చెప్పినది నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm this information is accurate.'}</span>
               </label>
-
-              <label className="flex items-start gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={consentNoGuarantee}
-                  onChange={(e) => setConsentNoGuarantee(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded text-primary accent-primary"
-                />
-                <span className="text-[11px] leading-relaxed">
-                  {lang === 'te'
-                    ? 'ఈ నివేదికను సమర్పించడం వల్ల తప్పనిసరిగా కథ ప్రచురించబడుతుందని హామీ లేదని అర్థం చేసుకున్నాను.'
-                    : 'I understand that submitting this report does not guarantee publication.'}
-                </span>
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" checked={consentNoGuarantee} onChange={(e) => setConsentNoGuarantee(e.target.checked)} className="mt-0.5 w-3.5 h-3.5 accent-primary rounded" />
+                <span className="leading-relaxed">{lang === 'te' ? 'ప్రచురణ హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand submission does not guarantee publication.'}</span>
               </label>
             </div>
 
-            {/* Final Transmit Button */}
             <button
               onClick={handleFinalSubmit}
               disabled={submittingDossier || !consentAccuracy || !consentNoGuarantee}
-              className="w-full py-3.5 bg-primary hover:bg-primary/90 disabled:opacity-50 text-white font-bold text-sm rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              className="w-full py-3 bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-bold text-sm rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.97]"
             >
               {submittingDossier ? (
                 <>
-                  <Clock size={16} className="animate-spin" />
-                  <span>{lang === 'te' ? 'సమర్పిస్తున్నాము...' : 'Transmitting Report...'}</span>
+                  <Clock size={15} className="animate-spin" />
+                  <span>{lang === 'te' ? 'పంపుతోంది...' : 'Sending...'}</span>
                 </>
               ) : (
                 <>
-                  <ShieldCheck size={16} />
-                  <span>{lang === 'te' ? 'కథను సమర్పించండి →' : 'Submit Story →'}</span>
+                  <ShieldCheck size={15} />
+                  <span>{lang === 'te' ? 'సమర్పించండి →' : 'Submit Report →'}</span>
                 </>
               )}
             </button>
           </div>
         </div>
       )}
-
     </div>
   );
 }
