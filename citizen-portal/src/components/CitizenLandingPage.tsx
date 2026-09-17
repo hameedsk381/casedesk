@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import {
-  ShieldCheck,
+  Megaphone,
   Lock,
   Mic,
   FileText,
@@ -141,10 +141,10 @@ export function CitizenLandingPage({ endpoint }: Props) {
         <div className="max-w-5xl mx-auto flex items-center justify-between h-14 px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-lg bg-primary text-white flex items-center justify-center">
-              <ShieldCheck size={18} />
+              <Megaphone size={18} />
             </div>
             <span className="font-extrabold text-sm text-primary">
-              {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
+              {endpoint.workspaceName || endpoint.title || 'ComplainBox'}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -168,7 +168,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-12 sm:pt-20 sm:pb-20 text-center space-y-5">
           <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success-subtle border border-success/20 text-success text-xs font-bold">
-            <ShieldCheck size={13} />
+            <Megaphone size={13} />
             <span>{lang === 'te' ? '100% ఉచితం & రహస్యం' : '100% Free & Confidential'}</span>
           </div>
 
@@ -362,9 +362,9 @@ export function CitizenLandingPage({ endpoint }: Props) {
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center">
-                  <ShieldCheck size={16} />
+                  <Megaphone size={16} />
                 </div>
-                <span className="font-extrabold text-sm text-primary">{endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}</span>
+                <span className="font-extrabold text-sm text-primary">{endpoint.workspaceName || endpoint.title || 'ComplainBox'}</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
                 {lang === 'te' ? 'ప్రజా సమస్యలను పరిశీలించే, నిజాలు బయటపెట్టే ప్లాట్‌ఫామ్.' : 'A platform to investigate and expose civic issues.'}
@@ -383,7 +383,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
               <div className="space-y-1.5">
                 {[
                   { icon: Lock, text: lang === 'te' ? 'ఎండ్-టు-ఎండ్ ఎన్క్రిప్షన్' : 'End-to-end encryption' },
-                  { icon: ShieldCheck, text: lang === 'te' ? 'మూలాల రక్షణ' : 'Source protection guarantee' },
+                  { icon: Megaphone, text: lang === 'te' ? 'మూలాల రక్షణ' : 'Source protection guarantee' },
                   { icon: CheckCircle2, text: lang === 'te' ? 'స్వతంత్ర పరిశోధన' : 'Independent investigation' },
                 ].map((t, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -396,7 +396,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
           </div>
           <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-[10px] text-muted-foreground">
-              © {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}. {lang === 'te' ? 'అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.' : 'All rights reserved.'}
+              © {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'ComplainBox'}. {lang === 'te' ? 'అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.' : 'All rights reserved.'}
             </p>
             <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
               <Lock size={10} />
