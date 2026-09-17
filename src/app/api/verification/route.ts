@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
-import { unauthorized, insufficientPermissions, forbidden, notFound } from '@/lib/api/guards';
-import { caseWorkspaceId } from '@/lib/api/workspace';
+import { unauthorized, insufficientPermissions, forbidden, notFound, caseWorkspaceId } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {

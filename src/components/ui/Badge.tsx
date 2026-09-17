@@ -1,6 +1,6 @@
 import React from 'react';
 
-type BadgeVariant = 'blue' | 'success' | 'warning' | 'destructive' | 'success' | 'warning' | 'neutral';
+type BadgeVariant = 'blue' | 'success' | 'warning' | 'destructive' | 'neutral';
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -13,9 +13,7 @@ const variantStyles: Record<BadgeVariant, string> = {
   blue: 'bg-primary-subtle text-primary',
   success: 'bg-success-subtle text-success',
   warning: 'bg-warning-subtle text-warning',
-  destructive: 'bg-destructive-subtle text-red',
-  success: 'bg-success-subtle text-green',
-  warning: 'bg-warning-subtle text-yellow',
+  destructive: 'bg-destructive-subtle text-destructive',
   neutral: 'bg-surface text-muted-foreground',
 };
 
@@ -23,9 +21,7 @@ const dotStyles: Record<BadgeVariant, string> = {
   blue: 'bg-primary',
   success: 'bg-success',
   warning: 'bg-warning',
-  destructive: 'bg-red',
-  success: 'bg-green',
-  warning: 'bg-yellow',
+  destructive: 'bg-destructive',
   neutral: 'bg-secondary',
 };
 

@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 import { createContentDraft } from '@/lib/content/service';
 import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
 import prisma from '@/lib/db/prisma';
-import { unauthorized, insufficientPermissions, forbidden, notFound } from '@/lib/api/guards';
-import { caseWorkspaceId } from '@/lib/api/workspace';
+import { unauthorized, insufficientPermissions, forbidden, notFound, caseWorkspaceId } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {

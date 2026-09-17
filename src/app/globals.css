@@ -269,7 +269,8 @@
     box-shadow: var(--shadow-xs, 0 1px 2px 0 rgba(0,0,0,0.05));
   }
   .card-hover {
-    @apply card-base transition-shadow duration-200 hover:shadow-md hover:-translate-y-0.5;
+    @apply bg-card border border-border rounded-xl transition-shadow duration-200 hover:shadow-md hover:-translate-y-0.5;
+    box-shadow: var(--shadow-xs, 0 1px 2px 0 rgba(0,0,0,0.05));
   }
   .card-surface {
     background-color: hsl(var(--surface-2));
@@ -279,7 +280,12 @@
   /* Feed row */
   .feed-item {
     @apply flex gap-4 px-4 py-4 border-b border-border last:border-0
-           hover:bg-surface transition-colors press cursor-pointer;
+           hover:bg-surface transition-colors cursor-pointer;
+    transition-property: transform, background-color;
+    transition-duration: 100ms;
+  }
+  .feed-item:active {
+    transform: scale(0.97);
   }
 
   /* Tag / Pill */
