@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, hasWorkspaceAccess } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
 import { getIntakeItemById, updateIntakeReview } from '@/lib/intake/service';
+import { unauthorized, forbidden, insufficientPermissions } from '@/lib/api/guards';
 
 export async function GET(
   request: Request,
@@ -35,9 +36,8 @@ export async function PATCH(
 ) {
   try {
     const user = await getCurrentUser();
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
 
     const { id } = await params;
     const item = await getIntakeItemById(id);

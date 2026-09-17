@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUser, getAccessibleWorkspaceIds } from '@/lib/auth/permissions';
 import { listInboxMessages, createInboxMessage } from '@/lib/inbox/service';
-import prisma from '@/lib/db/prisma';
+import { unauthorized, insufficientPermissions, forbidden } from '@/lib/api/guards';
 
 export async function GET(request: Request) {
   try {
+    const user = await getCurrentUser();
+    if (!user) return unauthorized();
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || undefined;
     const channel = searchParams.get('channel') || undefined;
@@ -12,10 +15,16 @@ export async function GET(request: Request) {
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!, 10) : undefined;
     const offset = searchParams.get('offset') ? parseInt(searchParams.get('offset')!, 10) : undefined;
 
+    const accessibleWorkspaceIds = await getAccessibleWorkspaceIds(user);
+    if (accessibleWorkspaceIds.length === 0) {
+      return NextResponse.json({ messages: [], total: 0 });
+    }
+
     let workspaceId = searchParams.get('workspaceId') || undefined;
-    if (!workspaceId) {
-      const ws = await prisma.workspace.findFirst();
-      workspaceId = ws?.id;
+    if (workspaceId) {
+      if (!hasWorkspaceAccess(user, workspaceId)) return forbidden();
+    } else {
+      workspaceId = accessibleWorkspaceIds[0];
     }
 
     const result = await listInboxMessages({
@@ -36,17 +45,15 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const user = await getCurrentUser();
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
+
     const body = await request.json();
 
-    let workspaceId = body.workspaceId;
-    if (!workspaceId) {
-      const ws = await prisma.workspace.findFirst();
-      workspaceId = ws?.id;
-    }
-
-    if (!workspaceId) {
-      return NextResponse.json({ error: 'Workspace not found' }, { status: 400 });
-    }
+    const accessibleWorkspaceIds = await getAccessibleWorkspaceIds(user);
+    let workspaceId = body.workspaceId || accessibleWorkspaceIds[0];
+    if (!workspaceId || !hasWorkspaceAccess(user, workspaceId)) return forbidden();
 
     if (!body.senderName || !body.rawText) {
       return NextResponse.json({ error: 'senderName and rawText are required' }, { status: 400 });

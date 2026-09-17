@@ -3,9 +3,19 @@ import prisma from '@/lib/db/prisma';
 import { hashPassword } from '@/lib/auth/password';
 import { createSessionToken, setSessionCookie } from '@/lib/auth/session';
 import { isMailConfigured, sendWelcomeEmail } from '@/lib/mailer';
+import { rateLimit, getClientIp } from '@/lib/rateLimit';
 
 export async function POST(request: Request) {
   try {
+    // Throttle account creation: 5 signups per hour per IP
+    const rl = rateLimit(`signup:${getClientIp(request)}`, 5, 60 * 60 * 1000);
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: 'Too many signup attempts. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(rl.retryAfterSeconds) } }
+      );
+    }
+
     const { name, email, password } = await request.json();
 
     if (!name || !email || !password) {

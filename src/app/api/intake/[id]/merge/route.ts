@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
 import { mergeIntakeWithCase } from '@/lib/intake/service';
 import prisma from '@/lib/db/prisma';
+import { unauthorized, forbidden, insufficientPermissions, notFound } from '@/lib/api/guards';
 
 export async function POST(
   request: Request,
@@ -10,14 +11,19 @@ export async function POST(
   try {
     const { id } = await params;
     const user = await getCurrentUser();
-    const userId = user?.id || (await prisma.user.findFirst({ where: { role: 'OWNER' } }))?.id || '';
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
+
+    const item = await prisma.intakeItem.findUnique({ where: { id }, select: { workspaceId: true } });
+    if (!item) return notFound('Intake item');
+    if (!hasWorkspaceAccess(user, item.workspaceId)) return forbidden();
 
     const body = await request.json();
     if (!body.targetCaseId) {
       return NextResponse.json({ error: 'targetCaseId is required to merge' }, { status: 400 });
     }
 
-    const result = await mergeIntakeWithCase(id, body.targetCaseId, userId);
+    const result = await mergeIntakeWithCase(id, body.targetCaseId, user.id);
     return NextResponse.json(result);
   } catch (error: any) {
     console.error('Failed to merge intake with case:', error);

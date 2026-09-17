@@ -161,37 +161,40 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
   // Enqueue background worker for Groq Whisper transcription & Llama triage
   enqueueIntakeTriage(intakeItem.id);
 
-  // Notify the newsroom by email (never blocks or fails the submission)
+  // Notify the newsroom by email — fire-and-forget so a slow SMTP server
+  // never delays the citizen's submission response
   if (isMailConfigured()) {
-    try {
-      let recipients: string[] = [];
-      const notifyOverride = process.env.WORKSPACE_NOTIFY_EMAIL;
-      if (notifyOverride) {
-        recipients = notifyOverride.split(',').map((e) => e.trim()).filter(Boolean);
-      } else {
-        const members = await prisma.workspaceMember.findMany({
-          where: { workspaceId },
-          select: { user: { select: { email: true } } },
-          take: 10,
-        });
-        recipients = members.map((m) => m.user.email).filter(Boolean);
-      }
+    void (async () => {
+      try {
+        let recipients: string[] = [];
+        const notifyOverride = process.env.WORKSPACE_NOTIFY_EMAIL;
+        if (notifyOverride) {
+          recipients = notifyOverride.split(',').map((e) => e.trim()).filter(Boolean);
+        } else {
+          const members = await prisma.workspaceMember.findMany({
+            where: { workspaceId },
+            select: { user: { select: { email: true } } },
+            take: 10,
+          });
+          recipients = members.map((m) => m.user.email).filter(Boolean);
+        }
 
-      if (recipients.length > 0) {
-        await sendSubmissionNotification({
-          to: recipients,
-          referenceNumber,
-          category: intakeItem.aiCategory || 'General Civic Issue',
-          location: combinedLocation,
-          isAnonymous: Boolean(payload.isAnonymous),
-          senderName: payload.isAnonymous ? null : payload.senderName || null,
-          hasAttachments: (payload.files?.length || 0) > 0,
-          storyPreview: payload.story,
-        });
+        if (recipients.length > 0) {
+          await sendSubmissionNotification({
+            to: recipients,
+            referenceNumber,
+            category: intakeItem.aiCategory || 'General Civic Issue',
+            location: combinedLocation,
+            isAnonymous: Boolean(payload.isAnonymous),
+            senderName: payload.isAnonymous ? null : payload.senderName || null,
+            hasAttachments: (payload.files?.length || 0) > 0,
+            storyPreview: payload.story,
+          });
+        }
+      } catch (mailErr: any) {
+        console.error('[submissionService] Email notification failed:', mailErr?.message || mailErr);
       }
-    } catch (mailErr: any) {
-      console.error('[submissionService] Email notification failed:', mailErr?.message || mailErr);
-    }
+    })();
   }
 
   // Return immediate response with milestone tracker steps

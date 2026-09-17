@@ -86,9 +86,29 @@ export async function POST(request: Request) {
       payload.consentToPublish = (formData.get('consentToPublish') as string) || 'DISCUSS_FIRST';
 
       const files = formData.getAll('files') as File[];
+      let totalUploadSize = 0;
       if (files && files.length > 0) {
+        if (files.length > 10) {
+          return NextResponse.json(
+            { error: 'Too many files. Maximum 10 files per report.' },
+            { status: 413, headers: corsHeaders }
+          );
+        }
         for (const file of files) {
           if (file.size === 0) continue;
+          if (file.size > 10 * 1024 * 1024) {
+            return NextResponse.json(
+              { error: 'One of your files is too large. Maximum 10 MB per file.' },
+              { status: 413, headers: corsHeaders }
+            );
+          }
+          totalUploadSize += file.size;
+          if (totalUploadSize > 30 * 1024 * 1024) {
+            return NextResponse.json(
+              { error: 'Your attachments are too large. Maximum 30 MB total.' },
+              { status: 413, headers: corsHeaders }
+            );
+          }
 
           let fileType = 'DOCUMENT';
           if (file.type.startsWith('image/')) fileType = 'IMAGE';

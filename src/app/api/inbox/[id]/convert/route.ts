@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
 import { convertInboxToCase } from '@/lib/inbox/service';
 import prisma from '@/lib/db/prisma';
+import { unauthorized, insufficientPermissions, forbidden, notFound } from '@/lib/api/guards';
 
 export async function POST(
   request: Request,
@@ -10,6 +11,9 @@ export async function POST(
   try {
     const { id } = await params;
     const user = await getCurrentUser();
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'create_case')) return insufficientPermissions('create_case');
+
     let body: any = {};
     try {
       body = await request.json();
@@ -17,26 +21,15 @@ export async function POST(
       // Body might be empty for default conversion
     }
 
-    // Default workspace
-    let workspaceId = body.workspaceId;
-    if (!workspaceId) {
-      const message = await prisma.inboxMessage.findUnique({ where: { id }, select: { workspaceId: true } });
-      workspaceId = message?.workspaceId;
-    }
-    if (!workspaceId) {
-      const ws = await prisma.workspace.findFirst();
-      workspaceId = ws?.id;
-    }
+    const message = await prisma.inboxMessage.findUnique({ where: { id }, select: { workspaceId: true } });
+    if (!message) return notFound('Message');
 
-    const userId = user?.id || (await prisma.user.findFirst({ where: { role: 'OWNER' } }))?.id;
-
-    if (!userId || !workspaceId) {
-      return NextResponse.json({ error: 'Workspace or User not initialized' }, { status: 400 });
-    }
+    const workspaceId = body.workspaceId || message.workspaceId;
+    if (!hasWorkspaceAccess(user, workspaceId)) return forbidden();
 
     const newCase = await convertInboxToCase({
       messageId: id,
-      userId,
+      userId: user.id,
       workspaceId,
       title: body.title,
       category: body.category,

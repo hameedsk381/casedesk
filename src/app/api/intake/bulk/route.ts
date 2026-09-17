@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, canUser } from '@/lib/auth/permissions';
 import { bulkArchiveIntake, bulkAssignIntake, bulkMarkReviewed } from '@/lib/intake/service';
-import prisma from '@/lib/db/prisma';
+import { unauthorized, insufficientPermissions } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
-    const userId = user?.id || (await prisma.user.findFirst({ where: { role: 'OWNER' } }))?.id || '';
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
 
     const body = await request.json();
     const { action, ids, reason, assignedToId } = body;
@@ -16,16 +17,16 @@ export async function POST(request: Request) {
     }
 
     if (action === 'ARCHIVE') {
-      const result = await bulkArchiveIntake(ids, reason || 'OTHER', userId);
+      const result = await bulkArchiveIntake(ids, reason || 'OTHER', user.id);
       return NextResponse.json({ success: true, count: result.count });
     } else if (action === 'ASSIGN') {
       if (!assignedToId) {
         return NextResponse.json({ error: 'assignedToId is required for ASSIGN action' }, { status: 400 });
       }
-      const result = await bulkAssignIntake(ids, assignedToId, userId);
+      const result = await bulkAssignIntake(ids, assignedToId, user.id);
       return NextResponse.json({ success: true, count: result.count });
     } else if (action === 'MARK_REVIEWED') {
-      const result = await bulkMarkReviewed(ids, userId);
+      const result = await bulkMarkReviewed(ids, user.id);
       return NextResponse.json({ success: true, count: result.count });
     } else {
       return NextResponse.json({ error: `Unknown action: ${action}` }, { status: 400 });

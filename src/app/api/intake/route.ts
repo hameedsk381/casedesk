@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, hasWorkspaceAccess, getAccessibleWorkspaceIds } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, getAccessibleWorkspaceIds, canUser } from '@/lib/auth/permissions';
 import { listIntakeItems, createIntakeItem } from '@/lib/intake/service';
+import { unauthorized, forbidden, insufficientPermissions } from '@/lib/api/guards';
 
 export async function GET(request: Request) {
   try {
@@ -57,9 +58,8 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
 
     const body = await request.json();
 

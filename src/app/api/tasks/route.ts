@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import { createInvestigationTask } from '@/lib/investigation/service';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, canUser, hasWorkspaceAccess } from '@/lib/auth/permissions';
+import { unauthorized, insufficientPermissions, caseWorkspaceId, forbidden, notFound } from '@/lib/api/guards';
 
 export async function GET(request: Request) {
   try {
@@ -42,12 +43,14 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
+
     const body = await request.json();
 
-    const createdById = user?.id || (await prisma.user.findFirst())?.id;
-    if (!createdById) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const wsId = await caseWorkspaceId(body.caseId);
+    if (!wsId) return notFound('Case');
+    if (!hasWorkspaceAccess(user, wsId)) return forbidden();
 
     const task = await createInvestigationTask({
       caseId: body.caseId,
@@ -56,7 +59,7 @@ export async function POST(request: Request) {
       priority: body.priority,
       assignedToId: body.assignedToId || null,
       dueDate: body.dueDate ? new Date(body.dueDate) : undefined,
-      createdById,
+      createdById: user.id,
     });
 
     return NextResponse.json(task);

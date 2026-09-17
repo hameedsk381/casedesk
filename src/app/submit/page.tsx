@@ -1,28 +1,9 @@
-import React from 'react';
-import CitizenSubmissionPortal from '@/components/public/CitizenSubmissionPortal';
-import { getSubmissionEndpoint } from '@/lib/intake/submissionService';
+import { redirect } from 'next/navigation';
+
+const PORTAL_URL = process.env.NEXT_PUBLIC_CITIZEN_PORTAL_URL || 'http://localhost:3001';
 
 export const dynamic = 'force-dynamic';
 
-export default async function SubmitPage() {
-  let endpointData: any = undefined;
-  try {
-    const endpoint = await getSubmissionEndpoint();
-    if (endpoint) {
-      endpointData = {
-        slug: endpoint.slug,
-        title: endpoint.title,
-        description: endpoint.description,
-        requireContact: endpoint.requireContact,
-        allowAnonymous: endpoint.allowAnonymous,
-        allowVoice: endpoint.allowVoice,
-        allowAttachments: endpoint.allowAttachments,
-        workspaceName: endpoint.workspace?.name,
-      };
-    }
-  } catch (err) {
-    console.error('Failed to load default endpoint:', err);
-  }
-
-  return <CitizenSubmissionPortal endpoint={endpointData} />;
+export default function SubmitPage() {
+  redirect(PORTAL_URL);
 }

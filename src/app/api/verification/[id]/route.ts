@@ -1,21 +1,32 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { unauthorized, insufficientPermissions, forbidden, notFound } from '@/lib/api/guards';
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
     const user = await getCurrentUser();
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_investigation')) return insufficientPermissions('edit_investigation');
+
+    const { id } = await params;
+    const item = await prisma.verificationItem.findUnique({
+      where: { id },
+      select: { case: { select: { workspaceId: true } } },
+    });
+    if (!item) return notFound('Verification item');
+    if (!hasWorkspaceAccess(user, item.case.workspaceId)) return forbidden();
+
     const body = await request.json();
 
     const updated = await prisma.verificationItem.update({
       where: { id },
       data: {
         ...body,
-        verifiedById: body.status === 'VERIFIED' ? user?.id : (body.status ? null : undefined),
+        verifiedById: body.status === 'VERIFIED' ? user.id : (body.status ? null : undefined),
         verifiedAt: body.status === 'VERIFIED' ? new Date() : (body.status ? null : undefined),
       },
       include: {
@@ -36,7 +47,18 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await getCurrentUser();
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_investigation')) return insufficientPermissions('edit_investigation');
+
     const { id } = await params;
+    const item = await prisma.verificationItem.findUnique({
+      where: { id },
+      select: { case: { select: { workspaceId: true } } },
+    });
+    if (!item) return notFound('Verification item');
+    if (!hasWorkspaceAccess(user, item.case.workspaceId)) return forbidden();
+
     await prisma.verificationItem.delete({ where: { id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {

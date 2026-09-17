@@ -1,18 +1,14 @@
 import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/permissions';
 import { getUserNotifications, markNotificationAsRead, markAllNotificationsAsRead } from '@/lib/notifications/service';
-import prisma from '@/lib/db/prisma';
+import { unauthorized } from '@/lib/api/guards';
 
 export async function GET() {
   try {
     const user = await getCurrentUser();
-    const userId = user?.id || (await prisma.user.findFirst())?.id;
+    if (!user) return unauthorized();
 
-    if (!userId) {
-      return NextResponse.json({ notifications: [] });
-    }
-
-    const notifications = await getUserNotifications(userId);
+    const notifications = await getUserNotifications(user.id);
     return NextResponse.json({ notifications });
   } catch (error: any) {
     return NextResponse.json({ error: 'Failed to fetch notifications' }, { status: 500 });
@@ -22,15 +18,17 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
+    if (!user) return unauthorized();
+
     const body = await request.json();
 
-    if (body.markAll && user?.id) {
+    if (body.markAll) {
       await markAllNotificationsAsRead(user.id);
       return NextResponse.json({ success: true });
     }
 
     if (body.id) {
-      await markNotificationAsRead(body.id);
+      await markNotificationAsRead(body.id, user.id);
       return NextResponse.json({ success: true });
     }
 

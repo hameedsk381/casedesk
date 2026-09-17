@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { getAIProvider } from '@/lib/ai';
+import { getCurrentUser, canUser } from '@/lib/auth/permissions';
+import { unauthorized, insufficientPermissions } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {
+    const user = await getCurrentUser();
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
+
     const { message } = await request.json();
 
     if (!message || message.trim() === '') {

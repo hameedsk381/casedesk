@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
 import { createCaseFromIntake } from '@/lib/intake/service';
 import prisma from '@/lib/db/prisma';
+import { unauthorized, forbidden, insufficientPermissions, notFound } from '@/lib/api/guards';
 
 export async function POST(
   request: Request,
@@ -10,7 +11,12 @@ export async function POST(
   try {
     const { id } = await params;
     const user = await getCurrentUser();
-    const userId = user?.id || (await prisma.user.findFirst({ where: { role: 'OWNER' } }))?.id || '';
+    if (!user) return unauthorized();
+    if (!canUser(user.role, 'create_case')) return insufficientPermissions('create_case');
+
+    const item = await prisma.intakeItem.findUnique({ where: { id }, select: { workspaceId: true } });
+    if (!item) return notFound('Intake item');
+    if (!hasWorkspaceAccess(user, item.workspaceId)) return forbidden();
 
     let body: any = {};
     try {
@@ -19,7 +25,7 @@ export async function POST(
       // Body may be empty
     }
 
-    const newCase = await createCaseFromIntake(id, userId, body);
+    const newCase = await createCaseFromIntake(id, user.id, body);
     return NextResponse.json(newCase, { status: 201 });
   } catch (error: any) {
     console.error('Failed to create case from intake:', error);

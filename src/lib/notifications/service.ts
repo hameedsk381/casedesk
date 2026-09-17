@@ -8,9 +8,9 @@ export async function getUserNotifications(userId: string) {
   });
 }
 
-export async function markNotificationAsRead(id: string) {
-  return prisma.notification.update({
-    where: { id },
+export async function markNotificationAsRead(id: string, userId: string) {
+  return prisma.notification.updateMany({
+    where: { id, userId },
     data: { read: true },
   });
 }
