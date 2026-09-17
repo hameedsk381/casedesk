@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/permissions';
 import AppShell from '@/components/app/AppShell';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Investigation Workspace — CaseDesk',
   description: 'CaseDesk Operational Investigation Desk',

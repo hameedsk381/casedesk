@@ -66,7 +66,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
             ← {lang === 'te' ? 'హోమ్ పేజీకి వెళ్ళండి' : 'Back to Home'}
           </button>
           <span className="text-slate-300 text-[11px]">
-            {lang === 'te' ? 'రహస్య ఫిర్యాదుల విభాగం' : 'Confidential Public Helpdesk'}
+            {lang === 'te' ? 'గోప్య సహాయ కేంద్రం' : 'Private & Confidential'}
           </span>
         </div>
         <div className="flex-1">
@@ -104,8 +104,8 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
           ref: code,
           message:
             lang === 'te'
-              ? 'ఈ నంబర్‌తో ఎలాంటి ఫిర్యాదు కనుగొనబడలేదు. దయచేసి సరైన రిఫరెన్స్ కోడ్ నమోదు చేయండి.'
-              : errData.error || 'No report found matching this tracking reference number.',
+              ? 'ఈ కోడ్‌తో ఫిర్యాదు కనిపించలేదు. సరైన కోడ్ వేయండి.'
+              : errData.error || 'No report found with this code.',
         });
       }
     } catch {
@@ -114,8 +114,8 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
         ref: code,
         message:
           lang === 'te'
-            ? 'పరిస్థితి తనిఖీ చేయడంలో నెట్‌వర్క్ సమస్య ఏర్పడింది. కాసేపటి తర్వాత ప్రయత్నించండి.'
-            : 'Unable to connect to status service. Please check your network.',
+            ? 'నెట్‌వర్క్ సమస్య. కాసేపటి తర్వాత ప్రయత్నించండి.'
+            : 'Unable to connect. Please try again later.',
       });
     } finally {
       setIsSearching(false);
@@ -126,26 +126,26 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
     {
       icon: HeartPulse,
       color: 'text-rose-600 bg-rose-50',
-      title: lang === 'te' ? 'వైద్యం & ఆసుపత్రులు' : 'Hospitals & Healthcare',
-      desc: lang === 'te' ? 'డాక్టర్లు లేకపోవడం, మందుల కొరత, నిర్లక్ష్యం.' : 'No doctors, medicine shortage, poor medical care.',
+      title: lang === 'te' ? 'ఆసుపత్రులు & వైద్యం' : 'Hospitals & Health',
+      desc: lang === 'te' ? 'డాక్టర్లు లేరు, మందులు లేవు, సరైన వైద్యం అందడం లేదు.' : 'No doctors, missing medicines, poor treatment.',
     },
     {
       icon: Droplets,
       color: 'text-sky-600 bg-sky-50',
-      title: lang === 'te' ? 'రోడ్లు & తాగునీరు' : 'Roads & Drinking Water',
-      desc: lang === 'te' ? 'గుంతల రోడ్లు, తాగునీటి సమస్య, మురుగు కాలువలు.' : 'Broken roads, contaminated water, dirty drains.',
+      title: lang === 'te' ? 'రోడ్లు & తాగునీరు' : 'Roads & Water',
+      desc: lang === 'te' ? 'గుంతల రోడ్లు, తాగునీటి సమస్య, మురుగు కాలువలు.' : 'Potholes, dirty water, bad drainage.',
     },
     {
       icon: Users,
       color: 'text-amber-600 bg-amber-50',
-      title: lang === 'te' ? 'ఫించన్లు & రేషన్' : 'Pensions & Ration Schemes',
-      desc: lang === 'te' ? 'రావాల్సిన పథకాలు రాకపోవడం, అర్హులను తొలగించడం.' : 'Delayed pensions, ration issues, welfare siphoning.',
+      title: lang === 'te' ? 'ఫించన్లు & రేషన్' : 'Pensions & Ration',
+      desc: lang === 'te' ? 'ఫించన్ రావడం లేదు, రేషన్ కార్డు సమస్యలు.' : 'Pension not coming, ration card issues.',
     },
     {
       icon: Scale,
       color: 'text-emerald-600 bg-emerald-50',
       title: lang === 'te' ? 'లంచాలు & అవినీతి' : 'Bribes & Corruption',
-      desc: lang === 'te' ? 'ప్రభుత్వ పనులకు అధికారులు లంచం డిమాండ్ చేయడం.' : 'Officials demanding bribes for public certificates or work.',
+      desc: lang === 'te' ? 'ప్రభుత్వ పనులకు లంచం అడగడం.' : 'Officials asking bribes for govt work.',
     },
   ];
 
@@ -235,24 +235,24 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
 
           {/* MAIN BIG ACTION BUTTON */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
-            <button
-              onClick={() => setView('submit_hub')}
-              className="w-full sm:w-auto px-8 py-4 bg-navy hover:bg-navy/90 text-white font-black text-sm sm:text-base rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-95"
-            >
-              <Mic size={18} className="text-electric-blue" />
-              <span>{lang === 'te' ? 'సమస్యను చెప్పండి (వాయిస్ / మెసేజ్) →' : 'Report an Issue (Voice or Text) →'}</span>
-            </button>
+          <button
+            onClick={() => setView('submit_hub')}
+            className="w-full sm:w-auto px-8 py-4 bg-navy hover:bg-navy/90 text-white font-black text-sm sm:text-base rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-95"
+          >
+            <Mic size={18} className="text-electric-blue" />
+            <span>{lang === 'te' ? 'మీ సమస్య చెప్పండి →' : 'Tell Us What Happened →'}</span>
+          </button>
           </div>
 
           {/* 4 SIMPLE REASSURANCES */}
           <div className="pt-4 flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 size={15} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'మీ పేరు ఎవరికీ చెప్పము' : 'Keep name 100% private'}</span>
+              <span>{lang === 'te' ? 'మీ పేరు దాగి ఉంటుంది' : 'Your name stays hidden'}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 size={15} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'నోటి మాటతో చెప్పవచ్చు' : 'Speak via voice note'}</span>
+              <span>{lang === 'te' ? 'మైక్ నొక్కి చెప్పవచ్చు' : 'Just speak into the mic'}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 size={15} className="text-emerald-600" />
@@ -260,7 +260,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 size={15} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'రిపోర్టర్లు పరిశీలిస్తారు' : 'Reporters follow up'}</span>
+              <span>{lang === 'te' ? 'మా టీమ్ పరిశీలిస్తుంది' : 'We investigate & follow up'}</span>
             </div>
           </div>
 
@@ -376,7 +376,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
       <section className="px-4 py-8 max-w-3xl mx-auto w-full">
         <div className="text-center mb-6">
           <h2 className="text-base sm:text-lg font-bold text-navy">
-            {lang === 'te' ? 'మీ ఫిర్యాదు తర్వాత ఏం జరుగుతుంది?' : 'How does it work?'}
+            {lang === 'te' ? 'మీ ఫిర్యాదు తర్వాత ఏం జరుగుతుంది?' : 'What happens after you report?'}
           </h2>
         </div>
 
@@ -386,10 +386,10 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
               1
             </div>
             <h3 className="font-bold text-xs text-navy">
-              {lang === 'te' ? 'మీరు చెబుతారు' : '1. You Report'}
+              {lang === 'te' ? 'మీరు చెబుతారు' : '1. You Tell Us'}
             </h3>
             <p className="text-[11px] text-slate-500 leading-snug">
-              {lang === 'te' ? 'వాయిస్ లేదా ఫారమ్ ద్వారా మీ సమస్యను మాకు అందిస్తారు.' : 'Tell what happened via voice or text safely.'}
+              {lang === 'te' ? 'వాయిస్ లేదా టైప్ చేసి మీ సమస్య చెప్పండి.' : 'Speak or type what happened.'}
             </p>
           </div>
 
@@ -398,10 +398,10 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
               2
             </div>
             <h3 className="font-bold text-xs text-navy">
-              {lang === 'te' ? 'జర్నలిస్టులు పరిశీలిస్తారు' : '2. Reporters Check'}
+              {lang === 'te' ? 'మేము పరిశీలిస్తాము' : '2. We Investigate'}
             </h3>
             <p className="text-[11px] text-slate-500 leading-snug">
-              {lang === 'te' ? 'మా రిపోర్టర్లు వాస్తవాలను, సాక్ష్యాలను నిర్ధారిస్తారు.' : 'Journalists verify facts and ground situation.'}
+              {lang === 'te' ? 'మా రిపోర్టర్లు నిజం చేసి చూస్తారు.' : 'Our reporters check the facts.'}
             </p>
           </div>
 
@@ -410,10 +410,10 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
               3
             </div>
             <h3 className="font-bold text-xs text-navy">
-              {lang === 'te' ? 'అధికారులను ప్రశ్నిస్తారు' : '3. Action Taken'}
+              {lang === 'te' ? 'సమస్య పరిష్కారం' : '3. Problem Solved'}
             </h3>
             <p className="text-[11px] text-slate-500 leading-snug">
-              {lang === 'te' ? 'పరిష్కారం కోసం అధికారుల వివరణ కోరి ప్రశ్నిస్తారు.' : 'Authorities are questioned to resolve the issue.'}
+              {lang === 'te' ? 'అధికారులను ప్రశ్నించి పరిష్కారం కోరతారు.' : 'Authorities are questioned to fix it.'}
             </p>
           </div>
         </div>
@@ -423,18 +423,18 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
       <section className="px-4 py-8 max-w-3xl mx-auto w-full text-center">
         <div className="p-6 sm:p-8 rounded-3xl bg-navy text-white space-y-4 shadow-md">
           <h2 className="text-lg sm:text-2xl font-black">
-            {lang === 'te' ? 'సమస్యను దాచవద్దు. ధైర్యంగా చెప్పండి.' : 'Do not stay silent. Report your problem.'}
+            {lang === 'te' ? 'సమస్యను దాచవద్దు. ధైర్యంగా చెప్పండి.' : 'Don\'t stay silent. Tell us what\'s wrong.'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
             {lang === 'te'
               ? 'మీ పేరు ఎవరికీ చెప్పము. పూర్తిగా ఉచితం మరియు సురక్షితం.'
-              : 'Your identity is strictly confidential. Free and secure.'}
+              : 'Your identity is protected. Completely free and safe.'}
           </p>
           <button
             onClick={() => setView('submit_hub')}
             className="px-8 py-3.5 bg-electric-blue hover:bg-electric-blue-dark text-white font-bold text-xs sm:text-sm rounded-2xl shadow-sm transition active:scale-95 cursor-pointer"
           >
-            {lang === 'te' ? 'ఇప్పుడే సమస్యను నమోదు చేయండి →' : 'Submit Your Report Now →'}
+            {lang === 'te' ? 'ఇప్పుడే చెప్పండి →' : 'Report Now →'}
           </button>
         </div>
       </section>
@@ -444,12 +444,12 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
         <div className="max-w-xl mx-auto space-y-2">
           <div className="flex items-center justify-center gap-1.5 font-bold text-navy text-xs">
             <Lock size={13} className="text-emerald-600" />
-            <span>{lang === 'te' ? 'మీ సమాచారం పూర్తిగా గోప్యంగా ఉంటుంది' : 'Your Information Is Kept Strictly Confidential'}</span>
+            <span>{lang === 'te' ? 'మీ సమాచారం పూర్తిగా గోప్యంగా ఉంటుంది' : 'Your Information Is Safe With Us'}</span>
           </div>
           <p className="text-[11px] text-slate-400">
             {lang === 'te'
               ? 'మీరు అనామకంగా ఉండాలనుకుంటే మీ పేరు లేదా ఫోన్ నంబర్ ఏ అధికారిక సంస్థకూ ఇవ్వబడదు.'
-              : 'If you choose to be anonymous, your identity will never be shared with any authority.'}
+              : 'If you choose to stay anonymous, your name and phone number are never shared.'}
           </p>
         </div>
       </footer>
@@ -462,7 +462,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
             <div className="flex items-center justify-between pb-2 border-b border-border-light">
               <div className="flex items-center gap-2 text-navy font-bold text-sm">
                 <Search size={16} className="text-electric-blue" />
-                <span>{lang === 'te' ? 'ఫిర్యాదు స్థితిని చూడండి' : 'Check Report Status'}</span>
+                <span>{lang === 'te' ? 'ఫిర్యాదు స్థితి చూడండి' : 'Check Report Status'}</span>
               </div>
               <button
                 onClick={() => {
@@ -480,8 +480,8 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
               <form onSubmit={handleTrackSubmit} className="space-y-3">
                 <p className="text-xs text-slate-600">
                   {lang === 'te'
-                    ? 'మీకు వచ్చిన రిఫరెన్స్ కోడ్‌ను (ఉదా. CD-IN-2026-00005) ఇక్కడ రాయండి:'
-                    : 'Enter the reference code you received (e.g. CD-IN-2026-00005):'}
+                    ? 'మీకు వచ్చిన కోడ్ ఇక్కడ టైప్ చేయండి (ఉదా: CD-IN-2026-00005):'
+                    : 'Enter the code you received (e.g. CD-IN-2026-00005):'}
                 </p>
 
                 <input
@@ -507,10 +507,12 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
               <div className="space-y-3 animate-fade-in">
                 <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-center">
                   <span className="text-[10px] font-bold text-rose-800 uppercase block">
-                    {lang === 'te' ? 'ఫిర్యాదు కనుగొనబడలేదు' : 'Report Not Found'}
+                    {lang === 'te' ? 'ఫిర్యాదు కనిపించలేదు' : 'Report Not Found'}
                   </span>
                   <div className="text-xs font-semibold text-rose-950 mt-1">
-                    {lookupResult.message}
+                    {lang === 'te'
+                      ? 'ఈ కోడ్‌తో ఫిర్యాదు కనిపించలేదు. సరైన కోడ్ వేయండి.'
+                      : lookupResult.message}
                   </div>
                   <div className="text-[10px] font-mono text-rose-700 mt-1 font-bold">
                     {lookupResult.ref}

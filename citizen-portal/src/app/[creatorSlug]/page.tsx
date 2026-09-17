@@ -33,16 +33,16 @@ export default async function CreatorPortalPage({
         <div className="w-12 h-12 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center mx-auto text-xl font-bold">
           !
         </div>
-        <h1 className="text-xl font-bold text-navy">Citizen Portal Unavailable</h1>
+        <h1 className="text-xl font-bold text-navy">Helpdesk Unavailable</h1>
         <p className="text-sm text-slate-500">
-          The requested desk or creator channel (<span className="font-mono text-slate-700">{creatorSlug}</span>) could not be found or is currently paused.
+          This helpdesk (<span className="font-mono text-slate-700">{creatorSlug}</span>) could not be found or is currently paused.
         </p>
         <div className="pt-2">
           <Link
             href="/"
             className="inline-block px-4 py-2 rounded-xl bg-navy hover:bg-navy/90 text-white text-xs font-medium transition"
           >
-            Go to Default Story Portal
+            Go to Default Helpdesk
           </Link>
         </div>
       </div>

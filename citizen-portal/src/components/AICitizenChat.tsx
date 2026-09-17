@@ -133,24 +133,24 @@ export function AICitizenChat({
   // Common Issue Categories (aligned with CaseDesk creator portal categories)
   const categoryChips = [
     {
-      label: lang === 'te' ? 'వైద్యం & ఆసుపత్రులు' : 'Healthcare & Hospitals',
-      desc: lang === 'te' ? 'Hospital lo doctors leru / మందుల కొరత' : 'Doctor shortage or medical negligence',
-      prompt: lang === 'te' ? 'మా ప్రాంతంలోని ప్రభుత్వ ఆసుపత్రిలో అత్యవసర మందులు మరియు వైద్యులు అందుబాటులో లేక రోగులు ఇబ్బంది పడుతున్నారు.' : 'There is a severe lack of doctors and emergency supplies at our local hospital.'
+      label: lang === 'te' ? 'ఆసుపత్రి & వైద్యం' : 'Hospitals & Health',
+      desc: lang === 'te' ? 'డాక్టర్లు లేరు, మందులు లేవు' : 'No doctors, missing medicines',
+      prompt: lang === 'te' ? 'మా ప్రాంతంలోని ప్రభుత్వ ఆసుపత్రిలో డాక్టర్లు మరియు మందులు అందుబాటులో లేక రోగులు ఇబ్బంది పడుతున్నారు.' : 'Our local hospital has no doctors and essential medicines are missing.'
     },
     {
-      label: lang === 'te' ? 'రహదారులు & తాగునీరు' : 'Roads & Civic Infrastructure',
-      desc: lang === 'te' ? 'Roads damage / Water ravatledu' : 'Broken roads, drinking water crisis',
-      prompt: lang === 'te' ? 'గత 6 నెలలుగా మా ప్రాంతంలో సురక్షిత తాగునీరు రావడం లేదు, ప్రధాన రహదారి మొత్తం గోతులతో ప్రమాదకరంగా మారింది.' : 'No safe drinking water supply for months and the main road is completely unmotorable.'
+      label: lang === 'te' ? 'రోడ్లు & తాగునీరు' : 'Roads & Water',
+      desc: lang === 'te' ? 'గుంతల రోడ్లు, నీటి సమస్య' : 'Potholes, water crisis',
+      prompt: lang === 'te' ? 'గత నెలలుగా మా ప్రాంతంలో సురక్షిత తాగునీరు రావడం లేదు, రోడ్లు గోతులతో ప్రమాదకరంగా ఉన్నాయి.' : 'No safe drinking water for months and the roads are full of potholes.'
     },
     {
-      label: lang === 'te' ? 'ప్రభుత్వ సేవలు & సంక్షేమం' : 'Government Services & Welfare',
-      desc: lang === 'te' ? 'Pension delays / పథకాల నిలిపివేత' : 'Pension delays, welfare fund siphoning',
-      prompt: lang === 'te' ? 'ప్రభుత్వ సంక్షేమ పథకాలు మరియు పెన్షన్లు అర్హులైన పేదలకు అందకుండా నిలిపివేశారు.' : 'Welfare entitlements and eligible social security benefits are being blocked or delayed.'
+      label: lang === 'te' ? 'ఫించన్లు & సంక్షేమం' : 'Pensions & Welfare',
+      desc: lang === 'te' ? 'ఫించన్ రావడం లేదు, పథకాలు ఆగాయి' : 'Pension delays, schemes blocked',
+      prompt: lang === 'te' ? 'ప్రభుత్వ సంక్షేమ పథకాలు మరియు పెన్షన్లు అర్హులైన పేదలకు అందడం లేదు.' : 'Government welfare schemes and pensions are not reaching eligible people.'
     },
     {
-      label: lang === 'te' ? 'అవినీతి & లంచాలు' : 'Corruption & Bribery',
-      desc: lang === 'te' ? 'Bribe adugutunnaru / లంచాలు' : 'Bribes demanded for public service',
-      prompt: lang === 'te' ? 'ప్రభుత్వ సేవలు లేదా డాక్యుమెంట్ల కోసం అధికారులు నిబంధనలకు విరుద్ధంగా లంచాలు డిమాండ్ చేస్తున్నారు.' : 'Officials are demanding illegal bribes to process citizen certificates and applications.'
+      label: lang === 'te' ? 'లంచాలు & అవినీతి' : 'Bribes & Corruption',
+      desc: lang === 'te' ? 'అధికారులు లంచం అడగడం' : 'Officials demanding bribes',
+      prompt: lang === 'te' ? 'ప్రభుత్వ సేవలు లేదా డాక్యుమెంట్ల కోసం అధికారులు లంచాలు డిమాండ్ చేస్తున్నారు.' : 'Officials are demanding bribes to process govt documents and applications.'
     },
   ];
 
@@ -229,7 +229,7 @@ export function AICitizenChat({
         const userAudioMsg: ChatMessage = {
           id: audioMsgId,
           role: 'user',
-          content: lang === 'te' ? '🎙️ వాయిస్ సందేశం (ట్రాన్స్‌క్రిప్షన్ ప్రాసెస్ అవుతోంది...)' : '🎙️ Voice note (Transcribing...)',
+          content: lang === 'te' ? '🎙️ వాయిస్ (ట్రాన్స్‌క్రిప్షన్ అవుతోంది...)' : '🎙️ Voice note (Transcribing...)',
           type: 'voice',
           audioBlob,
           audioDuration: recordingDuration,
@@ -308,7 +308,7 @@ export function AICitizenChat({
       }, 1000);
     } catch (err) {
       console.error('Microphone error:', err);
-      alert(lang === 'te' ? 'మైక్రోఫోన్ అనుమతి లభించలేదు.' : 'Microphone access denied. Please allow microphone permissions.');
+      alert(lang === 'te' ? 'మైక్రోఫోన్ అనుమతి లభించలేదు. దయచేసి అనుమతి ఇవ్వండి.' : 'Microphone access denied. Please allow microphone access.');
     }
   };
 
@@ -375,7 +375,7 @@ export function AICitizenChat({
         {
           id: 'receipt',
           role: 'assistant',
-          content: lang === 'te' ? 'మీ కథన వివరాలు విచారణ డెస్క్‌కు విజయవంతంగా చేరాయి!' : 'Your report has been successfully transmitted to the investigative desk!',
+          content: lang === 'te' ? 'మీ ఫిర్యాదు విజయవంతంగా పంపబడింది!' : 'Your report has been sent successfully!',
           type: 'receipt',
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
@@ -434,16 +434,16 @@ export function AICitizenChat({
               <button
                 onClick={onSwitchToForm}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-navy text-xs font-bold transition cursor-pointer border border-border-light shadow-2xs"
-                title={lang === 'te' ? 'దశల వారీ ఫారమ్‌కు మారండి' : 'Switch to Step-by-Step Form'}
+                title={lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill a Form Instead'}
               >
                 <FileText size={13} className="text-electric-blue" />
-                <span className="hidden sm:inline">{lang === 'te' ? 'ఫారమ్‌కు మారండి' : 'Switch to Form'}</span>
+                <span className="hidden sm:inline">{lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill a Form Instead'}</span>
               </button>
             )}
 
             <div className="hidden sm:flex items-center gap-1.5 font-medium px-2.5 py-1 rounded-full bg-slate-100/80 border border-slate-200/60">
               <Lock size={12} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'ఎన్‌క్రిప్టెడ్ & గోప్యమైనది' : 'Encrypted & Confidential'}</span>
+              <span>{lang === 'te' ? 'గోప్యం & భద్రం' : 'Private & Secure'}</span>
             </div>
 
             {/* Multilingual Switcher matching creator portal */}
@@ -484,12 +484,12 @@ export function AICitizenChat({
                   onClick={onBackToSelect}
                   className="text-xs font-semibold text-slate-500 hover:text-navy mr-1 cursor-pointer flex items-center gap-1"
                 >
-                  ← <span className="hidden sm:inline">{lang === 'te' ? 'ఎంపికలు' : 'Options'}</span>
+                  ← <span className="hidden sm:inline">{lang === 'te' ? 'వెనుకకు' : 'Back'}</span>
                 </button>
               )}
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
               <span className="text-xs font-bold text-navy">
-                {lang === 'te' ? 'పరిశోధనా సహాయకుడు' : 'Investigative Assistant'}
+                {lang === 'te' ? 'సహాయకుడు' : 'AI Assistant'}
               </span>
               <span className="text-[10px] text-slate-400">• Online</span>
               <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-50 text-navy border border-blue-100 text-[10px] font-bold ml-1">
@@ -519,7 +519,7 @@ export function AICitizenChat({
                   </div>
 
                   <h1 className="text-xl sm:text-2xl font-black tracking-tight text-navy leading-snug">
-                    {lang === 'te' ? 'మీ ప్రాంతంలో ప్రజా సమస్య ఉందా?' : 'Have an issue that deserves attention?'}
+                    {lang === 'te' ? 'మీ ఏరియాలో ఏదైనా సమస్య ఉందా?' : 'Got a problem that needs attention?'}
                   </h1>
 
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -535,12 +535,12 @@ export function AICitizenChat({
                       className="px-6 py-3 bg-navy hover:bg-navy/90 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                     >
                       <Mic size={16} />
-                      <span>{lang === 'te' ? 'వాయిస్ సందేశం రికార్డ్ చేయండి' : 'Record / Speak Voice Note'}</span>
+                      <span>{lang === 'te' ? 'మైక్ నొక్కి మాట్లాడండి' : 'Tap Mic to Speak'}</span>
                     </button>
 
                     <div className="flex items-center justify-center gap-1.5 text-xs text-slate-500">
                       <Lock size={13} className="text-emerald-600" />
-                      <span>{lang === 'te' ? '100% గోప్యమైనది & అనామకం' : '100% Confidential & Anonymous'}</span>
+                      <span>{lang === 'te' ? '100% గోప్యం & భద్రం' : '100% Private & Safe'}</span>
                     </div>
                   </div>
                 </div>
@@ -548,7 +548,7 @@ export function AICitizenChat({
                 {/* Common Issue Category Chips (Matching Creator Portal categories) */}
                 <div className="space-y-2.5">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-                    {lang === 'te' ? 'త్వరిత ఎంపికలు:' : 'Select an issue to begin:'}
+                    {lang === 'te' ? 'త్వరిత ఎంపికలు:' : 'Quick options:'}
                   </span>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -662,7 +662,7 @@ export function AICitizenChat({
                     
                     <div className="space-y-1">
                       <h3 className="text-lg font-black text-navy">
-                        {lang === 'te' ? 'మీ కథనం విజయవంతంగా నమోదైంది!' : 'Submission Received Successfully!'}
+                        {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'Report Received!'}
                       </h3>
                       <p className="text-xs text-slate-600">
                         {lang === 'te'

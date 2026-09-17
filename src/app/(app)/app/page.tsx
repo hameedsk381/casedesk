@@ -3,6 +3,8 @@ import prisma from '@/lib/db/prisma';
 import DashboardClient from '@/components/app/DashboardClient';
 import { calculateCaseHealth } from '@/lib/cases/service';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const [
     allCases,

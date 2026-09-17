@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Citizen Story Portal — CaseDesk',
-  description: 'Submit civic issues, whistleblower reports, and investigative stories directly to independent journalists.',
+  title: 'Citizen Helpdesk — CaseDesk',
+  description: 'Report civic issues, government failures, and public problems directly to our investigative team.',
 };
 
 export const viewport: Viewport = {

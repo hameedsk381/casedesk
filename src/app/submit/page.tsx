@@ -2,6 +2,8 @@ import React from 'react';
 import CitizenSubmissionPortal from '@/components/public/CitizenSubmissionPortal';
 import { getSubmissionEndpoint } from '@/lib/intake/submissionService';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SubmitPage() {
   let endpointData: any = undefined;
   try {

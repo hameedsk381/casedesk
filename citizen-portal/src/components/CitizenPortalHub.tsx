@@ -72,11 +72,11 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
                     CaseDesk
                   </span>
                   <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
-                    Citizen Portal
+                    {lang === 'te' ? 'సహాయ కేంద్రం' : 'Helpdesk'}
                   </span>
                 </div>
                 <div className="text-[11px] text-slate-500 font-medium">
-                  {endpoint.workspaceName || 'Public Civic Investigation Desk'}
+                  {endpoint.workspaceName || (lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk')}
                 </div>
               </div>
             </div>
@@ -85,15 +85,15 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
               <button
                 onClick={() => setMode('chat')}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-electric-blue/10 hover:bg-electric-blue/15 text-electric-blue text-xs font-bold transition cursor-pointer"
-                title={lang === 'te' ? 'AI చాట్‌కు మారండి' : 'Switch to AI Chat'}
+                title={lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Assistant'}
               >
                 <Bot size={14} />
-                <span className="hidden sm:inline">{lang === 'te' ? 'AI చాట్‌కు మారండి' : 'Switch to AI Chat'}</span>
+                <span className="hidden sm:inline">{lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Assistant'}</span>
               </button>
 
               <div className="hidden sm:flex items-center gap-1.5 font-medium px-2.5 py-1 rounded-full bg-slate-100/80 border border-slate-200/60">
                 <Lock size={12} className="text-emerald-600" />
-                <span>{lang === 'te' ? 'ఎన్‌క్రిప్టెడ్ & గోప్యమైనది' : 'Encrypted & Confidential'}</span>
+                <span>{lang === 'te' ? 'గోప్యం & భద్రం' : 'Private & Secure'}</span>
               </div>
 
               {/* Language Switcher */}
@@ -137,12 +137,12 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
           <div className="max-w-2xl mx-auto space-y-2">
             <div className="flex items-center justify-center gap-2 text-navy font-semibold text-xs">
               <ShieldCheck size={14} className="text-electric-blue" />
-              <span>{lang === 'te' ? 'జర్నలిస్టిక్ మూలాల రక్షణ హామీ' : 'Journalistic Whistleblower & Source Protection Guarantee'}</span>
+              <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
             </div>
             <p className="text-[11px] leading-relaxed text-slate-400">
               {lang === 'te'
-                ? 'మీ భద్రత మరియు గోప్యత గౌరవించబడతాయి. ప్రజల హక్కుల కోసం పరిశోధనాత్మక జర్నలిస్టులకు సమాచారం చేరుతుంది.'
-                : 'Your safety and privacy are respected. Information shared here is received by accredited journalists for public-interest reporting.'}
+                ? 'మీ సమాచారం మా జర్నలిస్టులకు మాత్రమే అందుతుంది. మీ భద్రత మరియు గోప్యత మాకు ముఖ్యం.'
+                : 'Your information is only seen by our journalists. Your safety and privacy matter to us.'}
             </p>
           </div>
         </footer>
@@ -166,11 +166,11 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
                   CaseDesk
                 </span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
-                  Citizen Portal
+                  {lang === 'te' ? 'సహాయ కేంద్రం' : 'Helpdesk'}
                 </span>
               </div>
               <div className="text-[11px] text-slate-500 font-medium">
-                {endpoint.workspaceName || 'Public Civic Investigation Desk'}
+                {endpoint.workspaceName || (lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk')}
               </div>
             </div>
           </div>
@@ -178,7 +178,7 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
           <div className="flex items-center gap-3 text-xs text-slate-500">
             <div className="hidden sm:flex items-center gap-1.5 font-medium px-2.5 py-1 rounded-full bg-slate-100/80 border border-slate-200/60">
               <Lock size={12} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'ఎన్‌క్రిప్టెడ్ & గోప్యమైనది' : 'Encrypted & Confidential'}</span>
+              <span>{lang === 'te' ? 'గోప్యం & భద్రం' : 'Private & Secure'}</span>
             </div>
 
             {/* Multilingual Switcher matching creator portal */}
@@ -213,14 +213,14 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
           <div className="text-center space-y-2 max-w-xl mx-auto">
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-navy leading-tight">
               {lang === 'te'
-                ? 'సమస్యను ఎలా చెప్పాలనుకుంటున్నారు?'
-                : 'How would you like to report?'}
+                ? 'మీకు ఏది సులభంగా అనిపిస్తే అది ఎంచుకోండి'
+                : 'How would you like to tell us?'}
             </h1>
 
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               {lang === 'te'
-                ? 'మీకు అనువైన పద్ధతిని ఎంచుకోండి. మీ పేరు మరియు వివరాలు పూర్తిగా రహస్యంగా ఉంటాయి.'
-                : 'Choose what feels easiest for you. Your identity remains 100% confidential.'}
+                ? 'మీకు ఎలా సౌకర్యంగా ఉంటే అలా చెప్పండి. మీ పేరు మరియు వివరాలు పూర్తిగా గోప్యంగా ఉంటాయి.'
+                : 'Choose what feels easiest for you. Your identity stays 100% private.'}
             </p>
           </div>
 
@@ -230,7 +230,7 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
             {/* OPTION 1: AI CHAT ASSISTANT */}
             <div className="bg-white rounded-3xl p-6 border-2 border-electric-blue/30 hover:border-electric-blue shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
               <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-electric-blue/10 text-electric-blue text-[10px] font-bold uppercase">
-                {lang === 'te' ? 'చాలా సులభం' : 'Voice • Easiest'}
+                {lang === 'te' ? 'చాలా సులభం' : 'Easiest • Voice'}
               </div>
 
               <div className="space-y-3">
@@ -240,12 +240,12 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
 
                 <div className="space-y-1">
                   <h2 className="text-base sm:text-lg font-black text-navy group-hover:text-electric-blue transition">
-                    {lang === 'te' ? 'AI సహాయకుడితో చాట్' : 'Chat with AI Assistant'}
+                    {lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Assistant'}
                   </h2>
                   <p className="text-xs text-slate-600 leading-relaxed">
                     {lang === 'te'
-                      ? 'వాట్సాప్ లాగా తెలుగు, Tenglish లేదా English లో మాట్లాడండి లేదా రాయండి. మైక్‌తో వాయిస్ నోట్ కూడా పంపవచ్చు.'
-                      : 'Talk naturally using voice notes or text in English, Telugu, or Tenglish. AI asks simple questions to help you.'}
+                      ? 'వాట్సాప్ లాగా తెలుగు, Tenglish లేదా English లో మాట్లాడండి. మైక్ నొక్కి చెప్పవచ్చు.'
+                      : 'Just like WhatsApp — speak or type in Telugu, Tenglish, or English. The assistant asks simple questions.'}
                   </p>
                 </div>
               </div>
@@ -256,7 +256,7 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
                   className="w-full py-3 px-4 bg-electric-blue hover:bg-electric-blue-dark text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
                 >
                   <Mic size={15} />
-                  <span>{lang === 'te' ? 'వాయిస్ / చాట్ ప్రారంభించండి →' : 'Start Voice / Chat →'}</span>
+                  <span>{lang === 'te' ? 'మాట్లాడండి / టైప్ చేయండి →' : 'Start Talking →'}</span>
                 </button>
               </div>
             </div>
@@ -275,12 +275,12 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
               <div className="space-y-3 mt-3">
                 <div className="space-y-1">
                   <h2 className="text-base sm:text-lg font-black text-navy group-hover:text-navy/80 transition">
-                    {lang === 'te' ? 'సాధారణ ఫారమ్ పూరించండి' : 'Fill Out a Form'}
+                    {lang === 'te' ? 'ఫారమ్ నింపండి' : 'Fill Out a Form'}
                   </h2>
                   <p className="text-xs text-slate-600 leading-relaxed">
                     {lang === 'te'
-                      ? 'ఏం జరిగింది, ఎక్కడ జరిగింది, ఫోటోలు మీ స్వంత వేగంతో ఫారమ్‌లో నింపండి.'
-                      : 'Fill in details, location, and attach photos step-by-step at your own pace.'}
+                      ? 'సింపుల్ ప్రశ్నలకు సమాధానం ఇవ్వండి. ఫోటోలు ఉంటే జతచేయండి.'
+                      : 'Answer a few simple questions step by step. Add photos or documents if you have them.'}
                   </p>
                 </div>
               </div>
@@ -297,36 +297,36 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
 
           </div>
 
-          {/* Reassurance Notice Card (Exact Creator Portal Step 1 Notice) */}
+          {/* Reassurance Notice Card */}
           <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-white border border-border-light/80 space-y-2 text-xs text-slate-600 shadow-2xs">
             <div className="font-bold text-navy flex items-center gap-2">
               <Shield size={16} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'జర్నలిస్టిక్ ప్రమాణాలు & రక్షణ హామీ' : 'Public Whistleblower & Protection Guarantee:'}</span>
+              <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
             </div>
             <p className="leading-relaxed text-[11px] text-slate-500">
               {lang === 'te'
-                ? 'మీరు చాట్ ఎంచుకున్నా లేదా ఫారమ్ ఎంచుకున్నా, మీ వివరాలు జర్నలిస్టిక్ నిబంధనల ప్రకారం 100% గోప్యంగా ఉంచబడతాయి. సమర్పించిన తర్వాత మీకు పరిశోధనను ట్రాక్ చేయడానికి రహస్య రిఫరెన్స్ కోడ్ లభిస్తుంది.'
-                : 'Whether you choose AI Chat or the structured form, your submission is encrypted and strictly protected under journalistic source confidentiality. You will receive an official reference code to track your case.'}
+                ? 'మీరు చాట్ ఎంచుకున్నా లేదా ఫారమ్ ఎంచుకున్నా, మీ వివరాలు 100% గోప్యంగా ఉంచబడతాయి. సమర్పించిన తర్వాత మీకు ట్రాక్ చేయడానికి కోడ్ వస్తుంది.'
+                : 'Whether you choose chat or the form, your information is 100% private. After submitting, you get a code to track your report.'}
             </p>
           </div>
 
         </div>
       </main>
 
-      {/* Creator Portal Whistleblower Footer Guarantee */}
+      {/* Creator Portal Footer */}
       <footer className="mt-auto border-t border-border-light/70 bg-white/60 py-6 px-4 text-center text-xs text-slate-500">
         <div className="max-w-2xl mx-auto space-y-2">
           <div className="flex items-center justify-center gap-2 text-navy font-semibold text-xs">
             <ShieldCheck size={14} className="text-electric-blue" />
-            <span>{lang === 'te' ? 'జర్నలిస్టిక్ మూలాల రక్షణ హామీ' : 'Journalistic Whistleblower & Source Protection Guarantee'}</span>
+            <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
           </div>
           <p className="text-[11px] leading-relaxed text-slate-400">
             {lang === 'te'
-              ? 'మీ భద్రత మరియు గోప్యత గౌరవించబడతాయి. ప్రజల హక్కుల కోసం పరిశోధనాత్మక జర్నలిస్టులకు సమాచారం చేరుతుంది. మీరు అనామకంగా ఉండడాన్ని ఎంచుకోవచ్చు.'
-              : 'Your safety and privacy are respected. Information shared here is received by accredited journalists for public-interest reporting. You retain full control over anonymity and contact preferences.'}
+              ? 'మీ సమాచారం మా జర్నలిస్టులకు మాత్రమే అందుతుంది. మీరు అనామకంగా ఉండవచ్చు.'
+              : 'Your information is only seen by our journalists. You can stay anonymous if you prefer.'}
           </p>
           <div className="pt-1 text-[10px] text-slate-400">
-            CaseDesk Open Journalism Desk • Protected by end-to-end data encryption
+            CaseDesk • {lang === 'te' ? 'డేటా భద్రత తో రక్షించబడింది' : 'Protected by data encryption'}
           </div>
         </div>
       </footer>

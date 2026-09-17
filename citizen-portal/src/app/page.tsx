@@ -19,8 +19,8 @@ async function getEndpoint() {
 
   return {
     slug: DEFAULT_SLUG,
-    title: 'Janata Investigation Desk — Citizen Story Portal',
-    description: 'Report civic emergencies, public fund diversions, government service failures, and environmental hazards directly to Sarah Khan and the investigative journalism desk.',
+    title: 'Janata Investigation Desk — Citizen Helpdesk',
+    description: 'Report civic issues, government failures, and public problems directly to our investigative team.',
     requireContact: false,
     allowAnonymous: true,
     allowVoice: true,

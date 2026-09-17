@@ -5,6 +5,8 @@ import { getCaseById } from '@/lib/cases/service';
 import CaseWorkspaceHeader from '@/components/app/CaseWorkspaceHeader';
 import CaseWorkspaceSidebar from '@/components/app/CaseWorkspaceSidebar';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CaseWorkspaceLayout({
   children,
   params,

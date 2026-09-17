@@ -170,7 +170,7 @@ export function CitizenSubmissionForm({
       setStep(7);
     } catch (err: any) {
       console.error('Submission failed:', err);
-      setSubmitError(err.message || 'An error occurred while submitting your story. Please try again.');
+      setSubmitError(err.message || 'Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -185,43 +185,43 @@ export function CitizenSubmissionForm({
   };
 
   const t = {
-    tellUsStory: lang === 'te' ? 'మీ కథ చెప్పండి' : 'Tell Us Your Story',
-    introHeadline: lang === 'te' ? 'మీ ప్రాంతంలో ప్రజా సమస్య ఉందా?' : 'Have an issue that deserves attention?',
-    introSub: lang === 'te' ? 'ఏం జరిగిందో మాకు చెప్పండి. మీ వద్ద ఉన్న సమాచారం లేదా ఆధారాలను అందించండి. మా పరిశోధనా బృందం మీ కథను పరిశీలిస్తుంది.' : 'Tell us what happened. Provide whatever information or evidence you have. Our newsroom will review your submission.',
-    startCta: lang === 'te' ? 'సమర్పణ ప్రారంభించండి →' : 'Start a Submission →',
-    describeLabel: lang === 'te' ? 'సమస్యను వివరంగా చెప్పండి' : 'Describe your issue',
-    describePlaceholder: lang === 'te' ? 'ఏం జరిగిందో మీ మాటల్లో చెప్పండి. మీరు తెలుగులో లేదా ఇంగ్లీషులో రాయవచ్చు...' : 'Tell us what happened in your own words. You can write in Telugu or English...',
-    recordVoice: lang === 'te' ? 'వాయిస్ సందేశం రికార్డ్ చేయండి' : 'Record / Upload Voice',
-    stopRecord: lang === 'te' ? 'రికార్డింగ్ ఆపండి' : 'Stop Recording',
-    deleteRecord: lang === 'te' ? 'రద్దు చేయి' : 'Discard',
-    whereLabel: lang === 'te' ? 'ఇది ఎక్కడ జరిగింది?' : 'Where did this happen?',
+    tellUsStory: lang === 'te' ? 'మీ సమస్య చెప్పండి' : 'Tell Us What Happened',
+    introHeadline: lang === 'te' ? 'మీ ఏరియాలో ఏదైనా సమస్య ఉందా?' : 'Got a problem that needs attention?',
+    introSub: lang === 'te' ? 'ఏం జరిగిందో మాకు చెప్పండి. మీ వద్ద ఉన్న సమాచారం లేదా ఆధారాలు ఇవ్వండి. మా టీమ్ పరిశీలిస్తుంది.' : 'Tell us what happened. Share whatever info or evidence you have. Our team will look into it.',
+    startCta: lang === 'te' ? 'స్టార్ట్ చేయండి →' : 'Start Reporting →',
+    describeLabel: lang === 'te' ? 'ఏం జరిగిందో చెప్పండి' : 'What Happened?',
+    describePlaceholder: lang === 'te' ? 'మీ మాటల్లో చెప్పండి. తెలుగు లేదా English లో రాయవచ్చు...' : 'Write what happened in your own words. Telugu or English is fine...',
+    recordVoice: lang === 'te' ? 'వాయిస్ రికార్డ్ చేయండి' : 'Record Your Voice',
+    stopRecord: lang === 'te' ? 'ఆపండి' : 'Stop',
+    deleteRecord: lang === 'te' ? 'తీసివేయండి' : 'Delete',
+    whereLabel: lang === 'te' ? 'ఎక్కడ జరిగింది?' : 'Where did this happen?',
     districtLabel: lang === 'te' ? 'జిల్లా' : 'District',
-    townLabel: lang === 'te' ? 'పట్టణం / గ్రామం / మండలం' : 'Town / Village / Mandal',
-    addressLabel: lang === 'te' ? 'చిరునామా / ల్యాండ్‌మార్క్ (ఐచ్ఛికం)' : 'Street / Landmark (Optional)',
-    whenLabel: lang === 'te' ? 'ఇది ఎప్పుడు జరిగింది?' : 'When did this happen?',
-    whenPlaceholder: lang === 'te' ? 'తేదీ లేదా సుమారు సమయం (ఉదా. గత వారం, సెప్టెంబర్ 12)' : 'Date or approximate time (e.g. Last week, Sep 12)',
-    categoryLabel: lang === 'te' ? 'సమస్య ఏ విభాగానికి చెందినది?' : 'What kind of issue is this?',
-    evidenceLabel: lang === 'te' ? 'మీ నివేదికకు మద్దతు ఇచ్చే ఆధారాలు ఏమైనా ఉన్నాయా?' : 'Do you have anything that supports your report?',
-    evidenceReassurance: lang === 'te' ? 'గమనిక: నివేదికను సమర్పించడానికి మీ వద్ద పత్రాలు లేదా ఆధారాలు తప్పనిసరిగా ఉండాల్సిన అవసరం లేదు.' : "You don't need to have evidence to submit a report. We review every legitimate story.",
-    uploadDoc: lang === 'te' ? 'ఫోటోలు, పత్రాలు లేదా వీడియోలు అప్‌లోడ్ చేయండి' : 'Upload Photos, Documents, Audio or Videos',
-    aboutYouLabel: lang === 'te' ? 'మేము మిమ్మల్ని ఎలా సంప్రదించాలి?' : 'How can we contact you?',
+    townLabel: lang === 'te' ? 'ఊరు / పట్టణం / మండలం' : 'Town / Village / Mandal',
+    addressLabel: lang === 'te' ? 'చిరునామా (ఐచ్ఛికం)' : 'Street / Landmark (Optional)',
+    whenLabel: lang === 'te' ? 'ఎప్పుడు జరిగింది?' : 'When did this happen?',
+    whenPlaceholder: lang === 'te' ? 'తేదీ లేదా సుమారుగా (ఉదా: గత వారం, సెప్టెంబర్ 12)' : 'Date or approximate time (e.g. Last week, Sep 12)',
+    categoryLabel: lang === 'te' ? 'ఏ రకమైన సమస్య?' : 'What type of problem?',
+    evidenceLabel: lang === 'te' ? 'ఆధారాలు ఉన్నాయా?' : 'Do you have any evidence?',
+    evidenceReassurance: lang === 'te' ? 'గమనిక: ఆధారాలు లేకపోయినా ఫిర్యాదు చేయవచ్చు.' : 'No evidence needed — you can still report.',
+    uploadDoc: lang === 'te' ? 'ఫోటోలు, పత్రాలు జతచేయండి' : 'Upload Photos, Documents, Audio or Videos',
+    aboutYouLabel: lang === 'te' ? 'మిమ్మల్ని ఎలా సంప్రదించాలి?' : 'How can we reach you?',
     nameLabel: lang === 'te' ? 'మీ పేరు' : 'Your Name',
-    phoneLabel: lang === 'te' ? 'ఫోన్ నంబర్ / WhatsApp' : 'Phone / WhatsApp Number',
+    phoneLabel: lang === 'te' ? 'ఫోన్ / WhatsApp' : 'Phone / WhatsApp Number',
     emailLabel: lang === 'te' ? 'ఈమెయిల్ (ఐచ్ఛికం)' : 'Email Address (Optional)',
-    anonymousToggle: lang === 'te' ? 'నేను అనామకంగా ఉండాలనుకుంటున్నాను' : 'I prefer to remain anonymous',
-    anonymousNotice: lang === 'te' ? 'మేము అదనపు వివరాల కోసం మిమ్మల్ని సంప్రదించవచ్చు. సంప్రదింపు వివరాలు ఇవ్వడం వల్ల కథ ప్రచురించబడుతుందని హామీ ఉండదు.' : 'We may contact you for additional information. Providing contact details does not guarantee publication.',
-    consentHeader: lang === 'te' ? 'సమ్మతి & అనుమతులు' : 'Consent & Transparency',
-    consent1: lang === 'te' ? 'నేను అందించిన సమాచారం నాకు తెలిసినంత వరకు నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm that the information I have provided is accurate to the best of my knowledge.',
-    consent2: lang === 'te' ? 'ఈ సమర్పణకు సంబంధించి కేస్‌డెస్క్ జర్నలిస్టులు నన్ను సంప్రదించడానికి అంగీకరిస్తున్నాను.' : 'I agree that the CaseDesk journalists may contact me regarding this submission.',
-    consent3: lang === 'te' ? 'ఈ నివేదికను సమర్పించడం వల్ల తప్పనిసరిగా కథ ప్రచురించబడుతుందని హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand that submitting this report does not guarantee publication.',
-    consentPublishQ: lang === 'te' ? 'మీ కథను బహిరంగ రిపోర్టింగ్‌గా ప్రచురించడానికి అంగీకరిస్తున్నారా?' : 'Do you consent to your story being considered for public reporting?',
-    publishYes: lang === 'te' ? 'అవును — బహిరంగ ప్రచురణకు అంగీకరిస్తున్నాను' : 'Yes — I consent to public reporting',
-    publishDiscuss: lang === 'te' ? 'ప్రచురించే ముందు నాతో మాట్లాడండి' : 'Discuss with me first before publishing',
-    publishNo: lang === 'te' ? 'కాదు — కేవలం పరిశోధన కొరకు మాత్రమే, ప్రచురించవద్దు' : 'No — Background investigation only; do not publish',
-    submitButton: lang === 'te' ? 'కథను సమర్పించండి →' : 'Submit Story →',
-    submittingBtn: lang === 'te' ? 'సమర్పిస్తున్నాము...' : 'Submitting report...',
+    anonymousToggle: lang === 'te' ? 'నేను అనామకంగా ఉండాలనుకుంటున్నాను' : 'I want to stay anonymous',
+    anonymousNotice: lang === 'te' ? 'అదనపు వివరాల కోసం మిమ్మల్ని సంప్రదించవచ్చు. సంప్రదింపు వివరాలు ఇవ్వడం వల్ల కథ ప్రచురించబడుతుందని హామీ ఉండదు.' : 'We may reach out for more details. Sharing contact info does not guarantee publication.',
+    consentHeader: lang === 'te' ? 'ధృవీకరణ' : 'Confirm & Submit',
+    consent1: lang === 'te' ? 'నేను చెప్పినది నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm this information is true to the best of my knowledge.',
+    consent2: lang === 'te' ? 'కేస్‌డెస్క్ జర్నలిస్టులు నన్ను సంప్రదించవచ్చు.' : 'CaseDesk journalists may contact me about this.',
+    consent3: lang === 'te' ? 'ప్రచురణ హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand this may not be published immediately.',
+    consentPublishQ: lang === 'te' ? 'మీ కథను ప్రచురించవచ్చా?' : 'Can we publish your report?',
+    publishYes: lang === 'te' ? 'అవును, ప్రచురించవచ్చు' : 'Yes, you can publish',
+    publishDiscuss: lang === 'te' ? 'ముందు నాతో మాట్లాడండి' : 'Talk to me first',
+    publishNo: lang === 'te' ? 'వద్దు, పరిశోధన మాత్రమే' : 'No — investigate only, don\'t publish',
+    submitButton: lang === 'te' ? 'పంపండి →' : 'Send Report →',
+    submittingBtn: lang === 'te' ? 'పంపుతోంది...' : 'Sending...',
     backBtn: lang === 'te' ? '← వెనుకకు' : '← Back',
-    continueBtn: lang === 'te' ? 'కొనసాగించండి →' : 'Continue →',
+    continueBtn: lang === 'te' ? 'తరువాత →' : 'Next →',
   };
 
   return (
@@ -234,20 +234,20 @@ export function CitizenSubmissionForm({
               onClick={onBackToSelect}
               className="text-slate-500 hover:text-navy mr-2 font-medium cursor-pointer"
             >
-              ← {lang === 'te' ? 'ఎంపికలకు తిరిగి వెళ్ళండి' : 'Change Mode'}
+              ← {lang === 'te' ? 'మార్చుకోండి' : 'Change Mode'}
             </button>
           )}
           <span className="text-electric-blue font-extrabold">
-            {step < 7 ? `Step ${step} of 6` : 'Complete'}
+            {step < 7 ? `Step ${step} of 6` : 'Done'}
           </span>
           {step < 7 && (
             <span className="hidden sm:inline text-slate-400">
-              • {step === 1 && (lang === 'te' ? 'పరిచయం' : 'Introduction')}
-              {step === 2 && (lang === 'te' ? 'సమస్య వివరణ' : 'Your Story')}
-              {step === 3 && (lang === 'te' ? 'స్థలం & సమయం' : 'Location & Time')}
+              • {step === 1 && (lang === 'te' ? 'స్టార్ట్' : 'Start')}
+              {step === 2 && (lang === 'te' ? 'ఏం జరిగింది' : 'What Happened')}
+              {step === 3 && (lang === 'te' ? 'ఎక్కడ & ఎప్పుడు' : 'Where & When')}
               {step === 4 && (lang === 'te' ? 'ఆధారాలు' : 'Evidence')}
-              {step === 5 && (lang === 'te' ? 'మీ వివరాలు' : 'Contact Info')}
-              {step === 6 && (lang === 'te' ? 'సమ్మతి' : 'Consent')}
+              {step === 5 && (lang === 'te' ? 'మీ వివరాలు' : 'Your Details')}
+              {step === 6 && (lang === 'te' ? 'ధృవీకరణ' : 'Confirm')}
             </span>
           )}
         </div>
@@ -260,7 +260,7 @@ export function CitizenSubmissionForm({
               className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-electric-blue/10 hover:bg-electric-blue/15 text-electric-blue text-xs font-bold transition cursor-pointer"
             >
               <Bot size={14} />
-              <span className="hidden sm:inline">{lang === 'te' ? 'AI చాట్‌కు మారండి' : 'Switch to AI Chat'}</span>
+              <span className="hidden sm:inline">{lang === 'te' ? 'AI సహాయకుడితో మాట్లాడండి' : 'Talk to AI Instead'}</span>
             </button>
           )}
 
@@ -316,12 +316,12 @@ export function CitizenSubmissionForm({
           <div className="p-4 rounded-2xl bg-off-white border border-border-light/70 space-y-2 text-xs text-slate-600">
             <div className="font-bold text-navy flex items-center gap-1.5">
               <Shield size={14} className="text-emerald-600" />
-              <span>{lang === 'te' ? 'పారదర్శక ప్రక్రియ & రక్షణ:' : 'What we look for & protection:'}</span>
+              <span>{lang === 'te' ? 'మీకు తెలియజేద్దాము:' : 'Good to know:'}</span>
             </div>
             <ul className="list-disc pl-5 space-y-1 leading-relaxed text-slate-600">
-              <li>{lang === 'te' ? 'ప్రజారోగ్యం, ప్రభుత్వ నిధుల దుర్వినియోగం, విద్యా లోపాలు, కాలుష్యం లేదా లంచాలు' : 'Healthcare failures, welfare siphoning, public contract fraud, pollution, or corruption'}</li>
-              <li>{lang === 'te' ? 'మీరు తెలుగులో లేదా ఇంగ్లీషులో టైప్ చేయవచ్చు లేదా మాట్లాడవచ్చు' : 'You can write in Telugu or English, or record voice'}</li>
-              <li>{lang === 'te' ? 'మీ గుర్తింపును పూర్తిగా గోప్యంగా ఉంచే అవకాశం ఉంది' : 'Full confidentiality and 100% anonymous option available'}</li>
+              <li>{lang === 'te' ? 'ఆసుపత్రి, రోడ్లు, ఫించన్, లంచాలు — ఏదైనా చెప్పవచ్చు' : 'Hospitals, roads, pensions, bribes — report anything'}</li>
+              <li>{lang === 'te' ? 'తెలుగు లేదా English లో టైప్ చేయవచ్చు లేదా మాట్లాడవచ్చు' : 'Type or speak in Telugu or English'}</li>
+              <li>{lang === 'te' ? 'మీ పేరు దాగి ఉంచవచ్చు' : 'You can keep your name hidden'}</li>
             </ul>
           </div>
 
@@ -342,7 +342,7 @@ export function CitizenSubmissionForm({
           <div>
             <h2 className="text-xl font-bold text-navy">{t.describeLabel}</h2>
             <p className="text-xs text-slate-500 mt-1">
-              {lang === 'te' ? 'ఏం జరిగింది? ఎవరికి నష్టం వాటిల్లింది? ఎవరు బాధ్యులు? వివరంగా రాయండి.' : 'What occurred? Who was affected? Who is responsible? Write naturally.'}
+              {lang === 'te' ? 'ఏం జరిగింది? ఎవరికి నష్టం? ఎవరు బాధ్యులు? వివరంగా రాయండి.' : 'What happened? Who was affected? Who is responsible? Write as much as you know.'}
             </p>
           </div>
 
@@ -370,7 +370,7 @@ export function CitizenSubmissionForm({
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed">
-              {lang === 'te' ? 'రాయడం కష్టంగా ఉంటే, మైక్రోఫోన్ ఆన్ చేసి మీ సమస్యను మాట్లాడి రికార్డ్ చేయండి.' : 'Prefer speaking? Record a voice message in Telugu or English directly.'}
+              {lang === 'te' ? 'రాయడం కష్టమైతే, మైక్ నొక్కి మాట్లాడి రికార్డ్ చేయండి.' : 'Hard to type? Tap the mic and just speak.'}
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -423,7 +423,7 @@ export function CitizenSubmissionForm({
             <button
               onClick={() => {
                 if (!story.trim() && !audioUrl) {
-                  alert(lang === 'te' ? 'దయచేసి వివరాలు రాయండి లేదా వాయిస్ రికార్డ్ చేయండి.' : 'Please type details or record a voice note to continue.');
+                  alert(lang === 'te' ? 'దయచేసి వివరాలు రాయండి లేదా వాయిస్ రికార్డ్ చేయండి.' : 'Please type or record your voice to continue.');
                   return;
                 }
                 setStep(3);
@@ -443,7 +443,7 @@ export function CitizenSubmissionForm({
           <div>
             <h2 className="text-xl font-bold text-navy">{t.whereLabel}</h2>
             <p className="text-xs text-slate-500 mt-1">
-              {lang === 'te' ? 'ఘటన జరిగిన ప్రాంతాన్ని గుర్తించడం పరిశోధనలో సహాయపడుతుంది.' : 'Help our reporters locate the issue accurately.'}
+              {lang === 'te' ? 'ఖచ్చితమైన చోటు చెప్పితే మా టీమ్ కి సులభంగా అర్థమవుతుంది.' : 'The more specific the location, the easier for our team to find it.'}
             </p>
           </div>
 
@@ -538,7 +538,7 @@ export function CitizenSubmissionForm({
           <div>
             <h2 className="text-xl font-bold text-navy">{t.evidenceLabel}</h2>
             <p className="text-xs text-slate-500 mt-1">
-              {lang === 'te' ? 'ఫోటోలు, పత్రాలు, ఆసుపత్రి స్లిప్పులు, రశీదులు జోడించండి.' : 'Attach documents, receipts, hospital slips, photos, or clips.'}
+              {lang === 'te' ? 'ఫోటోలు, పత్రాలు, రశీదులు ఉంటే జతచేయండి. లేకపోయినా సరే.' : 'Attach photos, documents, or receipts if you have them. No problem if you don\'t.'}
             </p>
           </div>
 
@@ -547,7 +547,7 @@ export function CitizenSubmissionForm({
             <div className="text-xs text-emerald-900 leading-relaxed font-medium">
               <strong>{t.evidenceReassurance}</strong>
               <p className="text-emerald-800/80 text-[11px] mt-0.5">
-                {lang === 'te' ? 'మీరు కేవలం సమాచారం అందించినా సరిపోతుంది. ఆధారాలు సేకరించే బాధ్యత మా రిపోర్టర్లు చూసుకుంటారు.' : 'Our journalists verify claims through field visits, RTI applications, and interviews.'}
+                {lang === 'te' ? 'మీరు కేవలం సమాచారం ఇస్తే చాలు. ఆధారాలు సేకరించే పని మాది.' : 'Just sharing info is enough. Collecting evidence is our job.'}
               </p>
             </div>
           </div>
@@ -624,7 +624,7 @@ export function CitizenSubmissionForm({
                 {t.anonymousToggle}
               </label>
               <div className="text-[11px] text-amber-900/80 leading-relaxed">
-                {lang === 'te' ? 'మీ పేరు లేదా వివరాలు బహిరంగంగా ప్రస్తావించబడవు.' : 'Your personal details will never be published or shared.'}
+                {lang === 'te' ? 'మీ పేరు లేదా వివరాలు బహిరంగంగా ప్రస్తావించబడవు.' : 'Your name and details will never be shown publicly.'}
               </div>
             </div>
             <input
@@ -698,7 +698,7 @@ export function CitizenSubmissionForm({
           <div>
             <h2 className="text-xl font-bold text-navy">{t.consentHeader}</h2>
             <p className="text-xs text-slate-500 mt-1">
-              {lang === 'te' ? 'క్రింది నిబంధనలను పరిశీలించి సమర్పించండి.' : 'Review and confirm declarations before submitting.'}
+              {lang === 'te' ? 'క్రిందివి చెక్ చేసి పంపండి.' : 'Check the boxes below and send.'}
             </p>
           </div>
 
@@ -859,11 +859,11 @@ export function CitizenSubmissionForm({
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-navy">
-              {lang === 'te' ? 'మీ నివేదిక స్వీకరించబడింది' : 'Submission Received'}
+              {lang === 'te' ? 'మీ ఫిర్యాదు అందింది!' : 'We Got Your Report!'}
             </h1>
 
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              {lang === 'te' ? 'ధన్యవాదాలు. మీ నివేదిక విజయవంతంగా అందింది. మా పరిశోధనా బృందం దీనిని పరిశీలిస్తుంది.' : 'Thank you. Your report has been received and will be reviewed by the investigation team.'}
+              {lang === 'te' ? 'ధన్యవాదాలు. మా టీమ్ దీనిని పరిశీలిస్తుంది.' : 'Thank you. Our team will review your report.'}
             </p>
 
             {referenceNumber && (
@@ -871,7 +871,7 @@ export function CitizenSubmissionForm({
                 <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-100 border border-slate-200 shadow-2xs">
                   <div>
                     <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      Reference Code
+                      {lang === 'te' ? 'రిఫరెన్స్ కోడ్' : 'Reference Code'}
                     </div>
                     <div className="font-mono text-base font-black text-navy tracking-tight">
                       {referenceNumber}
@@ -880,7 +880,7 @@ export function CitizenSubmissionForm({
                   <button
                     onClick={copyReferenceCode}
                     className="p-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 transition cursor-pointer"
-                    title="Copy Code"
+                    title={lang === 'te' ? 'కాపీ చేయండి' : 'Copy Code'}
                   >
                     {copiedCode ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
                   </button>
