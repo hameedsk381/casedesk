@@ -128,7 +128,7 @@ export default function AISection() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <AlertTriangle size={12} className="text-yellow" />
+                  <AlertTriangle size={12} className="text-warning" />
                   <span className="text-xs text-muted-foreground">Status: Needs Verification</span>
                 </div>
               </div>

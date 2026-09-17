@@ -32,14 +32,14 @@ const steps = [
     title: 'Verify',
     description: 'Separate claims from evidence and verified information.',
     icon: <ShieldCheck size={20} />,
-    color: 'bg-success-subtle text-green',
+    color: 'bg-success-subtle text-success',
   },
   {
     number: '04',
     title: 'Investigate',
     description: 'Organize documents, contacts, notes, tasks, and responses.',
     icon: <FolderSearch size={20} />,
-    color: 'bg-warning-subtle text-yellow',
+    color: 'bg-warning-subtle text-warning',
   },
   {
     number: '05',

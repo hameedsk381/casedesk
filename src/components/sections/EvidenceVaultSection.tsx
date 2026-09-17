@@ -28,7 +28,7 @@ const files = [
   { name: 'Complaint.pdf', type: 'PDF', size: '245 KB', icon: <FileText size={18} />, color: 'text-red' },
   { name: 'Medical_Record.pdf', type: 'PDF', size: '1.2 MB', icon: <FileText size={18} />, color: 'text-red' },
   { name: 'Interview.mp4', type: 'Video', size: '48 MB', icon: <Video size={18} />, color: 'text-primary' },
-  { name: 'Hospital_Photo.jpg', type: 'Image', size: '3.1 MB', icon: <Image size={18} />, color: 'text-green' },
+  { name: 'Hospital_Photo.jpg', type: 'Image', size: '3.1 MB', icon: <Image size={18} />, color: 'text-success' },
 ];
 
 export default function EvidenceVaultSection() {

@@ -20,7 +20,7 @@ const categories = [
   {
     label: 'VERIFIED',
     description: 'Information independently established by the creator.',
-    color: 'bg-success-subtle text-green border-green/20',
+    color: 'bg-success-subtle text-success border-success/20',
   },
   {
     label: 'RESPONSE',
@@ -39,8 +39,8 @@ const verificationItems = [
 ];
 
 function StatusIcon({ status }: { status: string }) {
-  if (status === 'verified') return <CheckCircle size={14} className="text-green flex-shrink-0" />;
-  if (status === 'partial') return <Loader size={14} className="text-yellow flex-shrink-0" />;
+  if (status === 'verified') return <CheckCircle size={14} className="text-success flex-shrink-0" />;
+  if (status === 'partial') return <Loader size={14} className="text-warning flex-shrink-0" />;
   return <Circle size={14} className="text-secondary flex-shrink-0" />;
 }
 
@@ -116,10 +116,10 @@ export default function VerificationSection() {
             <div className="mt-5 pt-4 border-t border-surface-3">
               <div className="flex items-center gap-4 text-xs text-secondary">
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle size={11} className="text-green" /> 4 Verified
+                  <CheckCircle size={11} className="text-success" /> 4 Verified
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Loader size={11} className="text-yellow" /> 1 In Progress
+                  <Loader size={11} className="text-warning" /> 1 In Progress
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Circle size={11} /> 1 Pending

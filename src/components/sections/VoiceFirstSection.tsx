@@ -9,7 +9,7 @@ const flow = [
   { icon: <Mic size={18} />, label: 'Telugu Voice Note', sublabel: 'Audio message received', color: 'bg-warning-subtle text-warning' },
   { icon: <FileText size={18} />, label: 'Transcription', sublabel: 'Speech-to-text processing', color: 'bg-primary-subtle text-primary' },
   { icon: <Layers size={18} />, label: 'Structured Case', sublabel: 'AI-organized information', color: 'bg-success-subtle text-success' },
-  { icon: <User size={18} />, label: 'Creator Review', sublabel: 'Human verification step', color: 'bg-success-subtle text-green' },
+  { icon: <User size={18} />, label: 'Creator Review', sublabel: 'Human verification step', color: 'bg-success-subtle text-success' },
 ];
 
 const features = [

@@ -8,8 +8,8 @@ import { Building2, Send, Clock, FileCheck, ArrowRight, ShieldCheck } from 'luci
 const steps = [
   { icon: <Building2 size={16} />, label: 'Authority identified', color: 'bg-primary-subtle text-primary' },
   { icon: <Send size={16} />, label: 'Response requested', color: 'bg-success-subtle text-success' },
-  { icon: <Clock size={16} />, label: 'Deadline tracked', color: 'bg-warning-subtle text-yellow' },
-  { icon: <FileCheck size={16} />, label: 'Response received', color: 'bg-success-subtle text-green' },
+  { icon: <Clock size={16} />, label: 'Deadline tracked', color: 'bg-warning-subtle text-warning' },
+  { icon: <FileCheck size={16} />, label: 'Response received', color: 'bg-success-subtle text-success' },
   { icon: <ShieldCheck size={16} />, label: 'Added to case', color: 'bg-warning-subtle text-warning' },
 ];
 

@@ -14,11 +14,11 @@ import {
 } from 'lucide-react';
 
 const sources = [
-  { icon: <MessageCircle size={18} />, label: 'WhatsApp', color: 'text-green' },
+  { icon: <MessageCircle size={18} />, label: 'WhatsApp', color: 'text-success' },
   { icon: <AtSign size={18} />, label: 'Instagram DMs', color: 'text-warning' },
   { icon: <Mic size={18} />, label: 'Voice Notes', color: 'text-success' },
   { icon: <FileText size={18} />, label: 'Documents', color: 'text-primary' },
-  { icon: <Camera size={18} />, label: 'Photos', color: 'text-yellow' },
+  { icon: <Camera size={18} />, label: 'Photos', color: 'text-warning' },
   { icon: <Video size={18} />, label: 'Videos', color: 'text-red' },
   { icon: <Mail size={18} />, label: 'Emails', color: 'text-muted-foreground' },
 ];

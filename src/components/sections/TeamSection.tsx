@@ -26,10 +26,10 @@ const roles = [
 ];
 
 const activities = [
-  { icon: <CheckCircle size={12} className="text-green" />, action: 'Editor verified complaint document', time: '2h ago' },
+  { icon: <CheckCircle size={12} className="text-success" />, action: 'Editor verified complaint document', time: '2h ago' },
   { icon: <MessageSquare size={12} className="text-primary" />, action: 'Researcher added internal note', time: '3h ago' },
   { icon: <ListTodo size={12} className="text-warning" />, action: 'Task assigned to investigator', time: '5h ago' },
-  { icon: <Clock size={12} className="text-yellow" />, action: 'Deadline updated for response', time: '1d ago' },
+  { icon: <Clock size={12} className="text-warning" />, action: 'Deadline updated for response', time: '1d ago' },
 ];
 
 export default function TeamSection() {

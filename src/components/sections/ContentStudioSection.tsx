@@ -76,7 +76,7 @@ export default function ContentStudioSection() {
                     <User size={12} /> Creator reviews
                   </div>
                   <span className="text-secondary text-xs">→</span>
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-success-subtle rounded-lg text-xs font-medium text-green">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-success-subtle rounded-lg text-xs font-medium text-success">
                     <CheckCircle size={12} /> Creator approves
                   </div>
                   <span className="text-secondary text-xs">→</span>

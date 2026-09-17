@@ -32,7 +32,7 @@ const PRIORITY_CONFIG: Record<string, { label: string; bg: string; text: string;
   URGENT: {
     label: 'Urgent',
     bg: 'bg-red-50',
-    text: 'text-red-700',
+    text: 'text-red-800',
     border: 'border-red-200',
     icon: AlertCircle,
   },
