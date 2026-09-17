@@ -15,8 +15,8 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: 'Open Vaartha — Citizen Helpdesk',
-  description: 'Report civic issues, government failures, and public problems to the Open Vaartha investigative team.',
+  title: 'Citizen Helpdesk',
+  description: 'Report civic issues, government failures, and public problems to the team investigating them.',
 };
 
 export const viewport: Viewport = {

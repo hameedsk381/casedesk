@@ -96,7 +96,7 @@ export default function NotificationMenu() {
                       )}
                     </div>
                     <p className="mt-1 text-xs text-slate leading-relaxed">{n.message}</p>
-                    <div className="mt-2 flex items-center gap-1 text-[10px] text-slate-400">
+                    <div className="mt-2 flex items-center gap-1 text-[10px] text-slate-500">
                       <Clock size={10} />
                       <span>{new Date(n.createdAt).toLocaleDateString()}</span>
                     </div>

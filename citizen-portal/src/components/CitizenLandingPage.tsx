@@ -157,12 +157,12 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm shadow-2xs">
-              OV
+            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-2xs">
+              <ShieldCheck size={16} />
             </div>
             <div>
               <span className="font-extrabold text-sm tracking-tight text-navy block leading-none">
-                {endpoint.workspaceName || 'Open Vaartha'}
+                {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
               </span>
               <span className="text-[11px] text-slate-500 font-medium">
                 {lang === 'te' ? 'ప్రజా సమస్యల పోర్టల్' : 'Citizen Helpdesk'}
@@ -446,21 +446,10 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
             <Lock size={13} className="text-emerald-600" />
             <span>{lang === 'te' ? 'మీ సమాచారం పూర్తిగా గోప్యంగా ఉంటుంది' : 'Your Information Is Safe With Us'}</span>
           </div>
-          <p className="text-[11px] text-slate-400">
+          <p className="text-[11px] text-slate-500">
             {lang === 'te'
               ? 'మీరు అనామకంగా ఉండాలనుకుంటే మీ పేరు లేదా ఫోన్ నంబర్ ఏ అధికారిక సంస్థకూ ఇవ్వబడదు.'
               : 'If you choose to stay anonymous, your name and phone number are never shared.'}
-          </p>
-          <p className="text-[10px] text-slate-400 pt-1">
-            {lang === 'te' ? 'ఓపెన్ వార్త లో భాగం' : 'Part of'}{' '}
-            <a
-              href="https://openvaartha.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-navy/70 hover:text-navy transition-colors"
-            >
-              Open Vaartha
-            </a>
           </p>
         </div>
       </footer>
@@ -481,7 +470,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
                   setLookupResult(null);
                   setTrackingCode('');
                 }}
-                className="p-1 text-slate-400 hover:text-navy cursor-pointer"
+                className="p-1 text-slate-500 hover:text-navy cursor-pointer"
               >
                 <X size={16} />
               </button>
@@ -501,7 +490,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
                   placeholder="CD-IN-2026-XXXXX"
                   value={trackingCode}
                   onChange={(e) => setTrackingCode(e.target.value)}
-                  className="w-full p-2.5 bg-off-white border border-border-light rounded-xl text-xs font-mono font-bold text-navy placeholder:text-slate-400 focus:outline-none focus:border-electric-blue uppercase"
+                  className="w-full p-2.5 bg-off-white border border-border-light rounded-xl text-xs font-mono font-bold text-navy placeholder:text-slate-500 focus:outline-none focus:border-electric-blue uppercase"
                 />
 
                 <button
@@ -558,7 +547,7 @@ export function CitizenLandingPage({ endpoint, apiBaseUrl = 'http://localhost:30
                       ) : (
                         <div className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" />
                       )}
-                      <span className={st.done ? 'text-navy font-semibold' : 'text-slate-400'}>
+                      <span className={st.done ? 'text-navy font-semibold' : 'text-slate-500'}>
                         {st.title}
                       </span>
                     </div>

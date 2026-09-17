@@ -95,7 +95,7 @@ export default function RequestInfoModal({
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1 rounded-full text-slate-400 hover:text-navy cursor-pointer">
+          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-navy cursor-pointer">
             <X size={18} />
           </button>
         </div>

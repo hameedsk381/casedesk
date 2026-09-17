@@ -20,14 +20,14 @@
   --teal: #0f766e;
   --teal-light: #14b8a6;
   --teal-subtle: #f0fdfa;
-  --coral: #bc6c25;
+  --coral: #a0530b;
   --coral-light: #cb997e;
   --coral-subtle: #f8efe6;
   --red: #bb1b1b;
   --red-subtle: #f9ecec;
   --green: #267346;
   --green-subtle: #edf7f0;
-  --yellow: #b66f0c;
+  --yellow: #8a5608;
   --yellow-subtle: #fbf3e4;
 }
 
@@ -92,12 +92,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ded5c9;
+  background: #93816a;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b6a896;
+  background: #695a4f;
 }
 
 /* Smooth message animations */

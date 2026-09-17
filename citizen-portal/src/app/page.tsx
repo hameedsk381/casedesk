@@ -19,13 +19,13 @@ async function getEndpoint() {
 
   return {
     slug: DEFAULT_SLUG,
-    title: 'Open Vaartha — Citizen Helpdesk',
-    description: 'Report civic issues, government failures, and public problems to the Open Vaartha investigative team.',
+    title: 'Citizen Helpdesk',
+    description: 'Report civic issues, government failures, and public problems to the team investigating them.',
     requireContact: false,
     allowAnonymous: true,
     allowVoice: true,
     allowAttachments: true,
-    workspaceName: 'Open Vaartha',
+    workspaceName: 'Citizen Helpdesk',
   };
 }
 

@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { ShieldCheck, Lock, ExternalLink } from 'lucide-react';
 
 export const metadata = {
-  title: 'Open Vaartha — Citizen Helpdesk',
-  description: 'Report civic issues, government failures, and public problems to the Open Vaartha investigative team.',
+  title: 'Citizen Helpdesk',
+  description: 'Report civic issues, government failures, and public problems to the team investigating them.',
 };
 
 export default function SubmitLayout({ children }: { children: React.ReactNode }) {
@@ -14,12 +14,12 @@ export default function SubmitLayout({ children }: { children: React.ReactNode }
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs">
-              OV
+            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-xs">
+              <ShieldCheck size={16} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm tracking-tight text-navy">Open Vaartha</span>
+                <span className="font-extrabold text-sm tracking-tight text-navy">Citizen Helpdesk</span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
                   Citizen Portal
                 </span>
@@ -36,8 +36,8 @@ export default function SubmitLayout({ children }: { children: React.ReactNode }
             <Link
               href="/"
               target="_blank"
-              className="text-slate-400 hover:text-navy transition-colors p-1"
-              title="Learn more about Open Vaartha"
+              className="text-slate-500 hover:text-navy transition-colors p-1"
+              title="Learn more about this helpdesk"
             >
               <ExternalLink size={14} />
             </Link>
@@ -57,19 +57,11 @@ export default function SubmitLayout({ children }: { children: React.ReactNode }
             <ShieldCheck size={14} className="text-electric-blue" />
             <span>Journalistic Whistleblower & Source Protection Guarantee</span>
           </div>
-          <p className="text-[11px] leading-relaxed text-slate-400">
+          <p className="text-[11px] leading-relaxed text-slate-500">
             Your safety and privacy are respected. Information shared here is received by accredited journalists for public-interest reporting. You retain full control over anonymity and contact preferences.
           </p>
-          <div className="pt-2 text-[10px] text-slate-400">
-            <a
-              href="https://openvaartha.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-navy transition-colors"
-            >
-              Open Vaartha
-            </a>{' '}
-            • Protected by end-to-end data encryption
+          <div className="pt-2 text-[10px] text-slate-500">
+            Citizen Helpdesk • Protected by end-to-end data encryption
           </div>
         </div>
       </footer>

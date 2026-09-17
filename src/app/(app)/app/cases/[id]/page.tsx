@@ -60,7 +60,7 @@ export default async function CaseOverviewPage({
 
       {/* What Was Reported (Raw Source Intake) */}
       <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-3">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
           What Was Reported (Raw Intake)
         </h3>
 
@@ -97,7 +97,7 @@ export default async function CaseOverviewPage({
           </div>
 
           {verifiedItems.length === 0 ? (
-            <p className="text-xs text-slate-400 py-4 text-center">
+            <p className="text-xs text-slate-500 py-4 text-center">
               No facts verified yet. Check the Verification tab to begin corroboration.
             </p>
           ) : (
@@ -140,7 +140,7 @@ export default async function CaseOverviewPage({
           </div>
 
           {unverifiedClaims.length === 0 ? (
-            <p className="text-xs text-slate-400 py-4 text-center">
+            <p className="text-xs text-slate-500 py-4 text-center">
               All listed claims have supporting evidence on record.
             </p>
           ) : (
@@ -173,7 +173,7 @@ export default async function CaseOverviewPage({
 
       {/* Recommended Next Operational Steps */}
       <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
           Recommended Next Editorial Steps
         </h3>
 

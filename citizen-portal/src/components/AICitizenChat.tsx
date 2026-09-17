@@ -113,7 +113,7 @@ export function AICitizenChat({
     const greetingText =
       lang === 'te'
         ? `నమస్కారం! నేను ${endpoint.title || 'కేస్‌డెస్క్'} AI పరిశోధనా సహాయకుడిని.\n\nప్రజా సమస్యలు, ఆసుపత్రుల నిర్లక్ష్యం, రోడ్లు/తాగునీటి కొరత లేదా లంచాల సమస్యలను నాతో పంచుకోండి.\n\n✨ మీరు తెలుగులో అయినా, Tenglish (ఇంగ్లీష్ అక్షరాలతో, ఉదా: "Maa oori hospital lo...") అయినా, లేదా English లో అయినా టైప్ చేయవచ్చు లేదా మైక్ నొక్కి మాట్లాడవచ్చు.`
-        : `Hello! I am the AI investigative intake assistant for ${endpoint.title || 'Open Vaartha'}.\n\nTell us what happened regarding healthcare failures, public works, civic emergencies, or government inaction.\n\n✨ You can write in English, Telugu, or Tenglish (Telugu phonetically in English letters, e.g. "Maa oori lo..."), or tap the microphone to speak naturally.`;
+        : `Hello! I am the AI intake assistant for ${endpoint.title || 'Citizen Helpdesk'}.\n\nTell us what happened regarding healthcare failures, public works, civic emergencies, or government inaction.\n\n✨ You can write in English, Telugu, or Tenglish (Telugu phonetically in English letters, e.g. "Maa oori lo..."), or tap the microphone to speak naturally.`;
 
     setMessages([
       {
@@ -411,20 +411,20 @@ export function AICitizenChat({
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs">
-              OV
+            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-xs">
+              <ShieldCheck size={16} />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm tracking-tight text-navy">
-                  Open Vaartha
+                  {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
                 </span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
                   Citizen Portal
                 </span>
               </div>
               <div className="text-[11px] text-slate-500 font-medium">
-                {endpoint.workspaceName || 'Public Civic Investigation Desk'}
+                {endpoint.title || 'Public Civic Investigation Desk'}
               </div>
             </div>
           </div>
@@ -448,7 +448,7 @@ export function AICitizenChat({
 
             {/* Multilingual Switcher matching creator portal */}
             <div className="flex items-center gap-1.5 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
-              <Languages size={13} className="text-slate-400 ml-1.5" />
+              <Languages size={13} className="text-slate-500 ml-1.5" />
               <button
                 onClick={() => setLang('en')}
                 className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
@@ -491,7 +491,7 @@ export function AICitizenChat({
               <span className="text-xs font-bold text-navy">
                 {lang === 'te' ? 'సహాయకుడు' : 'AI Assistant'}
               </span>
-              <span className="text-[10px] text-slate-400">• Online</span>
+              <span className="text-[10px] text-slate-500">• Online</span>
               <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-cream text-navy border border-border-light text-[10px] font-bold ml-1">
                 <Languages size={11} className="text-electric-blue" />
                 <span>తెలుగు • Tenglish • English</span>
@@ -515,7 +515,7 @@ export function AICitizenChat({
                 <div className="p-5 sm:p-6 rounded-2xl bg-off-white border border-border-light/80 space-y-3">
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-electric-blue/10 text-electric-blue text-xs font-bold">
                     <Sparkles size={12} />
-                    <span>{endpoint.title || 'Open Vaartha Desk'}</span>
+                    <span>{endpoint.title || 'Citizen Helpdesk'}</span>
                   </div>
 
                   <h1 className="text-xl sm:text-2xl font-black tracking-tight text-navy leading-snug">
@@ -647,7 +647,7 @@ export function AICitizenChat({
 
                     <span
                       className={`text-[10px] block mt-1.5 ${
-                        msg.role === 'user' ? 'text-slate-300 text-right' : 'text-slate-400 text-left'
+                        msg.role === 'user' ? 'text-slate-500 text-right' : 'text-slate-500 text-left'
                       }`}
                     >
                       {msg.timestamp}
@@ -673,7 +673,7 @@ export function AICitizenChat({
 
                     {/* Reference Number Box */}
                     <div className="p-4 rounded-2xl bg-white border border-border-light max-w-sm mx-auto space-y-1.5 shadow-2xs">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
                         {lang === 'te' ? 'రిఫరెన్స్ కోడ్' : 'Reference Number'}
                       </span>
                       <div className="flex items-center justify-center gap-2">
@@ -688,7 +688,7 @@ export function AICitizenChat({
                           {copiedRef ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
                         </button>
                       </div>
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-[11px] text-slate-500">
                         {lang === 'te' ? 'భవిష్యత్తు సమాచారం కోసం ఈ కోడ్‌ను భద్రపరుచుకోండి.' : 'Save this number to follow up on your story.'}
                       </p>
                     </div>
@@ -775,7 +775,7 @@ export function AICitizenChat({
                   <span className="truncate max-w-[130px] font-medium">{file.name}</span>
                   <button
                     onClick={() => setAttachedFiles((prev) => prev.filter((_, i) => i !== idx))}
-                    className="text-slate-400 hover:text-red-500 ml-1 cursor-pointer"
+                    className="text-slate-500 hover:text-red-500 ml-1 cursor-pointer"
                   >
                     <Trash2 size={13} />
                   </button>
@@ -864,7 +864,7 @@ export function AICitizenChat({
                       ? 'Maa oori lo... లేదా మీ మాటల్లో రాయండి / మైక్ నొక్కండి...'
                       : 'Type in English, Telugu, or Tenglish (e.g., Maa oori lo...)...'
                   }
-                  className="flex-1 bg-off-white border border-border-light focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/20 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-navy placeholder:text-slate-400 focus:outline-none transition"
+                  className="flex-1 bg-off-white border border-border-light focus:border-electric-blue focus:ring-2 focus:ring-electric-blue/20 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-navy placeholder:text-slate-500 focus:outline-none transition"
                 />
 
                 {/* Send Button */}
@@ -890,16 +890,13 @@ export function AICitizenChat({
             <ShieldCheck size={14} className="text-electric-blue" />
             <span>{lang === 'te' ? 'జర్నలిస్టిక్ మూలాల రక్షణ హామీ' : 'Journalistic Whistleblower & Source Protection Guarantee'}</span>
           </div>
-          <p className="text-[11px] leading-relaxed text-slate-400">
+          <p className="text-[11px] leading-relaxed text-slate-500">
             {lang === 'te'
               ? 'మీ భద్రత మరియు గోప్యత గౌరవించబడతాయి. ప్రజల హక్కుల కోసం పరిశోధనాత్మక జర్నలిస్టులకు సమాచారం చేరుతుంది. మీరు అనామకంగా ఉండడాన్ని ఎంచుకోవచ్చు.'
               : 'Your safety and privacy are respected. Information shared here is received by accredited journalists for public-interest reporting. You retain full control over anonymity and contact preferences.'}
           </p>
-          <div className="pt-1 text-[10px] text-slate-400">
-            <a href="https://openvaartha.com" target="_blank" rel="noopener noreferrer" className="hover:text-navy transition-colors">
-              Open Vaartha
-            </a>{' '}
-            • Protected by end-to-end data encryption
+          <div className="pt-1 text-[10px] text-slate-500">
+            {endpoint.workspaceName || 'Citizen Helpdesk'} • Protected by end-to-end data encryption
           </div>
         </div>
       </footer>
@@ -916,7 +913,7 @@ export function AICitizenChat({
               </div>
               <button
                 onClick={() => setShowConsentModal(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-navy cursor-pointer"
+                className="p-1 rounded-lg text-slate-500 hover:text-navy cursor-pointer"
               >
                 <X size={18} />
               </button>
@@ -955,7 +952,7 @@ export function AICitizenChat({
                       placeholder={lang === 'te' ? 'పూర్తి పేరు' : 'Full Name'}
                       value={senderName}
                       onChange={(e) => setSenderName(e.target.value)}
-                      className="w-full rounded-xl bg-white border border-border-light px-3 py-2 text-xs text-navy placeholder:text-slate-400 focus:outline-none focus:border-electric-blue"
+                      className="w-full rounded-xl bg-white border border-border-light px-3 py-2 text-xs text-navy placeholder:text-slate-500 focus:outline-none focus:border-electric-blue"
                     />
                   </div>
                   <div>
@@ -967,7 +964,7 @@ export function AICitizenChat({
                       placeholder={lang === 'te' ? 'నంబర్' : 'Phone Number'}
                       value={senderPhone}
                       onChange={(e) => setSenderPhone(e.target.value)}
-                      className="w-full rounded-xl bg-white border border-border-light px-3 py-2 text-xs text-navy placeholder:text-slate-400 focus:outline-none focus:border-electric-blue"
+                      className="w-full rounded-xl bg-white border border-border-light px-3 py-2 text-xs text-navy placeholder:text-slate-500 focus:outline-none focus:border-electric-blue"
                     />
                   </div>
                 </div>

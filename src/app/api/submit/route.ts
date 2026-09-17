@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSubmissionEndpoint, processCitizenSubmission } from '@/lib/intake/submissionService';
 import { savePrivateUpload } from '@/lib/storage';
 import { CitizenSubmissionSchema } from '@/lib/contracts/intake';
+import { rateLimit, getClientIp } from '@/lib/rateLimit';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -45,6 +46,14 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const rl = rateLimit(`submit:${getClientIp(request)}`, 5, 10 * 60 * 1000);
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: 'Too many reports submitted. Please try again shortly.' },
+        { status: 429, headers: { ...corsHeaders, 'Retry-After': String(rl.retryAfterSeconds) } }
+      );
+    }
+
     const contentType = request.headers.get('content-type') || '';
     let payload: any = {};
     const uploadedFiles: Array<{

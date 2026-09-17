@@ -191,7 +191,7 @@ export default function CaseInvestigationPage() {
 
         <div className="space-y-3">
           {verificationItems.length === 0 ? (
-            <p className="text-xs text-slate-400 py-4 text-center">
+            <p className="text-xs text-slate-500 py-4 text-center">
               No verification statements logged yet.
             </p>
           ) : (
@@ -264,7 +264,7 @@ export default function CaseInvestigationPage() {
 
         <div className="space-y-2">
           {tasks.length === 0 ? (
-            <p className="text-xs text-slate-400 py-4 text-center">
+            <p className="text-xs text-slate-500 py-4 text-center">
               No tasks assigned yet. Add research tasks to track your workflow.
             </p>
           ) : (
@@ -288,7 +288,7 @@ export default function CaseInvestigationPage() {
                       {isDone ? (
                         <CheckSquare size={18} className="text-teal" />
                       ) : (
-                        <Square size={18} className="text-slate-400" />
+                        <Square size={18} className="text-slate-500" />
                       )}
                     </button>
 
@@ -306,7 +306,7 @@ export default function CaseInvestigationPage() {
                         </p>
                       )}
 
-                      <div className="mt-2 flex flex-wrap items-center gap-3 text-[10px] text-slate-400">
+                      <div className="mt-2 flex flex-wrap items-center gap-3 text-[10px] text-slate-500">
                         {task.dueDate && (
                           <div className="flex items-center gap-1">
                             <Clock size={11} />

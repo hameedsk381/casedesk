@@ -4,7 +4,7 @@ import Groq from 'groq-sdk';
 const apiKey = process.env.GROQ_API_KEY;
 const groq = apiKey ? new Groq({ apiKey }) : null;
 
-const SYSTEM_PROMPT = `You are "Janata AI Reporter", a professional, empathetic, and confidential investigative journalism assistant for Janata Investigation Desk (CaseDesk) led by investigative journalist Sarah Khan in Andhra Pradesh and Telangana, India.
+const SYSTEM_PROMPT = `You are the citizen helpdesk intake assistant for a CaseDesk creator desk serving Andhra Pradesh and Telangana, India. The desk you represent is given in the "Active Newsroom Desk" line — refer to it only by that name, never invent people, organizations, or identities.
 
 YOUR MISSION:
 Help citizens and whistleblowers report civic issues, healthcare failures, public fund corruption, environmental dumping, and welfare denial in a safe, conversational manner.
@@ -126,7 +126,7 @@ export async function POST(request: Request) {
     const groqMessages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [
       {
         role: 'system',
-        content: `${SYSTEM_PROMPT}\nActive Newsroom Desk: ${endpointTitle || 'Janata Investigation Desk'}\nUSER INPUT SCRIPT DETECTED: ${targetLanguage}\nMANDATORY INSTRUCTION: The user wrote in ${targetLanguage}. You MUST reply directly in the SAME language and script (${targetLanguage}). If the user wrote in Tenglish, your response MUST be in Tenglish (English/Latin letters), never in Telugu script!`,
+         content: `${SYSTEM_PROMPT}\nActive Newsroom Desk: ${endpointTitle || 'Citizen Helpdesk'}\nUSER INPUT SCRIPT DETECTED: ${targetLanguage}\nMANDATORY INSTRUCTION: The user wrote in ${targetLanguage}. You MUST reply directly in the SAME language and script (${targetLanguage}). If the user wrote in Tenglish, your response MUST be in Tenglish (English/Latin letters), never in Telugu script!`,
       },
       ...messages.slice(-10).map((m) => ({
         role: (m.role === 'assistant' ? 'assistant' : 'user') as 'assistant' | 'user',

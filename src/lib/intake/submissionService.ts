@@ -1,6 +1,7 @@
 import prisma from '../db/prisma';
 import { generateIntakeReferenceNumber } from './referenceNumber';
 import { enqueueIntakeTriage } from '../queue/intakeQueue';
+import { isMailConfigured, sendSubmissionNotification } from '../mailer';
 
 export interface CitizenSubmissionPayload {
   slug?: string;
@@ -56,7 +57,8 @@ export async function getSubmissionEndpoint(slug?: string) {
 
   if (defaultEndpoint) return defaultEndpoint;
 
-  // Fallback to workspace directly
+  // Fallback to workspace directly — expose only generic public branding,
+  // never the internal workspace name (which may contain personal identities)
   const defaultWorkspace = await prisma.workspace.findFirst();
   if (!defaultWorkspace) throw new Error('No active workspace found');
 
@@ -64,14 +66,19 @@ export async function getSubmissionEndpoint(slug?: string) {
     id: 'default',
     workspaceId: defaultWorkspace.id,
     slug: defaultWorkspace.slug,
-    title: `${defaultWorkspace.name} — Citizen Story Portal`,
-    description: 'Report civic emergencies and issues directly to the investigative newsroom.',
+    title: 'Citizen Helpdesk',
+    description: 'Report civic issues, government failures, and public problems to the team investigating them.',
     isActive: true,
     requireContact: false,
     allowAnonymous: true,
     allowVoice: true,
     allowAttachments: true,
-    workspace: defaultWorkspace,
+    workspace: {
+      id: defaultWorkspace.id,
+      name: 'Citizen Helpdesk',
+      slug: defaultWorkspace.slug,
+      description: defaultWorkspace.description,
+    },
   };
 }
 
@@ -153,6 +160,39 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
 
   // Enqueue background worker for Groq Whisper transcription & Llama triage
   enqueueIntakeTriage(intakeItem.id);
+
+  // Notify the newsroom by email (never blocks or fails the submission)
+  if (isMailConfigured()) {
+    try {
+      let recipients: string[] = [];
+      const notifyOverride = process.env.WORKSPACE_NOTIFY_EMAIL;
+      if (notifyOverride) {
+        recipients = notifyOverride.split(',').map((e) => e.trim()).filter(Boolean);
+      } else {
+        const members = await prisma.workspaceMember.findMany({
+          where: { workspaceId },
+          select: { user: { select: { email: true } } },
+          take: 10,
+        });
+        recipients = members.map((m) => m.user.email).filter(Boolean);
+      }
+
+      if (recipients.length > 0) {
+        await sendSubmissionNotification({
+          to: recipients,
+          referenceNumber,
+          category: intakeItem.aiCategory || 'General Civic Issue',
+          location: combinedLocation,
+          isAnonymous: Boolean(payload.isAnonymous),
+          senderName: payload.isAnonymous ? null : payload.senderName || null,
+          hasAttachments: (payload.files?.length || 0) > 0,
+          storyPreview: payload.story,
+        });
+      }
+    } catch (mailErr: any) {
+      console.error('[submissionService] Email notification failed:', mailErr?.message || mailErr);
+    }
+  }
 
   // Return immediate response with milestone tracker steps
   return {

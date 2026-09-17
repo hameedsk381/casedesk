@@ -26,9 +26,9 @@ const roles = [
 ];
 
 const activities = [
-  { icon: <CheckCircle size={12} className="text-green" />, action: 'Priya verified complaint document', time: '2h ago' },
-  { icon: <MessageSquare size={12} className="text-electric-blue" />, action: 'Ravi added internal note', time: '3h ago' },
-  { icon: <ListTodo size={12} className="text-coral" />, action: 'Task assigned to Sana', time: '5h ago' },
+  { icon: <CheckCircle size={12} className="text-green" />, action: 'Editor verified complaint document', time: '2h ago' },
+  { icon: <MessageSquare size={12} className="text-electric-blue" />, action: 'Researcher added internal note', time: '3h ago' },
+  { icon: <ListTodo size={12} className="text-coral" />, action: 'Task assigned to investigator', time: '5h ago' },
   { icon: <Clock size={12} className="text-yellow" />, action: 'Deadline updated for response', time: '1d ago' },
 ];
 

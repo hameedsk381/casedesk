@@ -71,13 +71,13 @@ export default function SignupPage() {
                 Full Name
               </label>
               <div className="relative">
-                <User size={18} className="absolute left-3.5 top-3.5 text-slate-400" />
+                <User size={18} className="absolute left-3.5 top-3.5 text-slate-500" />
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="K. Sarah Rao"
+                  placeholder="Your full name"
                   className="w-full pl-10 pr-4 py-2.5 bg-off-white/50 border border-border-light rounded-xl text-sm text-navy focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue transition-all"
                 />
               </div>
@@ -88,7 +88,7 @@ export default function SignupPage() {
                 Work Email
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-3.5 top-3.5 text-slate-400" />
+                <Mail size={18} className="absolute left-3.5 top-3.5 text-slate-500" />
                 <input
                   type="email"
                   required
@@ -105,7 +105,7 @@ export default function SignupPage() {
                 Password
               </label>
               <div className="relative">
-                <Lock size={18} className="absolute left-3.5 top-3.5 text-slate-400" />
+                <Lock size={18} className="absolute left-3.5 top-3.5 text-slate-500" />
                 <input
                   type="password"
                   required

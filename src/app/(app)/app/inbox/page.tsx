@@ -366,7 +366,7 @@ export default function IntakeInboxPage() {
             href={`${process.env.NEXT_PUBLIC_CITIZEN_PORTAL_URL || 'http://localhost:3001'}/janata-investigation-desk`}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2.5 bg-white hover:bg-slate-50 text-slate-400 hover:text-navy rounded-xl border border-border-light shadow-2xs transition-colors"
+            className="p-2.5 bg-white hover:bg-slate-50 text-slate-500 hover:text-navy rounded-xl border border-border-light shadow-2xs transition-colors"
             title="Launch Standalone Citizen Portal (Port 3001)"
           >
             <ExternalLink size={14} />
@@ -459,7 +459,7 @@ export default function IntakeInboxPage() {
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
           {/* Debounced Search */}
           <div className="relative flex-1">
-            <Search size={15} className="absolute left-3.5 top-3 text-slate-400" />
+            <Search size={15} className="absolute left-3.5 top-3 text-slate-500" />
             <input
               type="text"
               value={search}
@@ -483,7 +483,7 @@ export default function IntakeInboxPage() {
 
         {/* Filter Dropdowns */}
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border-light/60 text-xs">
-          <span className="font-bold text-slate-400 flex items-center gap-1 mr-1">
+          <span className="font-bold text-slate-500 flex items-center gap-1 mr-1">
             <Filter size={12} />
             <span>Filters:</span>
           </span>
@@ -606,7 +606,7 @@ export default function IntakeInboxPage() {
             </button>
             <button
               onClick={() => setSelectedIds([])}
-              className="p-1 text-slate-400 hover:text-white cursor-pointer"
+              className="p-1 text-slate-300 hover:text-white cursor-pointer"
               title="Clear selection"
             >
               <X size={16} />
@@ -617,7 +617,7 @@ export default function IntakeInboxPage() {
 
       {/* Message List Content */}
       {loading ? (
-        <div className="bg-white rounded-3xl border border-border-light p-16 flex flex-col items-center justify-center text-slate-400">
+        <div className="bg-white rounded-3xl border border-border-light p-16 flex flex-col items-center justify-center text-slate-500">
           <Loader2 size={32} className="animate-spin text-electric-blue mb-3" />
           <span className="text-sm font-medium">Filtering intake reports...</span>
         </div>
@@ -644,7 +644,7 @@ export default function IntakeInboxPage() {
       ) : (
         /* Message Cards (Section 6) */
         <div className="space-y-3.5">
-          <div className="flex items-center justify-between px-2 text-xs text-slate-400">
+          <div className="flex items-center justify-between px-2 text-xs text-slate-500">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -726,7 +726,7 @@ export default function IntakeInboxPage() {
                         )}
                       </div>
 
-                      <div className="flex items-center gap-2 text-slate-400">
+                      <div className="flex items-center gap-2 text-slate-500">
                         <Clock size={12} />
                         <span>{formatRelativeTime(item.createdAt)}</span>
                       </div>
@@ -739,7 +739,7 @@ export default function IntakeInboxPage() {
 
                     {/* AI Tag Line */}
                     <div className="flex items-center gap-2 text-xs font-semibold">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
                         AI
                       </span>
                       <span className="text-navy">{item.aiCategory || 'Civic Infrastructure'}</span>
@@ -812,7 +812,7 @@ export default function IntakeInboxPage() {
                     {item.status !== 'ARCHIVED' && (
                       <button
                         onClick={() => setArchivingItem(item)}
-                        className="px-2.5 py-1 text-slate-400 hover:text-red-600 hover:bg-red-50 text-[11px] font-medium rounded-lg transition-colors cursor-pointer"
+                        className="px-2.5 py-1 text-slate-500 hover:text-red-600 hover:bg-red-50 text-[11px] font-medium rounded-lg transition-colors cursor-pointer"
                       >
                         Archive
                       </button>

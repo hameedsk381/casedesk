@@ -209,7 +209,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
                       <span className="font-semibold text-navy">
                         {merged.sourceType} • {merged.senderName || 'Anonymous'}
                       </span>
-                      <span className="text-slate-400">
+                      <span className="text-slate-500">
                         {new Date(merged.createdAt).toLocaleDateString('en-IN', {
                           day: 'numeric',
                           month: 'short',

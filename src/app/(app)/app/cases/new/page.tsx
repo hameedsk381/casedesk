@@ -267,7 +267,7 @@ function NewCaseInner() {
                     ? 'bg-navy text-white'
                     : currentStep > step.id
                     ? 'bg-teal text-white'
-                    : 'bg-slate-100 text-slate-400'
+                    : 'bg-slate-100 text-slate-500'
                 }`}
               >
                 {currentStep > step.id ? <CheckCircle2 size={14} /> : step.id}
@@ -278,7 +278,7 @@ function NewCaseInner() {
                     ? 'text-navy'
                     : currentStep > step.id
                     ? 'text-slate-600'
-                    : 'text-slate-400'
+                    : 'text-slate-500'
                 }`}
               >
                 {step.name}
@@ -375,7 +375,7 @@ function NewCaseInner() {
                     className="hidden"
                   />
                 </label>
-                <p className="text-[11px] text-slate-400 mt-1">
+                <p className="text-[11px] text-slate-500 mt-1">
                   Document content will be parsed for claims and dates.
                 </p>
               </div>
@@ -397,7 +397,7 @@ function NewCaseInner() {
                     className="hidden"
                   />
                 </label>
-                <p className="text-[11px] text-slate-400 mt-1">
+                <p className="text-[11px] text-slate-500 mt-1">
                   Local mock transcription will convert audio to text automatically.
                 </p>
               </div>
@@ -419,7 +419,7 @@ function NewCaseInner() {
               value={sourceText}
               onChange={(e) => setSourceText(e.target.value)}
               placeholder="Paste the WhatsApp message, Instagram DM, email, or complaint here..."
-              className="w-full p-4 bg-off-white/40 border border-border-light rounded-2xl text-sm text-navy focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue leading-relaxed placeholder:text-slate-400 font-sans"
+              className="w-full p-4 bg-off-white/40 border border-border-light rounded-2xl text-sm text-navy focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue leading-relaxed placeholder:text-slate-500 font-sans"
             />
           </div>
 
@@ -428,7 +428,7 @@ function NewCaseInner() {
               onClick={() => {
                 // Populate sample realistic report for quick demonstration
                 setSourceText(
-                  'Namaste Sarah garu, yesterday night at Guntur GGH 3rd floor ICU, power went out at 11:20 PM. Back-up generator did not start for 40 mins. Nurses were using manual AMBU bags. Two patients had severe saturation drops. Hospital staff warned us not to record videos. Please investigate this.'
+                  'Namaste, yesterday night at Guntur GGH 3rd floor ICU, power went out at 11:20 PM. Back-up generator did not start for 40 mins. Nurses were using manual AMBU bags. Two patients had severe saturation drops. Hospital staff warned us not to record videos. Please investigate this.'
                 );
               }}
               className="text-xs font-semibold text-slate-500 hover:text-navy cursor-pointer"
@@ -545,7 +545,7 @@ function NewCaseInner() {
                 <label className="block text-xs font-bold text-navy uppercase tracking-wider">
                   Extracted Claims (Editorial Review Status: UNVERIFIED)
                 </label>
-                <span className="text-[11px] text-slate-400">Claims are allegations to be tested</span>
+                <span className="text-[11px] text-slate-500">Claims are allegations to be tested</span>
               </div>
 
               <div className="space-y-2">
@@ -554,12 +554,12 @@ function NewCaseInner() {
                     key={idx}
                     className="flex items-center gap-2 p-3 bg-off-white/50 rounded-xl border border-border-light text-xs text-navy"
                   >
-                    <span className="font-bold text-slate-400">{idx + 1}.</span>
+                    <span className="font-bold text-slate-500">{idx + 1}.</span>
                     <span className="flex-1 font-medium">{claim}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveClaim(idx)}
-                      className="text-slate-400 hover:text-red-500 transition-colors p-1 cursor-pointer"
+                      className="text-slate-500 hover:text-red-500 transition-colors p-1 cursor-pointer"
                     >
                       <Trash2 size={14} />
                     </button>
@@ -851,30 +851,30 @@ function NewCaseInner() {
 
           <div className="space-y-4 p-5 rounded-2xl bg-off-white/60 border border-border-light text-xs">
             <div>
-              <span className="font-bold uppercase tracking-wider text-slate-400 block mb-1">Title</span>
+              <span className="font-bold uppercase tracking-wider text-slate-500 block mb-1">Title</span>
               <div className="text-sm font-bold text-navy">{title}</div>
             </div>
 
             <div>
-              <span className="font-bold uppercase tracking-wider text-slate-400 block mb-1">Summary</span>
+              <span className="font-bold uppercase tracking-wider text-slate-500 block mb-1">Summary</span>
               <div className="text-slate-700 leading-relaxed">{summary}</div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-3 border-t border-border-light/60">
               <div>
-                <span className="font-bold uppercase tracking-wider text-slate-400 block">Category</span>
+                <span className="font-bold uppercase tracking-wider text-slate-500 block">Category</span>
                 <span className="font-semibold text-navy mt-0.5 block">{category}</span>
               </div>
               <div>
-                <span className="font-bold uppercase tracking-wider text-slate-400 block">Priority</span>
+                <span className="font-bold uppercase tracking-wider text-slate-500 block">Priority</span>
                 <span className="font-semibold text-navy mt-0.5 block">{priority}</span>
               </div>
               <div>
-                <span className="font-bold uppercase tracking-wider text-slate-400 block">Location</span>
+                <span className="font-bold uppercase tracking-wider text-slate-500 block">Location</span>
                 <span className="font-semibold text-navy mt-0.5 block">{location}</span>
               </div>
               <div>
-                <span className="font-bold uppercase tracking-wider text-slate-400 block">Source</span>
+                <span className="font-bold uppercase tracking-wider text-slate-500 block">Source</span>
                 <span className="font-semibold text-navy mt-0.5 block">
                   {sourceName || (isAnonymous ? 'Anonymous Source' : 'Citizen')}
                 </span>
@@ -882,7 +882,7 @@ function NewCaseInner() {
             </div>
 
             <div className="pt-3 border-t border-border-light/60">
-              <span className="font-bold uppercase tracking-wider text-slate-400 block mb-1">
+              <span className="font-bold uppercase tracking-wider text-slate-500 block mb-1">
                 Claims ({claims.length})
               </span>
               <ul className="list-disc list-inside space-y-1 text-slate-700">
@@ -931,7 +931,7 @@ export default function NewCasePage() {
   return (
     <Suspense
       fallback={
-        <div className="max-w-4xl mx-auto p-16 flex flex-col items-center justify-center text-slate-400">
+        <div className="max-w-4xl mx-auto p-16 flex flex-col items-center justify-center text-slate-500">
           <Loader2 size={32} className="animate-spin text-electric-blue mb-3" />
           <span className="text-sm font-medium">Loading case intake desk...</span>
         </div>

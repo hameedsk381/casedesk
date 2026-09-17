@@ -137,7 +137,7 @@ export default function CasesPage() {
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
           {/* Search Input */}
           <div className="relative flex-1">
-            <Search size={16} className="absolute left-3.5 top-3.5 text-slate-400" />
+            <Search size={16} className="absolute left-3.5 top-3.5 text-slate-500" />
             <input
               type="text"
               value={search}
@@ -152,7 +152,7 @@ export default function CasesPage() {
             <button
               onClick={() => setViewMode('table')}
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                viewMode === 'table' ? 'bg-white shadow-xs text-navy font-bold' : 'text-slate-400 hover:text-navy'
+                viewMode === 'table' ? 'bg-white shadow-xs text-navy font-bold' : 'text-slate-500 hover:text-navy'
               }`}
               title="Table View"
             >
@@ -161,7 +161,7 @@ export default function CasesPage() {
             <button
               onClick={() => setViewMode('grid')}
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                viewMode === 'grid' ? 'bg-white shadow-xs text-navy font-bold' : 'text-slate-400 hover:text-navy'
+                viewMode === 'grid' ? 'bg-white shadow-xs text-navy font-bold' : 'text-slate-500 hover:text-navy'
               }`}
               title="Grid View"
             >
@@ -255,13 +255,13 @@ export default function CasesPage() {
 
       {/* Case List Content */}
       {loading ? (
-        <div className="bg-white rounded-3xl border border-border-light p-16 flex flex-col items-center justify-center text-slate-400">
+        <div className="bg-white rounded-3xl border border-border-light p-16 flex flex-col items-center justify-center text-slate-500">
           <Loader2 size={32} className="animate-spin text-electric-blue mb-3" />
           <span className="text-sm font-medium">Filtering case registry...</span>
         </div>
       ) : cases.length === 0 ? (
         <div className="bg-white rounded-3xl border border-border-light p-16 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4">
             <FolderOpen size={28} />
           </div>
           <h3 className="text-base font-bold text-navy">No cases match your filters</h3>
@@ -306,7 +306,7 @@ export default function CasesPage() {
                         <div className="font-bold text-navy group-hover:text-electric-blue transition-colors line-clamp-2 mt-0.5 leading-snug">
                           {c.title}
                         </div>
-                        <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
+                        <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-1.5">
                           <span>{c.category}</span>
                           <span>•</span>
                           <span>{c.location}</span>
@@ -354,7 +354,7 @@ export default function CasesPage() {
                                 ? 'text-teal'
                                 : c.verificationPercentage > 0
                                 ? 'text-amber-600'
-                                : 'text-slate-400'
+                                : 'text-slate-500'
                             }
                           >
                             {c.verificationPercentage || 0}%
@@ -423,7 +423,7 @@ export default function CasesPage() {
 
                 {/* Next Action Snippet */}
                 <div className="mt-3.5 p-2.5 bg-off-white/80 rounded-xl border border-border-light/60">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">
                     Next Action
                   </div>
                   <div className="text-xs font-semibold text-navy line-clamp-2 leading-snug">
@@ -465,7 +465,7 @@ export default function CasesPage() {
                   <PriorityBadge priority={c.priority} size="sm" />
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <div className="flex items-center justify-between text-[11px] text-slate-500">
                   <div className="flex items-center gap-1">
                     <User size={11} />
                     <span>{c.assignedTo?.name?.split(' ')[0] || 'Unassigned'}</span>

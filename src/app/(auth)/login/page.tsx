@@ -70,7 +70,7 @@ export default function LoginPage() {
                 Work Email
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-3.5 top-3.5 text-slate-400" />
+                <Mail size={18} className="absolute left-3.5 top-3.5 text-slate-500" />
                 <input
                   type="email"
                   required
@@ -89,7 +89,7 @@ export default function LoginPage() {
                 </label>
               </div>
               <div className="relative">
-                <Lock size={18} className="absolute left-3.5 top-3.5 text-slate-400" />
+                <Lock size={18} className="absolute left-3.5 top-3.5 text-slate-500" />
                 <input
                   type="password"
                   required

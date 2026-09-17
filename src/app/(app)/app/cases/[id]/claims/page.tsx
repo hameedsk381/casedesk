@@ -203,7 +203,7 @@ export default function CaseClaimsPage() {
 
                     <button
                       onClick={() => handleDeleteClaim(claim.id)}
-                      className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
+                      className="p-1.5 text-slate-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
                       title="Delete claim"
                     >
                       <Trash2 size={14} />

@@ -200,7 +200,7 @@ export default function IntakeDetailModal({
               <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-navy/5 text-navy border border-navy/10">
                 {intakeItem.sourceType}
               </span>
-              <span className="text-xs text-slate-400 flex items-center gap-1">
+              <span className="text-xs text-slate-500 flex items-center gap-1">
                 <Clock size={12} />
                 {new Date(intakeItem.createdAt).toLocaleString()}
               </span>
@@ -238,7 +238,7 @@ export default function IntakeDetailModal({
               <button
                 onClick={() => setIsArchiveOpen(true)}
                 disabled={actionLoading}
-                className="px-3 py-2 text-slate-400 hover:text-red-600 hover:bg-red-50 text-xs font-semibold rounded-xl transition-all flex items-center gap-1 cursor-pointer"
+                className="px-3 py-2 text-slate-500 hover:text-red-600 hover:bg-red-50 text-xs font-semibold rounded-xl transition-all flex items-center gap-1 cursor-pointer"
               >
                 <Archive size={14} />
                 <span>Archive</span>
@@ -246,7 +246,7 @@ export default function IntakeDetailModal({
 
               <button
                 onClick={onClose}
-                className="p-1.5 text-slate-400 hover:text-navy hover:bg-slate-100 rounded-full transition-colors ml-1 cursor-pointer"
+                className="p-1.5 text-slate-500 hover:text-navy hover:bg-slate-100 rounded-full transition-colors ml-1 cursor-pointer"
                 title="Close"
               >
                 <X size={18} />
@@ -335,7 +335,7 @@ export default function IntakeDetailModal({
                           }`}
                         />
                       </div>
-                      <div className="flex items-center justify-between text-[10px] text-slate-400">
+                      <div className="flex items-center justify-between text-[10px] text-slate-500">
                         <span>{isPlayingAudio ? '01:42' : '00:00'}</span>
                         <span>02:34</span>
                       </div>
@@ -365,7 +365,7 @@ export default function IntakeDetailModal({
               {intakeItem.attachments && intakeItem.attachments.length > 0 && (
                 <div className="space-y-2">
                   <div className="text-xs font-bold text-navy flex items-center gap-1.5">
-                    <Paperclip size={14} className="text-slate-400" />
+                    <Paperclip size={14} className="text-slate-500" />
                     <span>Attached Evidence / Files ({intakeItem.attachments.length})</span>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-2">
@@ -376,7 +376,7 @@ export default function IntakeDetailModal({
                       >
                         <div className="truncate mr-2">
                           <div className="font-semibold text-navy truncate">{att.fileName}</div>
-                          <div className="text-[10px] text-slate-400">{Math.round(att.size / 1024)} KB · {att.type}</div>
+                          <div className="text-[10px] text-slate-500">{Math.round(att.size / 1024)} KB · {att.type}</div>
                         </div>
                         <div className="flex items-center gap-1.5 shrink-0">
                           <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 text-[9px] font-bold">
@@ -400,28 +400,28 @@ export default function IntakeDetailModal({
 
               {/* Complainant Profile Card */}
               <div className="p-4 rounded-2xl bg-white border border-border-light space-y-2">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                   Citizen Source Profile
                 </div>
                 <div className="grid sm:grid-cols-2 gap-3 text-xs">
                   <div className="flex items-center gap-2">
-                    <User size={13} className="text-slate-400" />
+                    <User size={13} className="text-slate-500" />
                     <span className="font-bold text-navy">{intakeItem.senderName}</span>
                   </div>
                   {intakeItem.senderPhone && (
                     <div className="flex items-center gap-2">
-                      <Phone size={13} className="text-slate-400" />
+                      <Phone size={13} className="text-slate-500" />
                       <span className="text-slate-600 font-medium">{intakeItem.senderPhone}</span>
                     </div>
                   )}
                   {intakeItem.senderEmail && (
                     <div className="flex items-center gap-2">
-                      <Mail size={13} className="text-slate-400" />
+                      <Mail size={13} className="text-slate-500" />
                       <span className="text-slate-600 font-medium">{intakeItem.senderEmail}</span>
                     </div>
                   )}
                   <div className="flex items-center gap-2">
-                    <MapPin size={13} className="text-slate-400" />
+                    <MapPin size={13} className="text-slate-500" />
                     <span className="text-slate-600">{intakeItem.aiLocation || 'Location Pending'}</span>
                   </div>
                 </div>
@@ -517,7 +517,7 @@ export default function IntakeDetailModal({
                 {/* Category & Priority Grid */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                       Category
                     </label>
                     {isEditing ? (
@@ -535,7 +535,7 @@ export default function IntakeDetailModal({
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                       Priority
                     </label>
                     {isEditing ? (
@@ -559,7 +559,7 @@ export default function IntakeDetailModal({
 
                 {/* Priority Reason */}
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                     Priority Justification
                   </label>
                   {isEditing ? (
@@ -578,7 +578,7 @@ export default function IntakeDetailModal({
 
                 {/* Summary */}
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                     Intake Summary
                   </label>
                   {isEditing ? (
@@ -608,7 +608,7 @@ export default function IntakeDetailModal({
                 {/* Claims Checklist */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
                       Possible Factual Claims
                     </label>
                   </div>
@@ -622,7 +622,7 @@ export default function IntakeDetailModal({
                         {isEditing && (
                           <button
                             onClick={() => setEditClaims(editClaims.filter((_, i) => i !== idx))}
-                            className="text-slate-400 hover:text-red-500 cursor-pointer"
+                            className="text-slate-500 hover:text-red-500 cursor-pointer"
                           >
                             <Trash2 size={12} />
                           </button>
@@ -659,7 +659,7 @@ export default function IntakeDetailModal({
                 {/* Missing Information Items */}
                 {editMissing.length > 0 && (
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                       Identified Missing Information
                     </label>
                     <div className="p-3 bg-amber-50/50 rounded-xl border border-amber-200/80 space-y-1">
@@ -714,7 +714,7 @@ export default function IntakeDetailModal({
               </h3>
               <button
                 onClick={() => setIsMergeModalOpen(false)}
-                className="text-slate-400 hover:text-navy cursor-pointer"
+                className="text-slate-500 hover:text-navy cursor-pointer"
               >
                 <X size={16} />
               </button>

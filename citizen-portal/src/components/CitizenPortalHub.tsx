@@ -63,20 +63,20 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
         <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs">
-                OV
+              <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-xs">
+                <ShieldCheck size={16} />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-extrabold text-sm tracking-tight text-navy">
-                    Open Vaartha
+                    {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
                   </span>
                   <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
                     {lang === 'te' ? 'సహాయ కేంద్రం' : 'Helpdesk'}
                   </span>
                 </div>
                 <div className="text-[11px] text-slate-500 font-medium">
-                  {endpoint.workspaceName || (lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk')}
+                  {lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk'}
                 </div>
               </div>
             </div>
@@ -98,7 +98,7 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
 
               {/* Language Switcher */}
               <div className="flex items-center gap-1.5 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
-                <Languages size={13} className="text-slate-400 ml-1.5" />
+                <Languages size={13} className="text-slate-500 ml-1.5" />
                 <button
                   onClick={() => setLang('en')}
                   className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
@@ -139,7 +139,7 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
               <ShieldCheck size={14} className="text-electric-blue" />
               <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
             </div>
-            <p className="text-[11px] leading-relaxed text-slate-400">
+            <p className="text-[11px] leading-relaxed text-slate-500">
               {lang === 'te'
                 ? 'మీ సమాచారం మా జర్నలిస్టులకు మాత్రమే అందుతుంది. మీ భద్రత మరియు గోప్యత మాకు ముఖ్యం.'
                 : 'Your information is only seen by our journalists. Your safety and privacy matter to us.'}
@@ -157,20 +157,20 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-border-light shadow-xs py-3.5 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs">
-              OV
+            <div className="w-8 h-8 rounded-xl bg-navy text-white flex items-center justify-center shadow-xs">
+              <ShieldCheck size={16} />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm tracking-tight text-navy">
-                  Open Vaartha
+                  {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}
                 </span>
                 <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 rounded">
                   {lang === 'te' ? 'సహాయ కేంద్రం' : 'Helpdesk'}
                 </span>
               </div>
               <div className="text-[11px] text-slate-500 font-medium">
-                {endpoint.workspaceName || (lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk')}
+                {lang === 'te' ? 'ప్రజా సహాయ కేంద్రం' : 'Public Helpdesk'}
               </div>
             </div>
           </div>
@@ -183,7 +183,7 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
 
             {/* Multilingual Switcher matching creator portal */}
             <div className="flex items-center gap-1.5 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
-              <Languages size={13} className="text-slate-400 ml-1.5" />
+              <Languages size={13} className="text-slate-500 ml-1.5" />
               <button
                 onClick={() => setLang('en')}
                 className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
@@ -320,16 +320,13 @@ export function CitizenPortalHub({ endpoint, apiBaseUrl = 'http://localhost:3000
             <ShieldCheck size={14} className="text-electric-blue" />
             <span>{lang === 'te' ? 'మీ భద్రతే ముఖ్యం' : 'Your Safety Comes First'}</span>
           </div>
-          <p className="text-[11px] leading-relaxed text-slate-400">
+          <p className="text-[11px] leading-relaxed text-slate-500">
             {lang === 'te'
               ? 'మీ సమాచారం మా జర్నలిస్టులకు మాత్రమే అందుతుంది. మీరు అనామకంగా ఉండవచ్చు.'
               : 'Your information is only seen by our journalists. You can stay anonymous if you prefer.'}
           </p>
-          <div className="pt-1 text-[10px] text-slate-400">
-            <a href="https://openvaartha.com" target="_blank" rel="noopener noreferrer" className="hover:text-navy transition-colors">
-              Open Vaartha
-            </a>{' '}
-            • {lang === 'te' ? 'డేటా భద్రత తో రక్షించబడింది' : 'Protected by data encryption'}
+          <div className="pt-1 text-[10px] text-slate-500">
+            {endpoint.workspaceName || 'Citizen Helpdesk'} • {lang === 'te' ? 'డేటా భద్రత తో రక్షించబడింది' : 'Protected by data encryption'}
           </div>
         </div>
       </footer>

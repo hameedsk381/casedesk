@@ -26,7 +26,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   user,
-  workspaceName = 'Janata Investigation Desk',
+  workspaceName = 'Citizen Helpdesk',
   isMobileOpen = false,
   onCloseMobile,
 }: SidebarProps) {
@@ -162,7 +162,7 @@ export default function Sidebar({
           <Link
             href="/"
             target="_blank"
-            className="text-slate-400 hover:text-navy p-1 rounded-md transition-colors"
+            className="text-slate-500 hover:text-navy p-1 rounded-md transition-colors"
             title="Open Public Site"
           >
             <ExternalLink size={14} />
@@ -200,7 +200,7 @@ export default function Sidebar({
         <div className="flex-1 px-3 space-y-5 overflow-y-auto pb-4">
           {/* Section: Operations */}
           <div>
-            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
               Operations
             </div>
             <nav className="space-y-1">
@@ -220,7 +220,7 @@ export default function Sidebar({
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-400'} />
+                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-500'} />
                       <span>{link.label}</span>
                     </div>
                     {link.badge && (
@@ -236,7 +236,7 @@ export default function Sidebar({
 
           {/* Section: Editorial */}
           <div>
-            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
               Editorial
             </div>
             <nav className="space-y-1">
@@ -256,7 +256,7 @@ export default function Sidebar({
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-400'} />
+                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-500'} />
                       <span>{link.label}</span>
                     </div>
                     {link.badge && (
@@ -272,7 +272,7 @@ export default function Sidebar({
 
           {/* Section: System */}
           <div>
-            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
               System
             </div>
             <nav className="space-y-1">
@@ -292,7 +292,7 @@ export default function Sidebar({
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-400'} />
+                      <Icon size={16} className={active ? 'text-electric-blue' : 'text-slate-500'} />
                       <span>{link.label}</span>
                     </div>
                   </Link>
@@ -323,7 +323,7 @@ export default function Sidebar({
 
             <button
               onClick={handleLogout}
-              className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+              className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
               title="Sign Out"
             >
               <LogOut size={16} />

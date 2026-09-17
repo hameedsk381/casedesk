@@ -112,7 +112,7 @@ export default function DashboardClient({
 
           <button
             onClick={handleDismissOnboarding}
-            className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="absolute top-4 right-4 p-1.5 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             title="Dismiss guide"
           >
             <X size={16} />
@@ -129,7 +129,7 @@ export default function DashboardClient({
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
             <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-1">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-teal">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-teal-300">
                 Step 1: Intake
               </div>
               <div className="text-xs font-bold text-white">Bring in a complaint</div>
@@ -139,7 +139,7 @@ export default function DashboardClient({
             </div>
 
             <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-1">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-electric-blue">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-red-300">
                 Step 2: AI Triage
               </div>
               <div className="text-xs font-bold text-white">Review AI brief</div>
@@ -182,7 +182,7 @@ export default function DashboardClient({
               High-Urgency Action Items
             </span>
           </div>
-          <span className="text-xs text-slate-400 font-medium">
+          <span className="text-xs text-slate-500 font-medium">
             Prioritized by overdue deadlines & blocked states
           </span>
         </div>
@@ -338,7 +338,7 @@ export default function DashboardClient({
                           <div className="font-bold text-navy group-hover:text-electric-blue transition-colors line-clamp-2 mt-0.5 leading-snug">
                             {c.title}
                           </div>
-                          <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
+                          <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-1.5">
                             <span>{c.category}</span>
                             <span>•</span>
                             <span>{c.location}</span>
@@ -381,7 +381,7 @@ export default function DashboardClient({
                                   ? 'text-teal'
                                   : c.verificationPercentage > 0
                                   ? 'text-amber-600'
-                                  : 'text-slate-400'
+                                  : 'text-slate-500'
                               }
                             >
                               {c.verificationPercentage || 0}%
@@ -471,7 +471,7 @@ export default function DashboardClient({
                     {c.healthReason || c.nextAction || 'Requires immediate triage review'}
                   </div>
 
-                  <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400">
+                  <div className="mt-2 flex items-center justify-between text-[10px] text-slate-500">
                     <span>{c.location}</span>
                     <span>Assigned: {c.assignedTo?.name?.split(' ')[0] || 'Unassigned'}</span>
                   </div>
@@ -484,7 +484,7 @@ export default function DashboardClient({
           <div className="bg-white p-5 rounded-3xl border border-border-light shadow-xs space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-border-light">
               <h3 className="text-sm font-black text-navy">Live Operations Stream</h3>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                 Audit Trail
               </span>
             </div>
@@ -506,7 +506,7 @@ export default function DashboardClient({
                       {act.case.caseNumber} — {act.case.title}
                     </Link>
                   )}
-                  <div className="text-[10px] text-slate-400">
+                  <div className="text-[10px] text-slate-500">
                     {new Date(act.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>

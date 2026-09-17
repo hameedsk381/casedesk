@@ -194,7 +194,7 @@ export default function CaseContentStudioPage() {
               >
                 <Icon
                   size={18}
-                  className={`mb-2 ${isSelected ? 'text-electric-blue' : 'text-slate-400'}`}
+                  className={`mb-2 ${isSelected ? 'text-electric-blue' : 'text-slate-500'}`}
                 />
                 <div
                   className={`text-xs font-bold truncate ${
@@ -203,7 +203,7 @@ export default function CaseContentStudioPage() {
                 >
                   {fmt.name}
                 </div>
-                <div className="text-[10px] text-slate-400 mt-0.5">{fmt.duration}</div>
+                <div className="text-[10px] text-slate-500 mt-0.5">{fmt.duration}</div>
               </button>
             );
           })}
@@ -213,7 +213,7 @@ export default function CaseContentStudioPage() {
       {/* 2. Script Editor Area */}
       <div className="bg-white p-6 rounded-2xl border border-border-light shadow-xs space-y-4">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
             Script & Content Body
           </label>
           <button

@@ -79,19 +79,19 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
       >
         {/* Search Input Bar */}
         <div className="flex items-center px-4 py-3.5 border-b border-border-light">
-          <Search size={20} className="text-slate-400 mr-3 shrink-0" />
+          <Search size={20} className="text-slate-500 mr-3 shrink-0" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search cases, sources, contacts, or evidence files..."
-            className="w-full bg-transparent text-navy text-base focus:outline-none placeholder:text-slate-400"
+            className="w-full bg-transparent text-navy text-base focus:outline-none placeholder:text-slate-500"
           />
           {loading && <Loader2 size={18} className="animate-spin text-electric-blue mr-2" />}
           <button
             onClick={onClose}
-            className="p-1 text-slate-400 hover:text-navy hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+            className="p-1 text-slate-500 hover:text-navy hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -137,7 +137,7 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                         {res.badge}
                       </span>
                     )}
-                    <ArrowRight size={14} className="text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight size={14} className="text-slate-500 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>
               ))}

@@ -1,6 +1,6 @@
 export const en = {
   common: {
-    appName: 'Open Vaartha',
+    appName: 'Citizen Helpdesk',
     portalBadge: 'Citizen Helpdesk',
     languageToggle: 'తెలుగు',
     encryptedBadge: 'Private & Secure',

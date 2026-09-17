@@ -153,7 +153,7 @@ export default function GlobalTasksPage() {
                     {isDone ? (
                       <CheckSquare size={18} className="text-teal" />
                     ) : (
-                      <Square size={18} className="text-slate-400" />
+                      <Square size={18} className="text-slate-500" />
                     )}
                   </button>
 
@@ -183,7 +183,7 @@ export default function GlobalTasksPage() {
                       )}
 
                       {task.dueDate && (
-                        <div className="flex items-center gap-1 text-slate-400 text-[11px]">
+                        <div className="flex items-center gap-1 text-slate-500 text-[11px]">
                           <Clock size={11} />
                           <span>Due {new Date(task.dueDate).toLocaleDateString()}</span>
                         </div>

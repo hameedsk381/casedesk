@@ -104,7 +104,7 @@ export default function IntakeChoiceModal({ isOpen, onClose }: IntakeChoiceModal
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full text-slate-400 hover:text-navy hover:bg-off-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-full text-slate-500 hover:text-navy hover:bg-off-white transition-colors cursor-pointer"
             title="Close"
           >
             <X size={18} />
@@ -140,7 +140,7 @@ export default function IntakeChoiceModal({ isOpen, onClose }: IntakeChoiceModal
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-border-light/50 flex items-center justify-between text-[11px] font-semibold text-slate-400 group-hover:text-electric-blue transition-colors">
+                <div className="mt-4 pt-3 border-t border-border-light/50 flex items-center justify-between text-[11px] font-semibold text-slate-500 group-hover:text-electric-blue transition-colors">
                   <span>Continue</span>
                   <ArrowRight size={13} className="transform group-hover:translate-x-0.5 transition-transform" />
                 </div>

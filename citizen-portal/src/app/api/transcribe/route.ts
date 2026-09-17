@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     if (!groq) {
       return NextResponse.json({
-        text: 'Voice note recorded (Voice audio received by Janata Investigation Desk)',
+        text: 'Voice note recorded (Voice audio received by the helpdesk)',
         duration: 0,
         isDemo: true,
       });

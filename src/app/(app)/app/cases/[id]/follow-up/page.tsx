@@ -142,7 +142,7 @@ export default function CaseFollowUpPage() {
 
         <div className="grid sm:grid-cols-3 gap-4 text-xs">
           <div className="p-4 rounded-xl bg-off-white/60 border border-border-light">
-            <span className="text-slate-400 font-bold uppercase tracking-wider block mb-1">
+            <span className="text-slate-500 font-bold uppercase tracking-wider block mb-1">
               Publication Date
             </span>
             <div className="font-semibold text-navy">
@@ -153,7 +153,7 @@ export default function CaseFollowUpPage() {
           </div>
 
           <div className="p-4 rounded-xl bg-off-white/60 border border-border-light">
-            <span className="text-slate-400 font-bold uppercase tracking-wider block mb-1">
+            <span className="text-slate-500 font-bold uppercase tracking-wider block mb-1">
               Authority Action
             </span>
             <div className="font-semibold text-navy">
@@ -164,7 +164,7 @@ export default function CaseFollowUpPage() {
           </div>
 
           <div className="p-4 rounded-xl bg-off-white/60 border border-border-light">
-            <span className="text-slate-400 font-bold uppercase tracking-wider block mb-1">
+            <span className="text-slate-500 font-bold uppercase tracking-wider block mb-1">
               Case Status
             </span>
             <div className="font-semibold text-navy">{caseRecord.status.replace(/_/g, ' ')}</div>
@@ -187,7 +187,7 @@ export default function CaseFollowUpPage() {
 
         <div className="space-y-4">
           {followUpEvents.length === 0 ? (
-            <p className="text-xs text-slate-400 py-6 text-center">
+            <p className="text-xs text-slate-500 py-6 text-center">
               No follow-up developments logged yet. Once published, document official inspections, citizen updates, and policy impact here.
             </p>
           ) : (
@@ -195,7 +195,7 @@ export default function CaseFollowUpPage() {
               <div key={ev.id} className="p-4 rounded-xl bg-off-white/40 border border-border-light text-xs space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-navy">{ev.title}</span>
-                  <span className="text-[10px] text-slate-400">
+                  <span className="text-[10px] text-slate-500">
                     {new Date(ev.eventDate).toLocaleDateString()}
                   </span>
                 </div>

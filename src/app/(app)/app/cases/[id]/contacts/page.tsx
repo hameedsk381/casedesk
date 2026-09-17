@@ -243,7 +243,7 @@ export default function CaseContactsPage() {
         {/* Requests Table / List */}
         <div className="space-y-3">
           {responseRequests.length === 0 ? (
-            <p className="text-xs text-slate-400 py-6 text-center">
+            <p className="text-xs text-slate-500 py-6 text-center">
               No Right of Reply notices issued for this case yet.
             </p>
           ) : (
@@ -306,7 +306,7 @@ export default function CaseContactsPage() {
 
                 {req.responseText && (
                   <div className="p-3 rounded-lg bg-off-white/80 border border-border-light text-xs text-navy leading-relaxed">
-                    <strong className="block text-[10px] uppercase font-bold text-slate-400 mb-1">
+                    <strong className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
                       Official Statement Received:
                     </strong>
                     {req.responseText}
@@ -358,19 +358,19 @@ export default function CaseContactsPage() {
               <div className="space-y-1 text-slate-500 pt-1">
                 {c.email && (
                   <div className="flex items-center gap-1.5">
-                    <Mail size={12} className="text-slate-400" />
+                    <Mail size={12} className="text-slate-500" />
                     <span>{c.email}</span>
                   </div>
                 )}
                 {c.phone && (
                   <div className="flex items-center gap-1.5">
-                    <Phone size={12} className="text-slate-400" />
+                    <Phone size={12} className="text-slate-500" />
                     <span>{c.phone}</span>
                   </div>
                 )}
               </div>
 
-              {c.notes && <div className="text-[11px] text-slate-400 italic pt-1">{c.notes}</div>}
+              {c.notes && <div className="text-[11px] text-slate-500 italic pt-1">{c.notes}</div>}
             </div>
           ))}
         </div>

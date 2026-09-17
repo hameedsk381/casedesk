@@ -37,13 +37,6 @@ const INITIAL_CATEGORIES = [
   'Other',
 ];
 
-const DEMO_TEAM = [
-  { name: 'Sarah Khan', email: 'sarah@casedesk.local', role: 'OWNER', title: 'Lead Investigator' },
-  { name: 'Arun Verma', email: 'arun@casedesk.local', role: 'ADMIN', title: 'Senior Researcher' },
-  { name: 'Priya Nair', email: 'priya@casedesk.local', role: 'EDITOR', title: 'Content Studio Lead' },
-  { name: 'Rajesh Sharma', email: 'raj@casedesk.local', role: 'VIEWER', title: 'Legal Counsel' },
-];
-
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile');
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -52,7 +45,7 @@ export default function SettingsPage() {
   // Form states
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [wsName, setWsName] = useState('Janata Investigation Desk');
+  const [wsName, setWsName] = useState('Citizen Helpdesk');
   const [wsDesc, setWsDesc] = useState(
     'Independent public accountability newsroom and citizen grievance desk.'
   );
@@ -131,7 +124,7 @@ export default function SettingsPage() {
                     : 'text-slate-600 hover:text-navy hover:bg-off-white'
                 }`}
               >
-                <Icon size={16} className={isSelected ? 'text-teal' : 'text-slate-400'} />
+                <Icon size={16} className={isSelected ? 'text-teal' : 'text-slate-500'} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -249,7 +242,7 @@ export default function SettingsPage() {
                 <div className="p-4 rounded-2xl bg-blue-50/50 border border-blue-200/70 space-y-3">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="space-y-0.5">
-                      <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                      <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                         Public Portal URL
                       </div>
                       <div className="font-mono text-xs font-bold text-navy truncate">
@@ -319,33 +312,32 @@ export default function SettingsPage() {
               </div>
 
               <div className="space-y-3">
-                {DEMO_TEAM.map((member) => (
+                {currentUser && (
                   <div
-                    key={member.email}
                     className="p-4 rounded-xl bg-off-white/50 border border-border-light flex items-center justify-between gap-4"
                   >
                     <div>
-                      <div className="text-xs font-bold text-navy">{member.name}</div>
+                      <div className="text-xs font-bold text-navy">{currentUser.name}</div>
                       <div className="text-[11px] text-slate-500">
-                        {member.title} • <span className="font-mono">{member.email}</span>
+                        <span className="font-mono">{currentUser.email}</span>
                       </div>
                     </div>
 
                     <span
                       className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
-                        member.role === 'OWNER'
+                        currentUser.role === 'OWNER'
                           ? 'bg-purple-100 text-purple-800'
-                          : member.role === 'ADMIN'
+                          : currentUser.role === 'ADMIN'
                           ? 'bg-blue-100 text-blue-800'
-                          : member.role === 'EDITOR'
+                          : currentUser.role === 'EDITOR'
                           ? 'bg-teal/15 text-teal'
                           : 'bg-slate-200 text-slate-700'
                       }`}
                     >
-                      {member.role}
+                      {currentUser.role}
                     </span>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           )}

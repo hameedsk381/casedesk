@@ -1,9 +1,18 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
-const SECRET_KEY = new TextEncoder().encode(
-  process.env.SESSION_SECRET || 'casedesk-secret-key-2026-secure-session-salt-jwt'
-);
+const FALLBACK_SECRET = 'casedesk-secret-key-2026-secure-session-salt-jwt';
+
+if (
+  process.env.NODE_ENV === 'production' &&
+  (!process.env.SESSION_SECRET || process.env.SESSION_SECRET === FALLBACK_SECRET || process.env.SESSION_SECRET.startsWith('casedesk-'))
+) {
+  console.warn(
+    '[session] WARNING: SESSION_SECRET is unset or a known default. Set a long random SESSION_SECRET before real production use.'
+  );
+}
+
+const SECRET_KEY = new TextEncoder().encode(process.env.SESSION_SECRET || FALLBACK_SECRET);
 
 const COOKIE_NAME = 'casedesk_session';
 

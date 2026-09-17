@@ -212,7 +212,7 @@ export function CitizenSubmissionForm({
     anonymousNotice: lang === 'te' ? 'అదనపు వివరాల కోసం మిమ్మల్ని సంప్రదించవచ్చు. సంప్రదింపు వివరాలు ఇవ్వడం వల్ల కథ ప్రచురించబడుతుందని హామీ ఉండదు.' : 'We may reach out for more details. Sharing contact info does not guarantee publication.',
     consentHeader: lang === 'te' ? 'ధృవీకరణ' : 'Confirm & Submit',
     consent1: lang === 'te' ? 'నేను చెప్పినది నిజమని ధృవీకరిస్తున్నాను.' : 'I confirm this information is true to the best of my knowledge.',
-    consent2: lang === 'te' ? 'ఓపెన్ వార్త జర్నలిస్టులు నన్ను సంప్రదించవచ్చు.' : 'Open Vaartha journalists may contact me about this.',
+    consent2: lang === 'te' ? 'మా జర్నలిస్టులు నన్ను సంప్రదించవచ్చు.' : 'Our journalists may contact me about this.',
     consent3: lang === 'te' ? 'ప్రచురణ హామీ లేదని అర్థం చేసుకున్నాను.' : 'I understand this may not be published immediately.',
     consentPublishQ: lang === 'te' ? 'మీ కథను ప్రచురించవచ్చా?' : 'Can we publish your report?',
     publishYes: lang === 'te' ? 'అవును, ప్రచురించవచ్చు' : 'Yes, you can publish',
@@ -241,7 +241,7 @@ export function CitizenSubmissionForm({
             {step < 7 ? `Step ${step} of 6` : 'Done'}
           </span>
           {step < 7 && (
-            <span className="hidden sm:inline text-slate-400">
+            <span className="hidden sm:inline text-slate-500">
               • {step === 1 && (lang === 'te' ? 'స్టార్ట్' : 'Start')}
               {step === 2 && (lang === 'te' ? 'ఏం జరిగింది' : 'What Happened')}
               {step === 3 && (lang === 'te' ? 'ఎక్కడ & ఎప్పుడు' : 'Where & When')}
@@ -265,7 +265,7 @@ export function CitizenSubmissionForm({
           )}
 
           <div className="flex items-center gap-1 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
-            <Languages size={13} className="text-slate-400 ml-1" />
+            <Languages size={13} className="text-slate-500 ml-1" />
             <button
               onClick={() => setLang('en')}
               className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
@@ -402,7 +402,7 @@ export function CitizenSubmissionForm({
                   <button
                     onClick={discardRecording}
                     type="button"
-                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                    className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                     title={t.deleteRecord}
                   >
                     <X size={16} />
@@ -557,7 +557,7 @@ export function CitizenSubmissionForm({
               <Upload size={20} />
             </div>
             <div className="text-xs font-bold text-navy">{t.uploadDoc}</div>
-            <div className="text-[11px] text-slate-400 mt-1">
+            <div className="text-[11px] text-slate-500 mt-1">
               Supports PDF, JPG, PNG, MP4, MP3, DOCX (Max 25MB each)
             </div>
             <input type="file" multiple onChange={handleFileChange} className="hidden" />
@@ -581,7 +581,7 @@ export function CitizenSubmissionForm({
                     <button
                       onClick={() => removeFile(idx)}
                       type="button"
-                      className="text-slate-400 hover:text-red-600 p-1 cursor-pointer"
+                      className="text-slate-500 hover:text-red-600 p-1 cursor-pointer"
                     >
                       <X size={14} />
                     </button>
@@ -870,7 +870,7 @@ export function CitizenSubmissionForm({
               <div className="pt-2">
                 <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-100 border border-slate-200 shadow-2xs">
                   <div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                       {lang === 'te' ? 'రిఫరెన్స్ కోడ్' : 'Reference Code'}
                     </div>
                     <div className="font-mono text-base font-black text-navy tracking-tight">

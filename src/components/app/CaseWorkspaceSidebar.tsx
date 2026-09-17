@@ -73,7 +73,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
     <aside className="w-full lg:w-80 shrink-0 space-y-6">
       {/* Dossier Meta Card */}
       <div className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
           Investigation Dossier Meta
         </h3>
 
@@ -117,12 +117,12 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
             </select>
           </div>
 
-          <div className="flex items-center justify-between text-slate-400 text-[11px]">
+          <div className="flex items-center justify-between text-slate-500 text-[11px]">
             <span>Created</span>
             <span>{new Date(caseRecord.createdAt).toLocaleDateString()}</span>
           </div>
 
-          <div className="flex items-center justify-between text-slate-400 text-[11px]">
+          <div className="flex items-center justify-between text-slate-500 text-[11px]">
             <span>Last Updated</span>
             <span>{new Date(caseRecord.updatedAt).toLocaleDateString()}</span>
           </div>
@@ -132,7 +132,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
       {/* Verification Progress Card */}
       <div className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
             Verification Index
           </h3>
           <VerificationBadge status={caseRecord.verificationStatus} size="sm" />
@@ -162,7 +162,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
 
       {/* Publication & Resolution Card */}
       <div className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
           Editorial Lifecycle
         </h3>
 
@@ -203,7 +203,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
       {primarySource && (
         <div className="bg-white p-5 rounded-2xl border border-border-light shadow-xs space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Source Consent Flags
             </h3>
             <ShieldCheck size={16} className="text-teal" />
@@ -221,7 +221,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
               <span className="text-slate-500">Contact Consent</span>
               <span
                 className={`font-semibold ${
-                  primarySource.consentToContact ? 'text-teal' : 'text-slate-400'
+                  primarySource.consentToContact ? 'text-teal' : 'text-slate-500'
                 }`}
               >
                 {primarySource.consentToContact ? 'Granted ✓' : 'No'}

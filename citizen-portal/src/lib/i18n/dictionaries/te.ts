@@ -2,7 +2,7 @@ import { Dictionary } from './en';
 
 export const te: Dictionary = {
   common: {
-    appName: 'ఓపెన్ వార్త',
+    appName: 'ప్రజా సహాయ కేంద్రం',
     portalBadge: 'ప్రజా సహాయ కేంద్రం',
     languageToggle: 'English',
     encryptedBadge: 'గోప్యం & భద్రం',

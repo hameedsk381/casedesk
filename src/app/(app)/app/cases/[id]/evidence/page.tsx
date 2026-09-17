@@ -191,7 +191,7 @@ export default function CaseEvidencePage() {
                 </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-border-light/60 flex items-center justify-between text-[11px] text-slate-400">
+              <div className="mt-4 pt-3 border-t border-border-light/60 flex items-center justify-between text-[11px] text-slate-500">
                 <span>{(item.size / 1024).toFixed(1)} KB</span>
                 <div className="flex items-center gap-2">
                   <a
@@ -207,7 +207,7 @@ export default function CaseEvidencePage() {
 
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
+                    className="p-1.5 text-slate-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
                     title="Delete file"
                   >
                     <Trash2 size={13} />
@@ -234,7 +234,7 @@ export default function CaseEvidencePage() {
 
             <form onSubmit={handleUpload} className="space-y-4">
               <div className="p-6 border-2 border-dashed border-border-light rounded-2xl text-center space-y-2 bg-off-white/30">
-                <Upload size={24} className="mx-auto text-slate-400" />
+                <Upload size={24} className="mx-auto text-slate-500" />
                 <div>
                   <label className="text-xs font-bold text-electric-blue hover:underline cursor-pointer">
                     Click to select file from your device
@@ -245,7 +245,7 @@ export default function CaseEvidencePage() {
                       className="hidden"
                     />
                   </label>
-                  <p className="text-[11px] text-slate-400 mt-1">
+                  <p className="text-[11px] text-slate-500 mt-1">
                     Documents (PDF, XLSX), Images (JPG, PNG), Video (MP4), or Audio (MP3, WAV)
                   </p>
                 </div>

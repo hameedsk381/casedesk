@@ -301,8 +301,8 @@ export default function CitizenSubmissionPortal({
         : 'I confirm that the information I have provided is accurate to the best of my knowledge.',
     consent2:
       lang === 'te'
-        ? 'ఈ సమర్పణకు సంబంధించి ఓపెన్ వార్త జర్నలిస్టులు నన్ను సంప్రదించడానికి అంగీకరిస్తున్నాను.'
-        : 'I agree that the Open Vaartha team may contact me regarding this submission.',
+        ? 'ఈ సమర్పణకు సంబంధించి మా జట్టు నన్ను సంప్రదించడానికి అంగీకరిస్తున్నాను.'
+        : 'I agree that the team reviewing this submission may contact me.',
     consent3:
       lang === 'te'
         ? 'ఈ నివేదికను సమర్పించడం వల్ల తప్పనిసరిగా కథ ప్రచురించబడుతుందని హామీ లేదని నేను అర్థం చేసుకున్నాను.'
@@ -329,7 +329,7 @@ export default function CitizenSubmissionPortal({
             {step < 7 ? `Step ${step} of 6` : 'Complete'}
           </span>
           {step < 7 && (
-            <span className="hidden sm:inline text-slate-400">
+            <span className="hidden sm:inline text-slate-500">
               • {step === 1 && (lang === 'te' ? 'పరిచయం' : 'Introduction')}
               {step === 2 && (lang === 'te' ? 'సమస్య వివరణ' : 'Your Story')}
               {step === 3 && (lang === 'te' ? 'స్థలం & సమయం' : 'Location & Time')}
@@ -342,7 +342,7 @@ export default function CitizenSubmissionPortal({
 
         {/* Multilingual Switcher */}
         <div className="flex items-center gap-1.5 p-1 bg-white border border-border-light rounded-xl text-xs font-semibold shadow-2xs">
-          <Languages size={13} className="text-slate-400 ml-1.5" />
+          <Languages size={13} className="text-slate-500 ml-1.5" />
           <button
             onClick={() => setLang('en')}
             className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
@@ -495,7 +495,7 @@ export default function CitizenSubmissionPortal({
                   <button
                     onClick={discardRecording}
                     type="button"
-                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                    className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                     title={t.deleteRecord}
                   >
                     <X size={16} />
@@ -663,7 +663,7 @@ export default function CitizenSubmissionPortal({
               <Upload size={20} />
             </div>
             <div className="text-xs font-bold text-navy">{t.uploadDoc}</div>
-            <div className="text-[11px] text-slate-400 mt-1">
+            <div className="text-[11px] text-slate-500 mt-1">
               Supports PDF, JPG, PNG, MP4, MP3, DOCX (Max 25MB each)
             </div>
             <input
@@ -693,7 +693,7 @@ export default function CitizenSubmissionPortal({
                     <button
                       onClick={() => removeFile(idx)}
                       type="button"
-                      className="text-slate-400 hover:text-red-600 p-1 cursor-pointer"
+                      className="text-slate-500 hover:text-red-600 p-1 cursor-pointer"
                     >
                       <X size={14} />
                     </button>
@@ -992,7 +992,7 @@ export default function CitizenSubmissionPortal({
               <div className="pt-2">
                 <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-100 border border-slate-200 shadow-2xs">
                   <div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                       Reference Code
                     </div>
                     <div className="font-mono text-base font-black text-navy tracking-tight">
@@ -1033,7 +1033,7 @@ export default function CitizenSubmissionPortal({
                     {lang === 'te' ? 'సమర్పణ స్వీకరించబడింది' : 'Submission received'}
                   </div>
                   <div className="text-[11px] text-slate-500">
-                    {lang === 'te' ? 'నివేదిక ఓపెన్ వార్త ఇన్‌బాక్స్‌లో నమోదైంది.' : 'Report logged into Open Vaartha Intake Inbox with audit trail.'}
+                    {lang === 'te' ? 'నివేదిక ఇన్‌బాక్స్‌లో నమోదైంది.' : 'Report logged into the intake inbox with audit trail.'}
                   </div>
                 </div>
               </div>
@@ -1053,7 +1053,7 @@ export default function CitizenSubmissionPortal({
               </div>
 
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-white border-2 border-slate-300 text-slate-400 flex items-center justify-center text-[10px] font-bold shrink-0 -ml-[25px]">
+                <span className="w-5 h-5 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center text-[10px] font-bold shrink-0 -ml-[25px]">
                   ○
                 </span>
                 <div>
@@ -1067,7 +1067,7 @@ export default function CitizenSubmissionPortal({
               </div>
 
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-white border-2 border-slate-300 text-slate-400 flex items-center justify-center text-[10px] font-bold shrink-0 -ml-[25px]">
+                <span className="w-5 h-5 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center text-[10px] font-bold shrink-0 -ml-[25px]">
                   ○
                 </span>
                 <div>
@@ -1081,7 +1081,7 @@ export default function CitizenSubmissionPortal({
               </div>
 
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-white border-2 border-slate-300 text-slate-400 flex items-center justify-center text-[10px] font-bold shrink-0 -ml-[25px]">
+                <span className="w-5 h-5 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center text-[10px] font-bold shrink-0 -ml-[25px]">
                   ○
                 </span>
                 <div>

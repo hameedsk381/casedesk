@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import { hashPassword } from '@/lib/auth/password';
 import { createSessionToken, setSessionCookie } from '@/lib/auth/session';
+import { isMailConfigured, sendWelcomeEmail } from '@/lib/mailer';
 
 export async function POST(request: Request) {
   try {
@@ -55,6 +56,13 @@ export async function POST(request: Request) {
     });
 
     await setSessionCookie(token);
+
+    // Send welcome email (fire-and-forget, never blocks signup)
+    if (isMailConfigured()) {
+      sendWelcomeEmail({ name: user.name, email: user.email }).catch((err) =>
+        console.error('[signup] Welcome email failed:', err?.message || err)
+      );
+    }
 
     return NextResponse.json({
       user: {
