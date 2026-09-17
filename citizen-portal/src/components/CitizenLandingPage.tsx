@@ -20,11 +20,8 @@ import {
   MessageCircle,
   Camera,
   ChevronRight,
-  Star,
   TrendingUp,
-  ArrowUpRight,
 } from 'lucide-react';
-import { AICitizenChat } from './AICitizenChat';
 import { CitizenSubmissionForm } from './CitizenSubmissionForm';
 
 interface EndpointConfig {
@@ -42,7 +39,7 @@ interface Props {
   endpoint: EndpointConfig;
 }
 
-type ViewState = 'landing' | 'chat' | 'form';
+type ViewState = 'landing' | 'form';
 type Language = 'en' | 'te';
 
 export function CitizenLandingPage({ endpoint }: Props) {
@@ -86,22 +83,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
     }
   };
 
-  /* ─── Chat / Form sub-views ─── */
-  if (view === 'chat') {
-    return (
-      <div className="min-h-dvh flex flex-col bg-background">
-        <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card safe-area-top">
-          <button onClick={() => setView('landing')} className="touch-target flex items-center gap-1 text-sm font-bold text-muted-foreground hover:text-primary cursor-pointer">← {lang === 'te' ? 'హోమ్' : 'Home'}</button>
-          <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-xs font-bold border border-border">
-            <button onClick={() => setLang('en')} className={`touch-target flex items-center justify-center px-2.5 py-1.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
-            <button onClick={() => setLang('te')} className={`touch-target flex items-center justify-center px-2.5 py-1.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
-          </div>
-        </div>
-        <div className="flex-1"><AICitizenChat endpoint={endpoint} lang={lang} setLang={setLang} /></div>
-      </div>
-    );
-  }
-
+  /* ─── Form sub-view ─── */
   if (view === 'form') {
     return (
       <div className="min-h-dvh flex flex-col bg-background">
@@ -113,7 +95,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
           </div>
         </div>
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-4 flex flex-col">
-          <CitizenSubmissionForm endpoint={endpoint} lang={lang} setLang={setLang} onSwitchToChat={() => setView('chat')} onBackToSelect={() => setView('landing')} />
+          <CitizenSubmissionForm endpoint={endpoint} lang={lang} setLang={setLang} onBackToSelect={() => setView('landing')} />
         </main>
       </div>
     );
@@ -144,7 +126,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
   ];
 
   const features = [
-    { icon: Mic, title: lang === 'te' ? 'వాయిస్ సపోర్ట్' : 'Voice Support', desc: lang === 'te' ? 'రాయడం కష్టమైతే మైక్ నొక్కి మాట్లాడండి.' : "Can't type? Just speak into the mic." },
+    { icon: Mic, title: lang === 'te' ? 'వాయిస్ సపోర్ట్' : 'Voice First', desc: lang === 'te' ? 'రాయడం కష్టమైతే మైక్ నొక్కి మాట్లాడండి.' : "Can't type? Just tap the mic and speak." },
     { icon: Lock, title: lang === 'te' ? 'రహస్యం' : 'Complete Privacy', desc: lang === 'te' ? 'మీ పేరు ఎప్పటికీ బహిర్గతం కాదు.' : 'Your identity is never revealed publicly.' },
     { icon: Globe, title: lang === 'te' ? 'బహుభాషా' : 'Multilingual', desc: lang === 'te' ? 'తెలుగు, Tenglish, English లో చెప్పవచ్చు.' : 'Telugu, Tenglish, or English — your choice.' },
     { icon: Camera, title: lang === 'te' ? 'ఆధారాలు' : 'Evidence Upload', desc: lang === 'te' ? 'ఫోటోలు, వీడియోలు, పత్రాలు జతచేయండి.' : 'Upload photos, videos, or documents.' },
@@ -180,19 +162,16 @@ export function CitizenLandingPage({ endpoint }: Props) {
 
       {/* ── HERO ── */}
       <section className="relative overflow-hidden">
-        {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-secondary/20" />
         <div className="absolute top-0 right-0 w-72 h-72 bg-primary/[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-56 h-56 bg-secondary/30 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-12 sm:pt-20 sm:pb-20 text-center space-y-5">
-          {/* Badge */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success-subtle border border-success/20 text-success text-xs font-bold">
             <ShieldCheck size={13} />
             <span>{lang === 'te' ? '100% ఉచితం & రహస్యం' : '100% Free & Confidential'}</span>
           </div>
 
-          {/* Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-primary leading-[1.05] tracking-tight max-w-2xl mx-auto">
             {lang === 'te' ? (
               <>మీ ఊరిలో సమస్య?<br /><span className="text-primary/60">మాకు చెప్పండి.</span></>
@@ -201,33 +180,30 @@ export function CitizenLandingPage({ endpoint }: Props) {
             )}
           </h1>
 
-          {/* Subheadline */}
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto">
             {lang === 'te'
-              ? 'తెలుగు, Tenglish లేదా English లో టైప్ చేయండి లేదా మైక్ నొక్కి చెప్పండి. మా జర్నలిస్టులు పరిశీలిస్తారు.'
-              : 'Type or speak in English, Telugu, or Tenglish. Our investigative team follows up.'}
+              ? 'మైక్ నొక్కి మాట్లాడండి లేదా టైప్ చేయండి. మా జర్నలిస్టులు పరిశీలిస్తారు.'
+              : 'Tap the mic to speak or type below. Our investigative team follows up.'}
           </p>
 
-          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 max-w-md mx-auto">
             <button
-              onClick={() => setView('chat')}
+              onClick={() => setView('form')}
               className="w-full group py-4 px-6 bg-primary hover:bg-primary-hover text-white font-bold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.97]"
             >
               <Mic size={20} />
-              <span>{lang === 'te' ? 'మాట్లాడండి' : 'Talk to AI'}</span>
+              <span>{lang === 'te' ? 'ఇప్పుడే చెప్పండి' : 'Report Now'}</span>
               <ArrowRight size={17} className="group-hover:translate-x-0.5 transition-transform" />
             </button>
             <button
-              onClick={() => setView('form')}
+              onClick={() => setShowStatusModal(true)}
               className="w-full py-4 px-6 bg-card hover:bg-surface border-2 border-border hover:border-primary/40 text-primary font-bold text-base rounded-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer"
             >
               <FileText size={20} />
-              <span>{lang === 'te' ? 'ఫారమ్ పూరించండి' : 'Fill a Form'}</span>
+              <span>{lang === 'te' ? 'స్థితి చూడండి' : 'Track Report'}</span>
             </button>
           </div>
 
-          {/* Trust pills */}
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 pt-3 text-xs font-medium text-muted-foreground">
             {[
               lang === 'te' ? 'మీ పేరు దాగి ఉంటుంది' : 'Identity protected',
@@ -268,7 +244,6 @@ export function CitizenLandingPage({ endpoint }: Props) {
             const Icon = s.icon;
             return (
               <div key={i} className="relative p-5 rounded-2xl bg-card border border-border group hover:border-primary/30 transition-colors">
-                {/* Connector line */}
                 {i < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-8 -right-3 w-6 h-0.5 bg-border" />
                 )}
@@ -345,10 +320,9 @@ export function CitizenLandingPage({ endpoint }: Props) {
         </div>
       </section>
 
-      {/* ── TRUST / CTA SECTION ── */}
+      {/* ── CTA ── */}
       <section className="px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-3xl mx-auto relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-primary text-white text-center space-y-5">
-          {/* Decorative */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
           <div className="absolute top-4 right-4 w-24 h-24 bg-white/5 rounded-full blur-2xl" />
           <div className="absolute bottom-4 left-4 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
@@ -364,10 +338,11 @@ export function CitizenLandingPage({ endpoint }: Props) {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
               <button
-                onClick={() => setView('chat')}
-                className="touch-target w-full sm:w-auto px-8 py-4 bg-white text-primary hover:bg-white/90 font-bold text-base rounded-xl shadow-lg transition active:scale-95 cursor-pointer"
+                onClick={() => setView('form')}
+                className="touch-target w-full sm:w-auto px-8 py-4 bg-white text-primary hover:bg-white/90 font-bold text-base rounded-xl shadow-lg transition active:scale-95 cursor-pointer flex items-center justify-center gap-2"
               >
-                {lang === 'te' ? 'ఇప్పుడే చెప్పండి →' : 'Report Now →'}
+                <Mic size={18} />
+                {lang === 'te' ? 'ఇప్పుడే చెప్పండి →' : 'Speak Now →'}
               </button>
               <button
                 onClick={() => setShowStatusModal(true)}
@@ -384,7 +359,6 @@ export function CitizenLandingPage({ endpoint }: Props) {
       <footer className="border-t border-border bg-surface/30 safe-area-bottom">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {/* Brand */}
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center">
@@ -396,8 +370,6 @@ export function CitizenLandingPage({ endpoint }: Props) {
                 {lang === 'te' ? 'ప్రజా సమస్యలను పరిశీలించే, నిజాలు బయటపెట్టే ప్లాట్‌ఫామ్.' : 'A platform to investigate and expose civic issues.'}
               </p>
             </div>
-
-            {/* Links */}
             <div className="space-y-2">
               <h4 className="font-bold text-xs text-primary uppercase tracking-wider">{lang === 'te' ? 'లింకులు' : 'Links'}</h4>
               <div className="space-y-1.5">
@@ -406,8 +378,6 @@ export function CitizenLandingPage({ endpoint }: Props) {
                 ))}
               </div>
             </div>
-
-            {/* Trust */}
             <div className="space-y-2">
               <h4 className="font-bold text-xs text-primary uppercase tracking-wider">{lang === 'te' ? 'నమ్మకం' : 'Trust'}</h4>
               <div className="space-y-1.5">
@@ -424,8 +394,6 @@ export function CitizenLandingPage({ endpoint }: Props) {
               </div>
             </div>
           </div>
-
-          {/* Bottom bar */}
           <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-[10px] text-muted-foreground">
               © {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'Citizen Helpdesk'}. {lang === 'te' ? 'అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.' : 'All rights reserved.'}
