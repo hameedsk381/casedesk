@@ -385,30 +385,6 @@ export function AICitizenChat({
 
   return (
     <div className="flex flex-col h-full bg-background">
-      {/* Internal Chat Header */}
-      <div className="px-4 py-3 border-b border-border bg-card flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {onBackToSelect && (
-            <button onClick={onBackToSelect} className="text-xs font-semibold text-muted-foreground hover:text-primary mr-1 cursor-pointer">
-              ← <span className="hidden sm:inline">{lang === 'te' ? 'వెనుక' : 'Back'}</span>
-            </button>
-          )}
-          <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-          <span className="text-xs font-bold text-primary">{lang === 'te' ? 'AI సహాయకుడు' : 'AI Assistant'}</span>
-          <span className="text-[10px] text-muted-foreground">• Online</span>
-          <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface border border-border text-[10px] font-bold text-primary ml-1">
-            <span>తెలుగు • Tenglish • English</span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Shield size={12} className="text-success" />
-          <span className="text-[10px] font-medium hidden sm:inline">
-            {lang === 'te' ? 'జర్నలిస్టిక్ రక్షణ' : 'Source Protection'}
-          </span>
-        </div>
-      </div>
-
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 scroll-smooth">
         {/* Welcome Banner */}

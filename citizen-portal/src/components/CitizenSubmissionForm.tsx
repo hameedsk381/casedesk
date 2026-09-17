@@ -271,39 +271,7 @@ export function CitizenSubmissionForm({
     'w-full p-3 sm:p-3.5 text-sm bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground font-medium placeholder:text-muted-foreground transition-colors';
 
   return (
-    <div className="space-y-2 animate-fade-in">
-      <div className="flex items-center justify-between pb-3 border-b border-border">
-        <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground">
-          {onBackToSelect && (
-            <button
-              onClick={onBackToSelect}
-              className="text-muted-foreground hover:text-primary mr-1 font-medium cursor-pointer"
-            >
-              ← {lang === 'te' ? 'మార్చు' : 'Change'}
-            </button>
-          )}
-          <span className="text-primary font-extrabold">
-            {step < 7 ? `${lang === 'te' ? 'దశ' : 'Step'} ${step}/6` : (lang === 'te' ? 'పూర్తయింది' : 'Done')}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {onSwitchToChat && (
-            <button
-              onClick={onSwitchToChat}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/15 text-primary text-xs font-bold transition cursor-pointer"
-            >
-              <Bot size={13} />
-              <span className="hidden sm:inline">{lang === 'te' ? 'AI చాట్' : 'AI Chat'}</span>
-            </button>
-          )}
-          <div className="flex items-center gap-0.5 p-0.5 bg-surface rounded-lg text-xs font-bold border border-border">
-            <button onClick={() => setLang('en')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'en' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>EN</button>
-            <button onClick={() => setLang('te')} className={`px-1.5 py-0.5 rounded-md transition cursor-pointer ${lang === 'te' ? 'bg-primary text-white' : 'text-muted-foreground'}`}>తె</button>
-          </div>
-        </div>
-      </div>
-
+    <div className="space-y-4 animate-fade-in">
       {step < 7 && <StepIndicator />}
 
       {/* STEP 1: INTRO */}
