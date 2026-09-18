@@ -161,60 +161,111 @@ export function CitizenLandingPage({ endpoint }: Props) {
       </header>
 
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-secondary/20" />
-        <div className="absolute top-0 right-0 w-72 h-72 bg-primary/[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-56 h-56 bg-secondary/30 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-secondary/20">
+        <div className="absolute -top-24 -right-20 h-72 w-72 rounded-full bg-primary/[0.06] blur-3xl" />
+        <div className="absolute -bottom-28 -left-16 h-72 w-72 rounded-full bg-secondary/35 blur-3xl" />
 
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-12 sm:pt-20 sm:pb-20 text-center space-y-5">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success-subtle border border-success/20 text-success text-xs font-bold">
-            <Megaphone size={13} />
-            <span>{lang === 'te' ? '100% ఉచితం & రహస్యం' : '100% Free & Confidential'}</span>
+        <div className="relative max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] items-center gap-10 px-4 sm:px-6 pt-10 pb-12 sm:pt-20 sm:pb-20">
+          <div className="space-y-6 text-center lg:text-left">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success-subtle border border-success/20 text-success text-xs font-bold">
+              <Megaphone size={13} />
+              <span>{lang === 'te' ? '100% ఉచితం & రహస్యం' : 'Free, private, and easy to use'}</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary leading-[1.02] tracking-tight max-w-xl">
+              {lang === 'te' ? (
+                <>మీ గొంతు<br /><span className="text-primary/60">మార్పు తెస్తుంది.</span></>
+              ) : (
+                <>Your voice<br /><span className="text-primary/60">can change things.</span></>
+              )}
+            </h1>
+
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0">
+              {lang === 'te'
+                ? 'మీ ప్రాంతంలోని సమస్యను మైక్ నొక్కి చెప్పండి లేదా టైప్ చేయండి. మీ సమాచారం మా టీమ్‌కు చేరుతుంది.'
+                : 'Report a problem in your area by speaking or typing. Your information reaches a team that can follow up.'}
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 max-w-md mx-auto lg:mx-0">
+              <button
+                onClick={() => setView('form')}
+                className="w-full group py-4 px-6 bg-primary hover:bg-primary-hover text-white font-bold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.97]"
+              >
+                <Mic size={20} />
+                <span>{lang === 'te' ? 'చెప్పండి' : 'Speak or type a report'}</span>
+                <ArrowRight size={17} className="group-hover:translate-x-0.5 transition-transform" />
+              </button>
+              <button
+                onClick={() => setShowStatusModal(true)}
+                className="w-full sm:w-auto shrink-0 py-4 px-5 bg-card hover:bg-surface border-2 border-border hover:border-primary/40 text-primary font-bold text-base rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Search size={18} />
+                <span>{lang === 'te' ? 'స్థితి' : 'Track'}</span>
+              </button>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 text-xs font-medium text-muted-foreground">
+              {[
+                lang === 'te' ? 'అనామకంగా పంపవచ్చు' : 'Anonymous option',
+                lang === 'te' ? 'తెలుగు & English' : 'Telugu & English',
+                lang === 'te' ? 'ఖాతా అవసరం లేదు' : 'No account needed',
+              ].map((text, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <CheckCircle2 size={14} className="text-success" />
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-primary leading-[1.05] tracking-tight max-w-2xl mx-auto">
-            {lang === 'te' ? (
-              <>మీ ఊరిలో సమస్య?<br /><span className="text-primary/60">మాకు చెప్పండి.</span></>
-            ) : (
-              <>Help improve<br className="hidden sm:block" /> your area.<br /><span className="text-primary/60">Share the details with us.</span></>
-            )}
-          </h1>
+          <div className="relative max-w-md w-full mx-auto lg:ml-auto">
+            <div className="absolute -inset-3 rounded-[2rem] bg-primary/[0.07] blur-2xl" />
+            <div className="relative overflow-hidden rounded-3xl bg-primary p-5 sm:p-7 text-white shadow-xl shadow-primary/20">
+              <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-white/10" />
+              <div className="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-secondary/10 blur-2xl" />
 
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto">
-            {lang === 'te'
-              ? 'మైక్ నొక్కి మాట్లాడండి లేదా టైప్ చేయండి. మా జర్నలిస్టులు పరిశీలిస్తారు.'
-              : 'Tap the mic to speak or type below. Our helpdesk team will review your submission.'}
-          </p>
+              <div className="relative space-y-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">
+                      {lang === 'te' ? 'ఇది సులభం' : 'It only takes a minute'}
+                    </div>
+                    <h2 className="mt-2 text-2xl font-black leading-tight">
+                      {lang === 'te' ? 'మీ సమస్యను రికార్డ్ చేయండి' : 'Record what happened'}
+                    </h2>
+                  </div>
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-primary shadow-lg">
+                    <Mic size={21} />
+                  </div>
+                </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 max-w-md mx-auto">
-            <button
-              onClick={() => setView('form')}
-              className="w-full group py-4 px-6 bg-primary hover:bg-primary-hover text-white font-bold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.97]"
-            >
-              <Mic size={20} />
-              <span>{lang === 'te' ? 'ఇప్పుడే చెప్పండి' : 'Share Details'}</span>
-              <ArrowRight size={17} className="group-hover:translate-x-0.5 transition-transform" />
-            </button>
-            <button
-              onClick={() => setShowStatusModal(true)}
-              className="w-full py-4 px-6 bg-card hover:bg-surface border-2 border-border hover:border-primary/40 text-primary font-bold text-base rounded-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer"
-            >
-              <FileText size={20} />
-              <span>{lang === 'te' ? 'స్థితి చూడండి' : 'Track Report'}</span>
-            </button>
-          </div>
+                <button
+                  onClick={() => setView('form')}
+                  className="group flex w-full items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 text-left transition hover:bg-white/15 cursor-pointer active:scale-[0.98]"
+                >
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-primary shadow-md group-hover:scale-105 transition-transform">
+                    <Mic size={22} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-bold">{lang === 'te' ? 'మైక్ నొక్కి మాట్లాడండి' : 'Tap to record your voice'}</span>
+                    <span className="mt-0.5 block text-xs text-secondary">{lang === 'te' ? 'లేదా టైప్ చేయండి' : 'Or type your report instead'}</span>
+                  </span>
+                  <ArrowRight size={18} className="shrink-0 text-secondary group-hover:translate-x-1 transition-transform" />
+                </button>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 pt-3 text-xs font-medium text-muted-foreground">
-            {[
-              lang === 'te' ? 'మీ పేరు దాగి ఉంటుంది' : 'Identity protected',
-              lang === 'te' ? 'మైక్ నొక్కి చెప్పవచ్చు' : 'Voice supported',
-              lang === 'te' ? 'తెలుగు & English' : 'Telugu & English',
-            ].map((text, i) => (
-              <div key={i} className="flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-success" />
-                <span>{text}</span>
+                <div className="flex items-center gap-1.5" aria-hidden="true">
+                  {[20, 32, 46, 28, 38, 24, 42, 30, 18, 35, 25, 44, 22, 32, 18].map((height, i) => (
+                    <span key={i} className="h-10 flex-1 rounded-full bg-secondary/70" style={{ height: `${height}%` }} />
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-3 gap-2 border-t border-white/15 pt-4 text-center">
+                  <div><div className="text-sm font-black">01</div><div className="mt-0.5 text-[10px] text-secondary">{lang === 'te' ? 'చెప్పండి' : 'Tell us'}</div></div>
+                  <div><div className="text-sm font-black">02</div><div className="mt-0.5 text-[10px] text-secondary">{lang === 'te' ? 'పరిశీలన' : 'We review'}</div></div>
+                  <div><div className="text-sm font-black">03</div><div className="mt-0.5 text-[10px] text-secondary">{lang === 'te' ? 'చర్య' : 'We follow up'}</div></div>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
