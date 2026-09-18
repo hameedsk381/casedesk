@@ -19,7 +19,7 @@ const sources = [
   { icon: <Mic size={18} />, label: 'Voice Notes', color: 'text-success' },
   { icon: <FileText size={18} />, label: 'Documents', color: 'text-primary' },
   { icon: <Camera size={18} />, label: 'Photos', color: 'text-warning' },
-  { icon: <Video size={18} />, label: 'Videos', color: 'text-red' },
+  { icon: <Video size={18} />, label: 'Videos', color: 'text-destructive' },
   { icon: <Mail size={18} />, label: 'Emails', color: 'text-muted-foreground' },
 ];
 

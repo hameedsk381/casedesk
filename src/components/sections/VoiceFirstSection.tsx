@@ -28,7 +28,7 @@ export default function VoiceFirstSection() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
         <AnimateOnScroll>
           <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase text-primary-bright mb-5">
+            <span className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase text-secondary mb-5">
               <Languages size={14} />
               Voice-First · Regional Language
             </span>
@@ -83,7 +83,7 @@ export default function VoiceFirstSection() {
         <AnimateOnScroll delay={400}>
           <div className="mt-10 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
-              <Globe size={14} className="text-primary-bright" />
+              <Globe size={14} className="text-secondary" />
               <span className="text-xs text-secondary">
                 Communicating our future vision — regional language support is in development.
               </span>

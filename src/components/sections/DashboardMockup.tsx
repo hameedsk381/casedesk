@@ -88,7 +88,7 @@ export default function DashboardMockup() {
             <div className="w-2.5 h-2.5 rounded-full bg-green/40" />
           </div>
           <div className="flex-1 flex justify-center">
-            <div className="px-3 py-0.5 bg-white rounded text-[10px] text-secondary border border-surface-3">
+            <div className="px-3 py-0.5 bg-white rounded text-[10px] text-muted-foreground border border-surface-3">
               app.casedesk.io
             </div>
           </div>
@@ -100,7 +100,7 @@ export default function DashboardMockup() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-sm font-semibold text-primary">Case Dashboard</h3>
-              <p className="text-[11px] text-secondary mt-0.5">September 2026</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">September 2026</p>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-6 h-6 rounded-full bg-primary-subtle flex items-center justify-center">
@@ -120,7 +120,7 @@ export default function DashboardMockup() {
                 className="bg-background rounded-lg p-2 text-center border border-surface-3"
               >
                 <div className="text-base font-bold text-primary">{stat.value}</div>
-                <div className="text-[9px] text-secondary mt-0.5 leading-tight">{stat.label}</div>
+                <div className="text-[9px] text-muted-foreground mt-0.5 leading-tight">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -137,32 +137,33 @@ export default function DashboardMockup() {
                 {/* Priority indicator */}
                 <div className="mt-1 flex-shrink-0">
                   {c.priority === 'High' ? (
-                    <AlertTriangle size={14} className="text-red" />
+                    <AlertTriangle size={14} 
+                                                                        className="text-destructive" />
                   ) : (
-                    <FileText size={14} className="text-secondary" />
+                    <FileText size={14} className="text-muted-foreground" />
                   )}
                 </div>
 
                 {/* Case info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-mono text-secondary">{c.id}</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">{c.id}</span>
                     <Badge variant={c.statusColor} className="!text-[9px] !px-1.5 !py-0.5">
                       {c.status}
                     </Badge>
                   </div>
                   <h4 className="text-xs font-semibold text-primary truncate">{c.title}</h4>
                   <div className="flex items-center gap-3 mt-1.5">
-                    <span className="flex items-center gap-1 text-[10px] text-secondary">
+                    <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                       <MapPin size={10} /> {c.location}
                     </span>
-                    <span className="flex items-center gap-1 text-[10px] text-secondary">
+                    <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                       <FileText size={10} /> {c.evidence}
                     </span>
-                    <span className="flex items-center gap-1 text-[10px] text-secondary">
+                    <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                       <CheckCircle size={10} /> {c.tasks}
                     </span>
-                    <span className="flex items-center gap-1 text-[10px] text-secondary">
+                    <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                       <Clock size={10} /> {c.date}
                     </span>
                   </div>
@@ -171,7 +172,7 @@ export default function DashboardMockup() {
                 {/* Chevron */}
                 <ChevronRight
                   size={14}
-                  className="text-secondary mt-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                  className="text-muted-foreground mt-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
                 />
               </div>
             ))}

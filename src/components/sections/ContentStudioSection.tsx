@@ -68,18 +68,18 @@ export default function ContentStudioSection() {
 
               {/* Publication flow */}
               <div className="mt-6 pt-5 border-t border-surface-3">
-                <span className="text-[10px] font-bold tracking-wider uppercase text-secondary mb-3 block">
+                <span className="text-[10px] font-bold tracking-wider uppercase text-muted-foreground mb-3 block">
                   Publication Flow
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 px-3 py-1.5 bg-surface rounded-lg text-xs font-medium text-primary">
                     <User size={12} /> Creator reviews
                   </div>
-                  <span className="text-secondary text-xs">→</span>
+                  <span className="text-muted-foreground text-xs">→</span>
                   <div className="flex items-center gap-1.5 px-3 py-1.5 bg-success-subtle rounded-lg text-xs font-medium text-success">
                     <CheckCircle size={12} /> Creator approves
                   </div>
-                  <span className="text-secondary text-xs">→</span>
+                  <span className="text-muted-foreground text-xs">→</span>
                   <div className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-subtle rounded-lg text-xs font-medium text-primary">
                     <Send size={12} /> Publish
                   </div>

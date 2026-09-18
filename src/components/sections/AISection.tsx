@@ -44,7 +44,7 @@ export default function AISection() {
                 </div>
                 <div>
                   <span className="text-xs font-semibold text-primary">Citizen Message</span>
-                  <span className="block text-[10px] text-secondary">via WhatsApp</span>
+                  <span className="block text-[10px] text-muted-foreground">via WhatsApp</span>
                 </div>
               </div>
               <div className="bg-background rounded-lg p-4 border border-surface-3">
@@ -53,7 +53,7 @@ export default function AISection() {
                   responding to our complaint. We have documents.&quot;
                 </p>
               </div>
-              <div className="mt-4 flex items-center gap-2 text-xs text-secondary">
+              <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
                 <User size={12} />
                 <span>Unstructured citizen complaint</span>
               </div>
@@ -88,23 +88,23 @@ export default function AISection() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex items-start gap-2">
-                    <span className="text-[10px] font-medium text-secondary uppercase tracking-wider mt-0.5">Category</span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-0.5">Category</span>
                     <Badge variant="success">Healthcare</Badge>
                   </div>
                   <div className="flex items-start gap-2">
-                    <span className="text-[10px] font-medium text-secondary uppercase tracking-wider mt-0.5">Location</span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-0.5">Location</span>
                     <span className="flex items-center gap-1 text-xs text-primary">
-                      <MapPin size={11} className="text-secondary" /> Guntur
+                      <MapPin size={11} className="text-muted-foreground" /> Guntur
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <span className="text-[10px] font-medium text-secondary uppercase tracking-wider mt-0.5">Priority</span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-0.5">Priority</span>
                     <Badge variant="destructive" dot>High</Badge>
                   </div>
                   <div className="flex items-start gap-2">
-                    <span className="text-[10px] font-medium text-secondary uppercase tracking-wider mt-0.5">Evidence</span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-0.5">Evidence</span>
                     <span className="flex items-center gap-1 text-xs text-primary">
-                      <FileText size={11} className="text-secondary" /> Documents mentioned
+                      <FileText size={11} className="text-muted-foreground" /> Documents mentioned
                     </span>
                   </div>
                 </div>

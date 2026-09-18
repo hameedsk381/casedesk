@@ -36,17 +36,17 @@ export default function FutureVisionSection() {
                 </div>
                 <div>
                   <span className="text-sm font-semibold text-primary block">Connected Cases</span>
-                  <span className="text-xs text-secondary">Across creators and regions</span>
+                  <span className="text-xs text-muted-foreground">Across creators and regions</span>
                 </div>
               </div>
-              <ArrowUpRight size={20} className="text-secondary rotate-0 sm:rotate-0 hidden sm:block" />
+              <ArrowUpRight size={20} className="text-muted-foreground rotate-0 sm:rotate-0 hidden sm:block" />
               <div className="flex items-center gap-3 px-5 py-4 bg-background rounded-xl border border-surface-3">
                 <div className="w-10 h-10 rounded-xl bg-success-subtle flex items-center justify-center text-success">
                   <Telescope size={20} />
                 </div>
                 <div>
                   <span className="text-sm font-semibold text-primary block">Public Accountability</span>
-                  <span className="text-xs text-secondary">Transparent investigation tracking</span>
+                  <span className="text-xs text-muted-foreground">Transparent investigation tracking</span>
                 </div>
               </div>
             </div>

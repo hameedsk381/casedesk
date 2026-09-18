@@ -87,7 +87,7 @@ export default function TeamSection() {
                     <div className="mt-0.5">{activity.icon}</div>
                     <div className="flex-1 min-w-0">
                       <span className="text-sm text-primary block">{activity.action}</span>
-                      <span className="text-[11px] text-secondary">{activity.time}</span>
+                      <span className="text-[11px] text-muted-foreground">{activity.time}</span>
                     </div>
                   </div>
                 ))}

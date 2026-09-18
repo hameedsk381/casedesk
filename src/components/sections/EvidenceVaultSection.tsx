@@ -25,8 +25,8 @@ const categories = [
 ];
 
 const files = [
-  { name: 'Complaint.pdf', type: 'PDF', size: '245 KB', icon: <FileText size={18} />, color: 'text-red' },
-  { name: 'Medical_Record.pdf', type: 'PDF', size: '1.2 MB', icon: <FileText size={18} />, color: 'text-red' },
+  { name: 'Complaint.pdf', type: 'PDF', size: '245 KB', icon: <FileText size={18} />, color: 'text-destructive' },
+  { name: 'Medical_Record.pdf', type: 'PDF', size: '1.2 MB', icon: <FileText size={18} />, color: 'text-destructive' },
   { name: 'Interview.mp4', type: 'Video', size: '48 MB', icon: <Video size={18} />, color: 'text-primary' },
   { name: 'Hospital_Photo.jpg', type: 'Image', size: '3.1 MB', icon: <Image size={18} />, color: 'text-success' },
 ];
@@ -58,7 +58,7 @@ export default function EvidenceVaultSection() {
                   <Badge variant="neutral">33 items</Badge>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="flex items-center gap-1 text-[10px] text-secondary">
+                  <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                     <Lock size={10} /> Controlled Access
                   </span>
                 </div>
@@ -77,7 +77,7 @@ export default function EvidenceVaultSection() {
                   >
                     {cat.icon}
                     {cat.label}
-                    <span className={`ml-0.5 ${i === 0 ? 'text-white/70' : 'text-secondary'}`}>
+                    <span className={`ml-0.5 ${i === 0 ? 'text-white/70' : 'text-muted-foreground'}`}>
                       {cat.count}
                     </span>
                   </button>
@@ -96,9 +96,9 @@ export default function EvidenceVaultSection() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <span className="text-sm font-medium text-primary block truncate">{file.name}</span>
-                      <span className="text-[11px] text-secondary">{file.type} · {file.size}</span>
+                      <span className="text-[11px] text-muted-foreground">{file.type} · {file.size}</span>
                     </div>
-                    <Eye size={14} className="text-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Eye size={14} className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 ))}
               </div>

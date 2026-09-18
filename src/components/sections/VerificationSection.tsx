@@ -41,7 +41,7 @@ const verificationItems = [
 function StatusIcon({ status }: { status: string }) {
   if (status === 'verified') return <CheckCircle size={14} className="text-success flex-shrink-0" />;
   if (status === 'partial') return <Loader size={14} className="text-warning flex-shrink-0" />;
-  return <Circle size={14} className="text-secondary flex-shrink-0" />;
+  return <Circle size={14} className="text-muted-foreground flex-shrink-0" />;
 }
 
 export default function VerificationSection() {
@@ -90,7 +90,7 @@ export default function VerificationSection() {
             </div>
 
             <div>
-              <span className="text-[10px] font-bold tracking-wider uppercase text-secondary mb-3 block">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-muted-foreground mb-3 block">
                 Verification Status
               </span>
               <div className="space-y-2.5">
@@ -103,7 +103,7 @@ export default function VerificationSection() {
                           ? 'text-primary'
                           : item.status === 'partial'
                           ? 'text-primary/70'
-                          : 'text-secondary'
+                          : 'text-muted-foreground'
                       }`}
                     >
                       {item.label}
@@ -114,7 +114,7 @@ export default function VerificationSection() {
             </div>
 
             <div className="mt-5 pt-4 border-t border-surface-3">
-              <div className="flex items-center gap-4 text-xs text-secondary">
+              <div className="flex items-center gap-4 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1.5">
                   <CheckCircle size={11} className="text-success" /> 4 Verified
                 </span>

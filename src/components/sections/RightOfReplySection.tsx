@@ -37,7 +37,7 @@ export default function RightOfReplySection() {
                     <span className="text-sm font-medium text-primary">{step.label}</span>
                   </div>
                   {i < steps.length - 1 && (
-                    <ArrowRight size={16} className="text-secondary hidden sm:block flex-shrink-0" />
+                    <ArrowRight size={16} className="text-muted-foreground hidden sm:block flex-shrink-0" />
                   )}
                 </React.Fragment>
               ))}

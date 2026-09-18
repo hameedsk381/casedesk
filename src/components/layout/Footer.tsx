@@ -37,7 +37,7 @@ export default function Footer() {
           <div className="md:col-span-5 lg:col-span-6">
             <div className="flex items-baseline gap-2 mb-3">
               <span className="text-xl font-bold tracking-tight">CaseDesk</span>
-              <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-primary-bright">
+              <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-secondary">
                 Open Vaartha
               </span>
             </div>

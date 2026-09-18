@@ -89,7 +89,7 @@ export default function SolutionSection() {
                 {/* Content */}
                 <div className="flex-1 pt-1">
                   <div className="flex items-baseline gap-3 mb-1.5">
-                    <span className="text-xs font-bold tracking-wider text-secondary">
+                    <span className="text-xs font-bold tracking-wider text-muted-foreground">
                       {step.number}
                     </span>
                     <h3 className="text-lg font-semibold text-primary">{step.title}</h3>

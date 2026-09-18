@@ -58,7 +58,7 @@ export default function CaseTimelineSection() {
 
                   {/* Content */}
                   <div className="flex items-baseline gap-4">
-                    <span className="text-xs font-mono font-medium text-secondary w-12 flex-shrink-0">
+                    <span className="text-xs font-mono font-medium text-muted-foreground w-12 flex-shrink-0">
                       {entry.date}
                     </span>
                     <span className="text-sm text-primary group-hover:text-primary transition-colors">
@@ -79,7 +79,7 @@ export default function CaseTimelineSection() {
                 <React.Fragment key={status.label}>
                   <Badge variant={status.color} dot>{status.label}</Badge>
                   {i < statuses.length - 1 && (
-                    <span className="text-secondary text-xs hidden sm:inline">→</span>
+                    <span className="text-muted-foreground text-xs hidden sm:inline">→</span>
                   )}
                 </React.Fragment>
               ))}
