@@ -5,7 +5,6 @@ import {
   Megaphone,
   Lock,
   Mic,
-  FileText,
   ArrowRight,
   CheckCircle2,
   Search,
@@ -270,69 +269,39 @@ export function CitizenLandingPage({ endpoint }: Props) {
         </div>
       </section>
 
-      {/* ── STATS BAR ── */}
-      <section className="border-y border-border bg-surface/50">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
+      {/* ── STATS RIBBON ── */}
+      <section className="border-y-2 border-primary bg-primary text-white">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/15">
           {stats.map((s, i) => (
-            <div key={i} className="px-4 py-5 text-center">
-              <div className="text-xl sm:text-2xl font-black text-primary">{s.value}</div>
-              <div className="text-[11px] text-muted-foreground font-medium mt-0.5">{s.label}</div>
+            <div key={i} className="px-4 py-5 sm:py-6 text-center">
+              <div className="text-xl sm:text-2xl font-black">{s.value}</div>
+              <div className="text-[10px] text-secondary font-bold uppercase tracking-wider mt-1">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ── */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 max-w-5xl mx-auto w-full">
-        <div className="text-center mb-8 sm:mb-10 space-y-2">
-          <span className="overline">{lang === 'te' ? 'ఎలా పనిచేస్తుంది' : 'How it works'}</span>
-          <h2 className="text-2xl sm:text-3xl font-black text-primary">
-            {lang === 'te' ? 'నాలుగు సులభ దశలు' : 'Four simple steps'}
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {steps.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <div key={i} className="relative p-5 rounded-2xl bg-card border border-border group hover:border-primary/30 transition-colors">
-                {i < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 -right-3 w-6 h-0.5 bg-border" />
-                )}
-                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                  <Icon size={22} />
-                </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-6 h-6 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center">{s.n}</span>
-                  <h3 className="font-bold text-sm text-primary">{s.title}</h3>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── FEATURES ── */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-surface/40">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8 sm:mb-10 space-y-2">
-            <span className="overline">{lang === 'te' ? 'ఎందుకు మమ్మల్ని' : 'Why us'}</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-primary">
-              {lang === 'te' ? 'మీకు అవసరమైనవన్నీ' : 'Everything you need'}
-            </h2>
+      {/* ── PROCESS ── */}
+      <section className="relative overflow-hidden bg-primary px-4 sm:px-6 py-16 sm:py-20 text-white">
+        <div className="absolute -right-20 top-10 h-64 w-64 rounded-full border border-white/10" />
+        <div className="absolute -right-8 top-22 h-40 w-40 rounded-full border border-white/10" />
+        <div className="relative max-w-5xl mx-auto">
+          <div className="max-w-xl space-y-3">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-secondary">{lang === 'te' ? 'మీ ఫిర్యాదు నుంచి చర్య వరకు' : 'From report to action'}</span>
+            <h2 className="text-3xl sm:text-4xl font-black leading-tight">{lang === 'te' ? 'మాటను మేము మార్గంగా మారుస్తాము.' : 'A clear path from your voice to action.'}</h2>
+            <p className="text-sm leading-relaxed text-secondary max-w-lg">{lang === 'te' ? 'మీరు చెప్పిన విషయాన్ని అర్థం చేసుకుని, ధృవీకరించి, సరైన వ్యక్తుల ముందు ఉంచుతాము.' : 'We listen, understand, verify, and take the issue to the people who can help move it forward.'}</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {features.map((f, i) => {
-              const Icon = f.icon;
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {steps.map((s, i) => {
+              const Icon = s.icon;
               return (
-                <div key={i} className="flex items-start gap-4 p-5 rounded-2xl bg-card border border-border">
-                  <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <Icon size={20} />
+                <div key={i} className="relative rounded-2xl border border-white/15 bg-white/[0.07] p-5 backdrop-blur-sm">
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-primary"><Icon size={19} /></div>
+                    <span className="text-3xl font-black text-white/20">{s.n}</span>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-sm text-primary mb-1">{f.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
-                  </div>
+                  <h3 className="mt-5 text-sm font-bold">{s.title}</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-secondary">{s.desc}</p>
                 </div>
               );
             })}
@@ -340,119 +309,111 @@ export function CitizenLandingPage({ endpoint }: Props) {
         </div>
       </section>
 
-      {/* ── CATEGORIES ── */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 max-w-5xl mx-auto w-full">
-        <div className="text-center mb-8 sm:mb-10 space-y-2">
-          <span className="overline">{lang === 'te' ? 'సమస్యలు' : 'Common issues'}</span>
-          <h2 className="text-2xl sm:text-3xl font-black text-primary">
-            {lang === 'te' ? 'ఏ రకమైన సమస్యైనా' : 'Report any problem'}
-          </h2>
+      {/* ── WHY THIS EXISTS ── */}
+      <section className="px-4 sm:px-6 py-16 sm:py-24">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[.85fr_1.15fr] gap-10 lg:gap-16 items-start">
+          <div className="space-y-4">
+            <span className="overline">{lang === 'te' ? 'ఎందుకు ఇది ఉంది' : 'Why ComplainBox exists'}</span>
+            <h2 className="text-3xl sm:text-4xl font-black leading-tight text-primary">{lang === 'te' ? 'చిన్న సమస్యలు కూడా ముఖ్యమే.' : 'Small problems matter too.'}</h2>
+            <p className="text-sm leading-relaxed text-muted-foreground">{lang === 'te' ? 'ఒక ఆసుపత్రి, ఒక రోడ్డు, ఒక పాఠశాల లేదా ఒక కార్యాలయం గురించి మీ అనుభవం ఇతరుల జీవితాలను ప్రభావితం చేయవచ్చు.' : 'A problem at one hospital, road, school, or office can affect an entire community. Your experience can help make it visible.'}</p>
+            <button onClick={() => setView('form')} className="touch-target inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-hover cursor-pointer group">
+              {lang === 'te' ? 'మీ సమస్య చెప్పండి' : 'Share your experience'} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {features.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div key={i} className={`rounded-2xl border border-border p-5 ${i === 0 ? 'bg-secondary/35' : 'bg-card'} hover:-translate-y-0.5 transition-transform`}>
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white"><Icon size={19} /></div>
+                  <h3 className="mt-5 font-bold text-sm text-primary">{f.title}</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{f.desc}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {categories.map((cat, idx) => {
-            const Icon = cat.icon;
-            return (
-              <button
-                key={idx}
-                onClick={() => setView('form')}
-                className="touch-target p-4 rounded-xl bg-card border border-border flex items-center gap-3.5 text-left hover:border-primary/30 hover:shadow-sm transition-all group cursor-pointer"
-              >
-                <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${cat.color} group-hover:scale-105 transition-transform`}>
-                  <Icon size={20} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <span className="font-bold text-sm text-primary block">{cat.title}</span>
-                  <span className="text-[11px] text-muted-foreground block leading-tight mt-0.5">{cat.desc}</span>
-                </div>
-                <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
-              </button>
-            );
-          })}
+      </section>
+
+      {/* ── ISSUE DIRECTORY ── */}
+      <section className="bg-surface px-4 sm:px-6 py-16 sm:py-24">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div className="space-y-2">
+              <span className="overline">{lang === 'te' ? 'ఏ సమస్యైనా' : 'No issue is too small'}</span>
+              <h2 className="text-3xl sm:text-4xl font-black text-primary">{lang === 'te' ? 'మీ ప్రాంతం గురించి మాట్లాడండి.' : 'Put your area on the record.'}</h2>
+            </div>
+            <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">{lang === 'te' ? 'కేటగిరీ ఎంచుకుని వెంటనే ప్రారంభించండి.' : 'Choose a category to start a report. You can explain the details in your own words.'}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {categories.map((cat, idx) => {
+              const Icon = cat.icon;
+              return (
+                <button key={idx} onClick={() => setView('form')} className="touch-target group flex items-center gap-4 rounded-2xl border border-border bg-card p-4 text-left cursor-pointer hover:border-primary/40 hover:shadow-md transition-all">
+                  <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${cat.color} group-hover:scale-105 transition-transform`}><Icon size={21} /></div>
+                  <div className="min-w-0 flex-1">
+                    <span className="block text-sm font-bold text-primary">{cat.title}</span>
+                    <span className="mt-1 block text-[11px] leading-tight text-muted-foreground">{cat.desc}</span>
+                  </div>
+                  <ChevronRight size={17} className="shrink-0 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRIVACY PROMISE ── */}
+      <section className="px-4 sm:px-6 py-16 sm:py-24">
+        <div className="max-w-5xl mx-auto rounded-3xl border-2 border-foreground bg-secondary/40 p-6 sm:p-10 shadow-[5px_5px_0_hsl(var(--primary))]">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-center">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-primary"><Lock size={18} /><span className="text-xs font-bold uppercase tracking-[0.16em]">{lang === 'te' ? 'మీ భద్రత మొదట' : 'Your safety comes first'}</span></div>
+              <h2 className="text-2xl sm:text-3xl font-black text-primary">{lang === 'te' ? 'మీ పేరు చెప్పాల్సిన అవసరం లేదు.' : 'You do not have to reveal your name.'}</h2>
+              <p className="max-w-2xl text-sm leading-relaxed text-secondary-foreground">{lang === 'te' ? 'మీరు అనామకంగా ఉండవచ్చు. మా టీమ్‌కు అవసరమైనంత సమాచారం మాత్రమే ఇవ్వండి. ప్రచురణకు ముందు ప్రతి వివరాన్ని జాగ్రత్తగా పరిశీలిస్తాము.' : 'You can stay anonymous. Share only what feels safe. Every detail is reviewed carefully before any public action is taken.'}</p>
+            </div>
+            <button onClick={() => setView('form')} className="touch-target inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-sm font-bold text-white shadow-md hover:bg-primary-hover transition cursor-pointer active:scale-95 whitespace-nowrap">
+              <Mic size={17} /> {lang === 'te' ? 'ప్రారంభించండి' : 'Start a report'}
+            </button>
+          </div>
         </div>
       </section>
 
       {/* ── CTA ── */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16">
-        <div className="max-w-3xl mx-auto relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-primary text-white text-center space-y-5">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-          <div className="absolute top-4 right-4 w-24 h-24 bg-white/5 rounded-full blur-2xl" />
-          <div className="absolute bottom-4 left-4 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
-
-          <div className="relative space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-black leading-tight">
-              {lang === 'te' ? 'సమస్యను దాచవద్దు.' : "Don't stay silent."}
-            </h2>
-            <p className="text-sm sm:text-base text-white/70 max-w-md mx-auto leading-relaxed">
-              {lang === 'te'
-                ? 'మీ గొంతు వినిపించాలి. ఉచితం, సురక్షితం, గోప్యం.'
-                : 'Your voice matters. Free, safe, and confidential.'}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-              <button
-                onClick={() => setView('form')}
-                className="touch-target w-full sm:w-auto px-8 py-4 bg-white text-primary hover:bg-white/90 font-bold text-base rounded-xl shadow-lg transition active:scale-95 cursor-pointer flex items-center justify-center gap-2"
-              >
-                <Mic size={18} />
-                {lang === 'te' ? 'ఇప్పుడే చెప్పండి →' : 'Speak Now →'}
-              </button>
-              <button
-                onClick={() => setShowStatusModal(true)}
-                className="touch-target w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold text-base rounded-xl border border-white/20 transition cursor-pointer"
-              >
-                {lang === 'te' ? 'స్థితి చూడండి' : 'Track Report'}
-              </button>
+      <section className="px-4 sm:px-6 pb-16 sm:pb-24">
+        <div className="max-w-5xl mx-auto relative overflow-hidden rounded-3xl bg-primary p-8 sm:p-12 text-white">
+          <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full border border-white/10" />
+          <div className="absolute -bottom-24 -left-12 h-56 w-56 rounded-full bg-secondary/10 blur-3xl" />
+          <div className="relative max-w-2xl space-y-5">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-secondary">{lang === 'te' ? 'మీ గొంతు ముఖ్యం' : 'Your voice matters'}</span>
+            <h2 className="text-3xl sm:text-5xl font-black leading-[1.02]">{lang === 'te' ? 'మాట్లాడండి. మేము వింటాము.' : 'Speak up. We are listening.'}</h2>
+            <p className="max-w-lg text-sm sm:text-base leading-relaxed text-secondary">{lang === 'te' ? 'ఉచితం. సురక్షితం. మీ మాటల్లోనే.' : 'Free to use. Private by design. Built around your words.'}</p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <button onClick={() => setView('form')} className="touch-target inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 text-base font-bold text-primary shadow-lg hover:bg-white/90 transition cursor-pointer active:scale-95"><Mic size={18} />{lang === 'te' ? 'ఇప్పుడే చెప్పండి' : 'Report now'}</button>
+              <button onClick={() => setShowStatusModal(true)} className="touch-target inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-7 py-4 text-base font-bold text-white hover:bg-white/15 transition cursor-pointer"><Search size={17} />{lang === 'te' ? 'స్థితి చూడండి' : 'Track a report'}</button>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="border-t border-border bg-surface/30 safe-area-bottom">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center">
-                  <Megaphone size={16} />
-                </div>
-                <span className="font-extrabold text-sm text-primary">{endpoint.workspaceName || endpoint.title || 'ComplainBox'}</span>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
-                {lang === 'te' ? 'ప్రజా సమస్యలను పరిశీలించే, నిజాలు బయటపెట్టే ప్లాట్‌ఫామ్.' : 'A platform to investigate and expose civic issues.'}
-              </p>
+      <footer className="border-t border-border bg-surface/50 safe-area-bottom">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-9">
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+            <div className="max-w-sm space-y-3">
+              <div className="flex items-center gap-2.5"><div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white"><Megaphone size={17} /></div><span className="font-extrabold text-sm text-primary">{endpoint.workspaceName || endpoint.title || 'ComplainBox'}</span></div>
+              <p className="text-xs leading-relaxed text-muted-foreground">{lang === 'te' ? 'ప్రజా సమస్యలను వెలుగులోకి తీసుకువచ్చే సురక్షితమైన మార్గం.' : 'A safer way to bring community problems into the open.'}</p>
             </div>
-            <div className="space-y-2">
-              <h4 className="font-bold text-xs text-primary uppercase tracking-wider">{lang === 'te' ? 'లింకులు' : 'Links'}</h4>
-              <div className="space-y-1.5">
-                {[lang === 'te' ? 'గోప్యతా విధానం' : 'Privacy Policy', lang === 'te' ? 'నిబంధనలు' : 'Terms of Use', lang === 'te' ? 'సంప్రదింపు' : 'Contact Us'].map((link, i) => (
-                  <a key={i} href="#" className="touch-target flex items-center text-xs text-muted-foreground hover:text-primary transition">{link}</a>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h4 className="font-bold text-xs text-primary uppercase tracking-wider">{lang === 'te' ? 'నమ్మకం' : 'Trust'}</h4>
-              <div className="space-y-1.5">
-                {[
-                  { icon: Lock, text: lang === 'te' ? 'ఎండ్-టు-ఎండ్ ఎన్క్రిప్షన్' : 'End-to-end encryption' },
-                  { icon: Megaphone, text: lang === 'te' ? 'మూలాల రక్షణ' : 'Source protection guarantee' },
-                  { icon: CheckCircle2, text: lang === 'te' ? 'స్వతంత్ర పరిశోధన' : 'Independent investigation' },
-                ].map((t, i) => (
-                  <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <t.icon size={12} className="text-success shrink-0" />
-                    <span>{t.text}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 gap-x-12 gap-y-3 text-xs">
+              <button onClick={() => setView('form')} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'ఫిర్యాదు పంపండి' : 'Submit a report'}</button>
+              <button onClick={() => setShowStatusModal(true)} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'స్థితి చూడండి' : 'Track a report'}</button>
+              <span className="flex items-center gap-1.5 text-muted-foreground"><Lock size={12} className="text-success" />{lang === 'te' ? 'గోప్యత రక్షితం' : 'Privacy protected'}</span>
+              <span className="flex items-center gap-1.5 text-muted-foreground"><CheckCircle2 size={12} className="text-success" />{lang === 'te' ? 'స్వతంత్ర పరిశీలన' : 'Independent review'}</span>
             </div>
           </div>
-          <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-[10px] text-muted-foreground">
-              © {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'ComplainBox'}. {lang === 'te' ? 'అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.' : 'All rights reserved.'}
-            </p>
-            <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
-              <Lock size={10} />
-              <span>{lang === 'te' ? 'డేటా ఎన్క్రిప్ట్ & రక్షించబడింది' : 'Data encrypted & protected'}</span>
-            </div>
+          <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-t border-border pt-5 text-[10px] text-muted-foreground">
+            <span>© {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'ComplainBox'}</span>
+            <span>{lang === 'te' ? 'డేటా ఎన్క్రిప్ట్ & రక్షించబడింది' : 'Data encrypted & protected'}</span>
           </div>
         </div>
       </footer>
