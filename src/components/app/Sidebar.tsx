@@ -26,7 +26,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   user,
-  workspaceName = 'Citizen Helpdesk',
+  workspaceName = 'CaseDesk',
   isMobileOpen = false,
   onCloseMobile,
 }: SidebarProps) {
@@ -147,22 +147,22 @@ export default function Sidebar({
       />
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 w-64 bg-white border-r border-surface-3 flex flex-col transition-transform duration-200 lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-40 w-64 bg-sidebar border-r border-sidebar-border text-sidebar-foreground flex flex-col transition-transform duration-200 lg:translate-x-0 ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Workspace Brand Header */}
-        <div className="p-5 border-b border-surface-3 flex items-center justify-between">
+        <div className="p-5 border-b border-sidebar-border flex items-center justify-between">
           <Link href="/app" className="flex items-baseline gap-2">
-            <span className="text-xl font-black tracking-tight text-primary">CaseDesk</span>
-            <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-primary">
+            <span className="text-xl font-black tracking-tight text-sidebar-primary">CaseDesk</span>
+            <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-sidebar-primary">
               ops 2.0
             </span>
           </Link>
           <Link
             href="/"
             target="_blank"
-            className="text-slate-500 hover:text-primary p-1 rounded-md transition-colors"
+            className="text-sidebar-foreground/70 hover:text-sidebar-primary p-1 rounded-md transition-colors"
             title="Open Public Site"
           >
             <ExternalLink size={14} />
@@ -170,14 +170,14 @@ export default function Sidebar({
         </div>
 
         {/* Workspace Selector Bar */}
-        <div className="px-4 py-3 border-b border-surface-3/60 bg-background/40">
+        <div className="px-4 py-3 border-b border-sidebar-border bg-sidebar-accent/40">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 font-bold">
+            <div className="w-7 h-7 rounded-lg bg-sidebar-primary text-sidebar-primary-foreground flex items-center justify-center shrink-0 font-bold">
               <Building2 size={14} />
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-xs font-bold text-primary truncate">{workspaceName}</div>
-              <div className="text-[10px] text-slate-500 font-medium">Investigation Desk</div>
+              <div className="text-xs font-bold text-sidebar-foreground truncate">{workspaceName}</div>
+              <div className="text-[10px] text-sidebar-foreground/65 font-medium">Investigation Desk</div>
             </div>
           </div>
         </div>
@@ -189,7 +189,7 @@ export default function Sidebar({
               if (onCloseMobile) onCloseMobile();
               setIsIntakeModalOpen(true);
             }}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-[0.98]"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-sidebar-primary hover:bg-secondary-dark text-sidebar-primary-foreground font-semibold rounded-xl text-sm shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-[0.98]"
           >
             <PlusCircle size={16} />
             <span>＋ New Case</span>
@@ -200,7 +200,7 @@ export default function Sidebar({
         <div className="flex-1 px-3 space-y-5 overflow-y-auto pb-4">
           {/* Section: Operations */}
           <div>
-            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-sidebar-foreground/60">
               Operations
             </div>
             <nav className="space-y-1">
@@ -215,12 +215,12 @@ export default function Sidebar({
                     onClick={onCloseMobile}
                     className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                       active
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-muted-foreground hover:text-primary hover:bg-background'
+                         ? 'bg-sidebar-accent text-sidebar-primary'
+                         : 'text-sidebar-foreground/80 hover:text-sidebar-primary hover:bg-sidebar-accent/70'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-primary' : 'text-slate-500'} />
+                       <Icon size={16} className={active ? 'text-sidebar-primary' : 'text-sidebar-foreground/60'} />
                       <span>{link.label}</span>
                     </div>
                     {link.badge && (
@@ -236,7 +236,7 @@ export default function Sidebar({
 
           {/* Section: Editorial */}
           <div>
-            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-sidebar-foreground/60">
               Editorial
             </div>
             <nav className="space-y-1">
@@ -251,12 +251,12 @@ export default function Sidebar({
                     onClick={onCloseMobile}
                     className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                       active
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-muted-foreground hover:text-primary hover:bg-background'
+                         ? 'bg-sidebar-accent text-sidebar-primary'
+                         : 'text-sidebar-foreground/80 hover:text-sidebar-primary hover:bg-sidebar-accent/70'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-primary' : 'text-slate-500'} />
+                       <Icon size={16} className={active ? 'text-sidebar-primary' : 'text-sidebar-foreground/60'} />
                       <span>{link.label}</span>
                     </div>
                     {link.badge && (
@@ -272,7 +272,7 @@ export default function Sidebar({
 
           {/* Section: System */}
           <div>
-            <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-sidebar-foreground/60">
               System
             </div>
             <nav className="space-y-1">
@@ -287,12 +287,12 @@ export default function Sidebar({
                     onClick={onCloseMobile}
                     className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                       active
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-muted-foreground hover:text-primary hover:bg-background'
+                         ? 'bg-sidebar-accent text-sidebar-primary'
+                         : 'text-sidebar-foreground/80 hover:text-sidebar-primary hover:bg-sidebar-accent/70'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon size={16} className={active ? 'text-primary' : 'text-slate-500'} />
+                       <Icon size={16} className={active ? 'text-sidebar-primary' : 'text-sidebar-foreground/60'} />
                       <span>{link.label}</span>
                     </div>
                   </Link>
@@ -303,7 +303,7 @@ export default function Sidebar({
         </div>
 
         {/* User Footer Profile & Role */}
-        <div className="p-4 border-t border-surface-3 bg-background/30">
+        <div className="p-4 border-t border-sidebar-border bg-sidebar-accent/40">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden">
@@ -314,8 +314,8 @@ export default function Sidebar({
                 )}
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-primary truncate">{user?.name || 'Investigator'}</div>
-                <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
+                <div className="text-xs font-bold text-sidebar-foreground truncate">{user?.name || 'Investigator'}</div>
+                <div className="text-[10px] uppercase font-bold text-sidebar-foreground/60 tracking-wider">
                   {user?.role || 'RESEARCHER'}
                 </div>
               </div>
@@ -323,7 +323,7 @@ export default function Sidebar({
 
             <button
               onClick={handleLogout}
-              className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+              className="p-1.5 text-sidebar-foreground/60 hover:text-white hover:bg-destructive/30 rounded-lg transition-colors cursor-pointer"
               title="Sign Out"
             >
               <LogOut size={16} />

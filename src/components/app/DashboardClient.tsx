@@ -58,7 +58,7 @@ export default function DashboardClient({
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-16">
+    <div className="space-y-10 max-w-7xl mx-auto pb-16">
       {/* Intelligent Intake Modal */}
       <IntakeChoiceModal
         isOpen={isIntakeModalOpen}
@@ -66,7 +66,7 @@ export default function DashboardClient({
       />
 
       {/* Top Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-surface-3 shadow-xs bg-radial from-slate-50 to-white">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-3xl border border-border shadow-sm bg-radial from-surface to-card">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -85,7 +85,7 @@ export default function DashboardClient({
         <div className="flex items-center gap-3 shrink-0">
           <Link
             href="/app/inbox"
-            className="px-4 py-2.5 bg-background hover:bg-slate-100 text-primary font-bold text-xs rounded-xl border border-surface-3 transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 bg-surface hover:bg-surface-2 text-primary font-bold text-xs rounded-xl border border-border transition-colors flex items-center gap-2"
           >
             <Inbox size={15} className="text-primary" />
             <span>Intake Inbox</span>
@@ -191,7 +191,7 @@ export default function DashboardClient({
           {/* Card 1: Blocked Cases */}
           <Link
             href="/app/cases"
-            className="p-5 bg-white rounded-3xl border border-red-200/90 shadow-xs hover:border-red-400 hover:shadow-md transition-all group relative overflow-hidden"
+            className="p-5 bg-card rounded-3xl border border-destructive/25 shadow-sm hover:border-destructive/60 hover:shadow-md transition-all group relative overflow-hidden"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -216,7 +216,7 @@ export default function DashboardClient({
           {/* Card 2: Needs Attention */}
           <Link
             href="/app/cases"
-            className="p-5 bg-white rounded-3xl border border-amber-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all group relative overflow-hidden"
+            className="p-5 bg-card rounded-3xl border border-warning/25 shadow-sm hover:border-warning/60 hover:shadow-md transition-all group relative overflow-hidden"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -241,7 +241,7 @@ export default function DashboardClient({
           {/* Card 3: Due Today / Follow-ups */}
           <Link
             href="/app/cases?status=FOLLOW_UP"
-            className="p-5 bg-white rounded-3xl border border-surface-3 shadow-xs hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
+            className="p-5 bg-card rounded-3xl border border-border shadow-sm hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -266,7 +266,7 @@ export default function DashboardClient({
           {/* Card 4: Unprocessed Citizen Reports */}
           <Link
             href="/app/inbox"
-            className="p-5 bg-white rounded-3xl border border-surface-3 shadow-xs hover:border-emerald-500 hover:shadow-md transition-all group relative overflow-hidden"
+            className="p-5 bg-card rounded-3xl border border-border shadow-sm hover:border-success hover:shadow-md transition-all group relative overflow-hidden"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -312,7 +312,7 @@ export default function DashboardClient({
             </Link>
           </div>
 
-          <div className="bg-white rounded-3xl border border-surface-3 shadow-xs overflow-hidden">
+          <div className="bg-card rounded-3xl border border-border shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>

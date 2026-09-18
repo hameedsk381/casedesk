@@ -47,7 +47,7 @@ export default function AppShell({ children, user: initialUser }: AppShellProps)
       {/* Persistent Sidebar */}
       <Sidebar
         user={currentUser}
-        workspaceName="Citizen Helpdesk"
+        workspaceName="CaseDesk"
         isMobileOpen={isMobileOpen}
         onCloseMobile={() => setIsMobileOpen(false)}
       />

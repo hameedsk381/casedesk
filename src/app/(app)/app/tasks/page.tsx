@@ -77,7 +77,7 @@ export default function GlobalTasksPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="px-3 py-1 rounded-xl bg-background border border-surface-3 text-xs font-bold text-primary">
+          <span className="px-3 py-1 rounded-xl bg-surface border border-border text-xs font-bold text-primary">
             {todoCount} Pending
           </span>
           <span className="px-3 py-1 rounded-xl bg-success/10 text-success text-xs font-bold">
@@ -87,7 +87,7 @@ export default function GlobalTasksPage() {
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-surface-3 shadow-xs flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-card p-4 rounded-2xl border border-border shadow-sm flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-1.5">
           {FILTER_TABS.map((tab) => (
             <button
@@ -96,7 +96,7 @@ export default function GlobalTasksPage() {
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 statusFilter === tab
                   ? 'bg-primary text-white'
-                  : 'text-slate-500 hover:text-primary hover:bg-slate-100'
+                   : 'text-muted-foreground hover:text-primary hover:bg-surface'
               }`}
             >
               {tab === 'ALL' ? 'All Tasks' : tab === 'TODO' ? 'Pending' : 'Completed'}
@@ -105,11 +105,11 @@ export default function GlobalTasksPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-slate-500">Priority:</span>
+          <span className="text-xs font-semibold text-muted-foreground">Priority:</span>
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
+            className="text-xs bg-surface border border-border rounded-lg px-2.5 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
           >
             <option value="ALL">All Priorities</option>
             <option value="URGENT">Urgent</option>
@@ -122,11 +122,11 @@ export default function GlobalTasksPage() {
 
       {/* Task Cards List */}
       {loading ? (
-        <div className="bg-white rounded-2xl border border-surface-3 p-12 flex justify-center">
+        <div className="bg-card rounded-2xl border border-border p-12 flex justify-center">
           <Loader2 size={28} className="animate-spin text-primary" />
         </div>
       ) : filteredTasks.length === 0 ? (
-        <div className="bg-white p-12 rounded-2xl border border-surface-3 text-center">
+        <div className="bg-card p-12 rounded-2xl border border-border text-center">
           <FolderOpen size={32} className="mx-auto text-slate-300 mb-2" />
           <h3 className="text-sm font-bold text-primary">No tasks match your filter</h3>
           <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
@@ -141,8 +141,8 @@ export default function GlobalTasksPage() {
             return (
               <div
                 key={task.id}
-                className={`p-4 bg-white rounded-2xl border transition-all shadow-xs flex items-start justify-between gap-4 ${
-                  isDone ? 'opacity-65 border-surface-3/60 bg-background/40' : 'border-surface-3'
+                className={`p-4 bg-card rounded-2xl border transition-all shadow-sm flex items-start justify-between gap-4 ${
+                  isDone ? 'opacity-65 border-border/60 bg-surface/40' : 'border-border'
                 }`}
               >
                 <div className="flex items-start gap-3 min-w-0">
@@ -153,21 +153,21 @@ export default function GlobalTasksPage() {
                     {isDone ? (
                       <CheckSquare size={18} className="text-success" />
                     ) : (
-                      <Square size={18} className="text-slate-500" />
+                      <Square size={18} className="text-muted-foreground" />
                     )}
                   </button>
 
                   <div className="min-w-0">
                     <div
                       className={`text-sm font-bold ${
-                        isDone ? 'line-through text-slate-500' : 'text-primary'
+                        isDone ? 'line-through text-muted-foreground' : 'text-primary'
                       }`}
                     >
                       {task.title}
                     </div>
 
                     {task.description && (
-                      <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                         {task.description}
                       </p>
                     )}
@@ -183,14 +183,14 @@ export default function GlobalTasksPage() {
                       )}
 
                       {task.dueDate && (
-                        <div className="flex items-center gap-1 text-slate-500 text-[11px]">
+                        <div className="flex items-center gap-1 text-muted-foreground text-[11px]">
                           <Clock size={11} />
                           <span>Due {new Date(task.dueDate).toLocaleDateString()}</span>
                         </div>
                       )}
 
                       {task.assignedTo && (
-                        <div className="flex items-center gap-1 text-slate-500 text-[11px]">
+                        <div className="flex items-center gap-1 text-muted-foreground text-[11px]">
                           <User size={11} />
                           <span>{task.assignedTo.name}</span>
                         </div>

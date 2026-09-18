@@ -72,41 +72,41 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
   return (
     <aside className="w-full lg:w-80 shrink-0 space-y-6">
       {/* Dossier Meta Card */}
-      <div className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+      <div className="bg-card p-5 rounded-2xl border border-border shadow-sm space-y-4">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
           Investigation Dossier Meta
         </h3>
 
         <div className="space-y-3 text-xs">
           <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
-            <span className="text-slate-500 font-medium">Priority</span>
+            <span className="text-muted-foreground font-medium">Priority</span>
             <PriorityBadge priority={caseRecord.priority} />
           </div>
 
           <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
-            <span className="text-slate-500 font-medium">Status</span>
+            <span className="text-muted-foreground font-medium">Status</span>
             <CaseStatusBadge status={caseRecord.status} />
           </div>
 
           <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
-            <span className="text-slate-500 font-medium">Category</span>
+            <span className="text-muted-foreground font-medium">Category</span>
             <span className="font-semibold text-primary">{caseRecord.category}</span>
           </div>
 
           <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
-            <span className="text-slate-500 font-medium">Location</span>
+            <span className="text-muted-foreground font-medium">Location</span>
             <span className="font-semibold text-primary text-right max-w-[140px] truncate">
               {caseRecord.location}
             </span>
           </div>
 
           <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
-            <span className="text-slate-500 font-medium">Assigned Lead</span>
+            <span className="text-muted-foreground font-medium">Assigned Lead</span>
             <select
               value={assignedToId}
               onChange={(e) => handleAssignChange(e.target.value)}
               disabled={saving}
-              className="text-xs bg-background border border-surface-3 rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer max-w-[140px] truncate"
+              className="text-xs bg-surface border border-border rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer max-w-[140px] truncate"
             >
               <option value="">Unassigned</option>
               {users.map((u) => (
@@ -117,12 +117,12 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
             </select>
           </div>
 
-          <div className="flex items-center justify-between text-slate-500 text-[11px]">
+          <div className="flex items-center justify-between text-muted-foreground text-[11px]">
             <span>Created</span>
             <span>{new Date(caseRecord.createdAt).toLocaleDateString()}</span>
           </div>
 
-          <div className="flex items-center justify-between text-slate-500 text-[11px]">
+          <div className="flex items-center justify-between text-muted-foreground text-[11px]">
             <span>Last Updated</span>
             <span>{new Date(caseRecord.updatedAt).toLocaleDateString()}</span>
           </div>
@@ -130,9 +130,9 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
       </div>
 
       {/* Verification Progress Card */}
-      <div className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-3">
+      <div className="bg-card p-5 rounded-2xl border border-border shadow-sm space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
             Verification Index
           </h3>
           <VerificationBadge status={caseRecord.verificationStatus} size="sm" />
@@ -145,7 +145,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
               {verifiedCount}/{totalVerifications} ({verificationPercent}%)
             </span>
           </div>
-          <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+          <div className="w-full h-2 rounded-full bg-surface-2 overflow-hidden">
             <div
               className="h-full bg-success transition-all duration-300"
               style={{ width: `${verificationPercent}%` }}
@@ -153,7 +153,7 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
           </div>
         </div>
 
-        <div className="pt-2 text-[11px] text-slate-500 leading-relaxed">
+        <div className="pt-2 text-[11px] text-muted-foreground leading-relaxed">
           {totalVerifications === 0
             ? 'No formal verification checklist items added yet.'
             : `${totalVerifications - verifiedCount} statements require primary document or authority corroboration.`}
@@ -161,14 +161,14 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
       </div>
 
       {/* Publication & Resolution Card */}
-      <div className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+      <div className="bg-card p-5 rounded-2xl border border-border shadow-sm space-y-4">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
           Editorial Lifecycle
         </h3>
 
         <div className="space-y-3 text-xs">
           <div className="flex items-center justify-between pb-2 border-b border-surface-3/60">
-            <span className="text-slate-500 font-medium">Publication</span>
+            <span className="text-muted-foreground font-medium">Publication</span>
             <span
               className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                 caseRecord.publicationStatus === 'PUBLISHED'
@@ -183,11 +183,11 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="text-slate-500 font-medium">Resolution Status</span>
+            <span className="text-muted-foreground font-medium">Resolution Status</span>
             <select
               value={resolutionStatus}
               onChange={(e) => handleResolutionChange(e.target.value)}
-              className="text-xs bg-background border border-surface-3 rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
+              className="text-xs bg-surface border border-border rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
             >
               <option value="OPEN">Open</option>
               <option value="ONGOING">Ongoing</option>
@@ -201,9 +201,9 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
 
       {/* Source & Complainant Privacy Card */}
       {primarySource && (
-        <div className="bg-white p-5 rounded-2xl border border-surface-3 shadow-xs space-y-3">
+        <div className="bg-card p-5 rounded-2xl border border-border shadow-sm space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
               Source Consent Flags
             </h3>
             <ShieldCheck size={16} className="text-success" />
@@ -211,14 +211,14 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
 
           <div className="space-y-2 text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-slate-500">Identity Mode</span>
+              <span className="text-muted-foreground">Identity Mode</span>
               <span className="font-semibold text-primary">
                 {primarySource.anonymous ? 'ANONYMOUS' : 'Identified'}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-slate-500">Contact Consent</span>
+              <span className="text-muted-foreground">Contact Consent</span>
               <span
                 className={`font-semibold ${
                   primarySource.consentToContact ? 'text-success' : 'text-slate-500'

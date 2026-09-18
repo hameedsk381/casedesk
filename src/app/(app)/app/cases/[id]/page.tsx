@@ -34,7 +34,7 @@ export default async function CaseOverviewPage({
   return (
     <div className="space-y-6">
       {/* AI Summary Banner */}
-      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-3">
+      <div className="bg-card p-6 rounded-2xl border border-border shadow-sm space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Sparkles size={16} className="text-primary" />
@@ -52,15 +52,15 @@ export default async function CaseOverviewPage({
         </p>
 
         {caseRecord.aiPriorityReason && (
-          <div className="pt-2 text-xs text-slate-500 border-t border-surface-3/60">
+          <div className="pt-2 text-xs text-muted-foreground border-t border-border/60">
             <strong className="text-primary">Priority Assessment:</strong> {caseRecord.aiPriorityReason}
           </div>
         )}
       </div>
 
       {/* What Was Reported (Raw Source Intake) */}
-      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-3">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+      <div className="bg-card p-6 rounded-2xl border border-border shadow-sm space-y-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
           What Was Reported (Raw Intake)
         </h3>
 
@@ -69,7 +69,7 @@ export default async function CaseOverviewPage({
         </div>
 
         {caseRecord.sources?.[0] && (
-          <div className="flex flex-wrap items-center justify-between text-xs text-slate-500 pt-2">
+          <div className="flex flex-wrap items-center justify-between text-xs text-muted-foreground pt-2">
             <span>
               Intake Channel:{' '}
               <strong className="text-primary">{caseRecord.sourceType}</strong>
@@ -85,7 +85,7 @@ export default async function CaseOverviewPage({
       {/* Two Column Grid: What We Know vs What Remains Unverified */}
       <div className="grid md:grid-cols-2 gap-6">
         {/* Left: What We Know (Verified) */}
-        <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
+        <div className="bg-card p-6 rounded-2xl border border-border shadow-sm space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-surface-3">
             <div className="flex items-center gap-2">
               <CheckCircle2 size={16} className="text-success" />
@@ -128,7 +128,7 @@ export default async function CaseOverviewPage({
         </div>
 
         {/* Right: What Remains Unverified */}
-        <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
+        <div className="bg-card p-6 rounded-2xl border border-border shadow-sm space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-surface-3">
             <div className="flex items-center gap-2">
               <HelpCircle size={16} className="text-amber-600" />
@@ -172,8 +172,8 @@ export default async function CaseOverviewPage({
       </div>
 
       {/* Recommended Next Operational Steps */}
-      <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+      <div className="bg-card p-6 rounded-2xl border border-border shadow-sm space-y-4">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
           Recommended Next Editorial Steps
         </h3>
 

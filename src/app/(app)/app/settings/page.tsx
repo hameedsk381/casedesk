@@ -81,7 +81,7 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-surface-3 p-12 flex justify-center">
+      <div className="bg-card rounded-2xl border border-border p-12 flex justify-center">
         <Loader2 size={24} className="animate-spin text-primary" />
       </div>
     );
@@ -109,7 +109,7 @@ export default function SettingsPage() {
       {/* Main Settings Grid */}
       <div className="grid md:grid-cols-4 gap-6 items-start">
         {/* Navigation tabs */}
-        <div className="bg-white p-2 rounded-2xl border border-surface-3 shadow-xs space-y-1">
+        <div className="bg-card p-2 rounded-2xl border border-border shadow-sm space-y-1">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isSelected = activeTab === tab.id;
@@ -120,11 +120,11 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-colors text-left cursor-pointer ${
                   isSelected
-                    ? 'bg-primary text-white shadow-2xs'
-                    : 'text-slate-600 hover:text-primary hover:bg-background'
+                    ? 'bg-primary text-primary-foreground shadow-2xs'
+                    : 'text-muted-foreground hover:text-primary hover:bg-surface'
                 }`}
               >
-                <Icon size={16} className={isSelected ? 'text-success' : 'text-slate-500'} />
+                <Icon size={16} className={isSelected ? 'text-secondary' : 'text-muted-foreground'} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -132,7 +132,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Tab Content Panel */}
-        <div className="md:col-span-3 bg-white p-6 sm:p-8 rounded-2xl border border-surface-3 shadow-xs space-y-6">
+        <div className="md:col-span-3 bg-card p-6 sm:p-8 rounded-2xl border border-border shadow-sm space-y-6">
           {/* PROFILE TAB */}
           {activeTab === 'profile' && (
             <div className="space-y-5">
@@ -152,7 +152,7 @@ export default function SettingsPage() {
                     type="text"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
-                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
+                     className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-xs text-primary focus:outline-none"
                   />
                 </div>
 
@@ -164,7 +164,7 @@ export default function SettingsPage() {
                     type="email"
                     disabled
                     value={userEmail}
-                    className="w-full px-3 py-2 bg-slate-100 border border-surface-3 rounded-xl text-xs text-slate-500 cursor-not-allowed"
+                     className="w-full px-3 py-2 bg-surface-2 border border-border rounded-xl text-xs text-muted-foreground cursor-not-allowed"
                   />
                 </div>
 
@@ -172,7 +172,7 @@ export default function SettingsPage() {
                   <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
                     Assigned Role
                   </label>
-                  <div className="px-3 py-2 bg-slate-100 border border-surface-3 rounded-xl text-xs font-bold text-primary">
+                   <div className="px-3 py-2 bg-surface-2 border border-border rounded-xl text-xs font-bold text-primary">
                     {currentUser?.role || 'RESEARCHER'}
                   </div>
                 </div>
@@ -181,7 +181,7 @@ export default function SettingsPage() {
               <div className="pt-2">
                 <button
                   onClick={() => handleSave('Profile changes updated locally.')}
-                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer"
+                   className="px-4 py-2 bg-primary text-primary-foreground text-xs font-semibold rounded-xl cursor-pointer"
                 >
                   Save Profile
                 </button>

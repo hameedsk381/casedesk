@@ -28,13 +28,13 @@ export default async function CaseTimelinePage({
         </div>
       </div>
 
-      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-surface-3 shadow-xs">
+      <div className="bg-card p-6 sm:p-8 rounded-2xl border border-border shadow-sm">
         {events.length === 0 ? (
-          <div className="py-12 text-center text-xs text-slate-500">
+          <div className="py-12 text-center text-xs text-muted-foreground">
             No events recorded yet.
           </div>
         ) : (
-          <div className="relative pl-6 border-l-2 border-surface-3 space-y-8">
+          <div className="relative pl-6 border-l-2 border-border space-y-8">
             {events.map((ev: any, index: number) => (
               <div key={ev.id} className="relative group">
                 {/* Node dot */}
@@ -46,7 +46,7 @@ export default async function CaseTimelinePage({
                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 uppercase tracking-wider">
                       {ev.type.replace(/_/g, ' ')}
                     </span>
-                    <span className="text-[11px] text-slate-500 ml-auto">
+                    <span className="text-[11px] text-muted-foreground ml-auto">
                       {new Date(ev.eventDate).toLocaleDateString(undefined, {
                         month: 'short',
                         day: 'numeric',
@@ -62,7 +62,7 @@ export default async function CaseTimelinePage({
                   )}
 
                   {ev.createdBy && (
-                    <div className="mt-2 text-[10px] text-slate-500">
+                    <div className="mt-2 text-[10px] text-muted-foreground">
                       Logged by {ev.createdBy.name}
                     </div>
                   )}

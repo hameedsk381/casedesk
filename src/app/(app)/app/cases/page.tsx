@@ -125,7 +125,7 @@ export default function CasesPage() {
 
         <button
           onClick={() => setIsIntakeModalOpen(true)}
-          className="inline-flex items-center gap-2 py-2.5 px-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl text-sm shadow-xs transition-all self-start sm:self-auto cursor-pointer hover:shadow-md active:scale-95"
+          className="inline-flex items-center gap-2 py-2.5 px-4 bg-primary hover:bg-primary-hover text-primary-foreground font-bold rounded-xl text-sm shadow-sm transition-all self-start sm:self-auto cursor-pointer hover:shadow-md active:scale-95"
         >
           <Plus size={16} />
           <span>＋ New Case</span>
@@ -133,26 +133,26 @@ export default function CasesPage() {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="bg-white p-4 rounded-3xl border border-surface-3 shadow-xs space-y-4">
+      <div className="bg-card p-4 rounded-3xl border border-border shadow-sm space-y-4">
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
           {/* Search Input */}
           <div className="relative flex-1">
-            <Search size={16} className="absolute left-3.5 top-3.5 text-slate-500" />
+            <Search size={16} className="absolute left-3.5 top-3.5 text-muted-foreground" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by case number, title, next action, location, or complainant..."
-              className="w-full pl-10 pr-4 py-2 bg-background/50 border border-surface-3 rounded-xl text-sm text-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-surface border border-border rounded-xl text-sm text-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
             />
           </div>
 
           {/* View Mode Toggle */}
-          <div className="flex items-center gap-1 self-end md:self-auto border border-surface-3 rounded-xl p-1 bg-background/40">
+          <div className="flex items-center gap-1 self-end md:self-auto border border-border rounded-xl p-1 bg-surface">
             <button
               onClick={() => setViewMode('table')}
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                viewMode === 'table' ? 'bg-white shadow-xs text-primary font-bold' : 'text-slate-500 hover:text-primary'
+                viewMode === 'table' ? 'bg-card shadow-xs text-primary font-bold' : 'text-muted-foreground hover:text-primary'
               }`}
               title="Table View"
             >
@@ -161,7 +161,7 @@ export default function CasesPage() {
             <button
               onClick={() => setViewMode('grid')}
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                viewMode === 'grid' ? 'bg-white shadow-xs text-primary font-bold' : 'text-slate-500 hover:text-primary'
+                viewMode === 'grid' ? 'bg-card shadow-xs text-primary font-bold' : 'text-muted-foreground hover:text-primary'
               }`}
               title="Grid View"
             >
@@ -172,7 +172,7 @@ export default function CasesPage() {
 
         {/* Filter Dropdowns & Pills */}
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-surface-3/60">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mr-2">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground mr-2">
             <Filter size={13} />
             <span>Filters:</span>
           </div>
@@ -181,7 +181,7 @@ export default function CasesPage() {
           <select
             value={healthFilter}
             onChange={(e) => setHealthFilter(e.target.value)}
-            className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1.5 text-primary font-semibold focus:outline-none cursor-pointer"
+            className="text-xs bg-surface border border-border rounded-lg px-2.5 py-1.5 text-primary font-semibold focus:outline-none cursor-pointer"
           >
             {HEALTH_OPTIONS.map((h) => (
               <option key={h.id} value={h.id}>
@@ -194,7 +194,7 @@ export default function CasesPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1.5 text-primary font-medium focus:outline-none cursor-pointer"
+            className="text-xs bg-surface border border-border rounded-lg px-2.5 py-1.5 text-primary font-medium focus:outline-none cursor-pointer"
           >
             <option value="ALL">Status: All</option>
             {STATUSES.filter((s) => s !== 'ALL').map((s) => (

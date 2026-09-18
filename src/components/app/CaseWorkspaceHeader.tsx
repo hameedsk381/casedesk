@@ -65,7 +65,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
   const activeTab = getActiveTab();
 
   return (
-    <div className="bg-white border-b border-surface-3 -mx-4 sm:-mx-6 lg:-mx-8 -mt-4 sm:-mt-6 lg:-mt-8 px-4 sm:px-6 lg:px-8 pt-6">
+    <div className="bg-card border-b border-border -mx-4 sm:-mx-6 lg:-mx-8 -mt-4 sm:-mt-6 lg:-mt-8 px-4 sm:px-6 lg:px-8 pt-6">
       {/* Top Meta & Action Bar */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6">
         <div>
@@ -73,11 +73,11 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
             <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
               {caseRecord.caseNumber}
             </span>
-            <span className="text-xs font-semibold text-slate-500">
+              <span className="text-xs font-semibold text-muted-foreground">
               {caseRecord.category}
             </span>
-            <span className="text-slate-300">•</span>
-            <div className="flex items-center gap-1 text-xs text-slate-500">
+            <span className="text-border">•</span>
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <MapPin size={12} />
               <span>{caseRecord.location}</span>
             </div>
@@ -91,7 +91,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
             <PriorityBadge priority={caseRecord.priority} />
             <CaseStatusBadge status={status} />
             {caseRecord.sources?.[0] && (
-              <span className="text-xs text-slate-500 ml-2">
+                <span className="text-xs text-muted-foreground ml-2">
                 Source:{' '}
                 <strong className="text-primary">
                   {caseRecord.sources[0].anonymous ? 'Anonymous Complainant' : caseRecord.sources[0].name}
@@ -108,7 +108,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
             value={status}
             onChange={(e) => handleStatusChange(e.target.value)}
             disabled={updating}
-            className="text-xs bg-background border border-surface-3 rounded-xl px-3 py-2 text-primary font-semibold focus:outline-none cursor-pointer"
+            className="text-xs bg-surface border border-border rounded-xl px-3 py-2 text-primary font-semibold focus:outline-none cursor-pointer"
           >
             <option value="NEW">Status: New</option>
             <option value="TRIAGE">Status: Triage</option>
@@ -125,7 +125,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
 
           <Link
             href={`${basePath}/evidence`}
-            className="px-3 py-2 bg-background hover:bg-slate-100 text-primary font-semibold text-xs rounded-xl border border-surface-3 transition-colors flex items-center gap-1.5"
+            className="px-3 py-2 bg-surface hover:bg-surface-2 text-primary font-semibold text-xs rounded-xl border border-border transition-colors flex items-center gap-1.5"
           >
             <FilePlus size={14} className="text-primary" />
             <span>Add Evidence</span>
@@ -133,7 +133,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
 
           <Link
             href={`${basePath}/contacts`}
-            className="px-3 py-2 bg-background hover:bg-slate-100 text-primary font-semibold text-xs rounded-xl border border-surface-3 transition-colors flex items-center gap-1.5"
+            className="px-3 py-2 bg-surface hover:bg-surface-2 text-primary font-semibold text-xs rounded-xl border border-border transition-colors flex items-center gap-1.5"
           >
             <Send size={14} className="text-warning" />
             <span>Request Response</span>
@@ -141,7 +141,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
 
           <Link
             href={`${basePath}/content`}
-            className="px-3.5 py-2 bg-primary hover:bg-primary/90 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-2 bg-primary hover:bg-primary-hover text-primary-foreground font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
           >
             <Share2 size={14} className="text-success" />
             <span>Create Content</span>
@@ -228,7 +228,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
       )}
 
       {/* Tabs Navigation Bar */}
-      <div className="flex items-center gap-1 overflow-x-auto border-t border-surface-3/70 pt-1 -mb-px">
+      <div className="flex items-center gap-1 overflow-x-auto border-t border-border pt-1 -mb-px">
         {TABS.map((tab) => {
           const tabHref = tab.slug ? `${basePath}/${tab.slug}` : basePath;
           const isTabActive = activeTab === tab.slug;
@@ -240,7 +240,7 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
               className={`px-4 py-3 text-xs font-bold transition-all border-b-2 whitespace-nowrap ${
                 isTabActive
                   ? 'border-primary text-primary bg-primary/5 rounded-t-lg'
-                  : 'border-transparent text-muted-foreground hover:text-primary hover:border-slate-300'
+                  : 'border-transparent text-muted-foreground hover:text-primary hover:border-border'
               }`}
             >
               {tab.label}
