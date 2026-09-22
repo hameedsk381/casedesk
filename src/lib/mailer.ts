@@ -33,6 +33,16 @@ export function isMailConfigured(): boolean {
 
 const BRAND = '#550000';
 
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[character] || character);
+}
+
+function safeHeader(value: string): string {
+  return value.replace(/[\r\n]/g, ' ').trim();
+}
+
 // Deployment-configurable product name (brand-agnostic code)
 function getAppName(): string {
   return process.env.NEXT_PUBLIC_APP_NAME || 'CaseDesk';
@@ -43,7 +53,7 @@ function getAppUrl(): string {
 }
 
 function layout(title: string, bodyHtml: string): string {
-  const appName = getAppName();
+  const appName = escapeHtml(getAppName());
   return `<!doctype html>
 <html>
 <body style="margin:0;padding:0;background:#fcfaf8;font-family:Inter,Arial,sans-serif;color:#1a1614;">
@@ -56,7 +66,7 @@ function layout(title: string, bodyHtml: string): string {
       ${bodyHtml}
     </div>
     <p style="text-align:center;font-size:11px;color:#695a4f;padding:12px;">
-      ${appName} · Citizen report investigation workspace
+       ${appName} · Citizen report investigation workspace
     </p>
   </div>
 </body>
@@ -101,41 +111,47 @@ export async function sendSubmissionNotification(params: {
 }): Promise<void> {
   if (params.to.length === 0) return;
 
-  const appUrl = getAppUrl();
+  const appUrl = escapeHtml(getAppUrl());
   const story = params.storyPreview.length > 500 ? params.storyPreview.slice(0, 500) + '…' : params.storyPreview;
+  const referenceNumber = safeHeader(params.referenceNumber);
+  const category = safeHeader(params.category);
+  const location = safeHeader(params.location);
+  const source = params.isAnonymous ? 'Anonymous citizen' : params.senderName || 'Citizen';
 
   await sendMail({
     to: params.to,
-    subject: `New citizen report ${params.referenceNumber} — ${params.category}`,
+    subject: `New citizen report ${referenceNumber} — ${category}`,
     html: layout(
       'New Citizen Report Received',
       `<table style="width:100%;font-size:14px;line-height:1.6;">
-        <tr><td style="color:#695a4f;padding:4px 0;width:130px;">Reference</td><td style="font-weight:700;">${params.referenceNumber}</td></tr>
-        <tr><td style="color:#695a4f;padding:4px 0;">Category</td><td>${params.category}</td></tr>
-        <tr><td style="color:#695a4f;padding:4px 0;">Location</td><td>${params.location}</td></tr>
-        <tr><td style="color:#695a4f;padding:4px 0;">Source</td><td>${params.isAnonymous ? 'Anonymous citizen' : params.senderName || 'Citizen'}</td></tr>
+        <tr><td style="color:#695a4f;padding:4px 0;width:130px;">Reference</td><td style="font-weight:700;">${escapeHtml(referenceNumber)}</td></tr>
+        <tr><td style="color:#695a4f;padding:4px 0;">Category</td><td>${escapeHtml(category)}</td></tr>
+        <tr><td style="color:#695a4f;padding:4px 0;">Location</td><td>${escapeHtml(location)}</td></tr>
+        <tr><td style="color:#695a4f;padding:4px 0;">Source</td><td>${escapeHtml(source)}</td></tr>
         <tr><td style="color:#695a4f;padding:4px 0;">Attachments</td><td>${params.hasAttachments ? 'Yes' : 'None'}</td></tr>
       </table>
       <p style="margin:16px 0 8px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#695a4f;">Report excerpt</p>
-      <p style="margin:0;padding:12px;background:#f8f6f1;border-radius:8px;font-size:13px;white-space:pre-wrap;">${story.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</p>
+      <p style="margin:0;padding:12px;background:#f8f6f1;border-radius:8px;font-size:13px;white-space:pre-wrap;">${escapeHtml(story)}</p>
       <p style="margin:20px 0 0;"><a href="${appUrl}/app/inbox" style="display:inline-block;padding:10px 18px;background:${BRAND};color:#ffffff;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;">Open Intake Inbox</a></p>`
     ),
-    text: `New citizen report received.\n\nReference: ${params.referenceNumber}\nCategory: ${params.category}\nLocation: ${params.location}\nSource: ${params.isAnonymous ? 'Anonymous citizen' : params.senderName || 'Citizen'}\nAttachments: ${params.hasAttachments ? 'Yes' : 'None'}\n\nExcerpt:\n${story}\n\nReview it in the intake inbox: ${appUrl}/app/inbox`,
+    text: `New citizen report received.\n\nReference: ${referenceNumber}\nCategory: ${category}\nLocation: ${location}\nSource: ${source}\nAttachments: ${params.hasAttachments ? 'Yes' : 'None'}\n\nExcerpt:\n${story}\n\nReview it in the intake inbox: ${getAppUrl()}/app/inbox`,
   });
 }
 
 export async function sendWelcomeEmail(params: { name: string; email: string }): Promise<void> {
-  const appUrl = getAppUrl();
+  const appUrl = escapeHtml(getAppUrl());
   const appName = getAppName();
+  const escapedAppName = escapeHtml(appName);
+  const name = escapeHtml(params.name);
 
   await sendMail({
     to: params.email,
-    subject: `Welcome to ${appName}`,
+    subject: `Welcome to ${safeHeader(appName)}`,
     html: layout(
-      `Welcome, ${params.name}`,
-      `<p style="margin:0 0 12px;font-size:14px;line-height:1.6;">Your workspace is ready. ${appName} helps you turn citizen reports into verified, responsible public-interest journalism.</p>
+      `Welcome, ${name}`,
+      `<p style="margin:0 0 12px;font-size:14px;line-height:1.6;">Your workspace is ready. ${escapedAppName} helps you turn citizen reports into verified, responsible public-interest journalism.</p>
       <p style="margin:20px 0 0;"><a href="${appUrl}/app" style="display:inline-block;padding:10px 18px;background:${BRAND};color:#ffffff;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;">Open Your Workspace</a></p>`
     ),
-    text: `Welcome to ${appName}, ${params.name}.\n\nYour workspace is ready. Open it here: ${appUrl}/app`,
+    text: `Welcome to ${appName}, ${params.name}.\n\nYour workspace is ready. Open it here: ${getAppUrl()}/app`,
   });
 }

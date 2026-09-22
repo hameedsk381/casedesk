@@ -36,10 +36,8 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-5 lg:col-span-6">
             <div className="flex items-baseline gap-2 mb-3">
+              <img src="/casedesk.png" alt="CaseDesk" className="h-9 w-9 rounded-lg object-contain" />
               <span className="text-xl font-bold tracking-tight">CaseDesk</span>
-              <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-secondary">
-                Open Vaartha
-              </span>
             </div>
             <p className="text-sm text-secondary leading-relaxed max-w-sm">
               People&apos;s stories. Real impact.

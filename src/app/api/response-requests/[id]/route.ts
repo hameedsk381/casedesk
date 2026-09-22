@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import { updateResponseRequestStatus } from '@/lib/investigation/service';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { unauthorized, forbidden, notFound, insufficientPermissions } from '@/lib/api/guards';
 
 export async function PATCH(
@@ -11,8 +11,6 @@ export async function PATCH(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_investigation')) return insufficientPermissions('edit_investigation');
-
     const { id } = await params;
     const existing = await prisma.responseRequest.findUnique({
       where: { id },
@@ -20,6 +18,7 @@ export async function PATCH(
     });
     if (!existing) return notFound('Response request');
     if (!hasWorkspaceAccess(user, existing.case.workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, existing.case.workspaceId, 'edit_investigation')) return insufficientPermissions('edit_investigation');
 
     const body = await request.json();
 

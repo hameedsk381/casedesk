@@ -1,19 +1,18 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { unauthorized, insufficientPermissions, forbidden, notFound, caseWorkspaceId } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_investigation')) return insufficientPermissions('edit_investigation');
-
     const body = await request.json();
 
     const wsId = await caseWorkspaceId(body.caseId);
     if (!wsId) return notFound('Case');
     if (!hasWorkspaceAccess(user, wsId)) return forbidden();
+    if (!canUserInWorkspace(user, wsId, 'edit_investigation')) return insufficientPermissions('edit_investigation');
 
     const item = await prisma.verificationItem.create({
       data: {

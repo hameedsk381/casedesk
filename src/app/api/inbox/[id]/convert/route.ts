@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { convertInboxToCase } from '@/lib/inbox/service';
 import prisma from '@/lib/db/prisma';
 import { unauthorized, insufficientPermissions, forbidden, notFound } from '@/lib/api/guards';
@@ -12,7 +12,6 @@ export async function POST(
     const { id } = await params;
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'create_case')) return insufficientPermissions('create_case');
 
     let body: any = {};
     try {
@@ -26,6 +25,7 @@ export async function POST(
 
     const workspaceId = body.workspaceId || message.workspaceId;
     if (!hasWorkspaceAccess(user, workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, workspaceId, 'create_case')) return insufficientPermissions('create_case');
 
     const newCase = await convertInboxToCase({
       messageId: id,

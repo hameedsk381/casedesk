@@ -1,5 +1,7 @@
 import prisma from '../db/prisma';
+import { Prisma } from '@prisma/client';
 import { generateCaseNumber } from './caseNumber';
+import { pickAllowedFields } from '../api/security';
 
 export interface ListCasesParams {
   workspaceId?: string;
@@ -398,9 +400,15 @@ export async function createCase(data: {
 }
 
 export async function updateCase(id: string, data: any, userId?: string) {
+  const safeData = pickAllowedFields<Record<string, unknown>>(data, [
+    'title', 'summary', 'category', 'priority', 'status', 'location', 'sourceType',
+    'sourceText', 'aiSummary', 'aiPriorityReason', 'verificationStatus',
+    'publicationStatus', 'resolutionStatus', 'nextAction', 'healthStatus',
+    'healthReason', 'assignedToId', 'publishedAt', 'resolvedAt',
+  ]);
   const updated = await prisma.case.update({
     where: { id },
-    data,
+    data: safeData as Prisma.CaseUpdateInput,
   });
 
   if (userId) {
@@ -410,7 +418,7 @@ export async function updateCase(id: string, data: any, userId?: string) {
         caseId: updated.id,
         userId,
         action: 'CASE_UPDATED',
-        metadata: JSON.stringify({ fields: Object.keys(data) }),
+        metadata: JSON.stringify({ fields: Object.keys(safeData) }),
       },
     });
   }

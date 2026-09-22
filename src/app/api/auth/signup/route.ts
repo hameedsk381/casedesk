@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/db/prisma';
 import { hashPassword } from '@/lib/auth/password';
 import { createSessionToken, setSessionCookie } from '@/lib/auth/session';
@@ -32,16 +33,15 @@ export async function POST(request: Request) {
 
     const passwordHash = await hashPassword(password);
 
-    // Get default workspace or create one
-    let defaultWorkspace = await prisma.workspace.findFirst();
-    if (!defaultWorkspace) {
-      defaultWorkspace = await prisma.workspace.create({
-        data: {
-          name: `${name}'s Desk`,
-          slug: name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-desk',
-        },
-      });
-    }
+    // Every new account gets an isolated workspace. Never attach public
+    // signups to an existing workspace selected with findFirst().
+    const workspaceSlug = `${name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/^-+|-+$/g, '') || 'workspace'}-desk-${randomUUID().slice(0, 8)}`;
+    const workspace = await prisma.workspace.create({
+      data: {
+        name: `${name}'s Desk`,
+        slug: workspaceSlug,
+      },
+    });
 
     const user = await prisma.user.create({
       data: {
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
         role: 'RESEARCHER',
         workspaceMembers: {
           create: {
-            workspaceId: defaultWorkspace.id,
+               workspaceId: workspace.id,
             role: 'RESEARCHER',
           },
         },

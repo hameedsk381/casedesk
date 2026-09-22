@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
+import { getClientIp, hasExceededContentLength, rateLimit } from '@/lib/security';
 
 const apiKey = process.env.GROQ_API_KEY;
 const groq = apiKey ? new Groq({ apiKey }) : null;
@@ -52,10 +53,21 @@ interface ChatMessage {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const rl = rateLimit(`chat:${getClientIp(request)}`, 20, 60_000);
+    if (!rl.allowed) return NextResponse.json({ error: 'Too many messages. Please try again shortly.' }, { status: 429, headers: { 'Retry-After': String(rl.retryAfterSeconds) } });
+    if (hasExceededContentLength(request, 256 * 1024)) return NextResponse.json({ error: 'Chat request is too large.' }, { status: 413 });
+    const rawBody = await request.text();
+    if (rawBody.length > 256 * 1024) return NextResponse.json({ error: 'Chat request is too large.' }, { status: 413 });
+    const body = JSON.parse(rawBody);
     const messages: ChatMessage[] = Array.isArray(body?.messages) ? body.messages : [];
     const language: string = body?.language || '';
     const endpointTitle: string = body?.endpointTitle || '';
+
+    if (messages.length > 20 || endpointTitle.length > 200 || language.length > 20 || messages.some((message) =>
+      !['user', 'assistant', 'system'].includes(message?.role) || typeof message?.content !== 'string' || message.content.length > 4_000
+    )) {
+      return NextResponse.json({ error: 'Invalid or oversized chat request.' }, { status: 400 });
+    }
 
     const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user')?.content || '';
     const hasTeluguScript = /[\u0C00-\u0C7F]/.test(lastUserMsg);
@@ -126,7 +138,7 @@ export async function POST(request: Request) {
     const groqMessages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [
       {
         role: 'system',
-         content: `${SYSTEM_PROMPT}\nActive Newsroom Desk: ${endpointTitle || 'Citizen Helpdesk'}\nUSER INPUT SCRIPT DETECTED: ${targetLanguage}\nMANDATORY INSTRUCTION: The user wrote in ${targetLanguage}. You MUST reply directly in the SAME language and script (${targetLanguage}). If the user wrote in Tenglish, your response MUST be in Tenglish (English/Latin letters), never in Telugu script!`,
+         content: `${SYSTEM_PROMPT}\nActive Newsroom Desk: ${endpointTitle || 'ComplianBox'}\nUSER INPUT SCRIPT DETECTED: ${targetLanguage}\nMANDATORY INSTRUCTION: The user wrote in ${targetLanguage}. You MUST reply directly in the SAME language and script (${targetLanguage}). If the user wrote in Tenglish, your response MUST be in Tenglish (English/Latin letters), never in Telugu script!`,
       },
       ...messages.slice(-10).map((m) => ({
         role: (m.role === 'assistant' ? 'assistant' : 'user') as 'assistant' | 'user',

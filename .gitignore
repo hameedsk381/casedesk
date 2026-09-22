@@ -29,6 +29,7 @@ build/
 !/public/uploads/.gitkeep
 /uploads/*
 !/uploads/.gitkeep
+/backups/
 
 # debug
 npm-debug.log*
@@ -47,4 +48,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-

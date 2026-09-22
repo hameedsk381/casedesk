@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { getIntakeItemById, updateIntakeReview } from '@/lib/intake/service';
 import { unauthorized, forbidden, insufficientPermissions } from '@/lib/api/guards';
 
@@ -37,8 +37,6 @@ export async function PATCH(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
     const { id } = await params;
     const item = await getIntakeItemById(id);
     if (!item) {
@@ -48,6 +46,7 @@ export async function PATCH(
     if (!hasWorkspaceAccess(user, item.workspaceId)) {
       return NextResponse.json({ error: 'Forbidden: Access denied to this workspace' }, { status: 403 });
     }
+    if (!canUserInWorkspace(user, item.workspaceId, 'edit_case')) return insufficientPermissions('edit_case');
 
     const body = await request.json();
     const updated = await updateIntakeReview(id, body, user.id);

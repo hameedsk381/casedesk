@@ -42,11 +42,9 @@ export default function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between" aria-label="Main navigation">
         {/* Logo */}
-        <a href="#" className="flex items-baseline gap-2 group">
-          <span className="text-xl font-bold tracking-tight text-primary">CaseDesk</span>
-          <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-primary">
-            Open Vaartha
-          </span>
+          <a href="#" className="flex items-baseline gap-2 group">
+           <img src="/casedesk.png" alt="CaseDesk" className="h-9 w-9 rounded-lg object-contain" />
+           <span className="text-xl font-bold tracking-tight text-primary">CaseDesk</span>
         </a>
 
         {/* Desktop Nav */}
@@ -91,10 +89,8 @@ export default function Navbar() {
         <div className="lg:hidden fixed inset-0 top-0 bg-background z-40">
           <div className="flex items-center justify-between px-5 py-5 border-b border-surface-3">
             <a href="#" className="flex items-baseline gap-2" onClick={() => setIsMobileOpen(false)}>
+              <img src="/casedesk.png" alt="CaseDesk" className="h-9 w-9 rounded-lg object-contain" />
               <span className="text-xl font-bold tracking-tight text-primary">CaseDesk</span>
-              <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-primary">
-                Open Vaartha
-              </span>
             </a>
             <button
               className="p-2 -mr-2 text-primary hover:bg-surface rounded-lg transition-colors"

@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, canUserInWorkspace } from '@/lib/auth/permissions';
 import { bulkArchiveIntake, bulkAssignIntake, bulkMarkReviewed } from '@/lib/intake/service';
-import { unauthorized, insufficientPermissions } from '@/lib/api/guards';
+import prisma from '@/lib/db/prisma';
+import { unauthorized, forbidden, insufficientPermissions, notFound } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
 
     const body = await request.json();
     const { action, ids, reason, assignedToId } = body;
@@ -16,6 +16,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'ids array is required' }, { status: 400 });
     }
 
+    const uniqueIds = [...new Set(ids)];
+    const items = await prisma.intakeItem.findMany({
+      where: { id: { in: uniqueIds } },
+      select: { id: true, workspaceId: true },
+    });
+    if (items.length !== uniqueIds.length) return notFound('Intake item');
+
+    const workspaceId = items[0].workspaceId;
+    if (items.some((item) => item.workspaceId !== workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, workspaceId, 'edit_case')) return insufficientPermissions('edit_case');
+
     if (action === 'ARCHIVE') {
       const result = await bulkArchiveIntake(ids, reason || 'OTHER', user.id);
       return NextResponse.json({ success: true, count: result.count });
@@ -23,6 +34,11 @@ export async function POST(request: Request) {
       if (!assignedToId) {
         return NextResponse.json({ error: 'assignedToId is required for ASSIGN action' }, { status: 400 });
       }
+      const assignee = await prisma.workspaceMember.findUnique({
+        where: { workspaceId_userId: { workspaceId, userId: assignedToId } },
+        select: { userId: true },
+      });
+      if (!assignee) return forbidden();
       const result = await bulkAssignIntake(ids, assignedToId, user.id);
       return NextResponse.json({ success: true, count: result.count });
     } else if (action === 'MARK_REVIEWED') {

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, hasWorkspaceAccess, getAccessibleWorkspaceIds, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, getAccessibleWorkspaceIds, canUserInWorkspace } from '@/lib/auth/permissions';
 import { listCases, createCase } from '@/lib/cases/service';
+import { rejectCrossOrigin } from '@/lib/api/security';
 
 export async function GET(request: Request) {
   try {
@@ -54,10 +55,8 @@ export async function POST(request: Request) {
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-    if (!canUser(user.role, 'create_case')) {
-      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to create case' }, { status: 403 });
-    }
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
 
     const body = await request.json();
 
@@ -69,6 +68,10 @@ export async function POST(request: Request) {
 
     if (!workspaceId || !hasWorkspaceAccess(user, workspaceId)) {
       return NextResponse.json({ error: 'Forbidden: Access denied to workspace' }, { status: 403 });
+    }
+
+    if (!canUserInWorkspace(user, workspaceId, 'create_case')) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to create case' }, { status: 403 });
     }
 
     const createdById = user.id;

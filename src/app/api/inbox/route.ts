@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, hasWorkspaceAccess, canUser, getAccessibleWorkspaceIds } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace, getAccessibleWorkspaceIds } from '@/lib/auth/permissions';
 import { listInboxMessages, createInboxMessage } from '@/lib/inbox/service';
 import { unauthorized, insufficientPermissions, forbidden } from '@/lib/api/guards';
 
@@ -47,13 +47,12 @@ export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
     const body = await request.json();
 
     const accessibleWorkspaceIds = await getAccessibleWorkspaceIds(user);
     let workspaceId = body.workspaceId || accessibleWorkspaceIds[0];
     if (!workspaceId || !hasWorkspaceAccess(user, workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, workspaceId, 'edit_case')) return insufficientPermissions('edit_case');
 
     if (!body.senderName || !body.rawText) {
       return NextResponse.json({ error: 'senderName and rawText are required' }, { status: 400 });

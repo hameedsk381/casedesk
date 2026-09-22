@@ -1,15 +1,18 @@
 import { NextResponse } from 'next/server';
 import { getAIProvider } from '@/lib/ai';
-import { getCurrentUser, canUser } from '@/lib/auth/permissions';
-import { unauthorized, insufficientPermissions } from '@/lib/api/guards';
+import { getCurrentUser, canUserInWorkspace, getAccessibleWorkspaceIds, hasWorkspaceAccess } from '@/lib/auth/permissions';
+import { unauthorized, forbidden, insufficientPermissions } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
-    const { message } = await request.json();
+    const body = await request.json();
+    const { message, workspaceId } = body;
+    const workspaceIds = await getAccessibleWorkspaceIds(user);
+    const targetWorkspaceId = workspaceId || workspaceIds[0];
+    if (!targetWorkspaceId || !hasWorkspaceAccess(user, targetWorkspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, targetWorkspaceId, 'edit_case')) return insufficientPermissions('edit_case');
 
     if (!message || message.trim() === '') {
       return NextResponse.json({ error: 'Message is required for extraction' }, { status: 400 });

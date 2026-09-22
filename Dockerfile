@@ -44,9 +44,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Setup upload and database directories with permissions
-RUN mkdir -p /app/public/uploads/submissions /app/uploads && \
-    chown -R nextjs:nodejs /app/public/uploads && \
+# Setup private upload and database directories with permissions
+RUN mkdir -p /app/uploads && \
     chown -R nextjs:nodejs /app/uploads && \
     chown -R nextjs:nodejs /app/prisma
 

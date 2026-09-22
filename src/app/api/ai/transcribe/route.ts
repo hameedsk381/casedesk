@@ -1,16 +1,18 @@
 import { NextResponse } from 'next/server';
 import { getAIProvider } from '@/lib/ai';
-import { getCurrentUser, canUser } from '@/lib/auth/permissions';
-import { unauthorized, insufficientPermissions } from '@/lib/api/guards';
+import { getCurrentUser, canUserInWorkspace, getAccessibleWorkspaceIds, hasWorkspaceAccess } from '@/lib/auth/permissions';
+import { unauthorized, forbidden, insufficientPermissions } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
     const formData = await request.formData();
     const file = formData.get('file') as File;
+    const workspaceIds = await getAccessibleWorkspaceIds(user);
+    const workspaceId = String(formData.get('workspaceId') || workspaceIds[0] || '');
+    if (!workspaceId || !hasWorkspaceAccess(user, workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, workspaceId, 'edit_case')) return insufficientPermissions('edit_case');
 
     if (!file) {
       return NextResponse.json({ error: 'Audio file required' }, { status: 400 });

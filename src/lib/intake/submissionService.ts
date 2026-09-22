@@ -30,7 +30,7 @@ export interface CitizenSubmissionPayload {
   }>;
 }
 
-export async function getSubmissionEndpoint(slug?: string) {
+export async function getSubmissionEndpoint(slug?: string, strictSlug = false) {
   if (slug) {
     const endpoint = await prisma.submissionEndpoint.findUnique({
       where: { slug },
@@ -43,6 +43,7 @@ export async function getSubmissionEndpoint(slug?: string) {
     if (endpoint && endpoint.isActive) {
       return endpoint;
     }
+    if (strictSlug) throw new Error('Submission endpoint not found or unavailable');
   }
 
   // Fallback to first active endpoint or default workspace
@@ -83,12 +84,24 @@ export async function getSubmissionEndpoint(slug?: string) {
 }
 
 export async function processCitizenSubmission(payload: CitizenSubmissionPayload) {
-  const endpoint = await getSubmissionEndpoint(payload.slug);
+  const endpoint = await getSubmissionEndpoint(payload.slug, Boolean(payload.slug));
   const workspaceId = endpoint.workspaceId;
 
   // Validate consent
   if (payload.consentAccuracy === false || payload.consentNoGuarantee === false) {
     throw new Error('Mandatory consent confirmation required before submission.');
+  }
+  if (!endpoint.allowAnonymous && (payload.isAnonymous || (!payload.senderPhone?.trim() && !payload.senderEmail?.trim()))) {
+    throw new Error('Anonymous submissions are not accepted by this helpdesk.');
+  }
+  if (endpoint.requireContact && (payload.isAnonymous || (!payload.senderPhone?.trim() && !payload.senderEmail?.trim()))) {
+    throw new Error('A phone number or email address is required for this helpdesk.');
+  }
+  if (!endpoint.allowAttachments && payload.files && payload.files.length > 0) {
+    throw new Error('Attachments are not accepted by this helpdesk.');
+  }
+  if (!endpoint.allowVoice && payload.files?.some((file) => file.type === 'AUDIO')) {
+    throw new Error('Voice submissions are not accepted by this helpdesk.');
   }
 
   // Generate atomic reference number (e.g. CD-IN-2026-00042)

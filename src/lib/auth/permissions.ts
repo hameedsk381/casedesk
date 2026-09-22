@@ -69,6 +69,23 @@ export function canUser(role: string, action: PermissionAction): boolean {
   return allowed.includes(action);
 }
 
+export function getWorkspaceRole(
+  user: { workspaceMembers?: Array<{ workspaceId: string; role: string }> } | null,
+  workspaceId: string
+): UserRole | null {
+  const membership = user?.workspaceMembers?.find((member) => member.workspaceId === workspaceId);
+  return (membership?.role as UserRole) || null;
+}
+
+export function canUserInWorkspace(
+  user: { workspaceMembers?: Array<{ workspaceId: string; role: string }> } | null,
+  workspaceId: string,
+  action: PermissionAction
+): boolean {
+  const role = getWorkspaceRole(user, workspaceId);
+  return role ? canUser(role, action) : false;
+}
+
 export async function getCurrentUser() {
   const session = await getSession();
   if (!session) return null;

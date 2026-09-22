@@ -154,10 +154,8 @@ export default function Sidebar({
         {/* Workspace Brand Header */}
         <div className="p-5 border-b border-sidebar-border flex items-center justify-between">
           <Link href="/app" className="flex items-baseline gap-2">
+            <img src="/casedesk.png" alt="CaseDesk" className="h-8 w-8 rounded-lg object-contain" />
             <span className="text-xl font-black tracking-tight text-sidebar-primary">CaseDesk</span>
-            <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-sidebar-primary">
-              ops 2.0
-            </span>
           </Link>
           <Link
             href="/"

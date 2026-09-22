@@ -1,15 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getAIProvider } from '@/lib/ai';
 import { getCaseById } from '@/lib/cases/service';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { unauthorized, forbidden, notFound, insufficientPermissions } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'create_content')) return insufficientPermissions('create_content');
-
     const { caseId, format } = await request.json();
 
     if (!caseId || !format) {
@@ -21,6 +19,7 @@ export async function POST(request: Request) {
       return notFound('Case');
     }
     if (!hasWorkspaceAccess(user, caseData.workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, caseData.workspaceId, 'create_content')) return insufficientPermissions('create_content');
 
     const ai = getAIProvider();
     const generated = await ai.generateContentFromCase(caseData, format);

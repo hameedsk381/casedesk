@@ -1,19 +1,18 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import { TrackingStatusSchema } from '@/lib/contracts/intake';
+import { getCorsHeaders } from '@/lib/api/cors';
+import { getClientIp, rateLimit } from '@/lib/rateLimit';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
-};
-
-export async function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: corsHeaders });
+export async function OPTIONS(request: Request) {
+  return new NextResponse(null, { status: 204, headers: getCorsHeaders(request) });
 }
 
 export async function GET(request: Request) {
+  const corsHeaders = getCorsHeaders(request);
   try {
+    const rl = rateLimit(`tracking:${getClientIp(request)}`, 20, 10 * 60_000);
+    if (!rl.allowed) return NextResponse.json({ error: 'Too many tracking requests. Please try again shortly.' }, { status: 429, headers: { ...corsHeaders, 'Retry-After': String(rl.retryAfterSeconds) } });
     const { searchParams } = new URL(request.url);
     const parsed = TrackingStatusSchema.safeParse({ ref: searchParams.get('ref') });
 

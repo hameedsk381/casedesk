@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import prisma from '@/lib/db/prisma';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { unauthorized, forbidden, notFound, insufficientPermissions } from '@/lib/api/guards';
+import { pickAllowedFields, rejectCrossOrigin } from '@/lib/api/security';
 
 async function loadClaimWorkspace(id: string): Promise<string | null> {
   const claim = await prisma.claim.findUnique({
@@ -18,17 +20,18 @@ export async function PATCH(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
     const { id } = await params;
     const wsId = await loadClaimWorkspace(id);
     if (!wsId) return notFound('Claim');
     if (!hasWorkspaceAccess(user, wsId)) return forbidden();
+    if (!canUserInWorkspace(user, wsId, 'edit_case')) return insufficientPermissions('edit_case');
 
     const body = await request.json();
     const updated = await prisma.claim.update({
       where: { id },
-      data: body,
+      data: pickAllowedFields<Record<string, unknown>>(body, ['text', 'status', 'source', 'notes']) as Prisma.ClaimUpdateInput,
     });
     return NextResponse.json(updated);
   } catch (error: any) {
@@ -43,12 +46,13 @@ export async function DELETE(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
     const { id } = await params;
     const wsId = await loadClaimWorkspace(id);
     if (!wsId) return notFound('Claim');
     if (!hasWorkspaceAccess(user, wsId)) return forbidden();
+    if (!canUserInWorkspace(user, wsId, 'edit_case')) return insufficientPermissions('edit_case');
 
     await prisma.claim.delete({ where: { id } });
     return NextResponse.json({ success: true });

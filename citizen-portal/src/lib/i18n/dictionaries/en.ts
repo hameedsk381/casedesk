@@ -1,7 +1,7 @@
 export const en = {
   common: {
-    appName: 'Citizen Helpdesk',
-    portalBadge: 'Citizen Helpdesk',
+    appName: 'ComplianBox',
+    portalBadge: 'ComplianBox',
     languageToggle: 'తెలుగు',
     encryptedBadge: 'Private & Secure',
     switchToChat: 'Talk to AI Assistant',

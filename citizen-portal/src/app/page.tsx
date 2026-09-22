@@ -19,13 +19,13 @@ async function getEndpoint() {
 
   return {
     slug: DEFAULT_SLUG,
-    title: 'Community Helpdesk',
+    title: 'ComplianBox',
     description: 'Share community service needs and local improvement suggestions with the helpdesk team.',
     requireContact: false,
     allowAnonymous: true,
     allowVoice: true,
     allowAttachments: true,
-    workspaceName: 'Community Helpdesk',
+    workspaceName: 'ComplianBox',
   };
 }
 

@@ -15,12 +15,16 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: 'Community Helpdesk',
+  title: 'ComplianBox',
   description: 'Share community service needs and local improvement suggestions with the helpdesk team.',
+  icons: {
+    icon: '/complianbox.png',
+    apple: '/complianbox.png',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Community Helpdesk',
+    title: 'ComplianBox',
   },
 };
 

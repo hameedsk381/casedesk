@@ -1,19 +1,21 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { caseWorkspaceId, unauthorized, forbidden, notFound, insufficientPermissions } from '@/lib/api/guards';
+import { rejectCrossOrigin } from '@/lib/api/security';
 
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
     const body = await request.json();
 
     const wsId = await caseWorkspaceId(body.caseId);
     if (!wsId) return notFound('Case');
     if (!hasWorkspaceAccess(user, wsId)) return forbidden();
+    if (!canUserInWorkspace(user, wsId, 'edit_case')) return insufficientPermissions('edit_case');
 
     const contact = await prisma.contact.create({
       data: {

@@ -139,12 +139,8 @@ export function CitizenLandingPage({ endpoint }: Props) {
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-lg border-b border-border safe-area-top">
         <div className="max-w-5xl mx-auto flex items-center justify-between h-14 px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-primary text-white flex items-center justify-center">
-              <Megaphone size={18} />
-            </div>
-            <span className="font-extrabold text-sm text-primary">
-              {endpoint.workspaceName || endpoint.title || 'ComplainBox'}
-            </span>
+            <img src="/complianbox.png" alt="ComplianBox" className="h-9 w-9 rounded-lg object-contain" />
+            <span className="font-extrabold text-sm text-primary">{endpoint.workspaceName || endpoint.title || 'ComplianBox'}</span>
           </div>
           <div className="flex items-center gap-2">
             <button onClick={() => setShowStatusModal(true)} className="touch-target flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface border border-border text-xs font-semibold text-muted-foreground hover:text-primary transition cursor-pointer">
@@ -313,7 +309,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
       <section className="px-4 sm:px-6 py-16 sm:py-24">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[.85fr_1.15fr] gap-10 lg:gap-16 items-start">
           <div className="space-y-4">
-            <span className="overline">{lang === 'te' ? 'ఎందుకు ఇది ఉంది' : 'Why ComplainBox exists'}</span>
+            <span className="overline">{lang === 'te' ? 'ఎందుకు ఇది ఉంది' : 'Why ComplianBox exists'}</span>
             <h2 className="text-3xl sm:text-4xl font-black leading-tight text-primary">{lang === 'te' ? 'చిన్న సమస్యలు కూడా ముఖ్యమే.' : 'Small problems matter too.'}</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">{lang === 'te' ? 'ఒక ఆసుపత్రి, ఒక రోడ్డు, ఒక పాఠశాల లేదా ఒక కార్యాలయం గురించి మీ అనుభవం ఇతరుల జీవితాలను ప్రభావితం చేయవచ్చు.' : 'A problem at one hospital, road, school, or office can affect an entire community. Your experience can help make it visible.'}</p>
             <button onClick={() => setView('form')} className="touch-target inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-hover cursor-pointer group">
@@ -401,7 +397,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-9">
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
             <div className="max-w-sm space-y-3">
-              <div className="flex items-center gap-2.5"><div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white"><Megaphone size={17} /></div><span className="font-extrabold text-sm text-primary">{endpoint.workspaceName || endpoint.title || 'ComplainBox'}</span></div>
+              <div className="flex items-center gap-2.5"><img src="/complianbox.png" alt="ComplianBox" className="h-9 w-9 rounded-xl object-contain" /><span className="font-extrabold text-sm text-primary">{endpoint.workspaceName || endpoint.title || 'ComplianBox'}</span></div>
               <p className="text-xs leading-relaxed text-muted-foreground">{lang === 'te' ? 'ప్రజా సమస్యలను వెలుగులోకి తీసుకువచ్చే సురక్షితమైన మార్గం.' : 'A safer way to bring community problems into the open.'}</p>
             </div>
             <div className="grid grid-cols-2 gap-x-12 gap-y-3 text-xs">
@@ -412,7 +408,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
             </div>
           </div>
           <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-t border-border pt-5 text-[10px] text-muted-foreground">
-            <span>© {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'ComplainBox'}</span>
+            <span>© {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'ComplianBox'}</span>
             <span>{lang === 'te' ? 'డేటా ఎన్క్రిప్ట్ & రక్షించబడింది' : 'Data encrypted & protected'}</span>
           </div>
         </div>

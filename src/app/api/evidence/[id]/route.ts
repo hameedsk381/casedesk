@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { deleteEvidence } from '@/lib/evidence/service';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import prisma from '@/lib/db/prisma';
+import { rejectCrossOrigin } from '@/lib/api/security';
 
 export async function DELETE(
   request: Request,
@@ -12,10 +13,8 @@ export async function DELETE(
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-    if (!canUser(user.role, 'delete_evidence')) {
-      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to delete evidence' }, { status: 403 });
-    }
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
 
     const { id } = await params;
     const evidence = await prisma.evidence.findUnique({
@@ -35,6 +34,10 @@ export async function DELETE(
 
     if (!hasWorkspaceAccess(user, evidence.case.workspaceId)) {
       return NextResponse.json({ error: 'Forbidden: Access denied to this workspace' }, { status: 403 });
+    }
+
+    if (!canUserInWorkspace(user, evidence.case.workspaceId, 'delete_evidence')) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to delete evidence' }, { status: 403 });
     }
 
     await deleteEvidence(id, user.id);

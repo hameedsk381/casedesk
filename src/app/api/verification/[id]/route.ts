@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { unauthorized, insufficientPermissions, forbidden, notFound } from '@/lib/api/guards';
 
 export async function PATCH(
@@ -10,7 +10,6 @@ export async function PATCH(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_investigation')) return insufficientPermissions('edit_investigation');
 
     const { id } = await params;
     const item = await prisma.verificationItem.findUnique({
@@ -19,6 +18,7 @@ export async function PATCH(
     });
     if (!item) return notFound('Verification item');
     if (!hasWorkspaceAccess(user, item.case.workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, item.case.workspaceId, 'edit_investigation')) return insufficientPermissions('edit_investigation');
 
     const body = await request.json();
 
@@ -49,7 +49,6 @@ export async function DELETE(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_investigation')) return insufficientPermissions('edit_investigation');
 
     const { id } = await params;
     const item = await prisma.verificationItem.findUnique({
@@ -58,6 +57,7 @@ export async function DELETE(
     });
     if (!item) return notFound('Verification item');
     if (!hasWorkspaceAccess(user, item.case.workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, item.case.workspaceId, 'edit_investigation')) return insufficientPermissions('edit_investigation');
 
     await prisma.verificationItem.delete({ where: { id } });
     return NextResponse.json({ success: true });

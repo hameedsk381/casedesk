@@ -3,12 +3,7 @@ import { getSubmissionEndpoint, processCitizenSubmission } from '@/lib/intake/su
 import { savePrivateUpload } from '@/lib/storage';
 import { CitizenSubmissionSchema } from '@/lib/contracts/intake';
 import { rateLimit, getClientIp } from '@/lib/rateLimit';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
-};
+import { getCorsHeaders } from '@/lib/api/cors';
 
 const ALLOWED_MIME_TYPES = new Set([
   'application/pdf',
@@ -78,17 +73,18 @@ function hasAllowedSignature(file: File, buffer: Buffer): boolean {
   }
 }
 
-export async function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: corsHeaders });
+export async function OPTIONS(request: Request) {
+  return new NextResponse(null, { status: 204, headers: getCorsHeaders(request) });
 }
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ creatorSlug: string }> }
 ) {
+  const corsHeaders = getCorsHeaders(request);
   try {
     const { creatorSlug } = await params;
-    const endpoint = await getSubmissionEndpoint(creatorSlug);
+    const endpoint = await getSubmissionEndpoint(creatorSlug, true);
 
     return NextResponse.json(
       {
@@ -118,8 +114,14 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ creatorSlug: string }> }
 ) {
+  const corsHeaders = getCorsHeaders(request);
   try {
     const { creatorSlug } = await params;
+
+    const contentLength = request.headers.get('content-length');
+    if (contentLength && (!/^\d+$/.test(contentLength) || Number(contentLength) > 35 * 1024 * 1024)) {
+      return NextResponse.json({ error: 'Submission request is too large.' }, { status: 413, headers: corsHeaders });
+    }
 
     const rl = rateLimit(`submit:${getClientIp(request)}`, 5, 10 * 60 * 1000);
     if (!rl.allowed) {

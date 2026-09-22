@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import { ignoreInboxMessage, restoreInboxMessage } from '@/lib/inbox/service';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { unauthorized, forbidden, insufficientPermissions } from '@/lib/api/guards';
 
 export async function GET(
@@ -46,7 +46,6 @@ export async function PATCH(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
 
     const { id } = await params;
     const existing = await prisma.inboxMessage.findUnique({
@@ -57,6 +56,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Message not found' }, { status: 404 });
     }
     if (!hasWorkspaceAccess(user, existing.workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, existing.workspaceId, 'edit_case')) return insufficientPermissions('edit_case');
 
     const body = await request.json();
 
@@ -93,7 +93,6 @@ export async function DELETE(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
 
     const { id } = await params;
     const existing = await prisma.inboxMessage.findUnique({
@@ -104,6 +103,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Message not found' }, { status: 404 });
     }
     if (!hasWorkspaceAccess(user, existing.workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, existing.workspaceId, 'edit_case')) return insufficientPermissions('edit_case');
 
     await prisma.inboxMessage.delete({
       where: { id },

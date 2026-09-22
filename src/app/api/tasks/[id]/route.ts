@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import prisma from '@/lib/db/prisma';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { unauthorized, forbidden, notFound, insufficientPermissions } from '@/lib/api/guards';
+import { pickAllowedFields, rejectCrossOrigin } from '@/lib/api/security';
 
 async function loadTaskWorkspace(id: string): Promise<string | null> {
   const task = await prisma.task.findUnique({
@@ -18,21 +20,25 @@ export async function PATCH(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
     const { id } = await params;
     const wsId = await loadTaskWorkspace(id);
     if (!wsId) return notFound('Task');
     if (!hasWorkspaceAccess(user, wsId)) return forbidden();
+    if (!canUserInWorkspace(user, wsId, 'edit_case')) return insufficientPermissions('edit_case');
 
     const body = await request.json();
+    const data = pickAllowedFields<Record<string, unknown>>(body, [
+      'title', 'description', 'status', 'priority', 'assignedToId', 'dueDate',
+    ]);
 
     const updated = await prisma.task.update({
       where: { id },
       data: {
-        ...body,
+        ...data,
         completedAt: body.status === 'DONE' ? new Date() : (body.status ? null : undefined),
-      },
+      } as Prisma.TaskUpdateInput,
     });
 
     return NextResponse.json(updated);
@@ -49,12 +55,13 @@ export async function DELETE(
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
     const { id } = await params;
     const wsId = await loadTaskWorkspace(id);
     if (!wsId) return notFound('Task');
     if (!hasWorkspaceAccess(user, wsId)) return forbidden();
+    if (!canUserInWorkspace(user, wsId, 'edit_case')) return insufficientPermissions('edit_case');
 
     await prisma.task.delete({ where: { id } });
     return NextResponse.json({ success: true });

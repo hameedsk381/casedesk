@@ -1,17 +1,25 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import { createInvestigationTask } from '@/lib/investigation/service';
-import { getCurrentUser, canUser, hasWorkspaceAccess } from '@/lib/auth/permissions';
+import { getCurrentUser, canUserInWorkspace, hasWorkspaceAccess, getAccessibleWorkspaceIds } from '@/lib/auth/permissions';
 import { unauthorized, insufficientPermissions, caseWorkspaceId, forbidden, notFound } from '@/lib/api/guards';
+import { rejectCrossOrigin } from '@/lib/api/security';
 
 export async function GET(request: Request) {
   try {
+    const user = await getCurrentUser();
+    if (!user) return unauthorized();
+    const workspaceIds = await getAccessibleWorkspaceIds(user);
+    if (workspaceIds.length === 0) return NextResponse.json([]);
+
     const { searchParams } = new URL(request.url);
     const caseId = searchParams.get('caseId');
     const assignedToId = searchParams.get('assignedToId');
     const status = searchParams.get('status');
 
-    const where: any = {};
+    const where: any = {
+      case: { workspaceId: { in: workspaceIds } },
+    };
     if (caseId) where.caseId = caseId;
     if (assignedToId) where.assignedToId = assignedToId;
     if (status) where.status = status;
@@ -44,13 +52,14 @@ export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_case')) return insufficientPermissions('edit_case');
-
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
     const body = await request.json();
 
     const wsId = await caseWorkspaceId(body.caseId);
     if (!wsId) return notFound('Case');
     if (!hasWorkspaceAccess(user, wsId)) return forbidden();
+    if (!canUserInWorkspace(user, wsId, 'edit_case')) return insufficientPermissions('edit_case');
 
     const task = await createInvestigationTask({
       caseId: body.caseId,

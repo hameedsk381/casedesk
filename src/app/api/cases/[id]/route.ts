@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getCaseById, updateCase } from '@/lib/cases/service';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
+import { pickAllowedFields, rejectCrossOrigin } from '@/lib/api/security';
 
 export async function GET(
   request: Request,
@@ -11,7 +12,6 @@ export async function GET(
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
     const { id } = await params;
     const caseRecord = await getCaseById(id);
 
@@ -39,10 +39,8 @@ export async function PATCH(
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-    if (!canUser(user.role, 'edit_case')) {
-      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to edit case' }, { status: 403 });
-    }
+    const originError = rejectCrossOrigin(request);
+    if (originError) return originError;
 
     const { id } = await params;
     const caseRecord = await getCaseById(id);
@@ -54,7 +52,17 @@ export async function PATCH(
       return NextResponse.json({ error: 'Forbidden: Access denied to this workspace' }, { status: 403 });
     }
 
-    const data = await request.json();
+    if (!canUserInWorkspace(user, caseRecord.workspaceId, 'edit_case')) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to edit case' }, { status: 403 });
+    }
+
+    const body = await request.json();
+    const data = pickAllowedFields<Record<string, unknown>>(body, [
+      'title', 'summary', 'category', 'priority', 'status', 'location', 'sourceType',
+      'sourceText', 'aiSummary', 'aiPriorityReason', 'verificationStatus',
+      'publicationStatus', 'resolutionStatus', 'nextAction', 'healthStatus',
+      'healthReason', 'assignedToId', 'publishedAt', 'resolvedAt',
+    ]);
     const updated = await updateCase(id, data, user.id);
     return NextResponse.json(updated);
   } catch (error: any) {

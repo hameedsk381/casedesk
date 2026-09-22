@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, hasWorkspaceAccess, canUser } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { requestInformationFromIntake } from '@/lib/intake/service';
 import prisma from '@/lib/db/prisma';
 import { unauthorized, forbidden, insufficientPermissions, notFound } from '@/lib/api/guards';
@@ -12,11 +12,10 @@ export async function POST(
     const { id } = await params;
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!canUser(user.role, 'edit_investigation')) return insufficientPermissions('edit_investigation');
-
     const item = await prisma.intakeItem.findUnique({ where: { id }, select: { workspaceId: true } });
     if (!item) return notFound('Intake item');
     if (!hasWorkspaceAccess(user, item.workspaceId)) return forbidden();
+    if (!canUserInWorkspace(user, item.workspaceId, 'edit_investigation')) return insufficientPermissions('edit_investigation');
 
     const body = await request.json();
     const requestedFields = body.requestedFields || [];

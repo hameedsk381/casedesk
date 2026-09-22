@@ -43,10 +43,7 @@ export default function SignupPage() {
     <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link href="/" className="inline-flex items-baseline gap-2 mb-4 group">
-          <span className="text-2xl font-bold tracking-tight text-primary">CaseDesk</span>
-          <span className="text-xs font-bold tracking-[0.15em] uppercase text-primary">
-            Open Vaartha
-          </span>
+          <img src="/casedesk.png" alt="CaseDesk" className="h-12 w-auto max-w-[220px] object-contain" />
         </Link>
         <h2 className="text-2xl font-bold tracking-tight text-primary">
           Create Creator Workspace

@@ -34,7 +34,15 @@ export function rateLimit(
 }
 
 export function getClientIp(request: Request): string {
+  // Forwarded headers are only authoritative when the deployment explicitly
+  // declares that requests arrive through a trusted reverse proxy.
+  if (process.env.TRUSTED_PROXY !== 'true') return 'unknown';
+
   const forwarded = request.headers.get('x-forwarded-for');
-  if (forwarded) return forwarded.split(',')[0].trim();
-  return request.headers.get('x-real-ip') || 'unknown';
+  const candidates = [forwarded?.split(',')[0].trim(), request.headers.get('x-real-ip')?.trim()];
+  for (const candidate of candidates) {
+    if (candidate && isIP(candidate) !== 0) return candidate;
+  }
+  return 'unknown';
 }
+import { isIP } from 'node:net';

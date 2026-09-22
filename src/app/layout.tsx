@@ -35,6 +35,10 @@ export const metadata: Metadata = {
     "complaint management",
     "creator workflow",
   ],
+  icons: {
+    icon: '/casedesk.png',
+    apple: '/casedesk.png',
+  },
   openGraph: {
     title: "Open Vaartha CaseDesk — The Case Desk for Public-Interest Creators",
     description:
