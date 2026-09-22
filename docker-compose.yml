@@ -1,25 +1,4 @@
 services:
-  mysql:
-    image: mysql:8
-    container_name: casedesk-mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD must be set}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-casedesk}
-      MYSQL_USER: ${MYSQL_USER:?MYSQL_USER must be set}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD must be set}
-    # Ports only accessible within Docker network (use `podman exec` to reach services)
-    volumes:
-      - mysql-data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 15
-      start_period: 15s
-    networks:
-      - casedesk-net
-
   casedesk:
     build:
       context: .
@@ -49,9 +28,6 @@ services:
     # No external ports — access via Docker network only
     volumes:
       - casedesk-uploads:/app/uploads
-    depends_on:
-      mysql:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 10s
@@ -91,8 +67,6 @@ services:
       - casedesk-net
 
 volumes:
-  mysql-data:
-    driver: local
   casedesk-uploads:
     driver: local
 

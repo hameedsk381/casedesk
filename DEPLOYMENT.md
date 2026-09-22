@@ -2,7 +2,7 @@
 
 ## Required secrets
 
-Compose now refuses to start unless `SESSION_SECRET`, `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`, `MYSQL_PASSWORD`, and `DOCKER_DATABASE_URL` are supplied through the deployment environment. Use a long random session secret and make `DOCKER_DATABASE_URL` match the configured MySQL user/password/database. Do not restore the removed example credentials in production.
+Compose now uses an external MySQL database. It refuses to start unless `SESSION_SECRET` and `DOCKER_DATABASE_URL` are supplied through the deployment environment. Use a long random session secret and ensure the external database allows connections from the deployment host.
 
 ## Database migrations
 
@@ -19,12 +19,12 @@ For the current legacy database only, `DB_MIGRATION_MODE=legacy-push ALLOW_DB_PU
 
 ## Backups and restore
 
-`scripts/backup-production.sh` backs up both MySQL and `/app/uploads` to `BACKUP_DIR` (default `./backups`). The default backup directory is git-ignored. Backups contain sensitive case data and must be access-controlled and copied to durable off-host storage. The scripts do not configure a retention policy or off-site replication; the operator must provide those.
+`scripts/backup-production.sh` backs up `/app/uploads` to `BACKUP_DIR` (default `./backups`). Back up the external MySQL database separately using the provider's snapshot/backup facility or `mysqldump` from a trusted host. The default backup directory is git-ignored. Backups contain sensitive case data and must be access-controlled and copied to durable off-host storage. The scripts do not configure a retention policy or off-site replication; the operator must provide those.
 
-Restore only during a maintenance window after stopping application traffic:
+Restore uploads only during a maintenance window after stopping application traffic. Restore the external database through its provider or a trusted `mysql` client separately:
 
 ```sh
-CONFIRM_RESTORE=yes sh scripts/restore-production.sh backups/casedesk-mysql-<stamp>.sql backups/casedesk-uploads-<stamp>.tar.gz
+CONFIRM_RESTORE=yes sh scripts/restore-production.sh backups/casedesk-uploads-<stamp>.tar.gz
 ```
 
 Validate the restored database, private downloads, and application health before reopening traffic.
