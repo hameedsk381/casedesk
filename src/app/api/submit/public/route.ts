@@ -151,8 +151,29 @@ export async function GET(request: Request) {
       .map(({ resolveDays, ...row }) => ({ ...row, averageDaysToResolve: average(resolveDays) }))
       .sort((a, b) => b.total - a.total);
 
+    // Site-wide counts (not limited to published cases or the ward filter) so the
+    // home page can show real, counted totals. Aggregates only — no content.
+    const [received, departmentsAsked, repliedRequests] = await Promise.all([
+      prisma.intakeItem.count({ where: { sourceType: 'WEB_FORM' } }),
+      prisma.responseRequest.count({ where: { status: { not: 'NOT_REQUESTED' } } }),
+      prisma.responseRequest.findMany({
+        where: { responseReceivedAt: { not: null } },
+        select: { requestedAt: true, responseReceivedAt: true },
+        take: 1000,
+      }),
+    ]);
+    const replyDays = repliedRequests.map((r) =>
+      Math.max(0, Math.floor((r.responseReceivedAt!.getTime() - r.requestedAt.getTime()) / DAY_MS))
+    );
+    const overall = {
+      received,
+      departmentsAsked,
+      departmentsReplied: repliedRequests.length,
+      averageReplyDays: average(replyDays),
+    };
+
     return NextResponse.json(
-      { generatedAt: new Date(now).toISOString(), summary, wards, cases: items.slice(0, 100) },
+      { generatedAt: new Date(now).toISOString(), overall, summary, wards, cases: items.slice(0, 100) },
       { headers: { ...corsHeaders, 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } }
     );
   } catch (error) {

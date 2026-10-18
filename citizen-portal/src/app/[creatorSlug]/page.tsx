@@ -1,6 +1,7 @@
 import { CitizenLandingPage } from '@/components/CitizenLandingPage';
 import Link from 'next/link';
 import { getServerLang } from '@/lib/i18n/serverLang';
+import { loadPublicProof } from '@/lib/publicFeed';
 
 const PUBLIC_API_URL = process.env.NEXT_PUBLIC_CASEDESK_API_URL || 'http://localhost:3000';
 const INTERNAL_API_URL = process.env.INTERNAL_CASEDESK_URL || PUBLIC_API_URL;
@@ -55,7 +56,7 @@ export default async function CreatorPortalPage({
 
   return (
     <div className="w-full flex-1 flex flex-col">
-      <CitizenLandingPage endpoint={endpoint} initialWard={typeof ward === 'string' ? ward.slice(0, 50) : undefined} initialLang={await getServerLang()} />
+      <CitizenLandingPage endpoint={endpoint} initialWard={typeof ward === 'string' ? ward.slice(0, 50) : undefined} initialLang={await getServerLang()} proof={await loadPublicProof()} />
     </div>
   );
 }

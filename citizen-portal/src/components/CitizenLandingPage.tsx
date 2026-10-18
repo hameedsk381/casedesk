@@ -22,6 +22,8 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { CitizenSubmissionForm } from './CitizenSubmissionForm';
+import { ProofSection } from './ProofSection';
+import type { PublicProof } from '@/lib/publicFeed';
 
 interface EndpointConfig {
   slug: string;
@@ -38,12 +40,13 @@ interface Props {
   endpoint: EndpointConfig;
   initialWard?: string;
   initialLang?: Language;
+  proof?: PublicProof | null;
 }
 
 type ViewState = 'landing' | 'form';
 type Language = 'en' | 'te';
 
-export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }: Props) {
+export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en', proof = null }: Props) {
   const [view, setView] = useState<ViewState>('landing');
   const [lang, setLangState] = useState<Language>(initialLang);
   // Remember the choice (read server-side by every page) for a year.
@@ -288,6 +291,9 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
           ))}
         </div>
       </section>
+
+      {/* ── PROOF: real counted numbers ── */}
+      <ProofSection proof={proof} lang={lang} />
 
       {/* ── PROCESS ── */}
       <section className="relative overflow-hidden bg-primary px-4 sm:px-6 py-16 sm:py-20 text-white">
