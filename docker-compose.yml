@@ -28,8 +28,18 @@ services:
       - CRON_SECRET=${CRON_SECRET:-}
       - SIGNUP_ENABLED=${SIGNUP_ENABLED:-false}
       - ALLOWED_SIGNUP_EMAILS=${ALLOWED_SIGNUP_EMAILS:-}
+      # First-run bootstrap (docker-entrypoint.sh): when both ADMIN_* values are set
+      # the admin account, workspace and public endpoint are created on startup.
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      - ADMIN_NAME=${ADMIN_NAME:-}
+      - ADMIN_RESET_PASSWORD=${ADMIN_RESET_PASSWORD:-false}
+      - WORKSPACE_NAME=${WORKSPACE_NAME:-}
+      - WORKSPACE_SLUG=${WORKSPACE_SLUG:-}
+      - ENDPOINT_SLUG=${NEXT_PUBLIC_DEFAULT_SLUG:-janata-investigation-desk}
+      - ENDPOINT_TITLE=${ENDPOINT_TITLE:-}
       # Public-facing instance: serves only the citizen API. The staff workspace
-      # answers 404 here. Use the "staff" profile below for your team.
+      # answers 404 here; your team uses casedesk-staff below.
       - STAFF_APP_ENABLED=false
     # No external ports — access via Docker network only
     volumes:
@@ -43,14 +53,12 @@ services:
     networks:
       - casedesk-net
 
-  # Private staff workspace (journalists). Not started by default:
-  #   docker compose --profile staff up -d casedesk-staff
+  # Private staff workspace (journalists). Started with the rest of the stack.
   # Bound to 127.0.0.1 only — reach it over an SSH tunnel or VPN, and never
   # route it through the public reverse proxy.
   casedesk-staff:
     extends:
       service: casedesk
-    profiles: ["staff"]
     container_name: casedesk-staff-app
     environment:
       - STAFF_APP_ENABLED=true

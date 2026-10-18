@@ -49,6 +49,14 @@ if [ -f "prisma/schema.prisma" ]; then
   fi
 fi
 
+# Idempotent first-run bootstrap: creates the admin account, workspace and public
+# submission endpoint when ADMIN_EMAIL and ADMIN_PASSWORD are provided. Safe on every
+# start (existing records are reused, passwords are only reset with
+# ADMIN_RESET_PASSWORD=true). A failure here must never stop the app from starting.
+if [ -n "${ADMIN_EMAIL:-}" ] && [ -n "${ADMIN_PASSWORD:-}" ] && [ -f scripts/create-admin.mjs ]; then
+  node scripts/create-admin.mjs || echo "WARNING: admin bootstrap failed; continuing startup."
+fi
+
 # Uploads are private and served only through authenticated API routes.
 mkdir -p /app/uploads
 

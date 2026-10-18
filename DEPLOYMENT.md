@@ -42,11 +42,7 @@ Uploads are stored in `/app/uploads`, outside `public`, and are streamed only by
 Only the citizen portal and the citizen API are meant to be public.
 
 - The default `casedesk` service runs with `STAFF_APP_ENABLED=false`: the staff workspace (`/app`, `/login`, `/signup`, the marketing pages and every staff API) answers 404. Only `/api/submit/*`, `/api/health` and `/api/cron/escalate` respond.
-- Your team uses a separate instance with the staff workspace on, bound to `127.0.0.1`:
-
-  ```bash
-  docker compose --profile staff up -d casedesk-staff
-  ```
+- Your team uses a separate instance (`casedesk-staff`) with the staff workspace on, started by the same `docker compose up -d` and bound to `127.0.0.1` (port `3002`):
 
   Reach it over an SSH tunnel or VPN (`ssh -L 3002:localhost:3002 <server>`, then open `http://localhost:3002`). Do not add it to the public reverse proxy. Change the port with `STAFF_APP_PORT`.
 - Route only the `citizen-portal` service through the public reverse proxy.
@@ -61,15 +57,10 @@ ADMIN_EMAIL=you@openvaartha.com
 ADMIN_PASSWORD=<10+ characters, with a letter and a number>
 ```
 
-Then run the bootstrap once. It creates the workspace, an `OWNER` account, and the active public submission endpoint the citizen portal uses (`NEXT_PUBLIC_DEFAULT_SLUG`):
+With Docker Compose this happens automatically: on startup the `casedesk` container creates the workspace, an `OWNER` account, and the active public submission endpoint the citizen portal uses (`NEXT_PUBLIC_DEFAULT_SLUG`):
 
 ```bash
-# on the host, with DATABASE_URL set in .env
-npm run create-admin
-
-# or against the running containers
-set -a; . ./.env; set +a
-docker compose exec -e ADMIN_EMAIL -e ADMIN_PASSWORD casedesk node scripts/create-admin.mjs
+docker compose up -d --build
 ```
 
-It is safe to re-run: existing records are reused and an existing account's password is only changed with `ADMIN_RESET_PASSWORD=true`. The password is never printed. **Remove `ADMIN_PASSWORD` from `.env` afterwards.** Sign in through the private staff instance (see above).
+It is safe to re-run: existing records are reused and an existing account's password is only changed with `ADMIN_RESET_PASSWORD=true`. The password is never printed. **Remove `ADMIN_PASSWORD` from `.env` afterwards.** Without Compose, run `npm run create-admin` once on the host (with DATABASE_URL set). Sign in through the private staff instance (see above).
