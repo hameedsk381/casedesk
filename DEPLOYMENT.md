@@ -95,7 +95,12 @@ Attachments and evidence go to a private Google Cloud Storage bucket when `GCS_B
 
 1. Create a **private** bucket (uniform bucket-level access on, public access prevented), in a region close to your users (for example `asia-south1`).
 2. Create a service account and grant it **Storage Object Admin on that bucket only**. Create a JSON key for it.
-3. Base64-encode the key in one line and put it in Dokploy's environment, then delete the key file from your computer:
+3. Check the key and bucket from your own computer (the key is not sent anywhere except to Google), then print the base64 value:
+   ```bash
+   node scripts/check-gcs.mjs --key-file ./service-account.json --bucket <bucket name>
+   node scripts/check-gcs.mjs --key-file ./service-account.json --print-base64
+   ```
+   The first command writes, reads and deletes one tiny test object and flags public access, versioning and soft-delete problems. Paste the second command's output into Dokploy's environment, then delete the key file from your computer. (Manual alternative to the second command:)
    ```bash
    base64 -w0 service-account.json     # macOS: base64 -i service-account.json
    ```
@@ -120,3 +125,15 @@ Staff with delete permission (OWNER/ADMIN) can permanently erase a report with i
   `DELETE /api/intake/<id>` with body `{"confirm": "<reference number>"}`
 
 Files are deleted first; if any file cannot be deleted nothing is removed from the database, so the call can be retried. The action is logged (reference or case number and counts only). There is no button for this in the staff screens yet.
+
+## Inviting creators
+
+Owners and admins invite people from **Settings → Newsroom Team** in the staff workspace.
+
+1. Enter the person's email and choose a role (Researcher by default; only the owner can invite an Admin) and click **Send invite**.
+2. If SMTP is configured the invitation is emailed. Either way the screen shows the link — copy it and send it yourself if email isn't set up.
+3. The link works once and expires after 7 days. The creator opens it, enters their name and a password (or, if they already have an account, their existing password) and lands in your shared workspace.
+
+Set **`APP_URL` to the staff workspace's public address** (for example `https://staff.openvaartha.com`), because invitation links are built from it. Invitations are stored only as a hash, so a database leak cannot reveal working links.
+
+Pending invitations can be revoked, and members can be removed (their account and past work stay). The owner cannot be removed. Public signup can stay closed (`SIGNUP_ENABLED=false`); invitations do not depend on it.

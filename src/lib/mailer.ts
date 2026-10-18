@@ -155,3 +155,32 @@ export async function sendWelcomeEmail(params: { name: string; email: string }):
     text: `Welcome to ${appName}, ${params.name}.\n\nYour workspace is ready. Open it here: ${getAppUrl()}/app`,
   });
 }
+
+export async function sendInviteEmail(params: {
+  to: string;
+  inviterName: string;
+  workspaceName: string;
+  role: string;
+  inviteUrl: string;
+  expiresAt: Date;
+}): Promise<void> {
+  const appName = getAppName();
+  const inviter = safeHeader(params.inviterName);
+  const workspace = safeHeader(params.workspaceName);
+  const role = safeHeader(params.role).toLowerCase();
+  const expires = params.expiresAt.toUTCString();
+  const url = escapeHtml(params.inviteUrl);
+
+  const result = await sendMail({
+    to: params.to,
+    subject: `${inviter} invited you to ${workspace} on ${safeHeader(appName)}`,
+    html: layout(
+      `You're invited to ${escapeHtml(workspace)}`,
+      `<p style="margin:0 0 12px;font-size:14px;line-height:1.6;">${escapeHtml(inviter)} invited you to join <strong>${escapeHtml(workspace)}</strong> on ${escapeHtml(appName)} as <strong>${escapeHtml(role)}</strong>.</p>
+      <p style="margin:20px 0 0;"><a href="${url}" style="display:inline-block;padding:10px 18px;background:${BRAND};color:#ffffff;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;">Accept invitation</a></p>
+      <p style="margin:16px 0 0;font-size:12px;color:#695a4f;">This link works once and expires on ${escapeHtml(expires)}. If you weren't expecting it, ignore this email.</p>`
+    ),
+    text: `${params.inviterName} invited you to join ${params.workspaceName} on ${appName} as ${role}.\n\nAccept the invitation: ${params.inviteUrl}\n\nThis link works once and expires on ${expires}. If you weren't expecting it, ignore this email.`,
+  });
+  if (!result.sent) throw new Error(result.error || 'email not sent');
+}

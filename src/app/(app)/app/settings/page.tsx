@@ -12,6 +12,7 @@ import {
   Sparkles,
   Loader2,
 } from 'lucide-react';
+import TeamPanel from '@/components/app/TeamPanel';
 
 const TABS = [
   { id: 'profile', label: 'User Profile', icon: User },
@@ -302,45 +303,7 @@ export default function SettingsPage() {
           )}
 
           {/* TEAM TAB */}
-          {activeTab === 'team' && (
-            <div className="space-y-5">
-              <div className="border-b border-surface-3 pb-3">
-                <h3 className="text-base font-bold text-primary">Newsroom Team Members</h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Role-based permissions (OWNER, ADMIN, RESEARCHER, EDITOR, VIEWER).
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                {currentUser && (
-                  <div
-                    className="p-4 rounded-xl bg-background/50 border border-surface-3 flex items-center justify-between gap-4"
-                  >
-                    <div>
-                      <div className="text-xs font-bold text-primary">{currentUser.name}</div>
-                      <div className="text-[11px] text-slate-500">
-                        <span className="font-mono">{currentUser.email}</span>
-                      </div>
-                    </div>
-
-                    <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
-                        currentUser.role === 'OWNER'
-                          ? 'bg-purple-100 text-purple-800'
-                          : currentUser.role === 'ADMIN'
-                          ? 'bg-blue-100 text-blue-800'
-                          : currentUser.role === 'EDITOR'
-                          ? 'bg-success/15 text-success'
-                          : 'bg-slate-200 text-slate-700'
-                      }`}
-                    >
-                      {currentUser.role}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+          {activeTab === 'team' && <TeamPanel />}
 
           {/* CATEGORIES TAB */}
           {activeTab === 'categories' && (

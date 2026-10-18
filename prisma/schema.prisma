@@ -30,6 +30,7 @@ model User {
   activityLogs     ActivityLog[]
   assignedIntakeItems IntakeItem[]     @relation("AssignedIntakeItems")
   reviewedIntakeItems IntakeItem[]     @relation("ReviewedIntakeItems")
+  sentInvites         WorkspaceInvite[] @relation("SentInvites")
 }
 
 model Workspace {
@@ -46,6 +47,7 @@ model Workspace {
   inboxMessages       InboxMessage[]
   intakeItems         IntakeItem[]
   submissionEndpoints SubmissionEndpoint[]
+  invites             WorkspaceInvite[]
 }
 
 model WorkspaceMember {
@@ -456,4 +458,24 @@ model SequenceCounter {
   name      String   @id
   lastValue Int      @default(0)
   updatedAt DateTime @updatedAt
+}
+
+// One-time invitation for a teammate to join a workspace. Only a SHA-256 hash of the
+// token is stored, so a database leak cannot be turned into working invite links.
+model WorkspaceInvite {
+  id          String    @id @default(cuid())
+  workspaceId String
+  email       String
+  role        String    @default("RESEARCHER") // RESEARCHER, EDITOR, VIEWER, ADMIN
+  tokenHash   String    @unique
+  invitedById String
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  invitedBy User      @relation("SentInvites", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@index([email])
 }

@@ -21,6 +21,7 @@ const PUBLIC_ROUTES = new Set([
   'api/submit/[creatorSlug]',
   'api/submit/public', // public accountability feed (consented, published cases only)
   'api/submit/ward', // ward lookup for the citizen form
+  'api/team/invites/accept', // invite acceptance: authorised by a one-time secret token
   'api/cron/escalate', // protected by a CRON_SECRET bearer token instead of a session
   'api/intake/counts',
 ]);
