@@ -36,6 +36,7 @@
     "typescript": "^5"
   },
   "prisma": {
-    "seed": "echo 'No seed data'"
+    "seed": "echo 'No seed data'",
+    "create-admin": "node scripts/create-admin.mjs"
   }
 }
