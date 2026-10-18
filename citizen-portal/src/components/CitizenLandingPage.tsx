@@ -111,19 +111,19 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
 
   /* ─── Landing Page Data ─── */
   const categories = [
-    { icon: HeartPulse, color: 'bg-rose-100 text-rose-600', title: lang === 'te' ? 'వైద్యం' : 'Healthcare', desc: lang === 'te' ? 'ఆసుపత్రులు, మందులు, వైద్యం' : 'Hospitals, medicines, treatment' },
-    { icon: Users, color: 'bg-amber-100 text-amber-600', title: lang === 'te' ? 'పింఛను & రేషన్' : 'Welfare', desc: lang === 'te' ? 'పింఛను, రేషన్ కార్డు, సంక్షేమం' : 'Pensions, ration cards, schemes' },
-    { icon: Scale, color: 'bg-emerald-100 text-emerald-600', title: lang === 'te' ? 'అవినీతి' : 'Corruption', desc: lang === 'te' ? 'లంచాలు, అవినీతి, మోసాలు' : 'Bribes, fraud, misconduct' },
-    { icon: Zap, color: 'bg-sky-100 text-sky-600', title: lang === 'te' ? 'మున్సిపల్' : 'Municipal', desc: lang === 'te' ? 'రోడ్లు, నీరు, విద్యుత్' : 'Roads, water, electricity' },
-    { icon: Eye, color: 'bg-violet-100 text-violet-600', title: lang === 'te' ? 'పాఠశాలలు' : 'Education', desc: lang === 'te' ? 'పాఠశాలలు, ఉపాధ్యాయులు' : 'Schools, teachers, facilities' },
-    { icon: Globe, color: 'bg-teal-100 text-teal-600', title: lang === 'te' ? 'ఇతరాలు' : 'Other Issues', desc: lang === 'te' ? 'ఏదైనా ప్రజా సమస్య' : 'Any civic problem' },
+    { icon: TrendingUp, color: 'bg-sky-100 text-sky-600', title: lang === 'te' ? 'రోడ్లు & డ్రైనేజీ' : 'Roads & Drains', desc: lang === 'te' ? 'గుంతలు, మురుగు కాలువలు, వరద నీరు' : 'Potholes, blocked drains, waterlogging' },
+    { icon: Globe, color: 'bg-teal-100 text-teal-600', title: lang === 'te' ? 'నీరు & పారిశుద్ధ్యం' : 'Water & Sanitation', desc: lang === 'te' ? 'తాగునీరు, చెత్త సేకరణ, పరిశుభ్రత' : 'Drinking water, garbage, cleanliness' },
+    { icon: Zap, color: 'bg-amber-100 text-amber-600', title: lang === 'te' ? 'వీధి దీపాలు & విద్యుత్' : 'Streetlights & Power', desc: lang === 'te' ? 'వెలగని దీపాలు, విద్యుత్ సమస్యలు' : 'Broken lights, power faults' },
+    { icon: HeartPulse, color: 'bg-rose-100 text-rose-600', title: lang === 'te' ? 'ఆరోగ్యం & సంక్షేమం' : 'Health & Welfare', desc: lang === 'te' ? 'ఆసుపత్రులు, పింఛను, రేషన్ కార్డు' : 'Hospitals, pensions, ration cards' },
+    { icon: Users, color: 'bg-violet-100 text-violet-600', title: lang === 'te' ? 'పాఠశాలలు & సేవలు' : 'Schools & Services', desc: lang === 'te' ? 'పాఠశాలలు, కార్యాలయ సేవలు, సర్టిఫికెట్లు' : 'Schools, office services, certificates' },
+    { icon: Scale, color: 'bg-emerald-100 text-emerald-600', title: lang === 'te' ? 'అవినీతి & ఇతరాలు' : 'Corruption & Other', desc: lang === 'te' ? 'లంచాలు, మోసాలు, ఏదైనా ప్రజా సమస్య' : 'Bribes, misconduct, any civic problem' },
   ];
 
   const steps = [
     { n: '1', title: lang === 'te' ? 'వివరాలు చెప్పండి' : 'Share Details', desc: lang === 'te' ? 'వాయిస్ లేదా టైప్ చేసి సేవకు సంబంధించిన వివరాలు చెప్పండి.' : 'Speak or type the service need in any language.', icon: MessageCircle },
     { n: '2', title: lang === 'te' ? 'సమీక్ష' : 'We Review', desc: lang === 'te' ? 'మా బృందం వివరాలను జాగ్రత్తగా పరిశీలిస్తుంది.' : 'Our team reviews the details carefully.', icon: Search },
-    { n: '3', title: lang === 'te' ? 'సమన్వయం' : 'Coordinate', desc: lang === 'te' ? 'అవసరమైతే సంబంధిత సేవా విభాగానికి సమాచారాన్ని పంపడంలో సహాయం చేస్తాము.' : 'When appropriate, we help route information to the relevant service team.', icon: Eye },
-    { n: '4', title: lang === 'te' ? 'పురోగతి' : 'Follow-up', desc: lang === 'te' ? 'మీ రిఫరెన్స్ కోడ్‌తో స్థితిని చూడవచ్చు.' : 'Use your reference code to check progress.', icon: TrendingUp },
+    { n: '3', title: lang === 'te' ? 'శాఖను అడుగుతాము' : 'We Ask the Department', desc: lang === 'te' ? 'ధృవీకరించిన సమస్యలపై సంబంధిత మున్సిపల్ శాఖ వివరణ కోరతాము.' : 'For verified issues, we ask the responsible municipal department for a response.', icon: Eye },
+    { n: '4', title: lang === 'te' ? 'బహిరంగ పట్టిక' : 'Public Tracker', desc: lang === 'te' ? 'మీ అనుమతితో, ఏ శాఖ ఎంత త్వరగా స్పందించిందో అందరూ చూడవచ్చు.' : 'With your permission, everyone can see how quickly each department responded.', icon: TrendingUp },
   ];
 
   const stats = [
@@ -173,21 +173,21 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
           <div className="space-y-6 text-center lg:text-left">
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success-subtle border border-success/20 text-success text-xs font-bold">
               <Megaphone size={13} />
-              <span>{lang === 'te' ? '100% ఉచితం & రహస్యం' : 'Free, private, and easy to use'}</span>
+              <span>{lang === 'te' ? 'మున్సిపల్ ఎన్నికల వేళ: మీ వార్డు సమస్యలు' : 'Municipal elections: put your ward on record'}</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary leading-[1.02] tracking-tight max-w-xl">
               {lang === 'te' ? (
-                <>మీ గొంతు<br /><span className="text-primary/60">మార్పు తెస్తుంది.</span></>
+                <>మీ వార్డు. మీ సమస్యలు.<br /><span className="text-primary/60">రికార్డులో.</span></>
               ) : (
-                <>Your voice<br /><span className="text-primary/60">can change things.</span></>
+                <>Your ward. Your issues.<br /><span className="text-primary/60">On the record.</span></>
               )}
             </h1>
 
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0">
               {lang === 'te'
-                ? 'మీ ప్రాంతంలోని సమస్యను మైక్ నొక్కి చెప్పండి లేదా టైప్ చేయండి. మీ సమాచారం మా టీమ్‌కు చేరుతుంది.'
-                : 'Report a problem in your area by speaking or typing. Your information reaches a team that can follow up.'}
+                ? 'రోడ్లు, నీరు, డ్రైనేజీ, వీధి దీపాలు, సేవలు — మీ వార్డులో ఏది సరిగా లేదో చెప్పండి. ఏ శాఖ స్పందిస్తుందో, ఏది స్పందించదో మేము నమోదు చేస్తాము. ఈ సేవ స్వతంత్రమైనది; ఏ పార్టీకి లేదా అభ్యర్థికి మద్దతు ఇవ్వదు.'
+                : 'Roads, water, drains, streetlights, services — tell us what is broken in your ward. We track which departments respond and which do not. This helpdesk is independent and does not support any party or candidate.'}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 max-w-md mx-auto lg:mx-0">
@@ -220,6 +220,9 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
                 </div>
               ))}
             </div>
+            <a href={`/accountability?lang=${lang}`} className="touch-target inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:text-primary-hover">
+              {lang === 'te' ? 'ఏ శాఖలు స్పందించాయో చూడండి' : 'See which departments have responded'} <ArrowRight size={15} />
+            </a>
           </div>
 
           <div className="relative max-w-md w-full mx-auto lg:ml-auto">
@@ -293,8 +296,8 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
         <div className="relative max-w-5xl mx-auto">
           <div className="max-w-xl space-y-3">
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-secondary">{lang === 'te' ? 'మీ ఫిర్యాదు నుంచి చర్య వరకు' : 'From report to action'}</span>
-            <h2 className="text-3xl sm:text-4xl font-black leading-tight">{lang === 'te' ? 'మాటను మేము మార్గంగా మారుస్తాము.' : 'A clear path from your voice to action.'}</h2>
-            <p className="text-sm leading-relaxed text-secondary max-w-lg">{lang === 'te' ? 'మీరు చెప్పిన విషయాన్ని అర్థం చేసుకుని, ధృవీకరించి, సరైన వ్యక్తుల ముందు ఉంచుతాము.' : 'We listen, understand, verify, and take the issue to the people who can help move it forward.'}</p>
+            <h2 className="text-3xl sm:text-4xl font-black leading-tight">{lang === 'te' ? 'మీ వార్డు సమస్య నుంచి శాఖ సమాధానం వరకు.' : 'From your ward problem to a department answer.'}</h2>
+            <p className="text-sm leading-relaxed text-secondary max-w-lg">{lang === 'te' ? 'మేము విషయాన్ని ధృవీకరించి, సంబంధిత శాఖను అడిగి, వచ్చిన సమాధానాన్ని (లేదా సమాధానం రాకపోవడాన్ని) బహిరంగంగా చూపుతాము. ఫలితాలకు హామీ ఇవ్వము.' : 'We verify the issue, ask the responsible department, and show the answer — or the silence — in public. We cannot promise outcomes.'}</p>
           </div>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {steps.map((s, i) => {
@@ -319,8 +322,8 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[.85fr_1.15fr] gap-10 lg:gap-16 items-start">
           <div className="space-y-4">
             <span className="overline">{lang === 'te' ? 'ఎందుకు ఇది ఉంది' : 'Why ComplianBox exists'}</span>
-            <h2 className="text-3xl sm:text-4xl font-black leading-tight text-primary">{lang === 'te' ? 'చిన్న సమస్యలు కూడా ముఖ్యమే.' : 'Small problems matter too.'}</h2>
-            <p className="text-sm leading-relaxed text-muted-foreground">{lang === 'te' ? 'ఒక ఆసుపత్రి, ఒక రోడ్డు, ఒక పాఠశాల లేదా ఒక కార్యాలయం గురించి మీ అనుభవం ఇతరుల జీవితాలను ప్రభావితం చేయవచ్చు.' : 'A problem at one hospital, road, school, or office can affect an entire community. Your experience can help make it visible.'}</p>
+            <h2 className="text-3xl sm:text-4xl font-black leading-tight text-primary">{lang === 'te' ? 'ప్రతి వార్డు మాట వినబడాలి.' : 'Every ward deserves to be heard.'}</h2>
+            <p className="text-sm leading-relaxed text-muted-foreground">{lang === 'te' ? 'ఒక వీధి, ఒక కాలువ, ఒక నీటి పైపు లేదా ఒక కార్యాలయం సమస్య మొత్తం కాలనీని ప్రభావితం చేస్తుంది. ఎన్నికల ముందు ఇవి రికార్డులో ఉండాలి — మీ అనుభవం సహాయపడుతుంది.' : 'One street, drain, water pipe, or office can affect a whole colony. Before the elections, these problems should be on record — your report helps.'}</p>
             <button onClick={() => setView('form')} className="touch-target inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-hover cursor-pointer group">
               {lang === 'te' ? 'మీ సమస్య చెప్పండి' : 'Share your experience'} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
@@ -346,7 +349,7 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="space-y-2">
               <span className="overline">{lang === 'te' ? 'ఏ సమస్యైనా' : 'No issue is too small'}</span>
-              <h2 className="text-3xl sm:text-4xl font-black text-primary">{lang === 'te' ? 'మీ ప్రాంతం గురించి మాట్లాడండి.' : 'Put your area on the record.'}</h2>
+              <h2 className="text-3xl sm:text-4xl font-black text-primary">{lang === 'te' ? 'మీ వార్డును రికార్డులో ఉంచండి.' : 'Put your ward on the record.'}</h2>
             </div>
             <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">{lang === 'te' ? 'కేటగిరీ ఎంచుకుని వెంటనే ప్రారంభించండి.' : 'Choose a category to start a report. You can explain the details in your own words.'}</p>
           </div>
@@ -391,8 +394,8 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
           <div className="absolute -bottom-24 -left-12 h-56 w-56 rounded-full bg-secondary/10 blur-3xl" />
           <div className="relative max-w-2xl space-y-5">
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-secondary">{lang === 'te' ? 'మీ గొంతు ముఖ్యం' : 'Your voice matters'}</span>
-            <h2 className="text-3xl sm:text-5xl font-black leading-[1.02]">{lang === 'te' ? 'మాట్లాడండి. మేము వింటాము.' : 'Speak up. We are listening.'}</h2>
-            <p className="max-w-lg text-sm sm:text-base leading-relaxed text-secondary">{lang === 'te' ? 'ఉచితం. సురక్షితం. మీ మాటల్లోనే.' : 'Free to use. Private by design. Built around your words.'}</p>
+            <h2 className="text-3xl sm:text-5xl font-black leading-[1.02]">{lang === 'te' ? 'చెప్పండి. ట్రాక్ చేయండి. ఎవరు స్పందిస్తారో చూడండి.' : 'Report it. Track it. See who answers.'}</h2>
+            <p className="max-w-lg text-sm sm:text-base leading-relaxed text-secondary">{lang === 'te' ? 'ఉచితం. సురక్షితం. స్వతంత్రం — ఏ పార్టీకి లేదా అభ్యర్థికి సంబంధం లేదు.' : 'Free to use. Private by design. Independent — not linked to any party or candidate.'}</p>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <button onClick={() => setView('form')} className="touch-target inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 text-base font-bold text-primary shadow-lg hover:bg-white/90 transition cursor-pointer active:scale-95"><Mic size={18} />{lang === 'te' ? 'ఇప్పుడే చెప్పండి' : 'Report now'}</button>
               <button onClick={() => setShowStatusModal(true)} className="touch-target inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-7 py-4 text-base font-bold text-white hover:bg-white/15 transition cursor-pointer"><Search size={17} />{lang === 'te' ? 'స్థితి చూడండి' : 'Track a report'}</button>
@@ -407,7 +410,7 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
             <div className="max-w-sm space-y-3">
               <div className="flex items-center gap-2.5"><img src="/complianbox.png" alt="ComplianBox" className="h-9 w-9 rounded-xl object-contain" /><span className="font-extrabold text-sm text-primary">{endpoint.workspaceName || endpoint.title || 'ComplianBox'}</span></div>
-              <p className="text-xs leading-relaxed text-muted-foreground">{lang === 'te' ? 'ప్రజా సమస్యలను వెలుగులోకి తీసుకువచ్చే సురక్షితమైన మార్గం.' : 'A safer way to bring community problems into the open.'}</p>
+              <p className="text-xs leading-relaxed text-muted-foreground">{lang === 'te' ? 'వార్డు స్థాయి సమస్యలను వెలుగులోకి తెచ్చే స్వతంత్ర, పక్షపాతం లేని వేదిక. ఏ రాజకీయ పార్టీకి లేదా అభ్యర్థికి మద్దతు ఇవ్వదు.' : 'An independent, non-partisan way to bring ward-level problems into the open. It does not support any political party or candidate.'}</p>
             </div>
             <div className="grid grid-cols-2 gap-x-12 gap-y-3 text-xs">
               <button onClick={() => setView('form')} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'ఫిర్యాదు పంపండి' : 'Submit a report'}</button>

@@ -23,7 +23,7 @@ const notoTelugu = Noto_Sans_Telugu({
 
 export const metadata: Metadata = {
   title: 'ComplianBox',
-  description: 'Share community service needs and local improvement suggestions with the helpdesk team.',
+  description: 'Report ward-level problems before the municipal elections and see which departments respond. Independent and non-partisan.',
   icons: {
     icon: '/complianbox.png',
     apple: '/complianbox.png',
