@@ -421,7 +421,11 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }
             </div>
           </div>
           <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-t border-border pt-5 text-[10px] text-muted-foreground">
-            <span>© {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'ComplianBox'}</span>
+            <span>
+              © {new Date().getFullYear()} {endpoint.workspaceName || endpoint.title || 'ComplianBox'} ·{' '}
+              {lang === 'te' ? 'ప్రాజెక్ట్ నిర్వహణ:' : 'A project of'}{' '}
+              <a href="https://openvaartha.com" target="_blank" rel="noopener noreferrer" className="font-bold text-primary hover:underline">Open Vaartha</a>
+            </span>
             <span>{lang === 'te' ? 'డేటా ఎన్క్రిప్ట్ & రక్షించబడింది' : 'Data encrypted & protected'}</span>
           </div>
         </div>
