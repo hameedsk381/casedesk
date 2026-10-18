@@ -34,6 +34,7 @@ const CONTENT = {
           'Your choices: whether we may contact you and whether the report may be published.',
           'If you tap "Detect my ward", your phone sends its location only to find your ward. We do not store the coordinates — only the ward and municipality.',
           'A cookie that remembers your language choice. We do not use advertising or tracking cookies.',
+          'While you fill in the form, the text you type is kept in your browser tab so you do not lose it if the page reloads. It stays on your device and is removed when you send the report or close the tab.',
         ],
       },
       {
@@ -101,6 +102,7 @@ const CONTENT = {
           'మీ ఎంపికలు: మేము మిమ్మల్ని సంప్రదించవచ్చా, ఫిర్యాదును ప్రచురించవచ్చా.',
           '"నా వార్డు గుర్తించండి" నొక్కితే, మీ ఫోన్ లొకేషన్ మీ వార్డు కనుగొనడానికి మాత్రమే పంపబడుతుంది. కోఆర్డినేట్లను మేము నిల్వ చేయము — వార్డు, పురపాలక సంఘం పేరు మాత్రమే.',
           'మీ భాష ఎంపికను గుర్తుంచుకునే ఒక కుకీ. ప్రకటనల లేదా ట్రాకింగ్ కుకీలను మేము వాడము.',
+          'మీరు ఫారం నింపుతున్నప్పుడు, పేజీ రీలోడ్ అయినా మీ రాత పోకుండా ఉండేందుకు అది మీ బ్రౌజర్ ట్యాబ్‌లో ఉంచబడుతుంది. అది మీ పరికరంలోనే ఉంటుంది; ఫిర్యాదు పంపినప్పుడు లేదా ట్యాబ్ మూసినప్పుడు తొలగిపోతుంది.',
         ],
       },
       {
