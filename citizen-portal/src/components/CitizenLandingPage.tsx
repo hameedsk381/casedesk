@@ -423,7 +423,7 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
               <button onClick={() => setView('form')} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'ఫిర్యాదు పంపండి' : 'Submit a report'}</button>
               <button onClick={() => setShowStatusModal(true)} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'స్థితి చూడండి' : 'Track a report'}</button>
               <a href={`/accountability?lang=${lang}`} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary">{lang === 'te' ? 'బహిరంగ జవాబుదారీ పట్టిక' : 'Public accountability tracker'}</a>
-              <span className="flex items-center gap-1.5 text-muted-foreground"><Lock size={12} className="text-success" />{lang === 'te' ? 'గోప్యత రక్షితం' : 'Privacy protected'}</span>
+              <a href="/privacy" className="touch-target flex items-center gap-1.5 font-semibold text-muted-foreground hover:text-primary"><Lock size={12} className="text-success" />{lang === 'te' ? 'గోప్యతా ప్రకటన' : 'Privacy notice'}</a>
               <span className="flex items-center gap-1.5 text-muted-foreground"><CheckCircle2 size={12} className="text-success" />{lang === 'te' ? 'స్వతంత్ర పరిశీలన' : 'Independent review'}</span>
             </div>
           </div>

@@ -78,3 +78,13 @@ Dokploy terminates TLS (Traefik) and routes by domain, so:
 4. The staff hostname is reachable from the internet, protected by login only. Keep `SIGNUP_ENABLED=false`, use a strong admin password, and consider an IP allow-list or basic-auth middleware on that domain in Traefik.
 5. If Cloudflare (or another CDN) sits in front of Traefik, the client IP seen by the apps is the CDN's, which makes rate limits shared. Prefer pointing DNS straight at the server.
 6. The `127.0.0.1:3002` binding on `casedesk-staff` is unused under Dokploy; change `STAFF_APP_PORT` if that port clashes with another stack.
+
+## Post-deploy smoke test
+
+Run this against staging first (and again after any production deploy). It submits a real `[SMOKE TEST]` report, so delete that report afterwards.
+
+```bash
+PORTAL_URL=https://<portal domain> \nSTAFF_URL=https://<staff domain> \nCASEDESK_URL=https://<staff domain> CRON_SECRET=<secret> \nnpm run smoke
+```
+
+It checks the portal, privacy notice, tracker, endpoint, consent and upload validation, tracking, the public feed, QR codes, and (optionally) the staff gate and escalation endpoint, then prints a manual checklist for the staff workflow. Set `PRIVACY_CONTACT_EMAIL` first or the privacy check will fail by design.

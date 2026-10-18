@@ -647,6 +647,13 @@ export function CitizenSubmissionForm({
                 <span className="text-xs text-foreground leading-relaxed font-medium">{c.text}</span>
               </label>
             ))}
+            <p className="text-[11px] leading-snug text-muted-foreground">
+              {lang === 'te' ? 'మేము మీ సమాచారాన్ని ఎలా వాడతామో ' : 'See how we use your information in the '}
+              <a href="/privacy" target="_blank" rel="noopener noreferrer" className="font-bold text-primary underline">
+                {lang === 'te' ? 'గోప్యతా ప్రకటన' : 'privacy notice'}
+              </a>
+              {lang === 'te' ? ' లో చూడండి.' : '.'}
+            </p>
           </div>
 
           {/* Publish preference */}

@@ -87,6 +87,9 @@ services:
       - TRUSTED_PROXY=${TRUSTED_PROXY:-false}
       # Public https address of the portal; used for printable ward QR codes.
       - PUBLIC_PORTAL_URL=${PUBLIC_PORTAL_URL:-}
+      # Shown on the portal's /privacy page when set.
+      - PRIVACY_CONTACT_EMAIL=${PRIVACY_CONTACT_EMAIL:-}
+      - PRIVACY_RETENTION_TEXT=${PRIVACY_RETENTION_TEXT:-}
       - NEXT_PUBLIC_CASEDESK_API_URL=${NEXT_PUBLIC_CASEDESK_API_URL:-http://localhost:3000}
       - NEXT_PUBLIC_DEFAULT_SLUG=${NEXT_PUBLIC_DEFAULT_SLUG:-janata-investigation-desk}
       - GROQ_API_KEY=${GROQ_API_KEY:-}
