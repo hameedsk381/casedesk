@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getServerLang } from '@/lib/i18n/serverLang';
 
 export const dynamic = 'force-dynamic';
 
@@ -118,7 +119,7 @@ export default async function AccountabilityPage({
   searchParams: Promise<{ ward?: string | string[]; lang?: string | string[] }>;
 }) {
   const params = await searchParams;
-  const lang: Lang = params.lang === 'te' ? 'te' : 'en';
+  const lang: Lang = await getServerLang(params.lang);
   const ward = typeof params.ward === 'string' ? params.ward.slice(0, 50) : undefined;
   const t = T[lang];
   const feed = await loadFeed(ward);
@@ -126,10 +127,13 @@ export default async function AccountabilityPage({
   const href = (opts: { ward?: string; lang: Lang }) => {
     const q = new URLSearchParams();
     if (opts.ward) q.set('ward', opts.ward);
-    if (opts.lang === 'te') q.set('lang', 'te');
     const s = q.toString();
     return `/accountability${s ? `?${s}` : ''}`;
   };
+
+  // Language toggles go through /api/lang so the choice is remembered site-wide.
+  const switchLang = (next: Lang) =>
+    `/api/lang?lang=${next}&next=${encodeURIComponent(href({ ward, lang }))}`;
 
   return (
     <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
@@ -137,8 +141,8 @@ export default async function AccountabilityPage({
         <div className="flex items-center justify-between gap-3 text-xs font-semibold">
           <Link href="/" className="text-muted-foreground hover:text-primary">← {t.back}</Link>
           <div className="flex gap-3">
-            <Link href={href({ ward, lang: 'en' })} className={lang === 'en' ? 'text-primary' : 'text-muted-foreground'}>EN</Link>
-            <Link href={href({ ward, lang: 'te' })} className={lang === 'te' ? 'text-primary' : 'text-muted-foreground'}>తె</Link>
+            <Link href={switchLang('en')} className={lang === 'en' ? 'text-primary' : 'text-muted-foreground'}>EN</Link>
+            <Link href={switchLang('te')} className={lang === 'te' ? 'text-primary' : 'text-muted-foreground'}>తె</Link>
           </div>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-primary">{t.title}</h1>

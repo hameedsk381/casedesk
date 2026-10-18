@@ -37,14 +37,22 @@ interface EndpointConfig {
 interface Props {
   endpoint: EndpointConfig;
   initialWard?: string;
+  initialLang?: Language;
 }
 
 type ViewState = 'landing' | 'form';
 type Language = 'en' | 'te';
 
-export function CitizenLandingPage({ endpoint, initialWard }: Props) {
+export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en' }: Props) {
   const [view, setView] = useState<ViewState>('landing');
-  const [lang, setLang] = useState<Language>('en');
+  const [lang, setLangState] = useState<Language>(initialLang);
+  // Remember the choice (read server-side by every page) for a year.
+  const setLang = (next: Language) => {
+    setLangState(next);
+    try {
+      document.cookie = `lang=${next}; path=/; max-age=31536000; samesite=lax${location.protocol === 'https:' ? '; secure' : ''}`;
+    } catch {}
+  };
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [trackingCode, setTrackingCode] = useState('');
   const [lookupResult, setLookupResult] = useState<any>(null);

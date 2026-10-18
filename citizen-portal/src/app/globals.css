@@ -110,7 +110,7 @@
   --color-popover-foreground: hsl(var(--popover-foreground));
 
   /* Font families — Tailwind reads these; Next.js font loader sets the underlying vars */
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-inter), var(--font-telugu), system-ui, -apple-system, sans-serif;
 
   /* Border radius */
   --radius-xs: 2px;
