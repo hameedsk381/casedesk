@@ -26,6 +26,8 @@ services:
       - SMTP_FROM=${SMTP_FROM:-Open Vaartha CaseDesk <no-reply@openvaartha.com>}
       - WORKSPACE_NOTIFY_EMAIL=${WORKSPACE_NOTIFY_EMAIL:-}
       - CRON_SECRET=${CRON_SECRET:-}
+      - SIGNUP_ENABLED=${SIGNUP_ENABLED:-false}
+      - ALLOWED_SIGNUP_EMAILS=${ALLOWED_SIGNUP_EMAILS:-}
     # No external ports — access via Docker network only
     volumes:
       - casedesk-uploads:/app/uploads

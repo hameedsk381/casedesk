@@ -5,9 +5,14 @@ import { hashPassword } from '@/lib/auth/password';
 import { createSessionToken, setSessionCookie } from '@/lib/auth/session';
 import { isMailConfigured, sendWelcomeEmail } from '@/lib/mailer';
 import { rateLimit, getClientIp } from '@/lib/rateLimit';
+import { isSignupEnabled, isEmailAllowedToSignUp, validatePassword } from '@/lib/auth/signupPolicy';
 
 export async function POST(request: Request) {
   try {
+    if (!isSignupEnabled()) {
+      return NextResponse.json({ error: 'Signup is closed. Ask your administrator for an account.' }, { status: 403 });
+    }
+
     // Throttle account creation: 5 signups per hour per IP
     const rl = rateLimit(`signup:${getClientIp(request)}`, 5, 60 * 60 * 1000);
     if (!rl.allowed) {
@@ -19,8 +24,19 @@ export async function POST(request: Request) {
 
     const { name, email, password } = await request.json();
 
-    if (!name || !email || !password) {
+    if (typeof name !== 'string' || typeof email !== 'string' || !name.trim() || !email.trim() || !password) {
       return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
+    }
+    if (name.length > 100 || email.length > 254 || !/^[^@ ]+@[^@ ]+[.][^@ ]+$/.test(email.trim())) {
+      return NextResponse.json({ error: 'Please enter a valid name and email address.' }, { status: 400 });
+    }
+    // Checked before the existing-account lookup so the allow-list cannot be probed.
+    if (!isEmailAllowedToSignUp(email)) {
+      return NextResponse.json({ error: 'Signup is by invitation only. Ask your administrator for an account.' }, { status: 403 });
+    }
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      return NextResponse.json({ error: passwordError }, { status: 400 });
     }
 
     const existing = await prisma.user.findUnique({

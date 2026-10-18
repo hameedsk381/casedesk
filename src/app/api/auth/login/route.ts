@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
-import { verifyPassword } from '@/lib/auth/password';
+import { randomUUID } from 'crypto';
+import { hashPassword, verifyPassword } from '@/lib/auth/password';
 import { createSessionToken, setSessionCookie } from '@/lib/auth/session';
 import { rateLimit, getClientIp } from '@/lib/rateLimit';
+
+// Real bcrypt hash of a throwaway value; only used to equalise timing for unknown emails.
+const dummyHash = hashPassword(randomUUID());
 
 export async function POST(request: Request) {
   try {
@@ -21,11 +25,28 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
+    }
+    const normalisedEmail = email.toLowerCase().trim();
+
+    // Per-account throttle on top of the per-IP one, so a distributed guesser
+    // cannot hammer a single account.
+    const accountLimit = rateLimit(`login-email:${normalisedEmail}`, 10, 15 * 60 * 1000);
+    if (!accountLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many sign-in attempts. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(accountLimit.retryAfterSeconds) } }
+      );
+    }
+
     const user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase().trim() },
+      where: { email: normalisedEmail },
     });
 
     if (!user) {
+      // Spend the same time as a real check so response timing does not reveal which emails exist.
+      await verifyPassword(password, await dummyHash);
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 

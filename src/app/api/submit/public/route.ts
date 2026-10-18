@@ -11,6 +11,11 @@ import { getClientIp, rateLimit } from '@/lib/rateLimit';
  */
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+
+// Only workspaces that own an active public submission endpoint may appear here.
+// Endpoints are provisioned by an administrator (not through signup), so a
+// self-registered account's own workspace can never publish onto this page.
+const PUBLIC_WORKSPACE = { submissionEndpoints: { some: { isActive: true } } } as const;
 const MAX_CASES = 500;
 
 function normaliseWard(raw: string | null | undefined): string | null {
@@ -47,6 +52,7 @@ export async function GET(request: Request) {
     const cases = await prisma.case.findMany({
       where: {
         publicationStatus: 'PUBLISHED',
+        workspace: PUBLIC_WORKSPACE,
         createdFromIntakes: { some: { consentToPublish: 'YES' } },
         ...(categoryFilter ? { category: categoryFilter } : {}),
       },
@@ -154,10 +160,10 @@ export async function GET(request: Request) {
     // Site-wide counts (not limited to published cases or the ward filter) so the
     // home page can show real, counted totals. Aggregates only — no content.
     const [received, departmentsAsked, repliedRequests] = await Promise.all([
-      prisma.intakeItem.count({ where: { sourceType: 'WEB_FORM' } }),
-      prisma.responseRequest.count({ where: { status: { not: 'NOT_REQUESTED' } } }),
+      prisma.intakeItem.count({ where: { sourceType: 'WEB_FORM', workspace: PUBLIC_WORKSPACE } }),
+      prisma.responseRequest.count({ where: { status: { not: 'NOT_REQUESTED' }, case: { workspace: PUBLIC_WORKSPACE } } }),
       prisma.responseRequest.findMany({
-        where: { responseReceivedAt: { not: null } },
+        where: { responseReceivedAt: { not: null }, case: { workspace: PUBLIC_WORKSPACE } },
         select: { requestedAt: true, responseReceivedAt: true },
         take: 1000,
       }),

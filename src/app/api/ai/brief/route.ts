@@ -2,12 +2,15 @@ import { NextResponse } from 'next/server';
 import { getAIProvider } from '@/lib/ai';
 import { getCaseById } from '@/lib/cases/service';
 import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
+import { aiRateLimitResponse } from '@/lib/api/aiRateLimit';
 import { unauthorized, forbidden, notFound, insufficientPermissions } from '@/lib/api/guards';
 
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
+    const limited = aiRateLimitResponse(user.id);
+    if (limited) return limited;
     const { caseId } = await request.json();
 
     if (!caseId) {
