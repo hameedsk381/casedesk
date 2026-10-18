@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
 import prisma from '@/lib/db/prisma';
 import { getCurrentUser, hasWorkspaceAccess } from '@/lib/auth/permissions';
-import { getPrivateFilePath } from '@/lib/storage';
+import { openPrivateFileStream, toWebStream } from '@/lib/storage';
 
 export async function GET(
   request: Request,
@@ -34,22 +33,12 @@ export async function GET(
       return NextResponse.json({ error: 'Forbidden: Access denied to this workspace' }, { status: 403 });
     }
 
-    const absolutePath = getPrivateFilePath(attachment.filePath);
-    if (!absolutePath) {
+    const nodeStream = await openPrivateFileStream(attachment.filePath);
+    if (!nodeStream) {
       return NextResponse.json({ error: 'File not found on disk' }, { status: 404 });
     }
 
-    const nodeStream = fs.createReadStream(absolutePath);
-    const webStream = new ReadableStream({
-      start(controller) {
-        nodeStream.on('data', (chunk) => controller.enqueue(chunk));
-        nodeStream.on('end', () => controller.close());
-        nodeStream.on('error', (err) => controller.error(err));
-      },
-      cancel() {
-        nodeStream.destroy();
-      },
-    });
+    const webStream = toWebStream(nodeStream);
 
     return new NextResponse(webStream, {
       headers: {

@@ -40,6 +40,10 @@ services:
       - ENDPOINT_TITLE=${ENDPOINT_TITLE:-}
       # Optional ward auto-detect (boundaries in data/wards.geojson, baked into the image).
       - WARD_PROPERTY=${WARD_PROPERTY:-}
+      # File storage: Google Cloud Storage when GCS_BUCKET is set, local volume otherwise.
+      - GCS_BUCKET=${GCS_BUCKET:-}
+      - GCS_CREDENTIALS_BASE64=${GCS_CREDENTIALS_BASE64:-}
+      - GCS_PREFIX=${GCS_PREFIX:-}
       # Public-facing instance: serves only the citizen API. The staff workspace
       # answers 404 here; your team uses casedesk-staff below.
       - STAFF_APP_ENABLED=false

@@ -145,7 +145,7 @@ export async function handleSubmissionPost(request: Request, slug: string | unde
         const buffer = Buffer.from(await file.arrayBuffer());
         if (!hasAllowedSignature(file, buffer)) return fail('The file contents do not match its declared type.', 415);
 
-        const saved = await savePrivateUpload({ buffer, subDirectory: 'submissions', fileName: file.name });
+        const saved = await savePrivateUpload({ buffer, subDirectory: 'submissions', fileName: file.name, contentType: file.type });
         uploadedFiles.push({
           fileName: file.name,
           filePath: saved.relativePath,

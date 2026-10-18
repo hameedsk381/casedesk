@@ -2,7 +2,7 @@ import prisma from '../db/prisma';
 import { triageIntakeItem } from '../intake/triage';
 import { detectDuplicateIntake } from '../intake/duplicateDetector';
 import { transcribeAudioWithGroq } from '../ai/groq';
-import { getPrivateFilePath } from '../storage';
+import { withPrivateFileOnDisk } from '../storage';
 
 const MAX_CONCURRENCY = 2;
 const STALE_LOCK_MS = 10 * 60 * 1000;
@@ -120,11 +120,10 @@ async function processIntakeItem(intakeItemId: string): Promise<void> {
   const audio = item.attachments.find((attachment) => attachment.type === 'AUDIO' || attachment.mimeType?.startsWith('audio/'));
   if (!transcription && audio) {
     try {
-      const path = getPrivateFilePath(audio.filePath);
-      if (path) {
-        const result = await withRetry(() => transcribeAudioWithGroq(path, item.preferredLanguage === 'Telugu' ? 'te' : 'en'));
-        if (result) { transcription = result; if (!story || story.startsWith('Voice dispatch')) story = result; }
-      }
+      const result = await withRetry(() => withPrivateFileOnDisk(audio.filePath, (filePath) =>
+        transcribeAudioWithGroq(filePath, item.preferredLanguage === 'Telugu' ? 'te' : 'en')
+      ));
+      if (result) { transcription = result; if (!story || story.startsWith('Voice dispatch')) story = result; }
     } catch (error) { console.warn(`Voice transcription failed for intake ${item.id}:`, error); }
   }
 

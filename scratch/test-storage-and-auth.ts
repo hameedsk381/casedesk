@@ -1,28 +1,34 @@
 import {
   savePrivateUpload,
-  getPrivateFilePath,
+  privateFileExists,
+  openPrivateFileStream,
+  withPrivateFileOnDisk,
   deletePrivateFile,
-  UPLOAD_BASE_DIR,
+  storageDriverName,
 } from '../src/lib/storage';
 import {
   hasWorkspaceAccess,
   canUser,
 } from '../src/lib/auth/permissions';
 import { createSessionToken, verifySessionToken } from '../src/lib/auth/session';
-import fs from 'fs';
-import path from 'path';
+
+async function readAll(stream: NodeJS.ReadableStream | null): Promise<string> {
+  if (!stream) return '';
+  const chunks: Buffer[] = [];
+  for await (const chunk of stream) chunks.push(Buffer.from(chunk as Buffer));
+  return Buffer.concat(chunks).toString('utf8');
+}
 
 async function runTests() {
   console.log('--- Phase 1 Verification Tests ---');
 
-  // 1. Test Storage Directory is outside public/
-  console.log(`[Storage] Base directory: ${UPLOAD_BASE_DIR}`);
-  const isOutsidePublic = !UPLOAD_BASE_DIR.includes(path.join('public', 'uploads'));
-  console.log(`[Storage] Outside public web root: ${isOutsidePublic ? 'PASS' : 'FAIL'}`);
+  // 1. Which storage driver is active (set GCS_BUCKET to test Google Cloud Storage)
+  console.log('[Storage] Driver: ' + storageDriverName());
 
   // 2. Test Path Traversal Protection
-  const traversalAttempt = getPrivateFilePath('../../secret.txt');
-  console.log(`[Security] Traversal attempt blocked: ${traversalAttempt === null ? 'PASS' : 'FAIL'}`);
+  const traversalAttempts = ['../../secret.txt', '/etc/passwd', 'a/../../b', 'a\b', ''];
+  const blocked = (await Promise.all(traversalAttempts.map((p) => privateFileExists(p)))).every((exists) => exists === false);
+  console.log('[Security] Traversal attempts blocked: ' + (blocked ? 'PASS' : 'FAIL'));
 
   // 3. Test Private Upload Save & Read
   const testBuffer = Buffer.from('Sensitive investigative whistleblower testimony 2026');
@@ -30,17 +36,21 @@ async function runTests() {
     buffer: testBuffer,
     subDirectory: 'test_submissions',
     fileName: 'leaked_records.pdf',
+    contentType: 'application/pdf',
   });
 
-  console.log(`[Storage] File saved at relative path: ${saved.relativePath}`);
-  const resolvedPath = getPrivateFilePath(saved.relativePath);
-  const fileExists = resolvedPath ? fs.existsSync(resolvedPath) : false;
-  console.log(`[Storage] File verified on disk: ${fileExists ? 'PASS' : 'FAIL'}`);
+  console.log('[Storage] File saved at relative path: ' + saved.relativePath);
+  const fileExists = await privateFileExists(saved.relativePath);
+  console.log('[Storage] File exists after save: ' + (fileExists ? 'PASS' : 'FAIL'));
+  const roundTrip = await readAll(await openPrivateFileStream(saved.relativePath));
+  console.log('[Storage] Stream returns the saved content: ' + (roundTrip === testBuffer.toString() ? 'PASS' : 'FAIL'));
+  const viaDisk = await withPrivateFileOnDisk(saved.relativePath, async (filePath) => (await import('fs')).readFileSync(filePath, 'utf8'));
+  console.log('[Storage] On-disk copy for tools matches: ' + (viaDisk === testBuffer.toString() ? 'PASS' : 'FAIL'));
 
   // 4. Test File Cleanup
   const deleted = await deletePrivateFile(saved.relativePath);
-  const stillExists = resolvedPath ? fs.existsSync(resolvedPath) : false;
-  console.log(`[Storage] File securely unlinked: ${deleted && !stillExists ? 'PASS' : 'FAIL'}`);
+  const stillExists = await privateFileExists(saved.relativePath);
+  console.log('[Storage] File deleted: ' + (deleted && !stillExists ? 'PASS' : 'FAIL'));
 
   // 5. Test Auth Tokens
   const token = await createSessionToken({

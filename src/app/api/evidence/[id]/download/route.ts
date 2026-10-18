@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
 import { getEvidenceFilePath } from '@/lib/evidence/service';
+import { openPrivateFileStream, toWebStream } from '@/lib/storage';
 import { getCurrentUser, hasWorkspaceAccess } from '@/lib/auth/permissions';
 
 export async function GET(
@@ -26,17 +26,11 @@ export async function GET(
     }
 
     // Stream file without loading entire file into memory
-    const nodeStream = fs.createReadStream(fileInfo.absolutePath);
-    const webStream = new ReadableStream({
-      start(controller) {
-        nodeStream.on('data', (chunk) => controller.enqueue(chunk));
-        nodeStream.on('end', () => controller.close());
-        nodeStream.on('error', (err) => controller.error(err));
-      },
-      cancel() {
-        nodeStream.destroy();
-      },
-    });
+    const nodeStream = await openPrivateFileStream(fileInfo.relativePath);
+    if (!nodeStream) {
+      return NextResponse.json({ error: 'File not found on server' }, { status: 404 });
+    }
+    const webStream = toWebStream(nodeStream);
 
     return new NextResponse(webStream, {
       headers: {

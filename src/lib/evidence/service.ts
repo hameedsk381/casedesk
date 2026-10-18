@@ -1,7 +1,7 @@
 import prisma from '../db/prisma';
 import {
   savePrivateUpload,
-  getPrivateFilePath,
+  privateFileExists,
   deletePrivateFile,
 } from '../storage';
 
@@ -31,6 +31,7 @@ export async function saveEvidenceFile(params: {
     buffer: params.fileBuffer,
     subDirectory,
     fileName: params.originalFilename,
+    contentType: params.mimeType,
   });
 
   // Determine evidence type from mimeType
@@ -92,13 +93,11 @@ export async function getEvidenceFilePath(evidenceId: string) {
 
   if (!evidence) return null;
 
-  const absolutePath = getPrivateFilePath(evidence.filePath);
-  if (!absolutePath) {
+  if (!(await privateFileExists(evidence.filePath))) {
     return null;
   }
 
   return {
-    absolutePath,
     relativePath: evidence.filePath,
     filename: evidence.name,
     mimeType: evidence.mimeType,
@@ -125,7 +124,7 @@ export async function deleteEvidence(evidenceId: string, userId: string) {
     throw new Error('Evidence not found');
   }
 
-  // Delete from disk
+  // Delete the stored file (disk or cloud bucket)
   await deletePrivateFile(evidence.filePath);
 
   await prisma.evidence.delete({

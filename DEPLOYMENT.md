@@ -88,3 +88,35 @@ PORTAL_URL=https://<portal domain> \nSTAFF_URL=https://<staff domain> \nCASEDESK
 ```
 
 It checks the portal, privacy notice, tracker, endpoint, consent and upload validation, tracking, the public feed, QR codes, and (optionally) the staff gate and escalation endpoint, then prints a manual checklist for the staff workflow. Set `PRIVACY_CONTACT_EMAIL` first or the privacy check will fail by design.
+
+## File storage (Google Cloud Storage)
+
+Attachments and evidence go to a private Google Cloud Storage bucket when `GCS_BUCKET` is set; without it they stay on the local `casedesk-uploads` volume.
+
+1. Create a **private** bucket (uniform bucket-level access on, public access prevented), in a region close to your users (for example `asia-south1`).
+2. Create a service account and grant it **Storage Object Admin on that bucket only**. Create a JSON key for it.
+3. Base64-encode the key in one line and put it in Dokploy's environment, then delete the key file from your computer:
+   ```bash
+   base64 -w0 service-account.json     # macOS: base64 -i service-account.json
+   ```
+   ```
+   GCS_BUCKET=<bucket name>
+   GCS_CREDENTIALS_BASE64=<the output above>
+   GCS_PREFIX=casedesk                 # optional folder inside the bucket
+   ```
+4. **Erasure and soft delete.** New GCS buckets keep deleted objects for a "soft delete" period (7 days by default). Erased reports' files stay recoverable in that window. Either set the bucket's soft-delete retention to 0 days, or state the delay in your privacy notice. Do not enable object versioning on this bucket.
+5. The logs show `[storage] Using Google Cloud Storage bucket "<name>"` at the first upload. The smoke test's image upload (`npm run smoke`) confirms writes work.
+6. Backups: with GCS the bucket holds the files, so `scripts/backup-production.sh` (which archives the local uploads volume) is no longer relevant for them. Back up the MySQL database separately; the files in the bucket are only useful together with the database rows that point to them.
+
+Files are only ever served through the authenticated download routes, never through public bucket URLs.
+
+## Erasing a report (privacy requests)
+
+Staff with delete permission (OWNER/ADMIN) can permanently erase a report with its files:
+
+- A case, with every linked citizen report, attachment and evidence file:
+  `DELETE /api/cases/<id>` with body `{"confirm": "<case number>"}`
+- A report that never became a case:
+  `DELETE /api/intake/<id>` with body `{"confirm": "<reference number>"}`
+
+Files are deleted first; if any file cannot be deleted nothing is removed from the database, so the call can be retried. The action is logged (reference or case number and counts only). There is no button for this in the staff screens yet.

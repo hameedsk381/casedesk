@@ -10,6 +10,7 @@
     "test:auth": "node scripts/check-auth-coverage.mjs"
   },
   "dependencies": {
+    "@google-cloud/storage": "^7.17.0",
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^2.4.3",
     "groq-sdk": "^1.6.0",

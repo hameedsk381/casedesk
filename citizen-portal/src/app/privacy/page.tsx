@@ -54,6 +54,7 @@ const CONTENT = {
           'We use an AI service (Groq) to transcribe voice recordings and to help sort and summarise reports. The text or audio of your report is sent to that service for this purpose.',
           'A person at Open Vaartha reviews reports; the AI does not decide what is published.',
           'Our team may receive an email alert that a new report arrived.',
+          'Photos, recordings and documents you attach are stored with Google Cloud (Google Cloud Storage) on our behalf, in private storage that only our systems can read.',
         ],
       },
       {
@@ -120,6 +121,7 @@ const CONTENT = {
           'వాయిస్ రికార్డింగ్‌లను అక్షరాల్లోకి మార్చడానికి, ఫిర్యాదులను వర్గీకరించి సారాంశం రాయడానికి మేము AI సేవ (Groq) వాడతాము. ఇందుకు మీ ఫిర్యాదు వచనం లేదా ఆడియో ఆ సేవకు పంపబడుతుంది.',
           'ఓపెన్ వార్తాలో ఒక వ్యక్తి ఫిర్యాదులను పరిశీలిస్తారు; ఏది ప్రచురించాలో AI నిర్ణయించదు.',
           'కొత్త ఫిర్యాదు వచ్చినట్లు మా బృందానికి ఈమెయిల్ హెచ్చరిక వెళ్లవచ్చు.',
+          'మీరు జతచేసే ఫోటోలు, రికార్డింగ్‌లు, పత్రాలు మా తరపున Google Cloud (Google Cloud Storage) లో ప్రైవేట్‌గా నిల్వ అవుతాయి; అవి మా వ్యవస్థలు మాత్రమే చదవగలవు.',
         ],
       },
       {
