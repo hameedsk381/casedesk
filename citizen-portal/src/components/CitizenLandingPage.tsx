@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import {
   Megaphone,
   Lock,
@@ -23,6 +24,15 @@ import {
 } from 'lucide-react';
 import { CitizenSubmissionForm } from './CitizenSubmissionForm';
 import { ProofSection } from './ProofSection';
+import {
+  IllustrationShare,
+  IllustrationReview,
+  IllustrationDepartment,
+  IllustrationTracker,
+  IllustrationWard,
+  IllustrationPrivacy,
+  IllustrationSkyline,
+} from './illustrations';
 import type { PublicProof } from '@/lib/publicFeed';
 
 interface EndpointConfig {
@@ -173,14 +183,14 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
         <div className="absolute -top-24 -right-20 h-72 w-72 rounded-full bg-primary/[0.06] blur-3xl" />
         <div className="absolute -bottom-28 -left-16 h-72 w-72 rounded-full bg-secondary/35 blur-3xl" />
 
-        <div className="relative max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] items-center gap-10 px-4 sm:px-6 pt-10 pb-12 sm:pt-20 sm:pb-20">
-          <div className="space-y-6 text-center lg:text-left">
+        <div className="relative max-w-5xl mx-auto flex flex-col gap-10 sm:gap-12 px-4 sm:px-6 pt-10 pb-12 sm:pt-16 sm:pb-16">
+          <div className="space-y-6 text-center mx-auto max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success-subtle border border-success/20 text-success text-xs font-bold">
               <Megaphone size={13} />
               <span>{lang === 'te' ? 'మున్సిపల్ ఎన్నికల వేళ: మీ వార్డు సమస్యలు' : 'Municipal elections: put your ward on record'}</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary leading-[1.02] tracking-tight max-w-xl">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary leading-[1.02] tracking-tight max-w-xl mx-auto">
               {lang === 'te' ? (
                 <>మీ వార్డు. మీ సమస్యలు.<br /><span className="text-primary/60">రికార్డులో.</span></>
               ) : (
@@ -188,13 +198,13 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
               )}
             </h1>
 
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0">
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto">
               {lang === 'te'
                 ? 'రోడ్లు, నీరు, డ్రైనేజీ, వీధి దీపాలు, సేవలు — మీ వార్డులో ఏది సరిగా లేదో చెప్పండి. ఏ శాఖ స్పందిస్తుందో, ఏది స్పందించదో మేము నమోదు చేస్తాము. ఈ సేవ స్వతంత్రమైనది; ఏ పార్టీకి లేదా అభ్యర్థికి మద్దతు ఇవ్వదు.'
                 : 'Roads, water, drains, streetlights, services — tell us what is broken in your ward. We track which departments respond and which do not. This helpdesk is independent and does not support any party or candidate.'}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 max-w-md mx-auto lg:mx-0">
+            <div className="flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto">
               <button
                 onClick={() => setView('form')}
                 className="w-full group py-4 px-6 bg-primary hover:bg-primary-hover text-white font-bold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.97]"
@@ -212,7 +222,7 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
               </button>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 text-xs font-medium text-muted-foreground">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-muted-foreground">
               {[
                 lang === 'te' ? 'అనామకంగా పంపవచ్చు' : 'Anonymous option',
                 lang === 'te' ? 'తెలుగు & English' : 'Telugu & English',
@@ -229,54 +239,25 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
             </a>
           </div>
 
-          <div className="relative max-w-md w-full mx-auto lg:ml-auto">
+          <div className="relative w-full">
             <div className="absolute -inset-3 rounded-[2rem] bg-primary/[0.07] blur-2xl" />
-            <div className="relative overflow-hidden rounded-3xl bg-primary p-5 sm:p-7 text-white shadow-xl shadow-primary/20">
-              <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-white/10" />
-              <div className="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-secondary/10 blur-2xl" />
-
-              <div className="relative space-y-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">
-                      {lang === 'te' ? 'ఇది సులభం' : 'It only takes a minute'}
-                    </div>
-                    <h2 className="mt-2 text-2xl font-black leading-tight">
-                      {lang === 'te' ? 'మీ సమస్యను రికార్డ్ చేయండి' : 'Record what happened'}
-                    </h2>
-                  </div>
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-primary shadow-lg">
-                    <Mic size={21} />
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setView('form')}
-                  className="group flex w-full items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 text-left transition hover:bg-white/15 cursor-pointer active:scale-[0.98]"
-                >
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-primary shadow-md group-hover:scale-105 transition-transform">
-                    <Mic size={22} />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-bold">{lang === 'te' ? 'మైక్ నొక్కి మాట్లాడండి' : 'Tap to record your voice'}</span>
-                    <span className="mt-0.5 block text-xs text-secondary">{lang === 'te' ? 'లేదా టైప్ చేయండి' : 'Or type your report instead'}</span>
-                  </span>
-                  <ArrowRight size={18} className="shrink-0 text-secondary group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                <div className="flex items-center gap-1.5" aria-hidden="true">
-                  {[20, 32, 46, 28, 38, 24, 42, 30, 18, 35, 25, 44, 22, 32, 18].map((height, i) => (
-                    <span key={i} className="h-10 flex-1 rounded-full bg-secondary/70" style={{ height: `${height}%` }} />
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-3 gap-2 border-t border-white/15 pt-4 text-center">
-                  <div><div className="text-sm font-black">01</div><div className="mt-0.5 text-[10px] text-secondary">{lang === 'te' ? 'చెప్పండి' : 'Tell us'}</div></div>
-                  <div><div className="text-sm font-black">02</div><div className="mt-0.5 text-[10px] text-secondary">{lang === 'te' ? 'పరిశీలన' : 'We review'}</div></div>
-                  <div><div className="text-sm font-black">03</div><div className="mt-0.5 text-[10px] text-secondary">{lang === 'te' ? 'చర్య' : 'We follow up'}</div></div>
-                </div>
-              </div>
-            </div>
+            {/* Pre-optimised WebP (80 KB / 31 KB), so a plain img with srcSet avoids needing the image optimizer. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hero-civic-reporting.webp"
+              srcSet="/hero-civic-reporting-836.webp 836w, /hero-civic-reporting.webp 1672w"
+              sizes="(min-width: 1024px) 1024px, 100vw"
+              width={1672}
+              height={941}
+              alt={
+                lang === 'te'
+                  ? 'ఒక పౌరుడు ఫోన్‌లో సమస్యను నమోదు చేస్తున్నారు; అది మున్సిపల్ కార్యాలయానికి చేరి, అక్కడ ఒక అధికారి దాన్ని పరిశీలిస్తున్నారు'
+                  : 'A resident reports a local problem from their phone; the report reaches a municipal office where an officer reviews it'
+              }
+              fetchPriority="high"
+              decoding="async"
+              className="relative h-auto w-full rounded-3xl border border-border bg-card shadow-xl shadow-primary/10"
+            />
           </div>
         </div>
       </section>
@@ -308,12 +289,12 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
           </div>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {steps.map((s, i) => {
-              const Icon = s.icon;
+              const Art = [IllustrationShare, IllustrationReview, IllustrationDepartment, IllustrationTracker][i];
               return (
-                <div key={i} className="relative rounded-2xl border border-white/15 bg-white/[0.07] p-5 backdrop-blur-sm">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-primary"><Icon size={19} /></div>
-                    <span className="text-3xl font-black text-white/20">{s.n}</span>
+                <div key={i} className="relative rounded-2xl border border-white/15 bg-white/[0.07] p-4 backdrop-blur-sm">
+                  <div className="relative rounded-xl bg-card/95 p-2">
+                    <Art className="h-auto w-full" />
+                    <span className="absolute left-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-black text-white">{s.n}</span>
                   </div>
                   <h3 className="mt-5 text-sm font-bold">{s.title}</h3>
                   <p className="mt-2 text-xs leading-relaxed text-secondary">{s.desc}</p>
@@ -334,6 +315,7 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
             <button onClick={() => setView('form')} className="touch-target inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-hover cursor-pointer group">
               {lang === 'te' ? 'మీ సమస్య చెప్పండి' : 'Share your experience'} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
+            <IllustrationWard className="mt-6 h-auto w-full max-w-md" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {features.map((f, i) => {
@@ -381,7 +363,8 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
       {/* ── PRIVACY PROMISE ── */}
       <section className="px-4 sm:px-6 py-16 sm:py-24">
         <div className="max-w-5xl mx-auto rounded-3xl border-2 border-foreground bg-secondary/40 p-6 sm:p-10 shadow-[5px_5px_0_hsl(var(--primary))]">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] lg:grid-cols-[auto_1fr_auto] gap-8 items-center">
+            <IllustrationPrivacy className="mx-auto h-36 w-auto md:hidden lg:block lg:h-44" />
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-primary"><Lock size={18} /><span className="text-xs font-bold uppercase tracking-[0.16em]">{lang === 'te' ? 'మీ భద్రత మొదట' : 'Your safety comes first'}</span></div>
               <h2 className="text-2xl sm:text-3xl font-black text-primary">{lang === 'te' ? 'మీ పేరు చెప్పాల్సిన అవసరం లేదు.' : 'You do not have to reveal your name.'}</h2>
@@ -399,6 +382,7 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
         <div className="max-w-5xl mx-auto relative overflow-hidden rounded-3xl bg-primary p-8 sm:p-12 text-white">
           <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full border border-white/10" />
           <div className="absolute -bottom-24 -left-12 h-56 w-56 rounded-full bg-secondary/10 blur-3xl" />
+          <IllustrationSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-28 w-full text-white/[0.07]" />
           <div className="relative max-w-2xl space-y-5">
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-secondary">{lang === 'te' ? 'మీ గొంతు ముఖ్యం' : 'Your voice matters'}</span>
             <h2 className="text-3xl sm:text-5xl font-black leading-[1.02]">{lang === 'te' ? 'చెప్పండి. ట్రాక్ చేయండి. ఎవరు స్పందిస్తారో చూడండి.' : 'Report it. Track it. See who answers.'}</h2>
@@ -423,7 +407,7 @@ export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality,
               <button onClick={() => setView('form')} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'ఫిర్యాదు పంపండి' : 'Submit a report'}</button>
               <button onClick={() => setShowStatusModal(true)} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'స్థితి చూడండి' : 'Track a report'}</button>
               <a href={`/accountability?lang=${lang}`} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary">{lang === 'te' ? 'బహిరంగ జవాబుదారీ పట్టిక' : 'Public accountability tracker'}</a>
-              <a href="/privacy" className="touch-target flex items-center gap-1.5 font-semibold text-muted-foreground hover:text-primary"><Lock size={12} className="text-success" />{lang === 'te' ? 'గోప్యతా ప్రకటన' : 'Privacy notice'}</a>
+              <Link href="/privacy" className="touch-target flex items-center gap-1.5 font-semibold text-muted-foreground hover:text-primary"><Lock size={12} className="text-success" />{lang === 'te' ? 'గోప్యతా ప్రకటన' : 'Privacy notice'}</Link>
               <span className="flex items-center gap-1.5 text-muted-foreground"><CheckCircle2 size={12} className="text-success" />{lang === 'te' ? 'స్వతంత్ర పరిశీలన' : 'Independent review'}</span>
             </div>
           </div>

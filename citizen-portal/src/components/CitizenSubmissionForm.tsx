@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { CIVIC_CATEGORIES } from '../lib/contracts/intake';
 import { useAudioRecorder } from '../hooks/useAudioRecorder';
+import { IllustrationSuccess } from './illustrations';
 
 interface EndpointData {
   slug: string;
@@ -351,9 +352,7 @@ export function CitizenSubmissionForm({ endpoint, lang, onBackToSelect, initialW
     return (
       <div className="bg-card rounded-2xl p-6 sm:p-10 border border-border shadow-sm space-y-6 animate-slide-up" aria-live="polite">
         <div className="text-center space-y-3 max-w-md mx-auto">
-          <div className="w-14 h-14 rounded-full bg-success-subtle text-success flex items-center justify-center mx-auto">
-            <CheckCircle2 size={28} />
-          </div>
+          <IllustrationSuccess className="mx-auto h-32 w-auto" />
           <h1 className="text-xl sm:text-2xl font-black tracking-tight text-primary">{t('Thank you — we have your report', 'ధన్యవాదాలు — మీ ఫిర్యాదు అందింది')}</h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             {t('Keep this code. You can use it to check progress at any time.', 'ఈ కోడ్‌ను భద్రపరచండి. పురోగతి చూడటానికి ఎప్పుడైనా వాడవచ్చు.')}

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getServerLang } from '@/lib/i18n/serverLang';
+import { IllustrationPrivacy } from '@/components/illustrations';
 
 export const dynamic = 'force-dynamic';
 
@@ -158,7 +159,8 @@ export default async function PrivacyPage() {
 
   return (
     <main className="max-w-3xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
-      <header className="space-y-3">
+      <header className="relative space-y-3">
+        <IllustrationPrivacy className="pointer-events-none absolute right-0 top-8 hidden h-36 w-auto sm:block" />
         <div className="flex items-center justify-between text-xs font-semibold">
           <Link href="/" className="text-muted-foreground hover:text-primary">← {t.back}</Link>
           <div className="flex gap-3">

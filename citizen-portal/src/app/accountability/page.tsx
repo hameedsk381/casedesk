@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getServerLang } from '@/lib/i18n/serverLang';
+import { IllustrationEmpty, IllustrationTracker } from '@/components/illustrations';
 
 export const dynamic = 'force-dynamic';
 
@@ -146,7 +147,8 @@ export default async function AccountabilityPage({
 
   return (
     <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
-      <header className="space-y-3">
+      <header className="relative space-y-3">
+        <IllustrationTracker className="pointer-events-none absolute right-0 top-10 hidden h-40 w-auto md:block" />
         <div className="flex items-center justify-between gap-3 text-xs font-semibold">
           <Link href="/" className="text-muted-foreground hover:text-primary">← {t.back}</Link>
           <div className="flex gap-3">
@@ -225,7 +227,10 @@ export default async function AccountabilityPage({
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-primary">{t.cases}</h2>
             {feed.cases.length === 0 ? (
-              <p className="rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground">{t.none}</p>
+              <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-8 text-center">
+                <IllustrationEmpty className="h-32 w-auto" />
+                <p className="text-sm text-muted-foreground">{t.none}</p>
+              </div>
             ) : (
               <ul className="space-y-3">
                 {feed.cases.map((c) => (

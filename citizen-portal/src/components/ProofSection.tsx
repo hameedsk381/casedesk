@@ -1,4 +1,5 @@
 import { ArrowRight, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { IllustrationEmpty } from './illustrations';
 import type { PublicProof } from '@/lib/publicFeed';
 
 type Lang = 'en' | 'te';
@@ -66,6 +67,8 @@ export function ProofSection({ proof, lang }: { proof: PublicProof | null; lang:
           <h2 className="text-3xl sm:text-4xl font-black leading-tight text-primary">{t.title}</h2>
           <p className="text-xs leading-relaxed text-muted-foreground">{hasData ? t.live : t.noneYet}</p>
         </div>
+
+        {!hasData && <IllustrationEmpty className="h-32 w-auto" />}
 
         {hasData && proof && (
           <>
