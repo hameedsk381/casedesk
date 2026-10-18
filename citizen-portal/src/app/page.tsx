@@ -29,12 +29,17 @@ async function getEndpoint() {
   };
 }
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ ward?: string | string[] }>;
+}) {
+  const { ward } = await searchParams;
   const endpoint = await getEndpoint();
 
   return (
     <div className="w-full flex-1 flex flex-col">
-      <CitizenLandingPage endpoint={endpoint} />
+      <CitizenLandingPage endpoint={endpoint} initialWard={typeof ward === 'string' ? ward.slice(0, 50) : undefined} />
     </div>
   );
 }

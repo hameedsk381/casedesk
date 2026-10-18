@@ -53,13 +53,17 @@ export function useAudioRecorder(onAudioReady?: (file: File) => void): AudioReco
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        // Safari records mp4/AAC; Chrome/Firefox record webm/ogg. Use what the recorder produced.
+        const recorded = (mediaRecorder.mimeType || 'audio/webm').split(';')[0].toLowerCase();
+        const mimeType = ['audio/mp4', 'audio/ogg', 'audio/webm'].includes(recorded) ? recorded : 'audio/webm';
+        const extension = mimeType === 'audio/mp4' ? 'm4a' : mimeType === 'audio/ogg' ? 'ogg' : 'webm';
+        const blob = new Blob(audioChunksRef.current, { type: mimeType });
         setAudioBlob(blob);
         const url = URL.createObjectURL(blob);
         setAudioUrl(url);
 
-        const voiceFile = new File([blob], `voice-recording-${Date.now()}.webm`, {
-          type: 'audio/webm',
+        const voiceFile = new File([blob], `voice-recording-${Date.now()}.${extension}`, {
+          type: mimeType,
         });
         if (onAudioReady) {
           onAudioReady(voiceFile);

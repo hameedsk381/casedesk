@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getClientIp } from '@/lib/security';
+import { getClientIp, hasExceededContentLength } from '@/lib/security';
 
 // Same-origin proxy: forwards /api/submit/* from the citizen portal to the
 // CaseDesk app over the internal network. Citizens' browsers only ever talk
@@ -9,6 +9,34 @@ const INTERNAL_API_URL =
   process.env.INTERNAL_CASEDESK_URL ||
   process.env.NEXT_PUBLIC_CASEDESK_API_URL ||
   'http://localhost:3000';
+
+const MAX_BODY_BYTES = 35 * 1024 * 1024;
+
+// Streams the body and aborts once the cap is exceeded, so chunked uploads
+// (no Content-Length) cannot exhaust memory.
+async function readLimitedBody(request: Request, maxBytes: number): Promise<Uint8Array<ArrayBuffer> | null> {
+  if (!request.body) return new Uint8Array(0);
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > maxBytes) {
+      await reader.cancel();
+      return null;
+    }
+    chunks.push(value);
+  }
+  const out = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    out.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return out;
+}
 
 async function forward(request: Request, path: string[]): Promise<Response> {
   if (!['GET', 'POST'].includes(request.method)) {
@@ -29,7 +57,10 @@ async function forward(request: Request, path: string[]): Promise<Response> {
   if (clientIp !== 'unknown') headers['x-forwarded-for'] = clientIp;
 
   const hasBody = request.method !== 'GET' && request.method !== 'HEAD';
-  const body = hasBody ? await request.arrayBuffer() : undefined;
+  const tooLarge = () => NextResponse.json({ error: 'Submission request is too large.' }, { status: 413 });
+  if (hasBody && hasExceededContentLength(request, MAX_BODY_BYTES)) return tooLarge();
+  const body = hasBody ? await readLimitedBody(request, MAX_BODY_BYTES) : undefined;
+  if (body === null) return tooLarge();
 
   try {
     const upstream = await fetch(target, {
@@ -45,6 +76,7 @@ async function forward(request: Request, path: string[]): Promise<Response> {
       status: upstream.status,
       headers: {
         'content-type': upstream.headers.get('content-type') || 'application/json',
+        ...(upstream.headers.get('retry-after') ? { 'retry-after': upstream.headers.get('retry-after')! } : {}),
       },
     });
   } catch (err: any) {

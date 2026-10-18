@@ -251,6 +251,8 @@ model ResponseRequest {
   status             String    @default("NOT_REQUESTED") // NOT_REQUESTED, REQUESTED, FOLLOW_UP_REQUIRED, RECEIVED, NO_RESPONSE
   responseText       String?   @db.Text
   responseReceivedAt DateTime?
+  escalationLevel    Int       @default(0) // 0 none, 1 = 7d, 2 = 14d, 3 = 30d without a reply
+  lastEscalatedAt    DateTime?
   notes              String?   @db.Text
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
@@ -366,6 +368,7 @@ model IntakeItem {
   consentToPublish      String             @default("DISCUSS_FIRST") // YES, NO, DISCUSS_FIRST
   endpointSlug          String?
   incidentDate          String?
+  ward                  String?            // Municipal ward reported by the citizen, e.g. "12"
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
   reviewedAt            DateTime?
@@ -386,6 +389,7 @@ model IntakeItem {
   @@index([createdCaseId])
   @@index([duplicateCaseId])
   @@index([referenceNumber])
+  @@index([ward])
 }
 
 // Durable background work for citizen-intake transcription and AI triage.

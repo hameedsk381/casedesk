@@ -36,6 +36,7 @@ interface Props {
   lang: 'en' | 'te';
   setLang: (lang: 'en' | 'te') => void;
   onBackToSelect?: () => void;
+  initialWard?: string;
 }
 
 export function CitizenSubmissionForm({
@@ -43,12 +44,14 @@ export function CitizenSubmissionForm({
   lang,
   setLang,
   onBackToSelect,
+  initialWard,
 }: Props) {
   const [step, setStep] = useState<number>(1);
 
   const [story, setStory] = useState('');
   const [district, setDistrict] = useState('');
   const [town, setTown] = useState('');
+  const [ward, setWard] = useState(initialWard || '');
   const [address, setAddress] = useState('');
   const [incidentDate, setIncidentDate] = useState('');
   const [category, setCategory] = useState('');
@@ -59,9 +62,9 @@ export function CitizenSubmissionForm({
   const [preferredLanguage, setPreferredLanguage] = useState('English');
   const [isAnonymous, setIsAnonymous] = useState(true);
 
-  const [consentAccuracy, setConsentAccuracy] = useState(true);
-  const [consentContact, setConsentContact] = useState(true);
-  const [consentNoGuarantee, setConsentNoGuarantee] = useState(true);
+  const [consentAccuracy, setConsentAccuracy] = useState(false);
+  const [consentContact, setConsentContact] = useState(false);
+  const [consentNoGuarantee, setConsentNoGuarantee] = useState(false);
   const [consentToPublish, setConsentToPublish] = useState<'YES' | 'DISCUSS_FIRST' | 'NO'>('DISCUSS_FIRST');
 
   const [files, setFiles] = useState<File[]>([]);
@@ -134,6 +137,7 @@ export function CitizenSubmissionForm({
       formData.append('story', story);
       if (district) formData.append('district', district);
       if (town) formData.append('town', town);
+      if (ward.trim()) formData.append('ward', ward.trim());
       if (address) formData.append('address', address);
       if (incidentDate) formData.append('incidentDate', incidentDate);
       if (category) formData.append('category', category);
@@ -357,6 +361,12 @@ export function CitizenSubmissionForm({
                 <span className="text-destructive">*</span>
               </label>
               <input type="text" value={town} onChange={(e) => setTown(e.target.value)} placeholder="Tenali, Narasaraopet" className={inputClass} />
+            </div>
+            <div className="sm:col-span-2 space-y-1.5">
+              <label className="text-xs font-bold text-primary">
+                {lang === 'te' ? 'వార్డు / డివిజన్ నంబర్ (ఐచ్ఛికం)' : 'Ward / Division number (Optional)'}
+              </label>
+              <input type="text" value={ward} onChange={(e) => setWard(e.target.value)} maxLength={50} placeholder="12" className={inputClass} />
             </div>
             <div className="sm:col-span-2 space-y-1.5">
               <label className="text-xs font-bold text-primary">

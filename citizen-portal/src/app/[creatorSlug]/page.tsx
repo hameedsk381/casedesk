@@ -6,7 +6,7 @@ const INTERNAL_API_URL = process.env.INTERNAL_CASEDESK_URL || PUBLIC_API_URL;
 
 async function getCreatorEndpoint(slug: string) {
   try {
-    const res = await fetch(`${INTERNAL_API_URL}/api/submit/${slug}`, {
+    const res = await fetch(`${INTERNAL_API_URL}/api/submit/${encodeURIComponent(slug)}`, {
       cache: 'no-store',
     });
     if (res.ok) {
@@ -21,10 +21,13 @@ async function getCreatorEndpoint(slug: string) {
 
 export default async function CreatorPortalPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ creatorSlug: string }>;
+  searchParams: Promise<{ ward?: string | string[] }>;
 }) {
   const { creatorSlug } = await params;
+  const { ward } = await searchParams;
   const endpoint = await getCreatorEndpoint(creatorSlug);
 
   if (!endpoint) {
@@ -51,7 +54,7 @@ export default async function CreatorPortalPage({
 
   return (
     <div className="w-full flex-1 flex flex-col">
-      <CitizenLandingPage endpoint={endpoint} />
+      <CitizenLandingPage endpoint={endpoint} initialWard={typeof ward === 'string' ? ward.slice(0, 50) : undefined} />
     </div>
   );
 }

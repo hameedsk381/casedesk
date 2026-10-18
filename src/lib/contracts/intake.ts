@@ -14,9 +14,10 @@ export const CIVIC_CATEGORIES = [
 
 export const CitizenSubmissionSchema = z.object({
   slug: z.string().optional(),
-  story: z.string().min(1, 'Please describe what happened in your story or voice message.').trim(),
+  story: z.string().min(1, 'Please describe what happened in your story or voice message.').max(20000, 'Your story is too long. Please shorten it.').trim(),
   transcription: z.string().optional(),
   district: z.string().optional(),
+  ward: z.string().max(100, 'Field is too long').optional(),
   town: z.string().optional(),
   address: z.string().optional(),
   incidentDate: z.string().optional(),
@@ -32,9 +33,9 @@ export const CitizenSubmissionSchema = z.object({
     .transform((val) => (val ? val : undefined)),
   preferredLanguage: z.string().optional().default('English'),
   isAnonymous: z.boolean().optional().default(false),
-  consentAccuracy: z.boolean().optional().default(true),
-  consentContact: z.boolean().optional().default(true),
-  consentNoGuarantee: z.boolean().optional().default(true),
+  consentAccuracy: z.boolean().refine((v) => v === true, 'Please confirm the information is true to your knowledge.'),
+  consentContact: z.boolean().optional().default(false),
+  consentNoGuarantee: z.boolean().refine((v) => v === true, 'Please confirm you understand publication is not guaranteed.'),
   consentToPublish: z.string().optional().default('DISCUSS_FIRST'),
   files: z
     .array(

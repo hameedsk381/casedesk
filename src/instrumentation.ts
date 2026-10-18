@@ -7,6 +7,10 @@ export async function register() {
 
   const { processPendingIntakes, startIntakeQueueWorker } = await import('./lib/queue/intakeQueue');
 
+  // Hourly follow-up/escalation of authority responses that have gone unanswered.
+  const { startResponseEscalationTimer } = await import('./lib/escalation/responseEscalation');
+  startResponseEscalationTimer();
+
   const MAX_ATTEMPTS = 5;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {

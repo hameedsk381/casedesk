@@ -17,6 +17,7 @@ export const CitizenSubmissionSchema = z.object({
   story: z.string().min(1, 'Please describe what happened in your story or voice message.').trim(),
   transcription: z.string().optional(),
   district: z.string().optional(),
+  ward: z.string().max(100, 'Field is too long').optional(),
   town: z.string().optional(),
   address: z.string().optional(),
   incidentDate: z.string().optional(),

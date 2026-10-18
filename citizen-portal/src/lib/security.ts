@@ -5,8 +5,10 @@ const MAX_KEYS = 10_000;
 
 export function getClientIp(request: Request): string {
   if (process.env.TRUSTED_PROXY !== 'true') return 'unknown';
+  // The rightmost X-Forwarded-For entry is the one appended by our trusted proxy;
+  // earlier entries are client-supplied and spoofable.
   const candidates = [
-    request.headers.get('x-forwarded-for')?.split(',')[0].trim(),
+    request.headers.get('x-forwarded-for')?.split(',').pop()?.trim(),
     request.headers.get('x-real-ip')?.trim(),
   ];
   return candidates.find((candidate) => candidate && isIP(candidate) !== 0) || 'unknown';

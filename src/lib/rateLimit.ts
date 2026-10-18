@@ -39,7 +39,8 @@ export function getClientIp(request: Request): string {
   if (process.env.TRUSTED_PROXY !== 'true') return 'unknown';
 
   const forwarded = request.headers.get('x-forwarded-for');
-  const candidates = [forwarded?.split(',')[0].trim(), request.headers.get('x-real-ip')?.trim()];
+  // Rightmost entry = appended by the trusted proxy; earlier ones are client-supplied.
+  const candidates = [forwarded?.split(',').pop()?.trim(), request.headers.get('x-real-ip')?.trim()];
   for (const candidate of candidates) {
     if (candidate && isIP(candidate) !== 0) return candidate;
   }

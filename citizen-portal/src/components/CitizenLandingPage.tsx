@@ -36,12 +36,13 @@ interface EndpointConfig {
 
 interface Props {
   endpoint: EndpointConfig;
+  initialWard?: string;
 }
 
 type ViewState = 'landing' | 'form';
 type Language = 'en' | 'te';
 
-export function CitizenLandingPage({ endpoint }: Props) {
+export function CitizenLandingPage({ endpoint, initialWard }: Props) {
   const [view, setView] = useState<ViewState>('landing');
   const [lang, setLang] = useState<Language>('en');
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -94,7 +95,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
           </div>
         </div>
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-4 flex flex-col">
-          <CitizenSubmissionForm endpoint={endpoint} lang={lang} setLang={setLang} onBackToSelect={() => setView('landing')} />
+          <CitizenSubmissionForm endpoint={endpoint} initialWard={initialWard} lang={lang} setLang={setLang} onBackToSelect={() => setView('landing')} />
         </main>
       </div>
     );
@@ -403,6 +404,7 @@ export function CitizenLandingPage({ endpoint }: Props) {
             <div className="grid grid-cols-2 gap-x-12 gap-y-3 text-xs">
               <button onClick={() => setView('form')} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'ఫిర్యాదు పంపండి' : 'Submit a report'}</button>
               <button onClick={() => setShowStatusModal(true)} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary cursor-pointer">{lang === 'te' ? 'స్థితి చూడండి' : 'Track a report'}</button>
+              <a href={`/accountability?lang=${lang}`} className="touch-target text-left font-semibold text-muted-foreground hover:text-primary">{lang === 'te' ? 'బహిరంగ జవాబుదారీ పట్టిక' : 'Public accountability tracker'}</a>
               <span className="flex items-center gap-1.5 text-muted-foreground"><Lock size={12} className="text-success" />{lang === 'te' ? 'గోప్యత రక్షితం' : 'Privacy protected'}</span>
               <span className="flex items-center gap-1.5 text-muted-foreground"><CheckCircle2 size={12} className="text-success" />{lang === 'te' ? 'స్వతంత్ర పరిశీలన' : 'Independent review'}</span>
             </div>

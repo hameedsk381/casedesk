@@ -3,12 +3,21 @@ import { generateIntakeReferenceNumber } from './referenceNumber';
 import { enqueueIntakeTriage } from '../queue/intakeQueue';
 import { isMailConfigured, sendSubmissionNotification } from '../mailer';
 
+/** An error whose message is safe to show to the citizen. */
+export class SubmissionError extends Error {
+  constructor(message: string, public status = 400) {
+    super(message);
+    this.name = 'SubmissionError';
+  }
+}
+
 export interface CitizenSubmissionPayload {
   slug?: string;
   story: string;
   transcription?: string;
   district?: string;
   town?: string;
+  ward?: string;
   address?: string;
   incidentDate?: string;
   category?: string;
@@ -43,7 +52,7 @@ export async function getSubmissionEndpoint(slug?: string, strictSlug = false) {
     if (endpoint && endpoint.isActive) {
       return endpoint;
     }
-    if (strictSlug) throw new Error('Submission endpoint not found or unavailable');
+    if (strictSlug) throw new SubmissionError('Submission endpoint not found or unavailable', 404);
   }
 
   // Fallback to first active endpoint or default workspace
@@ -89,26 +98,27 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
 
   // Validate consent
   if (payload.consentAccuracy === false || payload.consentNoGuarantee === false) {
-    throw new Error('Mandatory consent confirmation required before submission.');
+    throw new SubmissionError('Mandatory consent confirmation required before submission.');
   }
   if (!endpoint.allowAnonymous && (payload.isAnonymous || (!payload.senderPhone?.trim() && !payload.senderEmail?.trim()))) {
-    throw new Error('Anonymous submissions are not accepted by this helpdesk.');
+    throw new SubmissionError('Anonymous submissions are not accepted by this helpdesk.');
   }
   if (endpoint.requireContact && (payload.isAnonymous || (!payload.senderPhone?.trim() && !payload.senderEmail?.trim()))) {
-    throw new Error('A phone number or email address is required for this helpdesk.');
+    throw new SubmissionError('A phone number or email address is required for this helpdesk.');
   }
   if (!endpoint.allowAttachments && payload.files && payload.files.length > 0) {
-    throw new Error('Attachments are not accepted by this helpdesk.');
+    throw new SubmissionError('Attachments are not accepted by this helpdesk.');
   }
   if (!endpoint.allowVoice && payload.files?.some((file) => file.type === 'AUDIO')) {
-    throw new Error('Voice submissions are not accepted by this helpdesk.');
+    throw new SubmissionError('Voice submissions are not accepted by this helpdesk.');
   }
 
   // Generate atomic reference number (e.g. CD-IN-2026-00042)
   const referenceNumber = await generateIntakeReferenceNumber();
 
   // Construct combined location string
-  const locationParts = [payload.town, payload.district, payload.address].filter(Boolean);
+  const ward = payload.ward?.trim() || null;
+  const locationParts = [ward ? `Ward ${ward.replace(/^ward[ .:-]*/i, '')}` : null, payload.town, payload.district, payload.address].filter(Boolean);
   const combinedLocation = locationParts.length > 0 ? locationParts.join(', ') : 'Andhra Pradesh';
 
   // Determine complainant profile attributes
@@ -116,7 +126,7 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
   const senderPhone = payload.isAnonymous ? null : (payload.senderPhone?.trim() || null);
   const senderEmail = payload.isAnonymous ? null : (payload.senderEmail?.trim() || null);
   const consentToPublish = payload.consentToPublish || 'DISCUSS_FIRST';
-  const consentToContact = payload.consentContact ?? true;
+  const consentToContact = payload.consentContact ?? false;
 
   // Persist IntakeItem immediately with status INCOMING (<100ms)
   const intakeItem = await prisma.intakeItem.create({
@@ -136,6 +146,7 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
       consentToPublish,
       endpointSlug: endpoint.slug,
       incidentDate: payload.incidentDate || null,
+      ward,
       aiCategory: payload.category || 'General Civic Issue',
       aiLocation: combinedLocation,
       aiPriority: 'MEDIUM',
