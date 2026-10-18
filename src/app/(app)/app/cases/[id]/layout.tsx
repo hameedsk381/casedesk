@@ -2,9 +2,10 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/db/prisma';
 import { getCaseById } from '@/lib/cases/service';
-import { getCurrentUser, hasWorkspaceAccess } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import CaseWorkspaceHeader from '@/components/app/CaseWorkspaceHeader';
 import CaseWorkspaceSidebar from '@/components/app/CaseWorkspaceSidebar';
+import EraseCaseButton from '@/components/app/EraseCaseButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,6 +37,8 @@ export default async function CaseWorkspaceLayout({
     select: { id: true, name: true, role: true, avatarUrl: true },
   });
 
+  const canErase = canUserInWorkspace(user, caseRecord.workspaceId, 'delete_case');
+
   return (
     <div className="space-y-6">
       <CaseWorkspaceHeader caseRecord={caseRecord} users={users} />
@@ -47,6 +50,8 @@ export default async function CaseWorkspaceLayout({
         {/* Persistent Newsroom Sidebar */}
         <CaseWorkspaceSidebar caseRecord={caseRecord} users={users} />
       </div>
+
+      {canErase && <EraseCaseButton caseId={caseRecord.id} caseNumber={caseRecord.caseNumber} />}
     </div>
   );
 }
