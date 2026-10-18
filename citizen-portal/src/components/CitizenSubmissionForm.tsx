@@ -95,6 +95,69 @@ export function CitizenSubmissionForm({
     setPreferredLanguage(lang === 'te' ? 'Telugu' : 'English');
   }, [lang]);
 
+  // Ward auto-detect: only offered when the server has ward boundaries loaded.
+  const [wardLookupAvailable, setWardLookupAvailable] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [wardNote, setWardNote] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/submit/ward')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data?.available && 'geolocation' in navigator) setWardLookupAvailable(true);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const detectWard = () => {
+    setWardNote(null);
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          // Coordinates go in the POST body (never the URL) and are not stored.
+          const res = await fetch('/api/submit/ward', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lat: position.coords.latitude, lng: position.coords.longitude }),
+          });
+          const data = res.ok ? await res.json() : null;
+          if (data?.ward) {
+            setWard(String(data.ward));
+            setWardNote(
+              lang === 'te'
+                ? `వార్డు ${data.ward} గుర్తించాము. తప్పయితే మార్చండి.`
+                : `Detected ward ${data.ward}. Please change it if this is wrong.`
+            );
+          } else {
+            setWardNote(
+              lang === 'te'
+                ? 'ఈ ప్రదేశానికి వార్డు కనుగొనలేకపోయాము. దయచేసి నమోదు చేయండి.'
+                : 'We could not match this location to a ward. Please enter it yourself.'
+            );
+          }
+        } catch {
+          setWardNote(lang === 'te' ? 'వార్డు గుర్తించలేకపోయాము. దయచేసి నమోదు చేయండి.' : 'Could not detect the ward. Please enter it yourself.');
+        } finally {
+          setLocating(false);
+        }
+      },
+      (err) => {
+        setLocating(false);
+        setWardNote(
+          err.code === err.PERMISSION_DENIED
+            ? lang === 'te' ? 'లొకేషన్ అనుమతి ఇవ్వలేదు. వార్డు నంబర్ మీరే నమోదు చేయవచ్చు.' : 'Location permission was not given. You can enter the ward number yourself.'
+            : lang === 'te' ? 'లొకేషన్ దొరకలేదు. వార్డు నంబర్ మీరే నమోదు చేయండి.' : 'Could not get your location. Please enter the ward number yourself.'
+        );
+      },
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+    );
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selected = Array.from(e.target.files);
@@ -367,6 +430,25 @@ export function CitizenSubmissionForm({
                 {lang === 'te' ? 'వార్డు / డివిజన్ నంబర్ (ఐచ్ఛికం)' : 'Ward / Division number (Optional)'}
               </label>
               <input type="text" value={ward} onChange={(e) => setWard(e.target.value)} maxLength={50} placeholder="12" className={inputClass} />
+              {wardLookupAvailable && (
+                <button
+                  type="button"
+                  onClick={detectWard}
+                  disabled={locating}
+                  className="touch-target inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-hover disabled:opacity-60 cursor-pointer"
+                >
+                  <MapPin size={14} />
+                  {locating
+                    ? lang === 'te' ? 'గుర్తిస్తున్నాము…' : 'Detecting…'
+                    : lang === 'te' ? 'నా లొకేషన్ నుంచి వార్డు గుర్తించండి' : 'Detect my ward from my location'}
+                </button>
+              )}
+              {wardNote && <p className="text-[11px] leading-snug text-muted-foreground" role="status">{wardNote}</p>}
+              {wardLookupAvailable && (
+                <p className="text-[10px] leading-snug text-muted-foreground">
+                  {lang === 'te' ? 'మీ లొకేషన్ వార్డు కనుగొనడానికి మాత్రమే వాడతాము; నిల్వ చేయము.' : 'Your location is used only to find the ward. It is not stored.'}
+                </p>
+              )}
             </div>
             <div className="sm:col-span-2 space-y-1.5">
               <label className="text-xs font-bold text-primary">

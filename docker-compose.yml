@@ -38,6 +38,8 @@ services:
       - WORKSPACE_SLUG=${WORKSPACE_SLUG:-}
       - ENDPOINT_SLUG=${NEXT_PUBLIC_DEFAULT_SLUG:-janata-investigation-desk}
       - ENDPOINT_TITLE=${ENDPOINT_TITLE:-}
+      # Optional ward auto-detect (boundaries in data/wards.geojson, baked into the image).
+      - WARD_PROPERTY=${WARD_PROPERTY:-}
       # Public-facing instance: serves only the citizen API. The staff workspace
       # answers 404 here; your team uses casedesk-staff below.
       - STAFF_APP_ENABLED=false
