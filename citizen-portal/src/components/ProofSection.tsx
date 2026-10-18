@@ -90,7 +90,7 @@ export function ProofSection({ proof, lang }: { proof: PublicProof | null; lang:
                   {proof.cases.map((c) => (
                     <li key={c.caseNumber} className="rounded-2xl border border-border bg-card p-4 space-y-2">
                       <div className="flex items-center justify-between gap-2 text-[11px] font-semibold text-muted-foreground">
-                        <span>{c.ward ? `${lang === 'te' ? 'వార్డు' : 'Ward'} ${c.ward}` : c.category}</span>
+                        <span>{c.ward ? `${c.municipality ? c.municipality + ', ' : ''}${lang === 'te' ? 'వార్డు' : 'Ward'} ${c.ward}` : c.category}</span>
                         <span className={c.resolved ? 'text-success' : ''}>{c.resolved ? t.resolved : t.open}</span>
                       </div>
                       <p className="text-sm font-bold text-primary leading-snug">{c.title}</p>

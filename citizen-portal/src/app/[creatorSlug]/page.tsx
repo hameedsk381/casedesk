@@ -26,10 +26,10 @@ export default async function CreatorPortalPage({
   searchParams,
 }: {
   params: Promise<{ creatorSlug: string }>;
-  searchParams: Promise<{ ward?: string | string[] }>;
+  searchParams: Promise<{ ward?: string | string[]; municipality?: string | string[] }>;
 }) {
   const { creatorSlug } = await params;
-  const { ward } = await searchParams;
+  const { ward, municipality } = await searchParams;
   const endpoint = await getCreatorEndpoint(creatorSlug);
 
   if (!endpoint) {
@@ -56,7 +56,7 @@ export default async function CreatorPortalPage({
 
   return (
     <div className="w-full flex-1 flex flex-col">
-      <CitizenLandingPage endpoint={endpoint} initialWard={typeof ward === 'string' ? ward.slice(0, 50) : undefined} initialLang={await getServerLang()} proof={await loadPublicProof()} />
+      <CitizenLandingPage endpoint={endpoint} initialWard={typeof ward === 'string' ? ward.slice(0, 50) : undefined} initialMunicipality={typeof municipality === 'string' ? municipality.slice(0, 100) : undefined} initialLang={await getServerLang()} proof={await loadPublicProof()} />
     </div>
   );
 }

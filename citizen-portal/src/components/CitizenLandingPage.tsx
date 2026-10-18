@@ -39,6 +39,7 @@ interface EndpointConfig {
 interface Props {
   endpoint: EndpointConfig;
   initialWard?: string;
+  initialMunicipality?: string;
   initialLang?: Language;
   proof?: PublicProof | null;
 }
@@ -46,7 +47,7 @@ interface Props {
 type ViewState = 'landing' | 'form';
 type Language = 'en' | 'te';
 
-export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en', proof = null }: Props) {
+export function CitizenLandingPage({ endpoint, initialWard, initialMunicipality, initialLang = 'en', proof = null }: Props) {
   const [view, setView] = useState<ViewState>('landing');
   const [lang, setLangState] = useState<Language>(initialLang);
   // Remember the choice (read server-side by every page) for a year.
@@ -106,7 +107,7 @@ export function CitizenLandingPage({ endpoint, initialWard, initialLang = 'en', 
           </div>
         </div>
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-4 flex flex-col">
-          <CitizenSubmissionForm endpoint={endpoint} initialWard={initialWard} lang={lang} setLang={setLang} onBackToSelect={() => setView('landing')} />
+          <CitizenSubmissionForm endpoint={endpoint} initialWard={initialWard} initialMunicipality={initialMunicipality} lang={lang} setLang={setLang} onBackToSelect={() => setView('landing')} />
         </main>
       </div>
     );

@@ -34,14 +34,14 @@ async function getEndpoint() {
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ ward?: string | string[] }>;
+  searchParams: Promise<{ ward?: string | string[]; municipality?: string | string[] }>;
 }) {
-  const { ward } = await searchParams;
+  const { ward, municipality } = await searchParams;
   const endpoint = await getEndpoint();
 
   return (
     <div className="w-full flex-1 flex flex-col">
-      <CitizenLandingPage endpoint={endpoint} initialWard={typeof ward === 'string' ? ward.slice(0, 50) : undefined} initialLang={await getServerLang()} proof={await loadPublicProof()} />
+      <CitizenLandingPage endpoint={endpoint} initialWard={typeof ward === 'string' ? ward.slice(0, 50) : undefined} initialMunicipality={typeof municipality === 'string' ? municipality.slice(0, 100) : undefined} initialLang={await getServerLang()} proof={await loadPublicProof()} />
     </div>
   );
 }

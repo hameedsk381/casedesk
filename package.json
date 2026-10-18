@@ -24,14 +24,18 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@tmcw/togeojson": "^5.8.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/nodemailer": "^8.0.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@xmldom/xmldom": "^0.8.10",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "prisma": "^6.19.3",
+    "proj4": "^2.15.0",
+    "shapefile": "^0.6.6",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

@@ -19,6 +19,7 @@ interface FeedResponse {
     averageDaysToResolve: number | null;
   };
   wards: Array<{
+    municipality: string | null;
     ward: string;
     total: number;
     resolved: number;
@@ -31,6 +32,7 @@ interface FeedResponse {
     title: string;
     category: string;
     ward: string | null;
+    municipality: string | null;
     publishedAt: string | null;
     resolved: boolean;
     daysToResolve: number | null;
@@ -56,6 +58,7 @@ const T = {
     avg: 'Avg. days to resolve',
     byWard: 'By ward',
     ward: 'Ward',
+    municipality: 'Municipality',
     allWards: 'All wards',
     cases: 'Published reports',
     none: 'No published reports yet.',
@@ -80,6 +83,7 @@ const T = {
     avg: 'పరిష్కారానికి సగటు రోజులు',
     byWard: 'వార్డుల వారీగా',
     ward: 'వార్డు',
+    municipality: 'పురపాలక సంఘం',
     allWards: 'అన్ని వార్డులు',
     cases: 'ప్రచురించిన ఫిర్యాదులు',
     none: 'ఇంకా ప్రచురించిన ఫిర్యాదులు లేవు.',
@@ -95,9 +99,12 @@ const T = {
   },
 } as const;
 
-async function loadFeed(ward: string | undefined): Promise<FeedResponse | null> {
+async function loadFeed(ward: string | undefined, municipality: string | undefined): Promise<FeedResponse | null> {
   try {
-    const query = ward ? `?ward=${encodeURIComponent(ward)}` : '';
+    const params = new URLSearchParams();
+    if (ward) params.set('ward', ward);
+    if (municipality) params.set('municipality', municipality);
+    const query = params.size ? `?${params}` : '';
     const res = await fetch(`${INTERNAL_API_URL}/api/submit/public${query}`, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     return (await res.json()) as FeedResponse;
@@ -116,24 +123,26 @@ function levelClass(level: number, answered: boolean) {
 export default async function AccountabilityPage({
   searchParams,
 }: {
-  searchParams: Promise<{ ward?: string | string[]; lang?: string | string[] }>;
+  searchParams: Promise<{ ward?: string | string[]; municipality?: string | string[]; lang?: string | string[] }>;
 }) {
   const params = await searchParams;
   const lang: Lang = await getServerLang(params.lang);
   const ward = typeof params.ward === 'string' ? params.ward.slice(0, 50) : undefined;
   const t = T[lang];
-  const feed = await loadFeed(ward);
+  const municipality = typeof params.municipality === 'string' ? params.municipality.slice(0, 100) : undefined;
+  const feed = await loadFeed(ward, municipality);
 
-  const href = (opts: { ward?: string; lang: Lang }) => {
+  const href = (opts: { ward?: string; municipality?: string; lang: Lang }) => {
     const q = new URLSearchParams();
     if (opts.ward) q.set('ward', opts.ward);
+    if (opts.municipality) q.set('municipality', opts.municipality);
     const s = q.toString();
     return `/accountability${s ? `?${s}` : ''}`;
   };
 
   // Language toggles go through /api/lang so the choice is remembered site-wide.
   const switchLang = (next: Lang) =>
-    `/api/lang?lang=${next}&next=${encodeURIComponent(href({ ward, lang }))}`;
+    `/api/lang?lang=${next}&next=${encodeURIComponent(href({ ward, municipality, lang }))}`;
 
   return (
     <main className="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
@@ -147,9 +156,9 @@ export default async function AccountabilityPage({
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-primary">{t.title}</h1>
         <p className="text-sm text-muted-foreground max-w-2xl">{t.intro}</p>
-        {ward && (
+        {(ward || municipality) && (
           <p className="text-xs font-bold text-primary">
-            {t.ward} {ward} · <Link href={href({ lang })} className="underline">{t.allWards}</Link>
+            {[municipality, ward ? `${t.ward} ${ward}` : null].filter(Boolean).join(', ')} · <Link href={href({ lang })} className="underline">{t.allWards}</Link>
           </p>
         )}
       </header>
@@ -180,6 +189,7 @@ export default async function AccountabilityPage({
                 <table className="w-full text-sm">
                   <thead className="text-left text-[11px] uppercase text-muted-foreground">
                     <tr>
+                      <th className="p-3">{t.municipality}</th>
                       <th className="p-3">{t.ward}</th>
                       <th className="p-3">{t.reports}</th>
                       <th className="p-3">{t.resolved}</th>
@@ -190,12 +200,13 @@ export default async function AccountabilityPage({
                   </thead>
                   <tbody>
                     {feed.wards.map((row) => (
-                      <tr key={row.ward} className="border-t border-border">
+                      <tr key={`${row.municipality}|${row.ward}`} className="border-t border-border">
+                        <td className="p-3">{row.municipality || '—'}</td>
                         <td className="p-3 font-bold">
                           {row.ward === 'UNSPECIFIED' ? (
                             t.noWard
                           ) : (
-                            <Link href={href({ ward: row.ward, lang })} className="text-primary hover:underline">{row.ward}</Link>
+                            <Link href={href({ ward: row.ward, municipality: row.municipality || undefined, lang })} className="text-primary hover:underline">{row.ward}</Link>
                           )}
                         </td>
                         <td className="p-3">{row.total}</td>
@@ -224,7 +235,7 @@ export default async function AccountabilityPage({
                       <span>·</span>
                       <span>{c.category}</span>
                       <span>·</span>
-                      <span>{c.ward ? `${t.ward} ${c.ward}` : t.noWard}</span>
+                      <span>{c.ward ? `${c.municipality ? c.municipality + ', ' : ''}${t.ward} ${c.ward}` : t.noWard}</span>
                       <span className={`ml-auto rounded-full border px-2 py-0.5 ${c.resolved ? 'border-success/30 bg-success/10 text-success' : 'border-border bg-surface'}`}>
                         {c.resolved
                           ? `${t.resolvedTag}${c.daysToResolve !== null ? ` · ${c.daysToResolve} ${t.days}` : ''}`

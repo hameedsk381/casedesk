@@ -37,6 +37,7 @@ interface Props {
   setLang: (lang: 'en' | 'te') => void;
   onBackToSelect?: () => void;
   initialWard?: string;
+  initialMunicipality?: string;
 }
 
 export function CitizenSubmissionForm({
@@ -45,6 +46,7 @@ export function CitizenSubmissionForm({
   setLang,
   onBackToSelect,
   initialWard,
+  initialMunicipality,
 }: Props) {
   const [step, setStep] = useState<number>(1);
 
@@ -52,6 +54,7 @@ export function CitizenSubmissionForm({
   const [district, setDistrict] = useState('');
   const [town, setTown] = useState('');
   const [ward, setWard] = useState(initialWard || '');
+  const [municipality, setMunicipality] = useState(initialMunicipality || '');
   const [address, setAddress] = useState('');
   const [incidentDate, setIncidentDate] = useState('');
   const [category, setCategory] = useState('');
@@ -128,10 +131,12 @@ export function CitizenSubmissionForm({
           const data = res.ok ? await res.json() : null;
           if (data?.ward) {
             setWard(String(data.ward));
+            setMunicipality(typeof data.municipality === 'string' ? data.municipality : '');
+            const place = data.municipality ? `${data.municipality}, ` : '';
             setWardNote(
               lang === 'te'
-                ? `వార్డు ${data.ward} గుర్తించాము. తప్పయితే మార్చండి.`
-                : `Detected ward ${data.ward}. Please change it if this is wrong.`
+                ? `${place}వార్డు ${data.ward} గుర్తించాము. తప్పయితే మార్చండి.`
+                : `Detected ${place}ward ${data.ward}. Please change it if this is wrong.`
             );
           } else {
             setWardNote(
@@ -201,6 +206,7 @@ export function CitizenSubmissionForm({
       if (district) formData.append('district', district);
       if (town) formData.append('town', town);
       if (ward.trim()) formData.append('ward', ward.trim());
+      if (ward.trim() && municipality.trim()) formData.append('municipality', municipality.trim());
       if (address) formData.append('address', address);
       if (incidentDate) formData.append('incidentDate', incidentDate);
       if (category) formData.append('category', category);
@@ -429,7 +435,7 @@ export function CitizenSubmissionForm({
               <label className="text-xs font-bold text-primary">
                 {lang === 'te' ? 'వార్డు / డివిజన్ నంబర్ (ఐచ్ఛికం)' : 'Ward / Division number (Optional)'}
               </label>
-              <input type="text" value={ward} onChange={(e) => setWard(e.target.value)} maxLength={50} placeholder="12" className={inputClass} />
+              <input type="text" value={ward} onChange={(e) => { setWard(e.target.value); setMunicipality(''); }} maxLength={50} placeholder="12" className={inputClass} />
               {wardLookupAvailable && (
                 <button
                   type="button"

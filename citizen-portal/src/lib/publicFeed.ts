@@ -8,6 +8,7 @@ export interface PublicFeedCase {
   title: string;
   category: string;
   ward: string | null;
+  municipality: string | null;
   resolved: boolean;
   daysToResolve: number | null;
   responses: Array<{

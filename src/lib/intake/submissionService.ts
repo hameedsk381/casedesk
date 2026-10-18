@@ -18,6 +18,7 @@ export interface CitizenSubmissionPayload {
   district?: string;
   town?: string;
   ward?: string;
+  municipality?: string;
   address?: string;
   incidentDate?: string;
   category?: string;
@@ -118,7 +119,8 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
 
   // Construct combined location string
   const ward = payload.ward?.trim() || null;
-  const locationParts = [ward ? `Ward ${ward.replace(/^ward[ .:-]*/i, '')}` : null, payload.town, payload.district, payload.address].filter(Boolean);
+  const municipality = payload.municipality?.trim() || null;
+  const locationParts = [ward ? `Ward ${ward.replace(/^ward[ .:-]*/i, '')}${municipality ? ` (${municipality})` : ''}` : null, payload.town, payload.district, payload.address].filter(Boolean);
   const combinedLocation = locationParts.length > 0 ? locationParts.join(', ') : 'Andhra Pradesh';
 
   // Determine complainant profile attributes
@@ -147,6 +149,7 @@ export async function processCitizenSubmission(payload: CitizenSubmissionPayload
       endpointSlug: endpoint.slug,
       incidentDate: payload.incidentDate || null,
       ward,
+      municipality,
       aiCategory: payload.category || 'General Civic Issue',
       aiLocation: combinedLocation,
       aiPriority: 'MEDIUM',

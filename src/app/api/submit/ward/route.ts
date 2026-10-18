@@ -5,7 +5,7 @@ import { lookupWard, wardLookupAvailable } from '@/lib/geo/wards';
 
 // Ward detection for the citizen form.
 //   GET  /api/submit/ward            -> { available }   (is a boundary file loaded?)
-//   POST /api/submit/ward {lat, lng} -> { available, ward }
+//   POST /api/submit/ward {lat, lng} -> { available, ward, municipality }
 // Coordinates travel in the POST body, are used only to look up the ward, and are
 // never stored or logged.
 
@@ -55,5 +55,9 @@ export async function POST(request: Request) {
   }
 
   const available = wardLookupAvailable();
-  return NextResponse.json({ available, ward: available ? lookupWard(lat, lng) : null }, { headers });
+  const match = available ? lookupWard(lat, lng) : null;
+  return NextResponse.json(
+    { available, ward: match?.ward ?? null, municipality: match?.municipality ?? null },
+    { headers }
+  );
 }

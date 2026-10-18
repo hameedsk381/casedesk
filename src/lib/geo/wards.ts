@@ -16,6 +16,7 @@ type PolygonCoords = Ring[]; // [outer, ...holes]
 
 interface WardShape {
   ward: string;
+  municipality: string | null;
   polygons: PolygonCoords[];
   bbox: [number, number, number, number]; // minLng, minLat, maxLng, maxLat
 }
@@ -32,6 +33,18 @@ function wardLabel(properties: Record<string, unknown> | null | undefined): stri
     const value = properties[key];
     if (typeof value === 'string' && value.trim()) return value.trim().slice(0, 50);
     if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  }
+  return null;
+}
+
+const MUNICIPALITY_PROPERTIES = ['municipality', 'MUNICIPALITY', 'ulb_name', 'ULB_NAME', 'ulb', 'ULB'];
+
+function municipalityLabel(properties: Record<string, unknown> | null | undefined): string | null {
+  if (!properties) return null;
+  const configured = process.env.WARD_MUNICIPALITY_PROPERTY?.trim();
+  for (const key of configured ? [configured] : MUNICIPALITY_PROPERTIES) {
+    const value = properties[key];
+    if (typeof value === 'string' && value.trim()) return value.trim().slice(0, 100);
   }
   return null;
 }
@@ -65,7 +78,7 @@ export function parseWardGeoJson(text: string): WardShape[] {
     else if (geometry.type === 'MultiPolygon') polygons = geometry.coordinates;
     else continue;
     if (polygons.length === 0) continue;
-    shapes.push({ ward, polygons, bbox: bboxOf(polygons) });
+    shapes.push({ ward, municipality: municipalityLabel(feature?.properties), polygons, bbox: bboxOf(polygons) });
   }
   if (shapes.length === 0) throw new Error('no usable ward polygons found (check WARD_PROPERTY)');
   return shapes;
@@ -89,11 +102,18 @@ function inPolygon(lng: number, lat: number, polygon: PolygonCoords): boolean {
   return true;
 }
 
-export function findWardIn(shapes: WardShape[], lat: number, lng: number): string | null {
+export interface WardMatch {
+  ward: string;
+  municipality: string | null;
+}
+
+export function findWardIn(shapes: WardShape[], lat: number, lng: number): WardMatch | null {
   for (const shape of shapes) {
     const [minLng, minLat, maxLng, maxLat] = shape.bbox;
     if (lng < minLng || lng > maxLng || lat < minLat || lat > maxLat) continue;
-    if (shape.polygons.some((polygon) => inPolygon(lng, lat, polygon))) return shape.ward;
+    if (shape.polygons.some((polygon) => inPolygon(lng, lat, polygon))) {
+      return { ward: shape.ward, municipality: shape.municipality };
+    }
   }
   return null;
 }
@@ -119,8 +139,8 @@ export function wardLookupAvailable(): boolean {
   return load() !== null;
 }
 
-/** The ward containing the point, or null if outside every ward / lookup unavailable. */
-export function lookupWard(lat: number, lng: number): string | null {
+/** The ward (and municipality, when the file tags it) containing the point, or null. */
+export function lookupWard(lat: number, lng: number): WardMatch | null {
   const loaded = load();
   return loaded ? findWardIn(loaded.shapes, lat, lng) : null;
 }

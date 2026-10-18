@@ -112,7 +112,7 @@ export async function handleSubmissionPost(request: Request, slug: string | unde
       payload.slug = slug ?? text('slug');
       payload.story = (formData.get('story') as string) || '';
       for (const key of [
-        'transcription', 'district', 'town', 'address', 'incidentDate', 'category',
+        'transcription', 'district', 'town', 'municipality', 'address', 'incidentDate', 'category',
         'senderName', 'senderPhone', 'senderEmail', 'preferredLanguage',
       ]) {
         payload[key] = text(key);

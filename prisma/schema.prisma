@@ -369,6 +369,7 @@ model IntakeItem {
   endpointSlug          String?
   incidentDate          String?
   ward                  String?            // Municipal ward reported by the citizen, e.g. "12"
+  municipality          String?            // Municipality/ULB of that ward, e.g. "Vijayawada"
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
   reviewedAt            DateTime?
@@ -390,6 +391,7 @@ model IntakeItem {
   @@index([duplicateCaseId])
   @@index([referenceNumber])
   @@index([ward])
+  @@index([municipality, ward])
 }
 
 // Durable background work for citizen-intake transcription and AI triage.

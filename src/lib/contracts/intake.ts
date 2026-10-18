@@ -18,6 +18,7 @@ export const CitizenSubmissionSchema = z.object({
   transcription: z.string().optional(),
   district: z.string().optional(),
   ward: z.string().max(100, 'Field is too long').optional(),
+  municipality: z.string().max(100, 'Field is too long').optional(),
   town: z.string().optional(),
   address: z.string().optional(),
   incidentDate: z.string().optional(),

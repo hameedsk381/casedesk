@@ -19,7 +19,8 @@ const PUBLIC_WORKSPACE = { submissionEndpoints: { some: { isActive: true } } } a
 const MAX_CASES = 500;
 
 function normaliseWard(raw: string | null | undefined): string | null {
-  const value = (raw || '').trim().replace(/^ward[ .:-]*/i, '').toUpperCase();
+  const value = (raw || '').trim().replace(/^ward[ .:-]*/i, '').toUpperCase()
+    .replace(/^0+(?=[0-9])/, '');
   return value ? value.slice(0, 50) : null;
 }
 
@@ -47,6 +48,7 @@ export async function GET(request: Request) {
 
     const { searchParams } = new URL(request.url);
     const wardFilter = normaliseWard(searchParams.get('ward'));
+    const municipalityFilter = (searchParams.get('municipality') || '').trim().slice(0, 100).toLowerCase() || null;
     const categoryFilter = searchParams.get('category')?.slice(0, 100) || null;
 
     const cases = await prisma.case.findMany({
@@ -70,7 +72,7 @@ export async function GET(request: Request) {
         resolvedAt: true,
         createdFromIntakes: {
           where: { consentToPublish: 'YES' },
-          select: { ward: true },
+          select: { ward: true, municipality: true },
           take: 1,
         },
         responseRequests: {
@@ -93,6 +95,7 @@ export async function GET(request: Request) {
     const items = cases
       .map((c) => {
         const ward = normaliseWard(c.createdFromIntakes[0]?.ward);
+        const municipality = c.createdFromIntakes[0]?.municipality?.trim() || null;
         const resolved = c.resolutionStatus === 'RESOLVED' || c.status === 'RESOLVED' || !!c.resolvedAt;
         const responses = c.responseRequests.map((r) => {
           const answered = r.status === 'RECEIVED' || !!r.responseReceivedAt;
@@ -114,6 +117,7 @@ export async function GET(request: Request) {
           title: c.title,
           category: c.category,
           ward,
+          municipality,
           publishedAt: c.publishedAt,
           resolved,
           resolvedAt: c.resolvedAt,
@@ -124,13 +128,16 @@ export async function GET(request: Request) {
           responses,
         };
       })
-      .filter((item) => !wardFilter || item.ward === wardFilter);
+      .filter((item) => !wardFilter || item.ward === wardFilter)
+      .filter((item) => !municipalityFilter || item.municipality?.toLowerCase() === municipalityFilter);
 
     // Per-ward scorecard over the filtered set
-    const byWard = new Map<string, { ward: string; total: number; resolved: number; awaiting: number; overdue: number; resolveDays: number[] }>();
+    const byWard = new Map<string, { municipality: string | null; ward: string; total: number; resolved: number; awaiting: number; overdue: number; resolveDays: number[] }>();
     for (const item of items) {
-      const key = item.ward || 'UNSPECIFIED';
-      const row = byWard.get(key) || { ward: key, total: 0, resolved: 0, awaiting: 0, overdue: 0, resolveDays: [] };
+      // Ward numbers repeat across municipalities, so group by both.
+      const wardKey = item.ward || 'UNSPECIFIED';
+      const key = `${item.municipality || ''}|${wardKey}`;
+      const row = byWard.get(key) || { municipality: item.municipality, ward: wardKey, total: 0, resolved: 0, awaiting: 0, overdue: 0, resolveDays: [] };
       row.total += 1;
       if (item.resolved) row.resolved += 1;
       if (item.daysToResolve !== null) row.resolveDays.push(item.daysToResolve);
