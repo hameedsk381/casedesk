@@ -64,3 +64,17 @@ docker compose up -d --build
 ```
 
 It is safe to re-run: existing records are reused and an existing account's password is only changed with `ADMIN_RESET_PASSWORD=true`. The password is never printed. **Remove `ADMIN_PASSWORD` from `.env` afterwards.** Without Compose, run `npm run create-admin` once on the host (with DATABASE_URL set). Sign in through the private staff instance (see above).
+
+## Deploying on Dokploy
+
+Dokploy terminates TLS (Traefik) and routes by domain, so:
+
+1. Create a **Compose** application from this repository and put the variables from `.env.example` in its Environment tab (`DOCKER_DATABASE_URL`, `SESSION_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `GROQ_API_KEY`, and so on).
+2. Set `TRUSTED_PROXY=true` and `PUBLIC_PORTAL_URL=https://<your portal domain>`, and set `NEXT_PUBLIC_CITIZEN_PORTAL_URL`/`APP_URL` to the matching https addresses.
+3. Add domains in Dokploy:
+   - `citizen-portal` → container port **3001** — the public citizens' site.
+   - `casedesk-staff` → container port **3000** — the staff workspace, on its own hostname (for example `staff.<domain>`).
+   - Do **not** add a domain for `casedesk`: it is the internal, citizen-API-only instance that the portal calls over the compose network.
+4. The staff hostname is reachable from the internet, protected by login only. Keep `SIGNUP_ENABLED=false`, use a strong admin password, and consider an IP allow-list or basic-auth middleware on that domain in Traefik.
+5. If Cloudflare (or another CDN) sits in front of Traefik, the client IP seen by the apps is the CDN's, which makes rate limits shared. Prefer pointing DNS straight at the server.
+6. The `127.0.0.1:3002` binding on `casedesk-staff` is unused under Dokploy; change `STAFF_APP_PORT` if that port clashes with another stack.
