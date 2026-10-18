@@ -28,6 +28,9 @@ services:
       - CRON_SECRET=${CRON_SECRET:-}
       - SIGNUP_ENABLED=${SIGNUP_ENABLED:-false}
       - ALLOWED_SIGNUP_EMAILS=${ALLOWED_SIGNUP_EMAILS:-}
+      # Public-facing instance: serves only the citizen API. The staff workspace
+      # answers 404 here. Use the "staff" profile below for your team.
+      - STAFF_APP_ENABLED=false
     # No external ports — access via Docker network only
     volumes:
       - casedesk-uploads:/app/uploads
@@ -39,6 +42,23 @@ services:
       start_period: 25s
     networks:
       - casedesk-net
+
+  # Private staff workspace (journalists). Not started by default:
+  #   docker compose --profile staff up -d casedesk-staff
+  # Bound to 127.0.0.1 only — reach it over an SSH tunnel or VPN, and never
+  # route it through the public reverse proxy.
+  casedesk-staff:
+    extends:
+      service: casedesk
+    profiles: ["staff"]
+    container_name: casedesk-staff-app
+    environment:
+      - STAFF_APP_ENABLED=true
+    ports:
+      - "127.0.0.1:${STAFF_APP_PORT:-3002}:3000"
+    depends_on:
+      casedesk:
+        condition: service_healthy
 
   citizen-portal:
     build:

@@ -36,3 +36,18 @@ Both Next.js services send HSTS and CSP headers. HSTS is effective only when the
 The CSP retains `unsafe-inline`/`unsafe-eval` because this application and Next.js build have not been nonce-audited. Tightening those directives requires a separate browser regression test and nonce/hash implementation.
 
 Uploads are stored in `/app/uploads`, outside `public`, and are streamed only by authenticated API routes. Existing files under a previously exposed `/app/public/uploads` path require operator review and removal or migration; this change does not delete data from a running volume.
+
+## Public site vs. staff workspace
+
+Only the citizen portal and the citizen API are meant to be public.
+
+- The default `casedesk` service runs with `STAFF_APP_ENABLED=false`: the staff workspace (`/app`, `/login`, `/signup`, the marketing pages and every staff API) answers 404. Only `/api/submit/*`, `/api/health` and `/api/cron/escalate` respond.
+- Your team uses a separate instance with the staff workspace on, bound to `127.0.0.1`:
+
+  ```bash
+  docker compose --profile staff up -d casedesk-staff
+  ```
+
+  Reach it over an SSH tunnel or VPN (`ssh -L 3002:localhost:3002 <server>`, then open `http://localhost:3002`). Do not add it to the public reverse proxy. Change the port with `STAFF_APP_PORT`.
+- Route only the `citizen-portal` service through the public reverse proxy.
+- Staff accounts must already exist, because public signup is closed unless `SIGNUP_ENABLED=true`.
