@@ -8,9 +8,10 @@ import GlobalSearchModal from './GlobalSearchModal';
 interface AppShellProps {
   children: React.ReactNode;
   user?: any;
+  permissions?: Record<string, boolean>;
 }
 
-export default function AppShell({ children, user: initialUser }: AppShellProps) {
+export default function AppShell({ children, user: initialUser, permissions }: AppShellProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(initialUser);
@@ -47,6 +48,7 @@ export default function AppShell({ children, user: initialUser }: AppShellProps)
       {/* Persistent Sidebar */}
       <Sidebar
         user={currentUser}
+        permissions={permissions}
         workspaceName="CaseDesk"
         isMobileOpen={isMobileOpen}
         onCloseMobile={() => setIsMobileOpen(false)}
@@ -56,6 +58,7 @@ export default function AppShell({ children, user: initialUser }: AppShellProps)
       <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
         <Topbar
           user={currentUser}
+          permissions={permissions}
           onOpenMobileMenu={() => setIsMobileOpen(true)}
           onOpenSearch={() => setIsSearchOpen(true)}
         />

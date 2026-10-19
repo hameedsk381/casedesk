@@ -17,6 +17,7 @@ import {
   AlertCircle,
   FolderOpen,
 } from 'lucide-react';
+import { useCasePermissions } from '@/components/app/CasePermissionsProvider';
 
 const FILTER_TABS = ['ALL', 'DOCUMENT', 'IMAGE', 'VIDEO', 'AUDIO'];
 
@@ -24,6 +25,7 @@ export default function CaseEvidencePage() {
   const params = useParams();
   const router = useRouter();
   const caseId = params.id as string;
+  const permissions = useCasePermissions();
 
   const [evidenceList, setEvidenceList] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState('ALL');
@@ -86,11 +88,15 @@ export default function CaseEvidencePage() {
     if (!confirm('Are you sure you want to delete this evidence file from local storage?')) return;
 
     try {
-      await fetch(`/api/evidence/${evidenceId}`, { method: 'DELETE' });
+      const res = await fetch(`/api/evidence/${evidenceId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to delete evidence');
+      }
       setEvidenceList((prev) => prev.filter((e) => e.id !== evidenceId));
       router.refresh();
-    } catch (err) {
-      console.error('Failed to delete evidence:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete evidence');
     }
   };
 
@@ -131,13 +137,15 @@ export default function CaseEvidencePage() {
           </p>
         </div>
 
-        <button
-          onClick={() => setShowUploadModal(true)}
-          className="py-2.5 px-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
-        >
-          <Upload size={14} />
-          <span>Upload Evidence</span>
-        </button>
+        {permissions.add_evidence && (
+          <button
+            onClick={() => setShowUploadModal(true)}
+            className="py-2.5 px-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+          >
+            <Upload size={14} />
+            <span>Upload Evidence</span>
+          </button>
+        )}
       </div>
 
       {/* Filter Tabs */}
@@ -205,13 +213,15 @@ export default function CaseEvidencePage() {
                     <span>Download</span>
                   </a>
 
-                  <button
-                    onClick={() => handleDelete(item.id)}
-                    className="p-1.5 text-slate-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                    title="Delete file"
-                  >
-                    <Trash2 size={13} />
-                  </button>
+                  {permissions.delete_evidence && (
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="p-1.5 text-slate-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
+                      title="Delete file"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

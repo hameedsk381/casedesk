@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { checkPublicationSafety } from '@/lib/content/service';
-import { getCurrentUser, hasWorkspaceAccess } from '@/lib/auth/permissions';
+import { getCurrentUser, hasWorkspaceAccess, canUserInWorkspace } from '@/lib/auth/permissions';
 import { caseWorkspaceId, unauthorized, forbidden, notFound } from '@/lib/api/guards';
 
 export async function GET(request: Request) {
@@ -20,7 +20,14 @@ export async function GET(request: Request) {
     if (!hasWorkspaceAccess(user, wsId)) return forbidden();
 
     const check = await checkPublicationSafety(caseId);
-    return NextResponse.json(check);
+    return NextResponse.json({
+      ...check,
+      can: {
+        createContent: canUserInWorkspace(user, wsId, 'create_content'),
+        approveContent: canUserInWorkspace(user, wsId, 'approve_content'),
+        publishContent: canUserInWorkspace(user, wsId, 'publish_content'),
+      },
+    });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Safety check failed' }, { status: 500 });
   }

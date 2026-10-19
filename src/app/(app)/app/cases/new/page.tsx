@@ -18,6 +18,7 @@ import {
   Trash2,
   FileUp,
 } from 'lucide-react';
+import { useWorkspaceCategories } from '@/lib/client/useWorkspaceCategories';
 
 const STEPS = [
   { id: 1, name: 'Report Intake' },
@@ -27,22 +28,6 @@ const STEPS = [
   { id: 5, name: 'Review & Submit' },
 ];
 
-const CATEGORIES = [
-  'Healthcare',
-  'Government Services',
-  'Police / Law Enforcement',
-  'Education',
-  'Land / Property',
-  'Consumer Complaint',
-  'Employment',
-  'Infrastructure',
-  'Environment',
-  'Public Safety',
-  'Financial',
-  'Legal',
-  'Other',
-];
-
 function NewCaseInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,6 +35,7 @@ function NewCaseInner() {
   const inboxId = searchParams.get('inboxId');
 
   const [currentStep, setCurrentStep] = useState(1);
+  const categories = useWorkspaceCategories();
   const [intakeMode, setIntakeMode] = useState<'text' | 'voice' | 'file' | 'manual'>('text');
   const [extracting, setExtracting] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -508,7 +494,7 @@ function NewCaseInner() {
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full px-3 py-2.5 bg-background/40 border border-surface-3 rounded-xl text-sm text-primary focus:outline-none cursor-pointer"
               >
-                {CATEGORIES.map((c) => (
+                {categories.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>
@@ -796,7 +782,7 @@ function NewCaseInner() {
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full px-4 py-2.5 bg-background/40 border border-surface-3 rounded-xl text-sm text-primary focus:outline-none cursor-pointer"
               >
-                {CATEGORIES.map((c) => (
+                {categories.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>

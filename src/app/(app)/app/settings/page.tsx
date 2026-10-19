@@ -7,12 +7,14 @@ import {
   Users,
   Layers,
   Cpu,
-  ShieldCheck,
   CheckCircle2,
+  AlertCircle,
   Sparkles,
   Loader2,
 } from 'lucide-react';
 import TeamPanel from '@/components/app/TeamPanel';
+import { DEFAULT_CASE_CATEGORIES } from '@/lib/cases/categories';
+import { primaryWorkspaceRole } from '@/lib/auth/permissionTypes';
 
 const TABS = [
   { id: 'profile', label: 'User Profile', icon: User },
@@ -22,37 +24,24 @@ const TABS = [
   { id: 'ai', label: 'AI Intelligence', icon: Cpu },
 ];
 
-const INITIAL_CATEGORIES = [
-  'Healthcare',
-  'Government Services',
-  'Police / Law Enforcement',
-  'Education',
-  'Land / Property',
-  'Consumer Complaint',
-  'Employment',
-  'Infrastructure',
-  'Environment',
-  'Public Safety',
-  'Financial',
-  'Legal',
-  'Other',
-];
-
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile');
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [workspaceId, setWorkspaceId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Form states
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [wsName, setWsName] = useState('Citizen Helpdesk');
-  const [wsDesc, setWsDesc] = useState(
-    'Independent public accountability newsroom and citizen grievance desk.'
-  );
-  const [categories, setCategories] = useState(INITIAL_CATEGORIES);
+  const [wsName, setWsName] = useState('');
+  const [wsDesc, setWsDesc] = useState('');
+  const [categories, setCategories] = useState<string[]>([...DEFAULT_CASE_CATEGORIES]);
   const [newCat, setNewCat] = useState('');
+  const [canManageWorkspace, setCanManageWorkspace] = useState(false);
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [savingWorkspace, setSavingWorkspace] = useState(false);
   const [savedMessage, setSavedMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/auth/me')
@@ -65,18 +54,119 @@ export default function SettingsPage() {
         }
       })
       .finally(() => setLoading(false));
+
+    fetch('/api/workspace')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!data?.workspace) return;
+        setWorkspaceId(data.workspace.id);
+        setWsName(data.workspace.name || '');
+        setWsDesc(data.workspace.description || '');
+        if (Array.isArray(data.workspace.categories) && data.workspace.categories.length > 0) {
+          setCategories(data.workspace.categories);
+        }
+        setCanManageWorkspace(Boolean(data.canManage));
+      })
+      .catch(() => {});
   }, []);
 
-  const handleSave = (msg: string) => {
+  const notifySaved = (msg: string) => {
+    setErrorMessage(null);
     setSavedMessage(msg);
     setTimeout(() => setSavedMessage(null), 3000);
   };
 
-  const handleAddCategory = () => {
-    if (newCat.trim() && !categories.includes(newCat.trim())) {
-      setCategories([...categories, newCat.trim()]);
-      setNewCat('');
-      handleSave('Category added successfully.');
+  const notifyError = (msg: string) => {
+    setSavedMessage(null);
+    setErrorMessage(msg);
+  };
+
+  const handleSaveProfile = async () => {
+    if (!userName.trim()) {
+      notifyError('Please enter your name.');
+      return;
+    }
+    setSavingProfile(true);
+    try {
+      const res = await fetch('/api/auth/me', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: userName.trim() }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Failed to save profile');
+      setUserName(data.user?.name ?? userName.trim());
+      setCurrentUser((prev: any) => ({ ...prev, name: data.user?.name ?? userName.trim() }));
+      notifySaved('Profile updated.');
+    } catch (err: any) {
+      notifyError(err.message || 'Failed to save profile');
+    } finally {
+      setSavingProfile(false);
+    }
+  };
+
+  const handleSaveWorkspace = async () => {
+    if (!wsName.trim()) {
+      notifyError('Please enter a workspace name.');
+      return;
+    }
+    setSavingWorkspace(true);
+    try {
+      const res = await fetch('/api/workspace', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workspaceId, name: wsName.trim(), description: wsDesc.trim() }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Failed to update workspace');
+      setWsName(data.workspace?.name ?? wsName.trim());
+      setWsDesc(data.workspace?.description ?? wsDesc.trim());
+      notifySaved('Workspace settings updated.');
+    } catch (err: any) {
+      notifyError(err.message || 'Failed to update workspace');
+    } finally {
+      setSavingWorkspace(false);
+    }
+  };
+
+  const addCategory = () => {
+    const value = newCat.trim();
+    if (!value) return;
+    if (categories.some((c) => c.toLowerCase() === value.toLowerCase())) {
+      notifyError(`"${value}" is already a category.`);
+      return;
+    }
+    setCategories([...categories, value]);
+    setNewCat('');
+  };
+
+  const removeCategory = (value: string) => {
+    setCategories(categories.filter((c) => c !== value));
+  };
+
+  const handleSaveCategories = async () => {
+    setSavingWorkspace(true);
+    try {
+      const res = await fetch('/api/workspace', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          workspaceId,
+          name: wsName.trim(),
+          description: wsDesc.trim(),
+          categories,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Failed to save categories');
+      if (Array.isArray(data.workspace?.categories)) {
+        setCategories(data.workspace.categories);
+      }
+      notifySaved('Case categories updated.');
+    } catch (err: any) {
+      notifyError(err.message || 'Failed to save categories');
+    } finally {
+      setSavingWorkspace(false);
     }
   };
 
@@ -104,6 +194,13 @@ export default function SettingsPage() {
         <div className="p-3.5 rounded-xl bg-success/10 border border-success/20 text-success text-xs font-semibold flex items-center gap-2">
           <CheckCircle2 size={16} />
           <span>{savedMessage}</span>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
+          <AlertCircle size={16} />
+          <span>{errorMessage}</span>
         </div>
       )}
 
@@ -171,20 +268,24 @@ export default function SettingsPage() {
 
                 <div>
                   <label className="block text-xs font-bold text-primary uppercase tracking-wider mb-1.5">
-                    Assigned Role
+                    Workspace Role
                   </label>
                    <div className="px-3 py-2 bg-surface-2 border border-border rounded-xl text-xs font-bold text-primary">
-                    {currentUser?.role || 'RESEARCHER'}
+                    {primaryWorkspaceRole(currentUser) || currentUser?.role || 'RESEARCHER'}
                   </div>
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    Roles are assigned per workspace by the workspace owner or an admin.
+                  </p>
                 </div>
               </div>
 
               <div className="pt-2">
                 <button
-                  onClick={() => handleSave('Profile changes updated locally.')}
-                   className="px-4 py-2 bg-primary text-primary-foreground text-xs font-semibold rounded-xl cursor-pointer"
+                  onClick={handleSaveProfile}
+                  disabled={savingProfile}
+                   className="px-4 py-2 bg-primary text-primary-foreground text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
                 >
-                  Save Profile
+                  {savingProfile ? 'Saving...' : 'Save Profile'}
                 </button>
               </div>
             </div>
@@ -256,7 +357,7 @@ export default function SettingsPage() {
                         onClick={() => {
                           const origin = typeof window !== 'undefined' ? window.location.origin : '';
                           navigator.clipboard.writeText(`${origin}/submit/janata-investigation-desk`);
-                          handleSave('Public portal link copied to clipboard.');
+                          notifySaved('Public portal link copied to clipboard.');
                         }}
                         className="px-3 py-1.5 bg-white hover:bg-slate-50 text-primary font-bold text-xs rounded-xl border border-surface-3 shadow-2xs transition-all cursor-pointer"
                       >
@@ -293,10 +394,11 @@ export default function SettingsPage() {
 
               <div className="pt-2">
                 <button
-                  onClick={() => handleSave('Workspace settings updated.')}
-                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer"
+                  onClick={handleSaveWorkspace}
+                  disabled={savingWorkspace}
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
                 >
-                  Update Workspace
+                  {savingWorkspace ? 'Saving...' : 'Update Workspace'}
                 </button>
               </div>
             </div>
@@ -319,28 +421,66 @@ export default function SettingsPage() {
                 {categories.map((cat) => (
                   <span
                     key={cat}
-                    className="px-3 py-1.5 rounded-xl bg-background border border-surface-3 text-xs font-semibold text-primary"
+                    className="px-3 py-1.5 rounded-xl bg-background border border-surface-3 text-xs font-semibold text-primary inline-flex items-center gap-2"
                   >
                     {cat}
+                    {canManageWorkspace && (
+                      <button
+                        onClick={() => removeCategory(cat)}
+                        className="text-slate-400 hover:text-red-600 cursor-pointer"
+                        title={`Remove ${cat}`}
+                      >
+                        ×
+                      </button>
+                    )}
                   </span>
                 ))}
+                {categories.length === 0 && (
+                  <span className="text-xs text-slate-500">No categories configured.</span>
+                )}
               </div>
 
-              <div className="flex gap-2 pt-2 border-t border-surface-3">
-                <input
-                  type="text"
-                  value={newCat}
-                  onChange={(e) => setNewCat(e.target.value)}
-                  placeholder="New category name..."
-                  className="flex-1 px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
-                />
-                <button
-                  onClick={handleAddCategory}
-                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer"
-                >
-                  Add
-                </button>
-              </div>
+              {canManageWorkspace ? (
+                <>
+                  <div className="flex gap-2 pt-2 border-t border-surface-3">
+                    <input
+                      type="text"
+                      value={newCat}
+                      onChange={(e) => setNewCat(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          addCategory();
+                        }
+                      }}
+                      placeholder="New category name..."
+                      className="flex-1 px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
+                    />
+                    <button
+                      onClick={addCategory}
+                      className="px-4 py-2 bg-background border border-surface-3 text-primary text-xs font-semibold rounded-xl cursor-pointer"
+                    >
+                      Add
+                    </button>
+                    <button
+                      onClick={handleSaveCategories}
+                      disabled={savingWorkspace}
+                      className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer disabled:opacity-50"
+                    >
+                      {savingWorkspace ? 'Saving...' : 'Save Categories'}
+                    </button>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-background/70 border border-surface-3 text-[11px] leading-relaxed text-slate-500">
+                    Categories are shared across the Inbox, Case Registry and case forms for this
+                    workspace. Removing a category does not change cases already filed under it.
+                  </div>
+                </>
+              ) : (
+                <div className="p-3.5 rounded-xl bg-background/70 border border-surface-3 text-[11px] leading-relaxed text-slate-500">
+                  Only workspace managers can edit categories. These are the categories in use for
+                  this workspace.
+                </div>
+              )}
             </div>
           )}
 
@@ -353,48 +493,33 @@ export default function SettingsPage() {
                   <h3 className="text-base font-bold text-primary">AI Intelligence Architecture</h3>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Decoupled provider interface. Uses local deterministic extraction by default.
+                  How reports are triaged, transcribed, and turned into content.
                 </p>
               </div>
 
               <div className="p-4 rounded-xl bg-success/10 border border-success/20 text-xs text-success space-y-1">
-                <div className="font-bold">Active Engine: Local Deterministic Heuristic Provider</div>
+                <div className="font-bold">Intake triage &amp; transcription: Groq</div>
                 <p className="text-[11px] leading-relaxed">
-                  Extracts claims, entities, missing info, and generates format-tailored content scripts locally without requiring an OpenAI or Gemini API key.
+                  When <code className="font-mono">GROQ_API_KEY</code> is set, incoming reports are
+                  summarized, categorized and scored by Groq, and voice notes are transcribed with
+                  Whisper. If the key is absent or a request fails, a deterministic local heuristic
+                  parser takes over so intake never breaks.
                 </p>
               </div>
 
-              <div className="space-y-3 text-xs">
-                <div>
-                  <label className="block font-bold text-primary uppercase tracking-wider mb-1">
-                    OpenAI API Key (Optional)
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="sk-••••••••••••••••"
-                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-bold text-primary uppercase tracking-wider mb-1">
-                    Gemini API Key (Optional)
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="AIzaSy••••••••••••••••"
-                    className="w-full px-3 py-2 bg-background/40 border border-surface-3 rounded-xl text-xs text-primary focus:outline-none"
-                  />
-                </div>
+              <div className="p-4 rounded-xl bg-background/70 border border-surface-3 text-xs text-slate-600 space-y-1">
+                <div className="font-bold text-primary">Content &amp; brief drafting: Groq, with local fallback</div>
+                <p className="text-[11px] leading-relaxed">
+                  Script, headline and case-brief generation use the same Groq engine when the key is
+                  present, grounded in the case&apos;s verified claims, evidence and right-of-reply
+                  status. Without a key (or if a call fails) the built-in local provider drafts from
+                  the same data so the desk keeps working.
+                </p>
               </div>
 
-              <div className="pt-2">
-                <button
-                  onClick={() => handleSave('API provider configuration saved.')}
-                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-xl cursor-pointer"
-                >
-                  Save Configuration
-                </button>
+              <div className="p-3.5 rounded-xl bg-background/70 border border-surface-3 text-[11px] leading-relaxed text-slate-500">
+                Provider credentials are configured through environment variables on the server
+                (never through this screen), so keys are not stored in the database.
               </div>
             </div>
           )}

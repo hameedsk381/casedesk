@@ -13,6 +13,7 @@ import {
   Edit2,
   ShieldAlert,
 } from 'lucide-react';
+import { useCasePermissions } from '@/components/app/CasePermissionsProvider';
 
 const CLAIM_STATUS_MAP: Record<string, { label: string; bg: string; text: string; border: string }> = {
   UNVERIFIED: {
@@ -45,6 +46,8 @@ export default function CaseClaimsPage() {
   const params = useParams();
   const router = useRouter();
   const caseId = params.id as string;
+  const permissions = useCasePermissions();
+  const canEdit = permissions.edit_case;
 
   const [claims, setClaims] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,7 +79,7 @@ export default function CaseClaimsPage() {
 
     setAdding(true);
     try {
-      await fetch('/api/claims', {
+      const res = await fetch('/api/claims', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -86,14 +89,18 @@ export default function CaseClaimsPage() {
           status: newStatus,
         }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to add claim');
+      }
 
       setNewText('');
       setNewSource('');
       setShowAddModal(false);
       fetchCase();
       router.refresh();
-    } catch (err) {
-      console.error('Failed to add claim:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to add claim');
     } finally {
       setAdding(false);
     }
@@ -101,28 +108,37 @@ export default function CaseClaimsPage() {
 
   const handleUpdateStatus = async (claimId: string, status: string) => {
     try {
-      await fetch(`/api/claims/${claimId}`, {
+      const res = await fetch(`/api/claims/${claimId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to update claim');
+      }
       setClaims((prev) =>
         prev.map((c) => (c.id === claimId ? { ...c, status } : c))
       );
       router.refresh();
-    } catch (err) {
-      console.error('Failed to update status:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to update claim');
+      fetchCase();
     }
   };
 
   const handleDeleteClaim = async (claimId: string) => {
     if (!confirm('Are you sure you want to remove this claim?')) return;
     try {
-      await fetch(`/api/claims/${claimId}`, { method: 'DELETE' });
+      const res = await fetch(`/api/claims/${claimId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to delete claim');
+      }
       setClaims((prev) => prev.filter((c) => c.id !== claimId));
       router.refresh();
-    } catch (err) {
-      console.error('Failed to delete claim:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete claim');
     }
   };
 
@@ -153,13 +169,15 @@ export default function CaseClaimsPage() {
           </p>
         </div>
 
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="py-2 px-3.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
-        >
-          <Plus size={14} />
-          <span>Add Claim</span>
-        </button>
+        {canEdit && (
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="py-2 px-3.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <Plus size={14} />
+            <span>Add Claim</span>
+          </button>
+        )}
       </div>
 
       {/* Claims List */}
@@ -193,7 +211,9 @@ export default function CaseClaimsPage() {
                     <select
                       value={claim.status}
                       onChange={(e) => handleUpdateStatus(claim.id, e.target.value)}
-                      className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
+                      disabled={!canEdit}
+                      title={canEdit ? undefined : 'Your role cannot edit claims'}
+                      className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1 text-primary font-semibold focus:outline-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <option value="UNVERIFIED">Mark Unverified</option>
                       <option value="PARTIALLY_SUPPORTED">Mark Partially Supported</option>
@@ -201,13 +221,15 @@ export default function CaseClaimsPage() {
                       <option value="DISPUTED">Mark Disputed</option>
                     </select>
 
-                    <button
-                      onClick={() => handleDeleteClaim(claim.id)}
-                      className="p-1.5 text-slate-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
-                      title="Delete claim"
-                    >
-                      <Trash2 size={14} />
-                    </button>
+                    {canEdit && (
+                      <button
+                        onClick={() => handleDeleteClaim(claim.id)}
+                        className="p-1.5 text-slate-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
+                        title="Delete claim"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    )}
                   </div>
                 </div>
 

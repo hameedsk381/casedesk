@@ -41,16 +41,20 @@ export default function GlobalTasksPage() {
   const handleToggle = async (taskId: string, currentStatus: string) => {
     const newStatus = currentStatus === 'DONE' ? 'TODO' : 'DONE';
     try {
-      await fetch(`/api/tasks/${taskId}`, {
+      const res = await fetch(`/api/tasks/${taskId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to update task');
+      }
       setTasks((prev) =>
         prev.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t))
       );
-    } catch (err) {
-      console.error('Task toggle error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to update task');
     }
   };
 
@@ -148,7 +152,9 @@ export default function GlobalTasksPage() {
                 <div className="flex items-start gap-3 min-w-0">
                   <button
                     onClick={() => handleToggle(task.id, task.status)}
-                    className="mt-0.5 text-primary hover:text-success transition-colors cursor-pointer"
+                    disabled={task.canEdit === false}
+                    title={task.canEdit === false ? 'Your role cannot update tasks in this workspace' : undefined}
+                    className="mt-0.5 text-primary hover:text-success transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isDone ? (
                       <CheckSquare size={18} className="text-success" />

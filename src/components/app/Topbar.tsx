@@ -9,9 +9,10 @@ interface TopbarProps {
   onOpenMobileMenu: () => void;
   onOpenSearch: () => void;
   user?: any;
+  permissions?: Record<string, boolean>;
 }
 
-export default function Topbar({ onOpenMobileMenu, onOpenSearch, user }: TopbarProps) {
+export default function Topbar({ onOpenMobileMenu, onOpenSearch, user, permissions }: TopbarProps) {
   return (
     <header className="sticky top-0 z-30 h-16 bg-card/90 backdrop-blur-md border-b border-border flex items-center justify-between px-4 sm:px-6">
       {/* Left Mobile Menu & Search Trigger */}
@@ -39,13 +40,15 @@ export default function Topbar({ onOpenMobileMenu, onOpenSearch, user }: TopbarP
 
       {/* Right Action Icons */}
       <div className="flex items-center gap-3">
-        <Link
-          href="/app/cases/new"
-          className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl text-xs font-semibold shadow-xs transition-colors"
-        >
-          <Plus size={14} />
-          <span>New Case</span>
-        </Link>
+        {(permissions === undefined || permissions.create_case) && (
+          <Link
+            href="/app/cases/new"
+            className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl text-xs font-semibold shadow-xs transition-colors"
+          >
+            <Plus size={14} />
+            <span>New Case</span>
+          </Link>
+        )}
 
         {/* Notifications */}
         <NotificationMenu />

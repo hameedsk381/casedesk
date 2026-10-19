@@ -30,27 +30,51 @@ export async function checkPublicationSafety(caseId: string): Promise<Publicatio
   const warnings: string[] = [];
   const blockers: string[] = [];
 
-  // Check claims
+  // Blockers: hard gates that must be cleared before content may be approved.
+
+  // 1. Claims that are unverified or actively disputed must not be published
+  //    as fact.
   const unverifiedClaims = caseRecord.claims.filter(
     (c) => c.status === 'UNVERIFIED' || c.status === 'DISPUTED'
   );
   if (unverifiedClaims.length > 0) {
-    warnings.push(
-      `Case has ${unverifiedClaims.length} unverified or disputed claim(s). Ensure language qualifies them as allegations.`
+    blockers.push(
+      `${unverifiedClaims.length} claim(s) are still unverified or disputed. Corroborate them in the Claims tab before approval.`
     );
   }
 
-  // Check right of reply
+  // 2. Right of reply must be complete (no outstanding authority requests).
+  const settledResponseStatuses = new Set(['RECEIVED', 'NO_RESPONSE', 'NOT_REQUESTED']);
   const pendingResponses = caseRecord.responseRequests.filter(
-    (r) => r.status === 'REQUESTED' || r.status === 'FOLLOW_UP_REQUIRED'
+    (r) => !settledResponseStatuses.has(r.status)
   );
   if (pendingResponses.length > 0) {
-    warnings.push(
-      `${pendingResponses.length} authority response request(s) are still pending or awaiting follow-up.`
+    blockers.push(
+      `${pendingResponses.length} authority response request(s) are still pending or awaiting follow-up. Record the reply (or a documented no-response) first.`
     );
   }
 
-  // Check tasks
+  // 3. A named source must have consented to public identification.
+  const sourceWithoutPublishConsent = caseRecord.sources.find(
+    (s) => !s.consentToPublish && !s.anonymous
+  );
+  if (sourceWithoutPublishConsent) {
+    blockers.push(
+      `Source "${sourceWithoutPublishConsent.name}" has not consented to public identification. Redact or anonymize before approval.`
+    );
+  }
+
+  // Warnings: advisory only; do not block approval.
+
+  const partiallySupportedClaims = caseRecord.claims.filter(
+    (c) => c.status === 'PARTIALLY_SUPPORTED'
+  );
+  if (partiallySupportedClaims.length > 0) {
+    warnings.push(
+      `${partiallySupportedClaims.length} claim(s) are only partially supported. Attribute or soften them before publication.`
+    );
+  }
+
   const incompleteUrgentTasks = caseRecord.tasks.filter(
     (t) => t.status !== 'DONE' && (t.priority === 'HIGH' || t.priority === 'URGENT')
   );
@@ -60,13 +84,9 @@ export async function checkPublicationSafety(caseId: string): Promise<Publicatio
     );
   }
 
-  // Check source consent
-  const sourceWithoutPublishConsent = caseRecord.sources.find(
-    (s) => !s.consentToPublish && !s.anonymous
-  );
-  if (sourceWithoutPublishConsent) {
+  if (caseRecord.sources.length === 0) {
     warnings.push(
-      `Source "${sourceWithoutPublishConsent.name}" has NOT consented to public identification. Names must be redacted or anonymized.`
+      'No source is recorded on this case. Confirm provenance before publishing.'
     );
   }
 

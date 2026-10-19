@@ -1,21 +1,14 @@
 import { getSession } from './session';
 import prisma from '../db/prisma';
+import {
+  ALL_PERMISSION_ACTIONS,
+  type PermissionAction,
+  type UserRole,
+  type WorkspacePermissions,
+} from './permissionTypes';
 
-export type UserRole = 'OWNER' | 'ADMIN' | 'RESEARCHER' | 'EDITOR' | 'VIEWER';
-
-export type PermissionAction =
-  | 'manage_workspace'
-  | 'manage_team'
-  | 'create_case'
-  | 'edit_case'
-  | 'delete_case'
-  | 'add_evidence'
-  | 'delete_evidence'
-  | 'edit_investigation'
-  | 'create_content'
-  | 'approve_content'
-  | 'publish_content'
-  | 'change_case_status';
+export type { PermissionAction, UserRole, WorkspacePermissions } from './permissionTypes';
+export { ALL_PERMISSION_ACTIONS } from './permissionTypes';
 
 const ROLE_PERMISSIONS: Record<UserRole, PermissionAction[]> = {
   OWNER: [
@@ -84,6 +77,39 @@ export function canUserInWorkspace(
 ): boolean {
   const role = getWorkspaceRole(user, workspaceId);
   return role ? canUser(role, action) : false;
+}
+
+/**
+ * A serialisable map of every permission action for one workspace, so server
+ * components can hand the client exactly what it may render/enable.
+ */
+export function getWorkspacePermissions(
+  user: { workspaceMembers?: Array<{ workspaceId: string; role: string }> } | null,
+  workspaceId: string
+): WorkspacePermissions {
+  const role = getWorkspaceRole(user, workspaceId);
+  const allowed = role ? ROLE_PERMISSIONS[role] || [] : [];
+  const map = {} as WorkspacePermissions;
+  for (const action of ALL_PERMISSION_ACTIONS) {
+    map[action] = allowed.includes(action);
+  }
+  return map;
+}
+
+/**
+ * The union of permissions across every workspace the user belongs to. Used by
+ * the app shell for global affordances (e.g. the "New Case" action) where no
+ * single workspace is in context.
+ */
+export function getUnionWorkspacePermissions(
+  user: { workspaceMembers?: Array<{ workspaceId: string; role: string }> } | null
+): WorkspacePermissions {
+  const memberships = user?.workspaceMembers || [];
+  const map = {} as WorkspacePermissions;
+  for (const action of ALL_PERMISSION_ACTIONS) {
+    map[action] = memberships.some((m) => canUser(m.role, action));
+  }
+  return map;
 }
 
 export async function getCurrentUser() {

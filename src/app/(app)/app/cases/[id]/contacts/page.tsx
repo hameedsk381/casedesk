@@ -16,6 +16,7 @@ import {
   Calendar,
   MessageSquare,
 } from 'lucide-react';
+import { useCasePermissions } from '@/components/app/CasePermissionsProvider';
 
 const CONTACT_TYPES = ['AUTHORITY', 'ORGANIZATION', 'EXPERT', 'WITNESS', 'SOURCE', 'OTHER'];
 
@@ -23,6 +24,7 @@ export default function CaseContactsPage() {
   const params = useParams();
   const router = useRouter();
   const caseId = params.id as string;
+  const permissions = useCasePermissions();
 
   const [contacts, setContacts] = useState<any[]>([]);
   const [responseRequests, setResponseRequests] = useState<any[]>([]);
@@ -91,7 +93,10 @@ export default function CaseContactsPage() {
         }),
       });
 
-      if (!res.ok) throw new Error('Failed to create contact');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to create contact');
+      }
 
       setContactName('');
       setContactOrg('');
@@ -102,8 +107,8 @@ export default function CaseContactsPage() {
       setShowContactModal(false);
       fetchContactsData();
       router.refresh();
-    } catch (err) {
-      console.error('Contact error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to create contact');
     } finally {
       setSavingContact(false);
     }
@@ -130,13 +135,16 @@ export default function CaseContactsPage() {
         }),
       });
 
-      if (!res.ok) throw new Error('Failed to dispatch response request');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to dispatch response request');
+      }
 
       setShowRequestModal(false);
       fetchContactsData();
       router.refresh();
-    } catch (err) {
-      console.error('Request error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to dispatch response request');
     } finally {
       setSavingRequest(false);
     }
@@ -148,7 +156,7 @@ export default function CaseContactsPage() {
 
     setUpdatingReply(true);
     try {
-      await fetch(`/api/response-requests/${selectedRequestToUpdate.id}`, {
+      const res = await fetch(`/api/response-requests/${selectedRequestToUpdate.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -156,13 +164,17 @@ export default function CaseContactsPage() {
           responseText: responseText.trim(),
         }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to record response');
+      }
 
       setSelectedRequestToUpdate(null);
       setResponseText('');
       fetchContactsData();
       router.refresh();
-    } catch (err) {
-      console.error('Update reply error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to record response');
     } finally {
       setUpdatingReply(false);
     }
@@ -193,20 +205,22 @@ export default function CaseContactsPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => {
-              if (contacts.length === 0) {
-                alert('Please add an authority or organization contact first.');
-                return;
-              }
-              setSelectedContactId(contacts[0].id);
-              setShowRequestModal(true);
-            }}
-            className="py-2 px-3.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
-          >
-            <Send size={13} className="text-success" />
-            <span>Issue Response Notice</span>
-          </button>
+          {permissions.edit_investigation && (
+            <button
+              onClick={() => {
+                if (contacts.length === 0) {
+                  alert('Please add an authority or organization contact first.');
+                  return;
+                }
+                setSelectedContactId(contacts[0].id);
+                setShowRequestModal(true);
+              }}
+              className="py-2 px-3.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+            >
+              <Send size={13} className="text-success" />
+              <span>Issue Response Notice</span>
+            </button>
+          )}
         </div>
 
         {/* Linear Workflow Visualization */}
@@ -273,16 +287,18 @@ export default function CaseContactsPage() {
                       {req.status.replace(/_/g, ' ')}
                     </span>
 
-                    <button
-                      onClick={() => {
-                        setSelectedRequestToUpdate(req);
-                        setResponseText(req.responseText || '');
-                        setReplyStatus(req.status === 'RECEIVED' ? 'RECEIVED' : 'RECEIVED');
-                      }}
-                      className="px-2.5 py-1 text-xs font-semibold text-primary hover:bg-slate-100 rounded-lg border border-surface-3 cursor-pointer"
-                    >
-                      Log Response
-                    </button>
+                    {permissions.edit_investigation && (
+                      <button
+                        onClick={() => {
+                          setSelectedRequestToUpdate(req);
+                          setResponseText(req.responseText || '');
+                          setReplyStatus(req.status === 'RECEIVED' ? 'RECEIVED' : 'RECEIVED');
+                        }}
+                        className="px-2.5 py-1 text-xs font-semibold text-primary hover:bg-slate-100 rounded-lg border border-surface-3 cursor-pointer"
+                      >
+                        Log Response
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -328,13 +344,15 @@ export default function CaseContactsPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => setShowContactModal(true)}
-            className="py-1.5 px-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
-          >
-            <Plus size={13} />
-            <span>Add Contact</span>
-          </button>
+          {permissions.edit_case && (
+            <button
+              onClick={() => setShowContactModal(true)}
+              className="py-1.5 px-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              <Plus size={13} />
+              <span>Add Contact</span>
+            </button>
+          )}
         </div>
 
         <div className="grid sm:grid-cols-2 gap-4">

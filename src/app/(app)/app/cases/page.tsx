@@ -21,21 +21,7 @@ import CaseStatusBadge from '@/components/app/CaseStatusBadge';
 import PriorityBadge from '@/components/app/PriorityBadge';
 import CaseHealthBadge from '@/components/app/CaseHealthBadge';
 import IntakeChoiceModal from '@/components/app/IntakeChoiceModal';
-
-const CATEGORIES = [
-  'ALL',
-  'Healthcare',
-  'Government Services',
-  'Police / Law Enforcement',
-  'Education',
-  'Land / Property',
-  'Consumer Complaint',
-  'Employment',
-  'Infrastructure',
-  'Environment',
-  'Public Safety',
-  'Financial',
-];
+import { useWorkspaceCategories } from '@/lib/client/useWorkspaceCategories';
 
 const STATUSES = [
   'ALL',
@@ -64,6 +50,7 @@ const HEALTH_OPTIONS = [
 export default function CasesPage() {
   const [cases, setCases] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const categories = useWorkspaceCategories();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [priorityFilter, setPriorityFilter] = useState('ALL');
@@ -225,7 +212,7 @@ export default function CasesPage() {
             className="text-xs bg-background border border-surface-3 rounded-lg px-2.5 py-1.5 text-primary font-medium focus:outline-none cursor-pointer"
           >
             <option value="ALL">Category: All</option>
-            {CATEGORIES.filter((c) => c !== 'ALL').map((c) => (
+            {categories.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>

@@ -2,7 +2,7 @@ import React from 'react';
 import prisma from '@/lib/db/prisma';
 import DashboardClient from '@/components/app/DashboardClient';
 import { calculateCaseHealth } from '@/lib/cases/service';
-import { getCurrentUser, getAccessibleWorkspaceIds } from '@/lib/auth/permissions';
+import { getCurrentUser, getAccessibleWorkspaceIds, getUnionWorkspacePermissions } from '@/lib/auth/permissions';
 
 export const dynamic = 'force-dynamic';
 
@@ -102,6 +102,7 @@ export default async function DashboardPage() {
       dueTodayCases={dueTodayCases}
       inboxUnprocessedCount={inboxUnprocessedCount}
       recentActivities={recentActivities}
+      canCreateCase={user ? getUnionWorkspacePermissions(user).create_case : false}
     />
   );
 }

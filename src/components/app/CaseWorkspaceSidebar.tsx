@@ -19,13 +19,15 @@ import VerificationBadge from './VerificationBadge';
 interface CaseWorkspaceSidebarProps {
   caseRecord: any;
   users: any[];
+  permissions?: Record<string, boolean>;
 }
 
-export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspaceSidebarProps) {
+export default function CaseWorkspaceSidebar({ caseRecord, users, permissions }: CaseWorkspaceSidebarProps) {
   const router = useRouter();
   const [assignedToId, setAssignedToId] = useState(caseRecord.assignedToId || '');
   const [resolutionStatus, setResolutionStatus] = useState(caseRecord.resolutionStatus || 'OPEN');
   const [saving, setSaving] = useState(false);
+  const canEdit = !permissions || permissions.edit_case;
 
   const handleAssignChange = async (userId: string) => {
     setAssignedToId(userId);
@@ -105,8 +107,9 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
             <select
               value={assignedToId}
               onChange={(e) => handleAssignChange(e.target.value)}
-              disabled={saving}
-              className="text-xs bg-surface border border-border rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer max-w-[140px] truncate"
+              disabled={saving || !canEdit}
+              title={canEdit ? undefined : 'Your role cannot reassign this case'}
+              className="text-xs bg-surface border border-border rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer max-w-[140px] truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <option value="">Unassigned</option>
               {users.map((u) => (
@@ -187,7 +190,9 @@ export default function CaseWorkspaceSidebar({ caseRecord, users }: CaseWorkspac
             <select
               value={resolutionStatus}
               onChange={(e) => handleResolutionChange(e.target.value)}
-              className="text-xs bg-surface border border-border rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
+              disabled={!canEdit}
+              title={canEdit ? undefined : 'Your role cannot change resolution status'}
+              className="text-xs bg-surface border border-border rounded-lg px-2 py-1 text-primary font-semibold focus:outline-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <option value="OPEN">Open</option>
               <option value="ONGOING">Ongoing</option>

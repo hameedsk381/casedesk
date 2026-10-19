@@ -48,7 +48,15 @@ export async function GET(request: Request) {
       offset,
     });
 
-    return NextResponse.json(result);
+    // Per-item capabilities are not needed here; every item belongs to the
+    // resolved workspace, so a single permission set gates the whole view.
+    const permissions = {
+      canEdit: canUserInWorkspace(user, workspaceId, 'edit_case'),
+      canCreateCase: canUserInWorkspace(user, workspaceId, 'create_case'),
+      canRequestInfo: canUserInWorkspace(user, workspaceId, 'edit_investigation'),
+    };
+
+    return NextResponse.json({ ...result, permissions });
   } catch (error: any) {
     console.error('Failed to list intake items:', error);
     return NextResponse.json({ error: 'Failed to retrieve intake items' }, { status: 500 });

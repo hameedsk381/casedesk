@@ -33,6 +33,7 @@ import PriorityBadge from '@/components/app/PriorityBadge';
 import IntakeDetailModal from '@/components/app/IntakeDetailModal';
 import AddIntakeModal from '@/components/app/AddIntakeModal';
 import ArchiveReasonModal from '@/components/app/ArchiveReasonModal';
+import { useWorkspaceCategories } from '@/lib/client/useWorkspaceCategories';
 
 function InstagramIcon({ size = 12, className = '' }: { size?: number; className?: string }) {
   return (
@@ -64,24 +65,10 @@ const SOURCES = [
   { id: 'MANUAL', label: 'Manual / Hotline', icon: PenTool, color: 'text-slate-600 bg-slate-100 border-slate-200' },
 ];
 
-const CATEGORIES = [
-  'ALL',
-  'Healthcare',
-  'Government Services',
-  'Police / Law Enforcement',
-  'Education',
-  'Land / Property',
-  'Consumer Complaint',
-  'Employment',
-  'Infrastructure',
-  'Environment',
-  'Public Safety',
-  'Financial',
-];
-
 export default function IntakeInboxPage() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const categories = useWorkspaceCategories();
   const [counts, setCounts] = useState({
     total: 0,
     needsReview: 0,
@@ -103,6 +90,13 @@ export default function IntakeInboxPage() {
   // Selection for Bulk Actions
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [bulkActionLoading, setBulkActionLoading] = useState(false);
+
+  // What the signed-in user may do in the workspace being viewed
+  const [permissions, setPermissions] = useState({
+    canEdit: true,
+    canCreateCase: true,
+    canRequestInfo: true,
+  });
 
   // Active Item Detail Modal
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
@@ -161,6 +155,7 @@ export default function IntakeInboxPage() {
       if (res.ok) {
         const data = await res.json();
         let list = data.items || [];
+        if (data.permissions) setPermissions(data.permissions);
 
         // Apply Card Quick Filters
         if (activeFilterCard === 'NEEDS_REVIEW') {
@@ -232,13 +227,16 @@ export default function IntakeInboxPage() {
           reason,
         }),
       });
-      if (res.ok) {
-        setSelectedIds([]);
-        fetchItems();
-        fetchCounts();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Bulk archive failed');
       }
-    } catch (err) {
+      setSelectedIds([]);
+      fetchItems();
+      fetchCounts();
+    } catch (err: any) {
       console.error('Bulk archive failed:', err);
+      alert(err.message || 'Bulk archive failed');
     } finally {
       setBulkActionLoading(false);
     }
@@ -256,13 +254,16 @@ export default function IntakeInboxPage() {
           ids: selectedIds,
         }),
       });
-      if (res.ok) {
-        setSelectedIds([]);
-        fetchItems();
-        fetchCounts();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Bulk mark reviewed failed');
       }
-    } catch (err) {
+      setSelectedIds([]);
+      fetchItems();
+      fetchCounts();
+    } catch (err: any) {
       console.error('Bulk mark reviewed failed:', err);
+      alert(err.message || 'Bulk mark reviewed failed');
     } finally {
       setBulkActionLoading(false);
     }
@@ -307,6 +308,9 @@ export default function IntakeInboxPage() {
             fetchItems();
             fetchCounts();
           }}
+          canEdit={permissions.canEdit}
+          canCreateCase={permissions.canCreateCase}
+          canRequestInfo={permissions.canRequestInfo}
         />
       )}
 
@@ -373,7 +377,9 @@ export default function IntakeInboxPage() {
           </a>
           <button
             onClick={() => setIsAddIntakeOpen(true)}
-            className="px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer hover:shadow-md active:scale-95"
+            className="px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer hover:shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!permissions.canEdit}
+            title={permissions.canEdit ? undefined : 'Your role cannot add intake items'}
           >
             <Plus size={15} />
             <span>+ Add Intake</span>
@@ -535,7 +541,7 @@ export default function IntakeInboxPage() {
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="p-1.5 bg-background border border-surface-3 rounded-lg font-medium text-primary focus:outline-none cursor-pointer"
           >
-            {CATEGORIES.map((c) => (
+            {['ALL', ...categories].map((c) => (
               <option key={c} value={c}>
                 Category: {c}
               </option>
@@ -550,6 +556,7 @@ export default function IntakeInboxPage() {
           >
             <option value="ALL">Language: All</option>
             <option value="Telugu">Telugu (తెలుగు)</option>
+            <option value="Tenglish">Tenglish (Telugu in English)</option>
             <option value="English">English</option>
             <option value="Other">Other</option>
           </select>
@@ -578,7 +585,7 @@ export default function IntakeInboxPage() {
       </div>
 
       {/* Bulk Action Bar (Section 23) */}
-      {selectedIds.length > 0 && (
+      {selectedIds.length > 0 && permissions.canEdit && (
         <div className="p-3 bg-primary text-white rounded-2xl flex items-center justify-between shadow-lg animate-in slide-in-from-top-2">
           <div className="flex items-center gap-3 text-xs">
             <span className="font-bold px-2 py-0.5 rounded bg-white/20">
@@ -632,25 +639,28 @@ export default function IntakeInboxPage() {
             New citizen reports will appear here for review.
           </p>
           <div className="pt-2">
-            <button
-              onClick={() => setIsAddIntakeOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer"
-            >
-              <Plus size={14} />
-              <span>＋ Add Intake</span>
-            </button>
+            {permissions.canEdit && (
+              <button
+                onClick={() => setIsAddIntakeOpen(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer"
+              >
+                <Plus size={14} />
+                <span>＋ Add Intake</span>
+              </button>
+            )}
           </div>
         </div>
       ) : (
         /* Message Cards (Section 6) */
         <div className="space-y-3.5">
           <div className="flex items-center justify-between px-2 text-xs text-slate-500">
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className={`flex items-center gap-2 ${permissions.canEdit ? 'cursor-pointer' : 'opacity-50'}`}>
               <input
                 type="checkbox"
                 checked={selectedIds.length === items.length && items.length > 0}
                 onChange={handleSelectAll}
-                className="w-4 h-4 rounded text-primary"
+                disabled={!permissions.canEdit}
+                className="w-4 h-4 rounded text-primary disabled:cursor-not-allowed"
               />
               <span>Select All</span>
             </label>
@@ -692,7 +702,8 @@ export default function IntakeInboxPage() {
                     type="checkbox"
                     checked={isSelected}
                     onChange={() => handleToggleSelect(item.id)}
-                    className="w-4 h-4 mt-1 rounded text-primary cursor-pointer shrink-0"
+                    disabled={!permissions.canEdit}
+                    className="w-4 h-4 mt-1 rounded text-primary cursor-pointer shrink-0 disabled:cursor-not-allowed disabled:opacity-50"
                   />
 
                   {/* Main Card Content */}
@@ -800,7 +811,7 @@ export default function IntakeInboxPage() {
                       Review
                     </button>
 
-                    {!item.createdCaseId && (
+                    {!item.createdCaseId && permissions.canCreateCase && (
                       <button
                         onClick={() => setSelectedItem(item)}
                         className="px-3 py-1 text-slate-600 hover:text-primary hover:bg-background text-xs font-semibold rounded-lg transition-colors cursor-pointer"
@@ -809,7 +820,7 @@ export default function IntakeInboxPage() {
                       </button>
                     )}
 
-                    {item.status !== 'ARCHIVED' && (
+                    {item.status !== 'ARCHIVED' && permissions.canEdit && (
                       <button
                         onClick={() => setArchivingItem(item)}
                         className="px-2.5 py-1 text-slate-500 hover:text-red-600 hover:bg-red-50 text-[11px] font-medium rounded-lg transition-colors cursor-pointer"

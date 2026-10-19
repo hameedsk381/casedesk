@@ -16,11 +16,13 @@ import {
   AlertTriangle,
   HelpCircle,
 } from 'lucide-react';
+import { useCasePermissions } from '@/components/app/CasePermissionsProvider';
 
 export default function CaseInvestigationPage() {
   const params = useParams();
   const router = useRouter();
   const caseId = params.id as string;
+  const permissions = useCasePermissions();
 
   const [tasks, setTasks] = useState<any[]>([]);
   const [verificationItems, setVerificationItems] = useState<any[]>([]);
@@ -65,17 +67,22 @@ export default function CaseInvestigationPage() {
   const handleToggleTask = async (taskId: string, currentStatus: string) => {
     const newStatus = currentStatus === 'DONE' ? 'TODO' : 'DONE';
     try {
-      await fetch(`/api/tasks/${taskId}`, {
+      const res = await fetch(`/api/tasks/${taskId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to update task');
+      }
       setTasks((prev) =>
         prev.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t))
       );
       router.refresh();
-    } catch (err) {
-      console.error('Task toggle error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to update task');
+      fetchCaseDetails();
     }
   };
 
@@ -98,7 +105,10 @@ export default function CaseInvestigationPage() {
         }),
       });
 
-      if (!res.ok) throw new Error('Failed to create task');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to create task');
+      }
 
       setTaskTitle('');
       setTaskDesc('');
@@ -106,8 +116,8 @@ export default function CaseInvestigationPage() {
       setShowTaskModal(false);
       fetchCaseDetails();
       router.refresh();
-    } catch (err) {
-      console.error('Task creation error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to create task');
     } finally {
       setSavingTask(false);
     }
@@ -115,17 +125,22 @@ export default function CaseInvestigationPage() {
 
   const handleUpdateVerification = async (itemId: string, status: string) => {
     try {
-      await fetch(`/api/verification/${itemId}`, {
+      const res = await fetch(`/api/verification/${itemId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to update verification');
+      }
       setVerificationItems((prev) =>
         prev.map((v) => (v.id === itemId ? { ...v, status } : v))
       );
       router.refresh();
-    } catch (err) {
-      console.error('Verification update error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to update verification');
+      fetchCaseDetails();
     }
   };
 
@@ -135,7 +150,7 @@ export default function CaseInvestigationPage() {
 
     setSavingVerify(true);
     try {
-      await fetch('/api/verification', {
+      const res = await fetch('/api/verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -145,14 +160,18 @@ export default function CaseInvestigationPage() {
           status: 'PENDING',
         }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to add verification statement');
+      }
 
       setStatement('');
       setEvidenceRequired('');
       setShowVerifyModal(false);
       fetchCaseDetails();
       router.refresh();
-    } catch (err) {
-      console.error('Verification creation error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to add verification statement');
     } finally {
       setSavingVerify(false);
     }
@@ -180,13 +199,15 @@ export default function CaseInvestigationPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => setShowVerifyModal(true)}
-            className="py-1.5 px-3 bg-success hover:bg-success/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
-          >
-            <Plus size={13} />
-            <span>Add Statement</span>
-          </button>
+          {permissions.edit_investigation && (
+            <button
+              onClick={() => setShowVerifyModal(true)}
+              className="py-1.5 px-3 bg-success hover:bg-success/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              <Plus size={13} />
+              <span>Add Statement</span>
+            </button>
+          )}
         </div>
 
         <div className="space-y-3">
@@ -227,7 +248,9 @@ export default function CaseInvestigationPage() {
                   <select
                     value={item.status}
                     onChange={(e) => handleUpdateVerification(item.id, e.target.value)}
-                    className="text-xs bg-white border border-surface-3 rounded-lg px-2.5 py-1 text-primary font-semibold focus:outline-none cursor-pointer"
+                    disabled={!permissions.edit_investigation}
+                    title={permissions.edit_investigation ? undefined : 'Your role cannot edit verification'}
+                    className="text-xs bg-white border border-surface-3 rounded-lg px-2.5 py-1 text-primary font-semibold focus:outline-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <option value="PENDING">Pending Check</option>
                     <option value="VERIFIED">Verified ✓</option>
@@ -253,13 +276,15 @@ export default function CaseInvestigationPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => setShowTaskModal(true)}
-            className="py-1.5 px-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
-          >
-            <Plus size={13} />
-            <span>New Task</span>
-          </button>
+          {permissions.edit_case && (
+            <button
+              onClick={() => setShowTaskModal(true)}
+              className="py-1.5 px-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              <Plus size={13} />
+              <span>New Task</span>
+            </button>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -283,7 +308,9 @@ export default function CaseInvestigationPage() {
                   <div className="flex items-start gap-3 min-w-0">
                     <button
                       onClick={() => handleToggleTask(task.id, task.status)}
-                      className="mt-0.5 text-primary hover:text-success transition-colors cursor-pointer"
+                      disabled={!permissions.edit_case}
+                      title={permissions.edit_case ? undefined : 'Your role cannot update tasks'}
+                      className="mt-0.5 text-primary hover:text-success transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isDone ? (
                         <CheckSquare size={18} className="text-success" />

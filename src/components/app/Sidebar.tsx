@@ -16,9 +16,11 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import IntakeChoiceModal from './IntakeChoiceModal';
+import { primaryWorkspaceRole } from '@/lib/auth/permissionTypes';
 
 interface SidebarProps {
   user?: any;
+  permissions?: Record<string, boolean>;
   workspaceName?: string;
   isMobileOpen?: boolean;
   onCloseMobile?: () => void;
@@ -26,6 +28,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   user,
+  permissions,
   workspaceName = 'CaseDesk',
   isMobileOpen = false,
   onCloseMobile,
@@ -33,8 +36,12 @@ export default function Sidebar({
   const pathname = usePathname();
   const router = useRouter();
   const [isIntakeModalOpen, setIsIntakeModalOpen] = useState(false);
-  const [inboxUnprocessedCount, setInboxUnprocessedCount] = useState<number | null>(6);
-  const [activeCasesCount, setActiveCasesCount] = useState<number | null>(10);
+  const [inboxUnprocessedCount, setInboxUnprocessedCount] = useState<number | null>(null);
+  const [activeCasesCount, setActiveCasesCount] = useState<number | null>(null);
+
+  // Workspace role is what actually governs access; the global platform role is
+  // only a fallback for users who have not been added to a workspace yet.
+  const workspaceRole = primaryWorkspaceRole(user) || user?.role || 'RESEARCHER';
 
   useEffect(() => {
     // Quick background fetch to refresh badge counters
@@ -181,18 +188,20 @@ export default function Sidebar({
         </div>
 
         {/* Unified Intelligent Intake CTA */}
-        <div className="p-4">
-          <button
-            onClick={() => {
-              if (onCloseMobile) onCloseMobile();
-              setIsIntakeModalOpen(true);
-            }}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-sidebar-primary hover:bg-secondary-dark text-sidebar-primary-foreground font-semibold rounded-xl text-sm shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-[0.98]"
-          >
-            <PlusCircle size={16} />
-            <span>＋ New Case</span>
-          </button>
-        </div>
+        {(permissions === undefined || permissions.create_case) && (
+          <div className="p-4">
+            <button
+              onClick={() => {
+                if (onCloseMobile) onCloseMobile();
+                setIsIntakeModalOpen(true);
+              }}
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-sidebar-primary hover:bg-secondary-dark text-sidebar-primary-foreground font-semibold rounded-xl text-sm shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-[0.98]"
+            >
+              <PlusCircle size={16} />
+              <span>＋ New Case</span>
+            </button>
+          </div>
+        )}
 
         {/* Nav Hierarchy */}
         <div className="flex-1 px-3 space-y-5 overflow-y-auto pb-4">
@@ -313,8 +322,11 @@ export default function Sidebar({
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-bold text-sidebar-foreground truncate">{user?.name || 'Investigator'}</div>
-                <div className="text-[10px] uppercase font-bold text-sidebar-foreground/60 tracking-wider">
-                  {user?.role || 'RESEARCHER'}
+                <div
+                  className="text-[10px] uppercase font-bold text-sidebar-foreground/60 tracking-wider"
+                  title={`Role in ${workspaceName}`}
+                >
+                  {workspaceRole}
                 </div>
               </div>
             </div>

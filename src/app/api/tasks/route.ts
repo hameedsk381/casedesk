@@ -28,7 +28,7 @@ export async function GET(request: Request) {
       where,
       include: {
         case: {
-          select: { id: true, caseNumber: true, title: true, priority: true },
+          select: { id: true, caseNumber: true, title: true, priority: true, workspaceId: true },
         },
         assignedTo: {
           select: { id: true, name: true, avatarUrl: true },
@@ -41,7 +41,16 @@ export async function GET(request: Request) {
       ],
     });
 
-    return NextResponse.json(tasks);
+    // Tell the client whether this user may toggle each task, so the global
+    // Tasks page can disable controls rather than failing on click.
+    const withCapabilities = tasks.map((task: any) => ({
+      ...task,
+      canEdit: task.case?.workspaceId
+        ? canUserInWorkspace(user, task.case.workspaceId, 'edit_case')
+        : false,
+    }));
+
+    return NextResponse.json(withCapabilities);
   } catch (error: any) {
     console.error('Error fetching tasks:', error);
     return NextResponse.json({ error: 'Failed to fetch tasks' }, { status: 500 });

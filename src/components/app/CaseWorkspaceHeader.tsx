@@ -20,6 +20,7 @@ import PriorityBadge from './PriorityBadge';
 interface CaseWorkspaceHeaderProps {
   caseRecord: any;
   users: any[];
+  permissions?: Record<string, boolean>;
 }
 
 const TABS = [
@@ -33,12 +34,13 @@ const TABS = [
   { label: 'Follow-up', slug: 'follow-up' },
 ];
 
-export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspaceHeaderProps) {
+export default function CaseWorkspaceHeader({ caseRecord, users, permissions }: CaseWorkspaceHeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const basePath = `/app/cases/${caseRecord.id}`;
   const [status, setStatus] = useState(caseRecord.status);
   const [updating, setUpdating] = useState(false);
+  const can = (action: string) => !permissions || permissions[action];
 
   const handleStatusChange = async (newStatus: string) => {
     setStatus(newStatus);
@@ -107,8 +109,9 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
           <select
             value={status}
             onChange={(e) => handleStatusChange(e.target.value)}
-            disabled={updating}
-            className="text-xs bg-surface border border-border rounded-xl px-3 py-2 text-primary font-semibold focus:outline-none cursor-pointer"
+            disabled={updating || !can('change_case_status')}
+            title={can('change_case_status') ? undefined : 'Your role cannot change case status'}
+            className="text-xs bg-surface border border-border rounded-xl px-3 py-2 text-primary font-semibold focus:outline-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <option value="NEW">Status: New</option>
             <option value="TRIAGE">Status: Triage</option>
@@ -123,29 +126,35 @@ export default function CaseWorkspaceHeader({ caseRecord, users }: CaseWorkspace
             <option value="CLOSED">Status: Closed</option>
           </select>
 
-          <Link
-            href={`${basePath}/evidence`}
-            className="px-3 py-2 bg-surface hover:bg-surface-2 text-primary font-semibold text-xs rounded-xl border border-border transition-colors flex items-center gap-1.5"
-          >
-            <FilePlus size={14} className="text-primary" />
-            <span>Add Evidence</span>
-          </Link>
+          {can('add_evidence') && (
+            <Link
+              href={`${basePath}/evidence`}
+              className="px-3 py-2 bg-surface hover:bg-surface-2 text-primary font-semibold text-xs rounded-xl border border-border transition-colors flex items-center gap-1.5"
+            >
+              <FilePlus size={14} className="text-primary" />
+              <span>Add Evidence</span>
+            </Link>
+          )}
 
-          <Link
-            href={`${basePath}/contacts`}
-            className="px-3 py-2 bg-surface hover:bg-surface-2 text-primary font-semibold text-xs rounded-xl border border-border transition-colors flex items-center gap-1.5"
-          >
-            <Send size={14} className="text-warning" />
-            <span>Request Response</span>
-          </Link>
+          {can('edit_investigation') && (
+            <Link
+              href={`${basePath}/contacts`}
+              className="px-3 py-2 bg-surface hover:bg-surface-2 text-primary font-semibold text-xs rounded-xl border border-border transition-colors flex items-center gap-1.5"
+            >
+              <Send size={14} className="text-warning" />
+              <span>Request Response</span>
+            </Link>
+          )}
 
-          <Link
-            href={`${basePath}/content`}
-            className="px-3.5 py-2 bg-primary hover:bg-primary-hover text-primary-foreground font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
-          >
-            <Share2 size={14} className="text-success" />
-            <span>Create Content</span>
-          </Link>
+          {can('create_content') && (
+            <Link
+              href={`${basePath}/content`}
+              className="px-3.5 py-2 bg-primary hover:bg-primary-hover text-primary-foreground font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+            >
+              <Share2 size={14} className="text-success" />
+              <span>Create Content</span>
+            </Link>
+          )}
         </div>
       </div>
 

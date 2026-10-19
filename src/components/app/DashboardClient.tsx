@@ -31,6 +31,7 @@ interface DashboardClientProps {
   dueTodayCases: any[];
   inboxUnprocessedCount: number;
   recentActivities: any[];
+  canCreateCase?: boolean;
 }
 
 export default function DashboardClient({
@@ -41,6 +42,7 @@ export default function DashboardClient({
   dueTodayCases,
   inboxUnprocessedCount,
   recentActivities,
+  canCreateCase = true,
 }: DashboardClientProps) {
   const [isIntakeModalOpen, setIsIntakeModalOpen] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(true);
@@ -95,13 +97,15 @@ export default function DashboardClient({
               </span>
             )}
           </Link>
-          <button
-            onClick={() => setIsIntakeModalOpen(true)}
-            className="px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer hover:shadow-md active:scale-95"
-          >
-            <FolderPlus size={15} />
-            <span>＋ New Case</span>
-          </button>
+          {canCreateCase && (
+            <button
+              onClick={() => setIsIntakeModalOpen(true)}
+              className="px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer hover:shadow-md active:scale-95"
+            >
+              <FolderPlus size={15} />
+              <span>＋ New Case</span>
+            </button>
+          )}
         </div>
       </div>
 

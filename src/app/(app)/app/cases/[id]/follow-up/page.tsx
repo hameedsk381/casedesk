@@ -12,6 +12,7 @@ import {
   MessageSquare,
   ShieldCheck,
 } from 'lucide-react';
+import { useCasePermissions } from '@/components/app/CasePermissionsProvider';
 
 const RESOLUTION_STATUSES = ['OPEN', 'ONGOING', 'PARTIALLY_RESOLVED', 'RESOLVED', 'CLOSED'];
 
@@ -19,6 +20,7 @@ export default function CaseFollowUpPage() {
   const params = useParams();
   const router = useRouter();
   const caseId = params.id as string;
+  const permissions = useCasePermissions();
 
   const [caseRecord, setCaseRecord] = useState<any | null>(null);
   const [resolutionStatus, setResolutionStatus] = useState('OPEN');
@@ -52,7 +54,7 @@ export default function CaseFollowUpPage() {
     setResolutionStatus(newStatus);
     setSavingResolution(true);
     try {
-      await fetch(`/api/cases/${caseId}`, {
+      const res = await fetch(`/api/cases/${caseId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -60,9 +62,14 @@ export default function CaseFollowUpPage() {
           resolvedAt: newStatus === 'RESOLVED' ? new Date() : null,
         }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to update resolution status');
+      }
       router.refresh();
-    } catch (err) {
-      console.error('Resolution error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to update resolution status');
+      fetchCase();
     } finally {
       setSavingResolution(false);
     }
@@ -74,22 +81,28 @@ export default function CaseFollowUpPage() {
 
     setSavingEvent(true);
     try {
-      // In this MVP, we create an event record via case update / internal log
-      await fetch(`/api/cases/${caseId}`, {
-        method: 'PATCH',
+      const res = await fetch(`/api/cases/${caseId}/events`, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          status: 'FOLLOW_UP',
+          type: 'FOLLOW_UP_CREATED',
+          title: eventTitle.trim(),
+          description: eventDesc.trim(),
         }),
       });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to log development');
+      }
 
       setShowEventModal(false);
       setEventTitle('');
       setEventDesc('');
       fetchCase();
       router.refresh();
-    } catch (err) {
-      console.error('Event error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Failed to log development');
     } finally {
       setSavingEvent(false);
     }
@@ -128,8 +141,9 @@ export default function CaseFollowUpPage() {
             <select
               value={resolutionStatus}
               onChange={(e) => handleResolutionUpdate(e.target.value)}
-              disabled={savingResolution}
-              className="text-xs bg-background border border-surface-3 rounded-xl px-3 py-2 text-primary font-bold focus:outline-none cursor-pointer"
+              disabled={savingResolution || !permissions.edit_case}
+              title={permissions.edit_case ? undefined : 'Your role cannot change resolution status'}
+              className="text-xs bg-background border border-surface-3 rounded-xl px-3 py-2 text-primary font-bold focus:outline-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {RESOLUTION_STATUSES.map((res) => (
                 <option key={res} value={res}>
@@ -176,13 +190,15 @@ export default function CaseFollowUpPage() {
       <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-surface-3">
           <h3 className="text-sm font-bold text-primary">Post-Publication Developments</h3>
-          <button
-            onClick={() => setShowEventModal(true)}
-            className="py-1.5 px-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
-          >
-            <Plus size={13} />
-            <span>Log Development</span>
-          </button>
+          {permissions.edit_case && (
+            <button
+              onClick={() => setShowEventModal(true)}
+              className="py-1.5 px-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              <Plus size={13} />
+              <span>Log Development</span>
+            </button>
+          )}
         </div>
 
         <div className="space-y-4">

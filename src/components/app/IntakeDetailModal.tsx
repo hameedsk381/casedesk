@@ -44,6 +44,12 @@ interface IntakeDetailModalProps {
   intakeItem: any;
   onUpdated: () => void;
   existingCases?: Array<{ id: string; caseNumber: string; title: string }>;
+  /** May edit intake metadata, archive, and merge (edit_case). */
+  canEdit?: boolean;
+  /** May convert this intake into a case (create_case). */
+  canCreateCase?: boolean;
+  /** May issue a right-of-reply/request-info notice (edit_investigation). */
+  canRequestInfo?: boolean;
 }
 
 export default function IntakeDetailModal({
@@ -52,6 +58,9 @@ export default function IntakeDetailModal({
   intakeItem,
   onUpdated,
   existingCases = [],
+  canEdit = true,
+  canCreateCase = true,
+  canRequestInfo = true,
 }: IntakeDetailModalProps) {
   const router = useRouter();
 
@@ -208,41 +217,49 @@ export default function IntakeDetailModal({
 
             {/* 4 Core Decision Actions */}
             <div className="flex items-center gap-2">
-              <button
-                onClick={handleCreateCase}
-                disabled={actionLoading}
-                className="px-3.5 py-2 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-              >
-                <FileCheck2 size={14} className="text-success" />
-                <span>Create Case</span>
-              </button>
+              {canCreateCase && (
+                <button
+                  onClick={handleCreateCase}
+                  disabled={actionLoading}
+                  className="px-3.5 py-2 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  <FileCheck2 size={14} className="text-success" />
+                  <span>Create Case</span>
+                </button>
+              )}
 
-              <button
-                onClick={() => setIsMergeModalOpen(true)}
-                disabled={actionLoading}
-                className="px-3.5 py-2 bg-background hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-surface-3 transition-all flex items-center gap-1.5 cursor-pointer"
-              >
-                <GitMerge size={14} className="text-primary" />
-                <span>Merge with Case</span>
-              </button>
+              {canEdit && (
+                <button
+                  onClick={() => setIsMergeModalOpen(true)}
+                  disabled={actionLoading}
+                  className="px-3.5 py-2 bg-background hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-surface-3 transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <GitMerge size={14} className="text-primary" />
+                  <span>Merge with Case</span>
+                </button>
+              )}
 
-              <button
-                onClick={() => setIsRequestInfoOpen(true)}
-                disabled={actionLoading}
-                className="px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-semibold rounded-xl border border-amber-200 transition-all flex items-center gap-1.5 cursor-pointer"
-              >
-                <HelpCircle size={14} className="text-amber-600" />
-                <span>Request Info</span>
-              </button>
+              {canRequestInfo && (
+                <button
+                  onClick={() => setIsRequestInfoOpen(true)}
+                  disabled={actionLoading}
+                  className="px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-semibold rounded-xl border border-amber-200 transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <HelpCircle size={14} className="text-amber-600" />
+                  <span>Request Info</span>
+                </button>
+              )}
 
-              <button
-                onClick={() => setIsArchiveOpen(true)}
-                disabled={actionLoading}
-                className="px-3 py-2 text-slate-500 hover:text-red-600 hover:bg-red-50 text-xs font-semibold rounded-xl transition-all flex items-center gap-1 cursor-pointer"
-              >
-                <Archive size={14} />
-                <span>Archive</span>
-              </button>
+              {canEdit && (
+                <button
+                  onClick={() => setIsArchiveOpen(true)}
+                  disabled={actionLoading}
+                  className="px-3 py-2 text-slate-500 hover:text-red-600 hover:bg-red-50 text-xs font-semibold rounded-xl transition-all flex items-center gap-1 cursor-pointer"
+                >
+                  <Archive size={14} />
+                  <span>Archive</span>
+                </button>
+              )}
 
               <button
                 onClick={onClose}
@@ -438,7 +455,7 @@ export default function IntakeDetailModal({
                   </h3>
                 </div>
 
-                {isEditing ? (
+                {canEdit && (isEditing ? (
                   <button
                     onClick={handleSaveEdits}
                     disabled={savingEdits}
@@ -455,7 +472,7 @@ export default function IntakeDetailModal({
                     <Edit3 size={12} />
                     <span>Edit Values</span>
                   </button>
-                )}
+                ))}
               </div>
 
               {/* Potential Duplicate Box if candidate detected */}
@@ -488,26 +505,30 @@ export default function IntakeDetailModal({
                     </Link>
                   </div>
                   <div className="flex items-center gap-2 pt-1">
-                    <button
-                      onClick={() => handleExecuteMerge(intakeItem.duplicateCaseId)}
-                      className="px-3 py-1.5 bg-amber-700 hover:bg-amber-800 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
-                    >
-                      <GitMerge size={12} />
-                      <span>Merge with this Case</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        // Dismiss duplicate flag
-                        fetch(`/api/intake/${intakeItem.id}`, {
-                          method: 'PATCH',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ duplicateCandidate: false }),
-                        }).then(() => onUpdated());
-                      }}
-                      className="px-2.5 py-1.5 text-xs text-slate-500 hover:text-primary cursor-pointer"
-                    >
-                      Not Related
-                    </button>
+                    {canEdit && (
+                      <button
+                        onClick={() => handleExecuteMerge(intakeItem.duplicateCaseId)}
+                        className="px-3 py-1.5 bg-amber-700 hover:bg-amber-800 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+                      >
+                        <GitMerge size={12} />
+                        <span>Merge with this Case</span>
+                      </button>
+                    )}
+                    {canEdit && (
+                      <button
+                        onClick={() => {
+                          // Dismiss duplicate flag
+                          fetch(`/api/intake/${intakeItem.id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ duplicateCandidate: false }),
+                          }).then(() => onUpdated());
+                        }}
+                        className="px-2.5 py-1.5 text-xs text-slate-500 hover:text-primary cursor-pointer"
+                      >
+                        Not Related
+                      </button>
+                    )}
                   </div>
                 </div>
               )}

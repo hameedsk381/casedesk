@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import {
   Sparkles,
@@ -12,11 +12,12 @@ import {
   Film,
   Play,
   Layers,
-  Send,
   Loader2,
   Copy,
   Check,
   ShieldAlert,
+  Send,
+  XCircle,
 } from 'lucide-react';
 
 const FORMATS = [
@@ -28,24 +29,45 @@ const FORMATS = [
   { id: 'SOCIAL_POST', name: 'Social Post', icon: Share2, duration: 'Thread' },
 ];
 
+const STATUS_STYLES: Record<string, string> = {
+  DRAFT: 'bg-slate-100 text-slate-600 border-slate-200',
+  IN_REVIEW: 'bg-amber-50 text-amber-700 border-amber-200',
+  APPROVED: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  PUBLISHED: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+  ARCHIVED: 'bg-slate-100 text-slate-500 border-slate-200',
+};
+
 export default function CaseContentStudioPage() {
   const params = useParams();
   const router = useRouter();
   const caseId = params.id as string;
 
-  const [caseRecord, setCaseRecord] = useState<any | null>(null);
   const [selectedFormat, setSelectedFormat] = useState('INSTAGRAM_REEL');
   const [contentTitle, setContentTitle] = useState('');
   const [contentBody, setContentBody] = useState('');
   const [existingContents, setExistingContents] = useState<any[]>([]);
+  const [currentContentId, setCurrentContentId] = useState<string | null>(null);
+  const [currentStatus, setCurrentStatus] = useState('DRAFT');
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
 
   // Safety checks state
   const [safetyCheck, setSafetyCheck] = useState<any | null>(null);
   const [showSafetyModal, setShowSafetyModal] = useState(false);
-  const [approving, setApproving] = useState(false);
+
+  const hasLoaded = useRef(false);
+
+  const loadContentIntoEditor = (content: any | null) => {
+    if (content) {
+      setSelectedFormat(content.type);
+      setCurrentContentId(content.id);
+      setCurrentStatus(content.status || 'DRAFT');
+      setContentTitle(content.title || '');
+      setContentBody(content.body || '');
+    }
+  };
 
   const fetchCase = async () => {
     try {
@@ -57,16 +79,26 @@ export default function CaseContentStudioPage() {
       const caseData = await caseRes.json();
       const safetyData = await safetyRes.json();
 
-      setCaseRecord(caseData);
-      setExistingContents(caseData.contents || []);
       setSafetyCheck(safetyData);
 
-      if (caseData.contents && caseData.contents.length > 0) {
-        const latest = caseData.contents[0];
-        setContentTitle(latest.title);
-        setContentBody(latest.body);
-        setSelectedFormat(latest.type);
+      const contents: any[] = caseData.contents || [];
+      setExistingContents(contents);
+
+      if (!hasLoaded.current && contents.length > 0) {
+        // First load: open the most recent content, whatever its format.
+        loadContentIntoEditor(contents[0]);
+      } else {
+        const match = contents.find((c) => c.type === selectedFormat);
+        if (match) {
+          setCurrentContentId(match.id);
+          setCurrentStatus(match.status || 'DRAFT');
+        } else if (currentContentId && !contents.some((c) => c.id === currentContentId)) {
+          // The open draft was removed server-side.
+          setCurrentContentId(null);
+          setCurrentStatus('DRAFT');
+        }
       }
+      hasLoaded.current = true;
     } catch (err) {
       console.error('Failed to load content studio data:', err);
     } finally {
@@ -76,7 +108,20 @@ export default function CaseContentStudioPage() {
 
   useEffect(() => {
     fetchCase();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [caseId]);
+
+  const handleSelectFormat = (fmtId: string) => {
+    setSelectedFormat(fmtId);
+    const match = existingContents.find((c) => c.type === fmtId);
+    if (match) {
+      loadContentIntoEditor(match);
+    } else {
+      // Keep the current script text, but save it as a new draft of the new format.
+      setCurrentContentId(null);
+      setCurrentStatus('DRAFT');
+    }
+  };
 
   const handleGenerateDraft = async () => {
     setGenerating(true);
@@ -84,10 +129,7 @@ export default function CaseContentStudioPage() {
       const res = await fetch('/api/ai/generate-content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          caseId,
-          format: selectedFormat,
-        }),
+        body: JSON.stringify({ caseId, format: selectedFormat }),
       });
 
       const data = await res.json();
@@ -95,39 +137,93 @@ export default function CaseContentStudioPage() {
 
       setContentTitle(data.title);
       setContentBody(data.script);
-    } catch (err) {
-      console.error('Generation error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Generation failed');
     } finally {
       setGenerating(false);
     }
   };
 
-  const handleSaveDraft = async (statusToSave: string = 'DRAFT') => {
+  /**
+   * Creates the content draft if it does not exist yet, otherwise updates it in
+   * place. Returns the content id, or null when the fields are incomplete.
+   */
+  const persistContent = async (): Promise<string | null> => {
     if (!contentTitle.trim() || !contentBody.trim()) {
-      alert('Please provide both title and script before saving.');
-      return;
+      alert('Please provide both a title and a script before saving.');
+      return null;
     }
 
-    try {
-      const res = await fetch('/api/content', {
-        method: 'POST',
+    const payload = {
+      type: selectedFormat,
+      title: contentTitle.trim(),
+      body: contentBody.trim(),
+    };
+
+    if (currentContentId) {
+      const res = await fetch(`/api/content/${currentContentId}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          caseId,
-          type: selectedFormat,
-          title: contentTitle.trim(),
-          body: contentBody.trim(),
-          status: statusToSave,
-        }),
+        body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to save content');
+      }
+      return currentContentId;
+    }
 
-      if (!res.ok) throw new Error('Failed to save content');
+    const res = await fetch('/api/content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ caseId, ...payload }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || 'Failed to create content');
+    }
+    const created = await res.json();
+    setCurrentContentId(created.id);
+    setCurrentStatus(created.status || 'DRAFT');
+    return created.id;
+  };
 
-      fetchCase();
+  const handleSaveDraft = async () => {
+    setSaving(true);
+    try {
+      const id = await persistContent();
+      if (!id) return;
+      await fetchCase();
       router.refresh();
-      alert(`Content draft successfully saved as ${statusToSave}!`);
-    } catch (err) {
-      console.error('Save error:', err);
+    } catch (err: any) {
+      alert(err.message || 'Save failed');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleTransition = async (status: 'APPROVED' | 'PUBLISHED') => {
+    setSaving(true);
+    try {
+      const id = await persistContent();
+      if (!id) return;
+      const res = await fetch(`/api/content/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Failed to mark content ${status.toLowerCase()}`);
+      }
+      setCurrentStatus(status);
+      setShowSafetyModal(false);
+      await fetchCase();
+      router.refresh();
+    } catch (err: any) {
+      alert(err.message || 'Action failed');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -136,6 +232,13 @@ export default function CaseContentStudioPage() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const blockers: string[] = safetyCheck?.blockers || [];
+  const warnings: string[] = safetyCheck?.warnings || [];
+  const isSafe = blockers.length === 0;
+  const canCreate = safetyCheck?.can?.createContent ?? true;
+  const canApprove = safetyCheck?.can?.approveContent ?? true;
+  const canPublish = safetyCheck?.can?.publishContent ?? true;
 
   if (loading) {
     return (
@@ -149,7 +252,7 @@ export default function CaseContentStudioPage() {
     <div className="space-y-8">
       {/* 1. Format Selection */}
       <div className="bg-white p-6 rounded-2xl border border-surface-3 shadow-xs space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-base font-bold text-primary">Content Studio & Publisher</h2>
             <p className="text-xs text-muted-foreground mt-0.5">
@@ -157,23 +260,33 @@ export default function CaseContentStudioPage() {
             </p>
           </div>
 
-          <button
-            onClick={handleGenerateDraft}
-            disabled={generating}
-            className="py-2 px-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
-          >
-            {generating ? (
-              <>
-                <Loader2 size={14} className="animate-spin" />
-                <span>Compiling Facts...</span>
-              </>
-            ) : (
-              <>
-                <Sparkles size={14} className="text-success" />
-                <span>Generate Script Draft</span>
-              </>
-            )}
-          </button>
+          <div className="flex items-center gap-2">
+            <span
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border ${
+                STATUS_STYLES[currentStatus] || STATUS_STYLES.DRAFT
+              }`}
+            >
+              {currentStatus.replace(/_/g, ' ')}
+            </span>
+            <button
+              onClick={handleGenerateDraft}
+              disabled={generating || !canCreate}
+              title={canCreate ? undefined : 'Your role cannot create content'}
+              className="py-2 px-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-xs shadow-xs transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
+            >
+              {generating ? (
+                <>
+                  <Loader2 size={14} className="animate-spin" />
+                  <span>Compiling Facts...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles size={14} className="text-success" />
+                  <span>Generate Script Draft</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Format Selector Pills */}
@@ -185,7 +298,7 @@ export default function CaseContentStudioPage() {
             return (
               <button
                 key={fmt.id}
-                onClick={() => setSelectedFormat(fmt.id)}
+                onClick={() => handleSelectFormat(fmt.id)}
                 className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                   isSelected
                     ? 'border-primary bg-primary/5 shadow-2xs'
@@ -249,11 +362,24 @@ export default function CaseContentStudioPage() {
         <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-surface-3">
           <div className="flex items-center gap-2">
             <button
-              onClick={() => handleSaveDraft('DRAFT')}
-              className="py-2 px-4 bg-background hover:bg-slate-100 text-primary font-semibold rounded-xl text-xs border border-surface-3 transition-colors cursor-pointer"
+              onClick={handleSaveDraft}
+              disabled={saving || !canCreate}
+              title={canCreate ? undefined : 'Your role cannot create content'}
+              className="py-2 px-4 bg-background hover:bg-slate-100 text-primary font-semibold rounded-xl text-xs border border-surface-3 transition-colors cursor-pointer disabled:opacity-50"
             >
-              Save as Draft
+              {saving ? 'Saving...' : 'Save Draft'}
             </button>
+
+            {currentStatus === 'APPROVED' && canPublish && (
+              <button
+                onClick={() => handleTransition('PUBLISHED')}
+                disabled={saving}
+                className="py-2 px-4 bg-success hover:bg-success/90 text-white font-semibold rounded-xl text-xs transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                <Send size={13} />
+                <span>Publish</span>
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
@@ -284,30 +410,52 @@ export default function CaseContentStudioPage() {
               </div>
             </div>
 
-            {/* Warnings list */}
-            <div className="space-y-2.5 max-h-64 overflow-y-auto">
-              {safetyCheck?.warnings?.length === 0 ? (
+            <div className="space-y-2.5 max-h-72 overflow-y-auto">
+              {isSafe && warnings.length === 0 ? (
                 <div className="p-3.5 rounded-xl bg-success/10 text-success text-xs font-semibold flex items-center gap-2">
                   <CheckCircle2 size={16} />
                   <span>All core checks passed! Claims are corroborated and right of reply is recorded.</span>
                 </div>
               ) : (
-                safetyCheck?.warnings?.map((warn: string, i: number) => (
-                  <div
-                    key={i}
-                    className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5"
-                  >
-                    <AlertTriangle size={15} className="text-warning shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">{warn}</span>
-                  </div>
-                ))
+                <>
+                  {blockers.map((block, i) => (
+                    <div
+                      key={`blocker-${i}`}
+                      className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-900 text-xs flex items-start gap-2.5"
+                    >
+                      <XCircle size={15} className="text-red-600 shrink-0 mt-0.5" />
+                      <div className="leading-relaxed">
+                        <span className="font-bold uppercase text-[10px] tracking-wider block mb-0.5">
+                          Blocking
+                        </span>
+                        {block}
+                      </div>
+                    </div>
+                  ))}
+
+                  {warnings.map((warn: string, i) => (
+                    <div
+                      key={`warn-${i}`}
+                      className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5"
+                    >
+                      <AlertTriangle size={15} className="text-warning shrink-0 mt-0.5" />
+                      <span className="leading-relaxed">{warn}</span>
+                    </div>
+                  ))}
+                </>
               )}
             </div>
 
             <div className="p-3.5 rounded-xl bg-background/70 border border-surface-3 text-xs space-y-1 text-slate-500">
-              <div className="font-bold text-primary">Creator Override Protocol</div>
+              <div className="font-bold text-primary">
+                {!canApprove ? 'Approval Permission Required' : isSafe ? 'Approval Readiness' : 'Approval Blocked'}
+              </div>
               <p className="text-[11px] leading-relaxed">
-                As the editorial lead, you may proceed if all allegations are carefully qualified as claims in the script.
+                {!canApprove
+                  ? 'Your role can draft content but not approve it. Ask an editor or workspace admin to review and approve.'
+                  : isSafe
+                  ? 'Address the advisory notes where possible, then approve the content for publication.'
+                  : 'Clear every blocking item above, then re-run this review. You can still save the draft in the meantime.'}
               </p>
             </div>
 
@@ -319,11 +467,16 @@ export default function CaseContentStudioPage() {
                 Return to Script
               </button>
               <button
-                onClick={async () => {
-                  setShowSafetyModal(false);
-                  await handleSaveDraft('APPROVED');
-                }}
-                className="px-4 py-2.5 bg-primary text-white text-xs font-semibold rounded-xl shadow-xs cursor-pointer flex items-center gap-1.5"
+                onClick={() => handleTransition('APPROVED')}
+                disabled={!isSafe || saving || !canApprove}
+                title={
+                  !canApprove
+                    ? 'Your role cannot approve content'
+                    : isSafe
+                    ? undefined
+                    : 'Resolve blocking items before approving'
+                }
+                className="px-4 py-2.5 bg-primary text-white text-xs font-semibold rounded-xl shadow-xs flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
               >
                 <CheckCircle2 size={14} className="text-success" />
                 <span>Confirm & Mark Approved</span>
