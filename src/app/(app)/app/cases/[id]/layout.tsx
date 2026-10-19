@@ -1,5 +1,5 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import prisma from '@/lib/db/prisma';
 import { getCaseById } from '@/lib/cases/service';
 import { getCurrentUser, hasWorkspaceAccess, getWorkspacePermissions } from '@/lib/auth/permissions';
@@ -19,13 +19,17 @@ export default async function CaseWorkspaceLayout({
 }) {
   const { id } = await params;
   const user = await getCurrentUser();
-  const caseRecord = await getCaseById(id);
 
-  if (!caseRecord) {
-    notFound();
+  // A missing session is an auth problem, not a missing page: send the viewer to
+  // sign in rather than showing a misleading 404.
+  if (!user) {
+    redirect('/login');
   }
 
-  if (!user || !hasWorkspaceAccess(user, caseRecord.workspaceId)) {
+  const caseRecord = await getCaseById(id);
+
+  // Only a genuinely absent or inaccessible case is a 404.
+  if (!caseRecord || !hasWorkspaceAccess(user, caseRecord.workspaceId)) {
     notFound();
   }
 
