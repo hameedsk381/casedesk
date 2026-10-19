@@ -25,6 +25,12 @@ const COMMON_PROPERTIES = ['ward', 'WARD', 'ward_no', 'WARD_NO', 'Ward_No', 'war
 
 let cache: { shapes: WardShape[] } | null | undefined;
 
+/**
+ * Default boundary file. Statically scoped under ./data so Next only traces
+ * that folder instead of pessimistically tracing the whole project.
+ */
+const DEFAULT_WARDS_FILE = path.join(process.cwd(), 'data', 'wards.geojson');
+
 function wardLabel(properties: Record<string, unknown> | null | undefined): string | null {
   if (!properties) return null;
   const configured = process.env.WARD_PROPERTY?.trim();
@@ -120,9 +126,18 @@ export function findWardIn(shapes: WardShape[], lat: number, lng: number): WardM
 
 function load(): { shapes: WardShape[] } | null {
   if (cache !== undefined) return cache;
-  const file = path.resolve(process.env.WARDS_GEOJSON_PATH || 'data/wards.geojson');
+
+  // The default path is statically scoped so Next traces only ./data. A custom
+  // WARDS_GEOJSON_PATH is a runtime mount, so it is explicitly excluded from
+  // output tracing to avoid pulling the whole project into the build output.
+  const override = process.env.WARDS_GEOJSON_PATH?.trim();
+  const file = override || DEFAULT_WARDS_FILE;
+
   try {
-    cache = { shapes: parseWardGeoJson(readFileSync(file, 'utf8')) };
+    const text = override
+      ? readFileSync(/* turbopackIgnore: true */ path.resolve(/* turbopackIgnore: true */ override), 'utf8')
+      : readFileSync(DEFAULT_WARDS_FILE, 'utf8');
+    cache = { shapes: parseWardGeoJson(text) };
     console.log(`[wards] Loaded ${cache.shapes.length} ward boundaries from ${file}`);
   } catch (error: unknown) {
     const code = (error as NodeJS.ErrnoException)?.code;
